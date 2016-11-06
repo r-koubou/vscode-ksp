@@ -1,0 +1,37 @@
+{
+    "name":         "language-ksp",
+    "description":  "NI KONTAKT Script support",
+    "version":      "0.0.1",
+    "publisher":    "R-Koubou",
+    "engines":
+    {
+        "vscode":   "0.10.x"
+    },
+    "categories":
+    [
+        "Languages",
+        "Snippets"
+    ],
+    "contributes":
+    {
+        "languages":
+        [{
+            "id": "ksp",
+            "aliases": ["KONTAKT Script (KSP)", "ksp"],
+            "extensions": [".ksp"]
+        }],
+        "grammars":
+        [{
+            "language": "ksp",
+            "scopeName": "net.rkoubou.kontakt.ksp",
+            "path": "./syntaxes/ksp.json"
+        }],
+        "snippets":
+        [
+            {
+                "language": "ksp",
+                "path": "./snippets/ksp.json"
+            }
+        ]
+    }
+}

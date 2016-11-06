@@ -1,0 +1,81 @@
+{
+    "scopeName":    "net.rkoubou.kontakt.ksp",
+    "name":         "KSP",
+    "comment":      "NI Kontakt Script syntax",
+	"fileTypes": [
+		"ksp",
+        "txt"
+	],
+
+    "patterns": [
+		{
+			"name":    "ksp.string.quoted",
+			"comment": "String literals",
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "ksp.definition.string.begin"
+				}
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": {
+					"name": "ksp.definition.string.end"
+				}
+			}
+		},
+		{
+			"match": "\\\\([0-7]{3}|[abfnrtv\\\\'\"]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})"
+		},
+		{
+			"match": "%(\\[\\d+\\])?([\\+#\\-0\\x20]{,2}((\\d+|\\*)?(\\.?(\\d+|\\*|(\\[\\d+\\])\\*?)?(\\[\\d+\\])?)?))?[vT%tbcdoqxXUbeEfFgGsp]"
+		},
+		{
+			"match": "(?<![\\d.])\\s0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?",
+			"name": "constant.numeric.ksp"
+		},
+		{
+			"include": "#ksp_callback"
+		},
+		{
+			"include": "#ksp_general"
+		}
+	],
+	"repository":
+	{
+		"ksp_ident":
+		{
+			"patterns":[{ "match": "([a-z|A-Z|_]+[a-z|A-Z|_|0-9]*)"	}]
+		},
+		"ksp_callback":
+		{
+			"patterns":[
+				{
+					"name":  "keyword.callback.ksp",
+					"match": "on\\s+(async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn/nrpn|ui_control|ui_update)\\b"
+				}
+			]
+		},
+		"ksp_general":
+		{
+			"patterns":[
+				{
+					"name":  "variable.other.ksp",
+					"match": "(\\$|\\~|\\?|@|!)([a-z|A-Z|_]+[a-z|A-Z|_|0-9]*)"
+				},
+				{
+					"name":  "keyword.const.ksp",
+					"match": "(const|polyphonic)\\b"
+				},
+				{
+					"name":  "keyword.call.make.ksp",
+					"match": "(make_instr_persistent|make_persistent|read_persistent_var)"
+				},
+				{
+					"name":  "keyword.ui.control.ksp",
+					"match": "(ui_button|ui_knob|ui_file_selector|ui_label|ui_level_meter|ui_menu|ui_slider|ui_switch|ui_table|ui_text_edit|ui_value_edit|ui_waveform)"
+				}
+			]
+		}
+	}
+}
