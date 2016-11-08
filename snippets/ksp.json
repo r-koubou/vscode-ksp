@@ -1,2 +1,239 @@
 {
+    "comment":
+    {
+        "prefix": "doc",
+        "body":[
+            "{",
+            "    ${1:undocumented}",
+            "}",
+            ""
+        ],
+        "description": "Insert a document comment"
+    },
+    "int":
+    {
+        "prefix": "int",
+        "body":[  "declare \\$${1:name}" ],
+        "description": "declare a user-defined variable to store a single integer value"
+    },
+    "inta":
+    {
+        "prefix": "int array",
+        "body":[  "declare %${1:name}[ ${2:size} ]" ],
+        "description": "declare a user-defined array to store single integer values at specific indices"
+    },
+    "real":
+    {
+        "prefix": "real",
+        "body":[  "declare ~${1:name}" ],
+        "description": "declare a user-defined variable to store a single real value"
+    },
+    "reala":
+    {
+        "prefix": "real array",
+        "body":[  "declare ?${1:name}[ ${2:size} ]" ],
+        "description": "declare a user-defined array to store single real values at specific indices"
+    },
+    "string":
+    {
+        "prefix": "string",
+        "body":[  "declare @${1:name}" ],
+        "description": "declare a user-defined string variable to store text"
+    },
+    "stringa":
+    {
+        "prefix": "string array",
+        "body":[  "declare !${1:name}[ ${2:size} ]" ],
+        "description": "declare a user-defined string array to store text strings at specified indices"
+    },
+    "polyphonicv":
+    {
+        "prefix": "polyphonic",
+        "body":[  "declare polyphonic \\$${1:name}" ],
+        "description": "declare a user-defined polyphonic variable to store a single integer value per note event"
+    },
+    "on async_complete":
+    {
+        "prefix": "on async_complete",
+        "body":[
+            "{",
+            "    async complete callback, triggered after the execution of any load/save command",
+            "}",
+            "on async_complete",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "async complete callback, triggered after the execution of any load/save command"
+    },
+    "on controller":
+    {
+        "prefix": "on controller",
+        "body":[
+            "{",
+            "    MIDI controller callback, executed whenever a CC, pitch bend or channel pressure message is received",
+            "}",
+            "on controller",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "MIDI controller callback, executed whenever a CC, pitch bend or channel pressure message is received"
+    },
+    "on init":
+    {
+        "prefix": "on init",
+        "body":[
+            "{",
+            "    initialization callback, executed when the script was successfully analyzed",
+            "}",
+            "on init",
+            "    message(\"\")",
+            "    set_script_title( \"${1:title}\" )",
+            "    ${2:code...}",
+            "end on",
+            ""
+        ],
+        "description": "initialization callback, executed when the script was successfully analyzed"
+    },
+    "on listener":
+    {
+        "prefix": "on listener",
+        "body":[
+            "{",
+            "    listener callback, executed at definable time intervals or whenever a transport command is received",
+            "}",
+            "on listener",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "listener callback, executed at definable time intervals or whenever a transport command is received"
+    },
+    "on note":
+    {
+        "prefix": "on note",
+        "body":[
+            "{",
+            "    note callback, executed whenever a note on message is received",
+            "}",
+            "on note",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "note callback, executed whenever a note on message is received"
+    },
+    "on persistence_changed":
+    {
+        "prefix": "on persistence_changed",
+        "body":[
+            "{",
+            "    executed after the init callback or whenever a snapshot has been loaded",
+            "}",
+            "on persistence_changed",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "executed after the init callback or whenever a snapshot has been loaded"
+    },
+    "on pgs_changed":
+    {
+        "prefix": "on pgs_changed",
+        "body":[
+            "{",
+            "    executed whenever any pgs_set_key_val() command is executed in any script",
+            "}",
+            "on pgs_changed",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "executed whenever any pgs_set_key_val() command is executed in any script"
+    },
+    "on poly_at":
+    {
+        "prefix": "on poly_at",
+        "body":[
+            "{",
+            "    polyphonic aftertouch callback, executed whenever a polyphonic aftertouch message is received",
+            "}",
+            "on poly_at",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "polyphonic aftertouch callback, executed whenever a polyphonic aftertouch message is received"
+    },
+    "on release":
+    {
+        "prefix": "on release",
+        "body":[
+            "{",
+            "    release callback, executed whenever a note off message is received",
+            "}",
+            "on release",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "release callback, executed whenever a note off message is received"
+    },
+    "on rpn":
+    {
+        "prefix": "on rpn",
+        "body":[
+            "{",
+            "    rpn(registered parameter number) callback message is received",
+            "}",
+            "on rpn",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "rpn(registered parameter number) callback message is received"
+    },
+    "on nrpn":
+    {
+        "prefix": "on nrpn",
+        "body":[
+            "{",
+            "    nrpn(unregistered parameter number) callback message is received",
+            "}",
+            "on nrpn",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "nrpn(unregistered parameter number) callback message is received"
+    },
+    "on ui_control":
+    {
+        "prefix": "on ui_control",
+        "body":[
+            "{",
+            "    ${1:UI callback, executed whenever the user changes the respective UI element}",
+            "}",
+            "on ui_control( \\$${2:uiVariable} )",
+            "    ${3:code...}",
+            "end on",
+            ""
+        ],
+        "description": "UI callback, executed whenever the user changes the respective UI element"
+    },
+    "on ui_update":
+    {
+        "prefix": "on ui_update",
+        "body":[
+            "{",
+            "    UI update callback, executed with every GUI change in KONTAKT",
+            "}",
+            "on ui_update",
+            "    ${1:code...}",
+            "end on",
+            ""
+        ],
+        "description": "UI update callback, executed with every GUI change in KONTAKT"
+    }
 }

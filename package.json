@@ -1,6 +1,6 @@
 {
     "name":         "language-ksp",
-    "description":  "NI KONTAKT Script support",
+    "description":  "NI KONTAKT Script support (based on KONTAKT 5.6)",
     "version":      "0.0.1",
     "publisher":    "R-Koubou",
     "engines":

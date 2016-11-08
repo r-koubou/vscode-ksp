@@ -87,7 +87,7 @@
 			"patterns":[
 				{
 					"name":  "keyword.callback.ksp",
-					"match": "on\\s+(async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn/nrpn|ui_control|ui_update)\\b"
+					"match": "on\\s+(async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn|nrpn|ui_control|ui_update)\\b"
 				},
 				{
 					"name":  "keyword.callback.ksp",
