@@ -1,4 +1,25 @@
 {
+    "separate_comment":
+    {
+        "prefix": "separate",
+        "body":[
+            "{--------------------------------------------------------------------------------}",
+            ""
+        ],
+        "description": "Insert a comment as separator"
+    },
+    "section_comment":
+    {
+        "prefix": "section",
+        "body":[
+            "{--------------------------------------------------------------------------------}",
+            "{",
+            "    ${1:comment}",
+            "}",
+            "{--------------------------------------------------------------------------------}"
+        ],
+        "description": "Insert a comment for section"
+    },
     "comment":
     {
         "prefix": "doc",
@@ -235,5 +256,608 @@
             ""
         ],
         "description": "UI update callback, executed with every GUI change in KONTAKT"
+    },
+    "if":
+    {
+        "prefix": "if",
+        "body":[
+            "if( ${1:<condition>} )",
+            "    ${2:code...}",
+            "end if"
+        ],
+        "description": "if statement"
+    },
+    "ifelse":
+    {
+        "prefix": "ifelse",
+        "body":[
+            "if( ${1:<condition>} )",
+            "    ${2:code...}",
+            "else",
+            "    ${3:code...}",
+            "end if"
+        ],
+        "description": "if...else statement"
+    },
+    "select":
+    {
+        "prefix": "select",
+        "body":[
+            "select( ${1:<variable>} )",
+            "    case ${2:case}:",
+            "        ${3:code...}",
+            "end select"
+        ],
+        "description": "if statement"
+    },
+    "while":
+    {
+        "prefix": "while",
+        "body":[
+            "while( ${1:<condition>} )",
+            "    ${2:code...}",
+            "end while"
+        ],
+        "description": "while statement"
+    },
+    "in_range":
+    {
+        "prefix": "in_range",
+        "body":[
+            "in_range( ${1:x}, ${2:y}, ${3:z} )"
+        ],
+        "description": "true if x is between y and z"
+    },
+    "inc":
+    {
+        "prefix": "inc",
+        "body":[
+            "inc( ${1:x} )"
+        ],
+        "description": "increment an expression by 1 (x + 1)"
+    },
+    "dec":
+    {
+        "prefix": "dec",
+        "body":[
+            "dec( ${1:x} )"
+        ],
+        "description": "decrement an expression by 1 (x – 1)"
+    },
+    "mod":
+    {
+        "prefix": "mod",
+        "body":[
+            "${1:x} mod ${2:y}"
+        ],
+        "description": "modulo; returns the remainder of a division"
+    },
+    "exp":
+    {
+        "prefix": "exp",
+        "body":[
+            "exp( ${1:x} )"
+        ],
+        "description": "exponential function (returns the value of e^x)"
+    },
+    "log":
+    {
+        "prefix": "log",
+        "body":[
+            "log( ${1:x} )"
+        ],
+        "description": "logarithmic function"
+    },
+    "pow":
+    {
+        "prefix": "pow",
+        "body":[
+            "pow( ${1:x}, ${2:y} )"
+        ],
+        "description": "power (returns the value of x^y)"
+    },
+    "sqrt":
+    {
+        "prefix": "sqrt",
+        "body":[
+            "sqrt( ${1:x} )"
+        ],
+        "description": "square root"
+    },
+    "ceil":
+    {
+        "prefix": "ceil",
+        "body":[
+            "ceil( ${1:x} )"
+        ],
+        "description": "ceiling (round up) ceil(2.3) = 3.0"
+    },
+    "floor":
+    {
+        "prefix": "floor",
+        "body":[
+            "floor( ${1:x} )"
+        ],
+        "description": "floor (round down) floor(2.8) = 2.0"
+    },
+    "round":
+    {
+        "prefix": "round",
+        "body":[
+            "round( ${1:x} )"
+        ],
+        "description": "round (round to nearest) round(2.3) = 2.0 round(2.8) = 3.0"
+    },
+    "cos":
+    {
+        "prefix": "cos",
+        "body":[
+            "cos( ${1:x} )"
+        ],
+        "description": "cosine function"
+    },
+    "sin":
+    {
+        "prefix": "sin",
+        "body":[
+            "sin( ${1:x} )"
+        ],
+        "description": "sine function"
+    },
+    "tan":
+    {
+        "prefix": "tan",
+        "body":[
+            "tan( ${1:x} )"
+        ],
+        "description": "tangent function"
+    },
+    "acos":
+    {
+        "prefix": "acos",
+        "body":[
+            "acos( ${1:x} )"
+        ],
+        "description": "arccosine function"
+    },
+    "asin":
+    {
+        "prefix": "asin",
+        "body":[
+            "asin( ${1:x} )"
+        ],
+        "description": "arcsine (inverse sine function)"
+    },
+    "atan":
+    {
+        "prefix": "atan",
+        "body":[
+            "atan( ${1:x} )"
+        ],
+        "description": "arctangent (inverse tangent function)"
+    },
+    "and":
+    {
+        "prefix": "and",
+        "body":[
+            "${1:x} .and. ${2:y}"
+        ],
+        "description": "bitwise and"
+    },
+    "or":
+    {
+        "prefix": "or",
+        "body":[
+            "${1:x} .or. ${2:y}"
+        ],
+        "description": "bitwise or"
+    },
+    "not":
+    {
+        "prefix": "not",
+        "body":[
+            ".not. ${1:x}"
+        ],
+        "description": "bitwise negation"
+    },
+    "sh_left":
+    {
+        "prefix": "sh_left",
+        "body":[
+            "sh_left( ${1:<expression>}, ${2:<shift-bits>} )"
+        ],
+        "description": "shifts the bits in <expression> by the amount of <shift-bits> to the left"
+    },
+    "sh_right":
+    {
+        "prefix": "sh_right",
+        "body":[
+            "sh_right( ${1:<expression>}, ${2:<shift-bits>} )"
+        ],
+        "description": "shifts the bits in <expression> by the amount of <shift-bits> to the right"
+    },
+    "random":
+    {
+        "prefix": "random",
+        "body":[
+            "random( ${1:<min>}, ${2:<max>} )"
+        ],
+        "description": "generate a random integer in the range <min> to <max>"
+    },
+    "int_to_real":
+    {
+        "prefix": "int_to_real",
+        "body":[
+            "int_to_real( ${1:<integer value>} )"
+        ],
+        "description": "converts an integer value into a real number"
+    },
+    "real_to_int":
+    {
+        "prefix": "real_to_int",
+        "body":[
+            "real_to_int( ${1:<real value>} )"
+        ],
+        "description": "converts a real number into an integer"
+    },
+    "msb":
+    {
+        "prefix": "msb",
+        "body":[
+            "msb( ${1:<value>} )"
+        ],
+        "description": "return the MSB portion (most significant byte) of a 14 bit value"
+    },
+    "lsb":
+    {
+        "prefix": "lsb",
+        "body":[
+            "lsb( ${1:<value>} )"
+        ],
+        "description": "return the LSB portion (least significant byte) of a 14 bit value"
+    },
+    "exit":
+    {
+        "prefix": "exit",
+        "body":[
+            "exit"
+        ],
+        "description": "immediately stops a callback or exits a function"
+    },
+    "ignore_controller":
+    {
+        "prefix": "ignore_controller",
+        "body":[
+            "ignore_controller"
+        ],
+        "description": "ignore a controller event in a controller callback"
+    },
+    "message":
+    {
+        "prefix": "message",
+        "body":[
+            "message( ${1:<variable/text>} )"
+        ],
+        "description": "display text in the status line of KONTAKT"
+    },
+    "note_off":
+    {
+        "prefix": "note_off",
+        "body":[
+            "note_off( ${1:<ID-number>} )"
+        ],
+        "description": "send a note off message to a specific note"
+    },
+    "play_note":
+    {
+        "prefix": "play_note",
+        "body":[
+            "play_note( ${1:<note-number>}, ${2:<velocity>}, ${3:<sample-offset>}, ${4:<duration>} )"
+        ],
+        "description": "generate a MIDI note, i.e. generate a note on message followed by a note off message"
+    },
+    "set_controller":
+    {
+        "prefix": "set_controller",
+        "body":[
+            "set_controller( ${1:<MIDI CC number/\\$VCC_PITCH_BEND/\\$VCC_MONO>}, ${2:<value>} )"
+        ],
+        "description": "send a MIDI CC, pitchbend or channel pressure value"
+    },
+    "set_rpn":
+    {
+        "prefix": "set_rpn",
+        "body":[
+            "set_rpn( ${1:<address>}, ${2:<value>} )"
+        ],
+        "description": "send a rpn message"
+    },
+    "set_nrpn":
+    {
+        "prefix": "set_nrpn",
+        "body":[
+            "set_nrpn( ${1:<address>}, ${2:<value>} )"
+        ],
+        "description": "send a nrpn message"
+    },
+    "by_marks":
+    {
+        "prefix": "by_marks",
+        "body":[
+            "by_marks( ${1:<bit-mask>} )"
+        ],
+        "description": "a user defined group of events (or event IDs)"
+    },
+    "change_note":
+    {
+        "prefix": "change_note",
+        "body":[
+            "change_note( ${1:<ID-number>, ${2:note-number} )"
+        ],
+        "description": "change the note number of a specific note event"
+    },
+    "change_pan":
+    {
+        "prefix": "change_pan",
+        "body":[
+            "change_pan( ${1:<ID-number>}, ${2:<panorama(-1000~1000)>}, ${3:<relative-bit(0 or 1)>} )"
+        ],
+        "description": "change the pan position of a specific note event"
+    },
+    "change_tune":
+    {
+        "prefix": "change_tune",
+        "body":[
+            "change_tune( ${1:<ID-number>}, ${2:<tune-amount(millicents)>}, ${3:<relative-bit(0 or 1)>} )"
+        ],
+        "description": "change the tuning of a specific note event in millicent"
+    },
+    "change_velo":
+    {
+        "prefix": "change_velo",
+        "body":[
+            "change_velo( ${1:<ID-number>}, ${2:<velocity>} )"
+        ],
+        "description": "change the velocity of a specific note event"
+    },
+    "change_vol":
+    {
+        "prefix": "change_vol",
+        "body":[
+            "change_vol( ${1:<ID-number>}, ${2:<volume>}, ${3:<relative-bit(0 or 1)>} )"
+        ],
+        "description": "change the volume of a specific note event in millidecibel"
+    },
+    "delete_event_mark":
+    {
+        "prefix": "delete_event_mark",
+        "body":[
+            "delete_event_mark( ${1:<ID-number>}, ${2:<bit-mark($MARK_1 ... $MARK_28)>} )"
+        ],
+        "description": "delete an event mark, i.e. ungroup the specified event from an event group"
+    },
+    "event_status":
+    {
+        "prefix": "event_status",
+        "body":[
+            "event_status( ${1:<ID-number>} )"
+        ],
+        "description": "retrieve the status of a particular note event (or MIDI event in the multi script)"
+    },
+    "fade_in":
+    {
+        "prefix": "fade_in",
+        "body":[
+            "fade_in( ${1:<ID-number>}, ${2:<fade-time>(microseconds)} )"
+        ],
+        "description": "perform a fade-in for a specific note event"
+    },
+    "fade_out":
+    {
+        "prefix": "fade_out",
+        "body":[
+            "fade_out( ${1:<ID-number>}, ${2:<fade-time>(microseconds)} )"
+        ],
+        "description": "perform a fade-out for a specific note event"
+    },
+    "get_event_ids":
+    {
+        "prefix": "get_event_ids",
+        "body":[
+            "get_event_ids( ${1:<array-name>} )"
+        ],
+        "description": "fills the specified array with all active event IDs."
+    },
+    "get_event_par":
+    {
+        "prefix": "get_event_par",
+        "body":[
+            "get_event_par( ${1:<ID-number>}, ${2:<parameter>} )"
+        ],
+        "description": "return the value of a specific event parameter of the specified event"
+    },
+    "get_event_par_arr":
+    {
+        "prefix": "get_event_par_arr",
+        "body":[
+            "get_event_par_arr( ${1:<ID-number>}, ${2:<parameter>}, ${3:<group-index>} )"
+        ],
+        "description": "special form of get_event_par(), used to retrieve the group allow state of the specified event"
+    },
+    "ignore_event":
+    {
+        "prefix": "ignore_event",
+        "body":[
+            "ignore_event( ${1:<ID-number>} )"
+        ],
+        "description": "ignore a note event in a note on or note off callback"
+    },
+    "set_event_mark":
+    {
+        "prefix": "set_event_mark",
+        "body":[
+            "set_event_mark( ${1:<ID-number>} ${2:<bit-mark($MARK_1 ... $MARK_28)>} )"
+        ],
+        "description": "ignore a note event in a note on or note off callback"
+    },
+    "set_event_par":
+    {
+        "prefix": "set_event_par",
+        "body":[
+            "set_event_par( ${1:<ID-number>}, ${2:<parameter>}, ${3:<value>} )"
+        ],
+        "description": "assign a parameter to a specific event"
+    },
+    "set_event_par_arr":
+    {
+        "prefix": "set_event_par_arr",
+        "body":[
+            "set_event_par_arr( ${1:<ID-number>}, ${2:<parameter>}, ${3:<value>}, ${4:group-index} )"
+        ],
+        "description": "special form of set_event_par(), used to set the group allow state of the specified event"
+    },
+    "array_equal":
+    {
+        "prefix": "array_equal",
+        "body":[
+            "array_equal( ${1:<array-variable>}, ${2:<array-variable>} )"
+        ],
+        "description": "checks the values of two arrays, true if all values are equal, false if not"
+    },
+    "num_elements":
+    {
+        "prefix": "num_elements",
+        "body":[
+            "num_elements( ${1:<array-variable>} )"
+        ],
+        "description": "returns the number of elements in an array"
+    },
+    "search":
+    {
+        "prefix": "search",
+        "body":[
+            "search( ${1:<array-variable>}, ${2:<value>} )"
+        ],
+        "description": "searches the specified array for the specified value and returns the index of its first position."
+    },
+    "sort":
+    {
+        "prefix": "sort",
+        "body":[
+            "sort( ${1:<array-variable>}, ${2:<direction(0=ascending/not 0=descending>} )"
+        ],
+        "description": "searches the specified array for the specified value and returns the index of its first position."
+    },
+    "allow_group":
+    {
+        "prefix": "allow_group",
+        "body":[
+            "allow_group( ${1:<group-index>} )"
+        ],
+        "description": "allows the specified group, i.e. makes it available for playback"
+    },
+    "disallow_group":
+    {
+        "prefix": "disallow_group",
+        "body":[
+            "disallow_group( ${1:<group-index>} )"
+        ],
+        "description": "disallows the specified group, i.e. makes it unavailable for playback"
+    },
+    "find_group":
+    {
+        "prefix": "find_group",
+        "body":[
+            "find_group( ${1:<group-name} )"
+        ],
+        "description": "returns the group index for the specified group name"
+    },
+    "get_purge_state":
+    {
+        "prefix": "get_purge_state",
+        "body":[
+            "get_purge_state( ${1:<group-index} )"
+        ],
+        "description": "returns the purge state of the specified group. 0=purged, 1=not purged"
+    },
+    "group_name":
+    {
+        "prefix": "group_name",
+        "body":[
+            "group_name( ${1:<group-index} )"
+        ],
+        "description": "returns the group name for the specified group"
+    },
+    "purge_group":
+    {
+        "prefix": "purge_group",
+        "body":[
+            "purge_group( ${1:<group-index}, ${2:<mode(0 or 1)>} )"
+        ],
+        "description": "purges (i.e. unloads from RAM) the samples of the specified group"
+    },
+    "change_listener_par":
+    {
+        "prefix": "change_listener_par",
+        "body":[
+            "change_listener_par( ${1:<signal-type($NI_SIGNAL_TIMER_MS or $NI_SIGNAL_TIMER_BEAT)>}, ${2:<parameter>} )"
+        ],
+        "description": "changes the parameters of the on listener callback. Can be used in every callback."
+    },
+    "ms_to_ticks":
+    {
+        "prefix": "ms_to_ticks",
+        "body":[
+            "ms_to_ticks( ${1:<microseconds>} )"
+        ],
+        "description": "converts a microseconds value into a tempo dependent ticks value"
+    },
+    "set_listener":
+    {
+        "prefix": "set_listener",
+        "body":[
+            "set_listener( ${1:<signal-type>}, ${2:<parameter>} )"
+        ],
+        "description": "Sets the signals on which the listener callback should react to. Can only be used in the init callback."
+    },
+    "stop_wait":
+    {
+        "prefix": "stop_wait",
+        "body":[
+            "stop_wait( ${1:<callback-ID>}, ${2:<parameter(0 or 1)>} )"
+        ],
+        "description": "stops wait commands in the specified callback"
+    },
+    "reset_ksp_timer":
+    {
+        "prefix": "reset_ksp_timer",
+        "body":[
+            "reset_ksp_timer"
+        ],
+        "description": "resets the KSP timer ($KSP_TIMER) to zero"
+    },
+    "ticks_to_ms":
+    {
+        "prefix": "ticks_to_ms",
+        "body":[
+            "ticks_to_ms( ${1:<ticks>} )"
+        ],
+        "description": "converts a tempo dependent ticks value into a microseconds value"
+    },
+    "wait":
+    {
+        "prefix": "wait",
+        "body":[
+            "wait( ${1:<wait-time(microseconds)>} )"
+        ],
+        "description": "pauses the callback for the specified time in microseconds"
+    },
+    "wait_ticks":
+    {
+        "prefix": "wait_ticks",
+        "body":[
+            "wait_ticks( ${1:<wait-time(ticks)>} )"
+        ],
+        "description": "pauses the callback for the specified time in ticks"
     }
 }
