@@ -9,30 +9,10 @@
 
     "patterns": [
 		{
-			"name":    "ksp.string.quoted",
-			"comment": "String literals",
-			"begin": "\"",
-			"beginCaptures": {
-				"0": {
-					"name": "ksp.definition.string.begin"
-				}
-			},
-			"end": "\"",
-			"endCaptures": {
-				"0": {
-					"name": "ksp.definition.string.end"
-				}
-			}
+			"include": "#ksp_string_literal"
 		},
 		{
-			"match": "\\\\([0-7]{3}|[abfnrtv\\\\'\"]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})"
-		},
-		{
-			"match": "%(\\[\\d+\\])?([\\+#\\-0\\x20]{,2}((\\d+|\\*)?(\\.?(\\d+|\\*|(\\[\\d+\\])\\*?)?(\\[\\d+\\])?)?))?[vT%tbcdoqxXUbeEfFgGsp]"
-		},
-		{
-			"match": "(?<![\\d.])\\s0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?",
-			"name": "constant.numeric.ksp"
+			"include": "#ksp_numeric_literal"
 		},
 		{
 			"include": "#ksp_comments"
@@ -67,6 +47,39 @@
 	],
 	"repository":
 	{
+		"ksp_string_literal":
+		{
+			"patterns":[
+				{
+					"name":    "ksp.string.quoted",
+					"comment": "String literals",
+					"begin": "\"",
+					"beginCaptures": {
+						"0": {
+							"name": "ksp.definition.string.begin"
+						}
+					},
+					"end": "\"",
+					"endCaptures": {
+						"0": {
+							"name": "ksp.definition.string.end"
+						}
+					}
+				}
+			]
+		},
+		"ksp_numeric_literal":
+		{
+			"patterns":[
+				{
+					"match": "\\\\([0-7]{3}|[abfnrtv\\\\'\"]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})"
+				},
+				{
+					"match": "(?<![\\d.])\\s0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?",
+					"name": "constant.numeric.ksp"
+				}
+			]
+		},
 		"ksp_comments":
 		{
 			"patterns":[
@@ -114,7 +127,7 @@
 				},
 				{
 					"name":  "variable.other.ksp",
-					"match": "(\\$|\\~|\\?|@|!|\\%)([a-z|A-Z|_]+[a-z|A-Z|_|0-9]*)"
+					"match": "(\\$|\\~|\\?|@|!|%)([a-z|A-Z|_]+[a-z|A-Z|_|0-9]*)"
 				},
 				{
 					"name":  "keyword.declare.ksp",
