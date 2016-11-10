@@ -1,4 +1,8 @@
 {
+
+"##---------------- Comment(Original) ----------------##":{},
+
+
     "separate_comment":
     {
         "prefix": "separate",
@@ -31,6 +35,9 @@
         ],
         "description": "Insert a document comment"
     },
+
+"##---------------- Declare primitive variable(Original) ----------------##":{},
+
     "int":
     {
         "prefix": "int",
@@ -73,6 +80,13 @@
         "body":[  "declare polyphonic \\$${1:name}" ],
         "description": "declare a user-defined polyphonic variable to store a single integer value per note event"
     },
+
+
+"##---------------- KSP Reference Manual Begin ----------------##":{},
+
+
+"##---------------- Callbacks ----------------##":{},
+
     "on async_complete":
     {
         "prefix": "on async_complete",
@@ -258,6 +272,135 @@
         ],
         "description": "UI update callback, executed with every GUI change in KONTAKT"
     },
+
+"##---------------- Variables ----------------##":{},
+
+    "make_instr_persistent":
+    {
+        "prefix": "make_instr_persistent",
+        "body":[
+            "make_instr_persistent( ${1:variable} )"
+        ],
+        "description": "retain the value of a variable only with the instrument"
+    },
+    "make_persistent":
+    {
+        "prefix": "make_persistent",
+        "body":[
+            "make_persistent( ${1:variable} )"
+        ],
+        "description": "retain the value of a variable whith the instrument and snapshot"
+    },
+    "read_persistent_var":
+    {
+        "prefix": "read_persistent_var",
+        "body":[
+            "read_persistent_var( ${1:variable} )"
+        ],
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
+    },
+
+"##---------------- User Interface Controls ----------------##":{},
+
+    "ui_button":
+    {
+        "prefix": "ui_button",
+        "body":[
+            "declare ui_button \\$${1:<variable-name>}"
+        ],
+        "description": "create a user interface button"
+    },
+    "ui_knob":
+    {
+        "prefix": "ui_knob",
+        "body":[
+            "declare ui_knob \\$${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:<display-ratio>} )"
+        ],
+        "description": "create a user interface button"
+    },
+    "ui_file_selector":
+    {
+        "prefix": "ui_file_selector",
+        "body":[
+            "declare ui_file_selector \\$${1:<variable-name>}"
+        ],
+        "description": "create a user interface button"
+    },
+    "ui_label":
+    {
+        "prefix": "ui_label",
+        "body":[
+            "declare ui_label \\$${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
+        ],
+        "description": "create a user interface text label"
+    },
+    "ui_level_meter":
+    {
+        "prefix": "ui_level_meter",
+        "body":[
+            "declare ui_level_meter \\$${1:<variable-name>}"
+        ],
+        "description": "create a level meter"
+    },
+    "ui_menu":
+    {
+        "prefix": "ui_menu",
+        "body":[
+            "declare ui_menu \\$${1:<variable-name>}"
+        ],
+        "description": "create a user interface drop-down menu"
+    },
+    "ui_slider":
+    {
+        "prefix": "ui_slider",
+        "body":[
+            "declare ui_slider \\$${1:<variable-name>}( ${2:<min>}, ${3:<max>} )"
+        ],
+        "description": "create a user interface slider"
+    },
+    "ui_switch":
+    {
+        "prefix": "ui_switch",
+        "body":[
+            "declare ui_switch \\$${1:<variable-name>}"
+        ],
+        "description": "create a user interface switch"
+    },
+    "ui_table":
+    {
+        "prefix": "ui_table",
+        "body":[
+            "declare ui_table %${1:<array>}[${2:colmns}]( ${3:<width(unit=grid)>}, ${4:<height(unit=grid)>}, ${5:<range>} )"
+        ],
+        "description": "create a user interface switch"
+    },
+    "ui_text_edit":
+    {
+        "prefix": "ui_text_edit",
+        "body":[
+            "declare ui_text_edit @${1:<variable-name>}"
+        ],
+        "description": "create a text edit field"
+    },
+    "ui_value_edit":
+    {
+        "prefix": "ui_value_edit",
+        "body":[
+            "declare ui_value_edit \\$${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:display-ratio} )"
+        ],
+        "description": "create a user interface number box"
+    },
+    "ui_waveform":
+    {
+        "prefix": "ui_waveform",
+        "body":[
+            "declare ui_waveform \\$${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
+        ],
+        "description": "create a waveform control to display zones and slices. Can also be used to control specific parameters per slice and for MIDI drag & drop functionality."
+    },
+
+"##---------------- Control Statements ----------------##":{},
+
     "if":
     {
         "prefix": "if",
@@ -309,6 +452,9 @@
         ],
         "description": "true if x is between y and z"
     },
+
+"##---------------- Arithmetic Commands & Operators ----------------##":{},
+
     "inc":
     {
         "prefix": "inc",
@@ -517,6 +663,9 @@
         ],
         "description": "return the LSB portion (least significant byte) of a 14 bit value"
     },
+
+"##---------------- General Commands ----------------##":{},
+
     "exit":
     {
         "prefix": "exit",
@@ -581,6 +730,9 @@
         ],
         "description": "send a nrpn message"
     },
+
+"##---------------- Event Commands ----------------##":{},
+
     "by_marks":
     {
         "prefix": "by_marks",
@@ -593,7 +745,7 @@
     {
         "prefix": "change_note",
         "body":[
-            "change_note( ${1:<ID-number>, ${2:note-number} )"
+            "change_note( ${1:<ID-number>}, ${2:note-number} )"
         ],
         "description": "change the note number of a specific note event"
     },
@@ -717,6 +869,9 @@
         ],
         "description": "special form of set_event_par(), used to set the group allow state of the specified event"
     },
+
+"##---------------- Array Commands ----------------##":{},
+
     "array_equal":
     {
         "prefix": "array_equal",
@@ -749,6 +904,9 @@
         ],
         "description": "searches the specified array for the specified value and returns the index of its first position."
     },
+
+"##---------------- Group Commands ----------------##":{},
+
     "allow_group":
     {
         "prefix": "allow_group",
@@ -797,6 +955,9 @@
         ],
         "description": "purges (i.e. unloads from RAM) the samples of the specified group"
     },
+
+"##---------------- Time-Related Commands ----------------##":{},
+
     "change_listener_par":
     {
         "prefix": "change_listener_par",
@@ -861,6 +1022,9 @@
         ],
         "description": "pauses the callback for the specified time in ticks"
     },
+
+"##---------------- User Interface Commands ----------------##":{},
+
     "add_menu_item":
     {
         "prefix": "add_menu_item",
@@ -961,7 +1125,7 @@
     {
         "prefix": "get_ui_wf_property",
         "body":[
-            "get_ui_wf_property( ${1:<variable>}, ${2:<property}>, ${3:<index>} )"
+            "get_ui_wf_property( ${1:<variable>}, ${2:<property}>}, ${3:<index>} )"
         ],
         "description": "returns the value of the waveform’s different properties."
     },
@@ -1121,8 +1285,416 @@
     {
         "prefix": "set_ui_wf_property",
         "body":[
-            "set_ui_wf_property( ${1:<variable>, ${2:<property>, ${3:<index>, ${4:<value> )"
+            "set_ui_wf_property( ${1:<variable>}, ${2:<property>}, ${3:<index>}, ${4:<value> )"
         ],
         "description": "sets different properties for the waveform control"
-    }
+    },
+
+"##---------------- Keyboard Commands ----------------##":{},
+
+    "get_key_color":
+    {
+        "prefix": "get_key_color",
+        "body":[
+            "get_key_color( ${1:<note-nr> )"
+        ],
+        "description": "returns the color constant of the specified note number"
+    },
+    "get_key_name":
+    {
+        "prefix": "get_key_name",
+        "body":[
+            "get_key_name( ${1:<note-nr> )"
+        ],
+        "description": "returns the name of the specified key"
+    },
+    "get_key_triggerstate":
+    {
+        "prefix": "get_key_triggerstate",
+        "body":[
+            "get_key_triggerstate( ${1:<note-nr> )"
+        ],
+        "description": "returns the pressed state of the specified note number (i.e. key) on the KONTAKT keyboard, can be either 1 (key pressed) or 0 (key released)"
+    },
+    "get_key_type":
+    {
+        "prefix": "get_key_type",
+        "body":[
+            "get_key_type( ${1:<note-nr> )"
+        ],
+        "description": "returns the key type constant of the specified key."
+    },
+    "get_keyrange_min_note":
+    {
+        "prefix": "get_keyrange_min_note",
+        "body":[
+            "get_keyrange_min_note( ${1:<note-nr> )"
+        ],
+        "description": "returns the lowest note of the specified key range"
+    },
+    "get_keyrange_max_note":
+    {
+        "prefix": "get_keyrange_max_note",
+        "body":[
+            "get_keyrange_max_note( ${1:<note-nr> )"
+        ],
+        "description": "returns the highest note of the specified key range"
+    },
+    "get_keyrange_name":
+    {
+        "prefix": "get_keyrange_name",
+        "body":[
+            "get_keyrange_name( ${1:<note-nr> )"
+        ],
+        "description": "returns the name of the specified key range"
+    },
+    "set_key_color":
+    {
+        "prefix": "set_key_color",
+        "body":[
+            "set_key_color( ${1:<note-nr>}, ${2:<key-color-constant>} )"
+        ],
+        "description": "sets the color of the specified key (i.e. MIDI note) on the KONTAKT keyboard. use $KEY_COLOR_****"
+    },
+    "set_key_name":
+    {
+        "prefix": "set_key_name",
+        "body":[
+            "set_key_name( ${1:<note-nr>}, ${2:<name>} )"
+        ],
+        "description": "assigns a text string to the specified key"
+    },
+    "set_key_pressed":
+    {
+        "prefix": "set_key_pressed",
+        "body":[
+            "set_key_pressed( ${1:<note-nr>}, ${2:<value>} )"
+        ],
+        "description": "sets the trigger state of the specified key on KONTAKT's keyboard either to pressed/on (1) or released/off (0)"
+    },
+    "set_key_pressed_support":
+    {
+        "prefix": "set_key_pressed_support",
+        "body":[
+            "set_key_pressed_support( ${1:<mode>} )"
+        ],
+        "description": "sets the pressed state support mode for KONTAKT'S keyboard. The available modes are:\n0: KONTAKT handles all pressed states, set_key_pressed() commands are ignored (default mode)\n1: KONTAKT's keyboard is only affected by set_key_pressed() commands"
+    },
+    "set_key_type":
+    {
+        "prefix": "set_key_type",
+        "body":[
+            "set_key_type( ${1:<note-nr>}, ${2:<key-type-constant>} )"
+        ],
+        "description": "assigns a key type to the specified key.\nThe following key types are available:\n$NI_KEY_TYPE_DEFAULT (i.e. normal mapped notes that produce sound)\n$NI_KEY_TYPE_CONTROL (i.e. key switches or other notes that do not produce sound)\n$NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)"
+    },
+    "set_keyrange":
+    {
+        "prefix": "set_keyrange",
+        "body":[
+            "set_keyrange( ${1:<min-note>}, ${2:<max-note>}, ${3:<name>} )"
+        ],
+        "description": "assigns a text string to the specified range of keys."
+    },
+    "remove_keyrange":
+    {
+        "prefix": "remove_keyrange",
+        "body":[
+            "remove_keyrange( ${1:<note-nr>} )"
+        ],
+        "description": "assigns a text string to the specified range of keys"
+    },
+
+"##---------------- Engine Parameter Commands ----------------##":{},
+
+    "find_mod":
+    {
+        "prefix": "find_mod",
+        "body":[
+            "find_mod( ${1:<group-index>}, ${2:<mod-name>} )"
+        ],
+        "description": "returns the slot index of an internal modulator or external modulation slot"
+    },
+    "find_target":
+    {
+        "prefix": "find_target",
+        "body":[
+            "find_target( ${1:<group-index>}, ${2:<mod-index>}, ${3:<target-name>} )"
+        ],
+        "description": "returns the slot index of a modulation slot of an internal modulator"
+    },
+    "get_engine_par":
+    {
+        "prefix": "get_engine_par",
+        "body":[
+            "get_engine_par( ${1:<parameter>}, ${2:<group>}, ${3:<slot>}, ${4:<generic>} )"
+        ],
+        "description": "returns the value of a specific engine parameter"
+    },
+    "get_engine_par_disp":
+    {
+        "prefix": "get_engine_par_disp",
+        "body":[
+            "get_engine_par_disp( ${1:<parameter>}, ${2:<group>}, ${3:<slot>}, ${4:<generic>} )"
+        ],
+        "description": "returns the displayed string of a specific engine parameter"
+    },
+    "get_voice_limit":
+    {
+        "prefix": "get_voice_limit",
+        "body":[
+            "get_voice_limit( ${1:<voice-type>} )"
+        ],
+        "description": "retunrs the voice limit for the Time Machine Pro mode of the source module"
+    },
+    "output_channel_name":
+    {
+        "prefix": "output_channel_name",
+        "body":[
+            "output_channel_name( ${1:<output-number>} )"
+        ],
+        "description": "returns the channel name for the specified output"
+    },
+    "set_engine_par":
+    {
+        "prefix": "set_engine_par",
+        "body":[
+            "set_engine_par( ${1:<parameter>}, ${2:<value>}, ${3:<group>}, ${4:<slot>}, ${5:<generic>} )"
+        ],
+        "description": "control automatable KONTAKT parameters and bypass buttons"
+    },
+    "set_voice_limit":
+    {
+        "prefix": "set_voice_limit",
+        "body":[
+            "set_voice_limit( ${1:<voice-type>}, ${2:<value>} )"
+        ],
+        "description": "sets the voice limit for the Time Machine Pro mode of the source module"
+    },
+
+"##---------------- Load/Save Commands ----------------##":{},
+
+    "get_folder":
+    {
+        "prefix": "get_folder",
+        "body":[
+            "get_folder( ${1:<path-variable>} )"
+        ],
+        "description": "returns the path specified with the built-in path variable"
+    },
+    "load_array":
+    {
+        "prefix": "load_array",
+        "body":[
+            "load_array( ${1:<array-variable>}, ${2:<mode>} )"
+        ],
+        "description": "loads an array from an external file (.nka file)"
+    },
+    "load_array_str":
+    {
+        "prefix": "load_array_str",
+        "body":[
+            "load_array_str( ${1:<array-variable>}, ${2:<path>} )"
+        ],
+        "description": "loads an array from an external file (.nka file) using the file's absolute path"
+    },
+    "load_ir_sample":
+    {
+        "prefix": "load_ir_sample",
+        "body":[
+            "load_ir_sample( ${1:<file-path>}, ${2:<slot>}, ${3:<generic>} )"
+        ],
+        "description": "loads an impulse response sample into KONTAKT's convolution effect"
+    },
+    "save_array":
+    {
+        "prefix": "save_array",
+        "body":[
+            "save_array( ${1:<array-variable>}, ${2:<mode>} )"
+        ],
+        "description": "saves an array to an external file (i.e. an .nka file)"
+    },
+    "save_array_str":
+    {
+        "prefix": "save_array_str",
+        "body":[
+            "save_array_str( ${1:<array-variable>}, ${2:<path>} )"
+        ],
+        "description": "saves an array to an external file (i.e. an .nka file), using the specified absolute path"
+    },
+    "save_midi_file":
+    {
+        "prefix": "save_midi_file",
+        "body":[
+            "save_midi_file( ${1:<path>} )"
+        ],
+        "description": "saves a MIDI file with a range specified by the mf_set_export_area() command."
+    },
+
+"##---------------- MIDI Object Commands ----------------##":{},
+
+    "mf_insert_file":
+    {
+        "prefix": "mf_insert_file",
+        "body":[
+            "mf_insert_file( ${1:<path>}, ${2:<track-offset>}, ${3:<position-offset>}, ${4:<mode>} )"
+        ],
+        "description": "inserts a MIDI file into the MIDI object."
+    },
+    "mf_set_export_area":
+    {
+        "prefix": "mf_set_export_area",
+        "body":[
+            "mf_set_export_area( ${1:<name>}, ${2:<start-pos>}, ${3:<end-pos>}, ${4:<start-track>}, ${5:<end-track>} )"
+        ],
+        "description": "defines the part of the MIDI object that will be exported when using a drag and drop area, or the save_midi_file() command."
+    },
+    "mf_set_buffer_size":
+    {
+        "prefix": "mf_set_buffer_size",
+        "body":[
+            "mf_set_buffer_size( ${1:<size>} )"
+        ],
+        "description": "defines a number of inactive MIDI events, that can be activated and edited"
+    },
+    "mf_get_buffer_size":
+    {
+        "prefix": "mf_get_buffer_size",
+        "body":[
+            "mf_get_buffer_size()"
+        ],
+        "description": "returns the size of the MIDI event buffer"
+    },
+    "mf_reset":
+    {
+        "prefix": "mf_reset",
+        "body":[
+            "mf_reset()"
+        ],
+        "description": "resets the MIDI object, sets the event buffer to zero, and removes all events"
+    },
+    "mf_insert_event":
+    {
+        "prefix": "mf_insert_event",
+        "body":[
+            "mf_insert_event( ${1:<track>}, ${2:<pos>}, ${3:<command>}, ${4:<byte1>}, ${5:<byte2>} )"
+        ],
+        "description": "activates an inactive MIDI event in the MIDI object. However, because the command and position are defined in this command, it can be considered as an insertion."
+    },
+    "mf_remove_event":
+    {
+        "prefix": "mf_remove_event",
+        "body":[
+            "mf_remove_event( ${1:<event-id>} )"
+        ],
+        "description": "deactivates an event in the MIDI object, effectively removing it"
+    },
+    "mf_set_event_par":
+    {
+        "prefix": "mf_set_event_par",
+        "body":[
+            "mf_set_event_par( ${1:<event-id>}, ${2:<parameter>}, ${3:<value>} )"
+        ],
+        "description": "sets an event parameter"
+    },
+    "mf_get_event_par":
+    {
+        "prefix": "mf_get_event_par",
+        "body":[
+            "mf_get_event_par( ${1:<event-id>}, ${2:<parameter>} )"
+        ],
+        "description": "returns the value of an event parameter"
+    },
+    "mf_get_id":
+    {
+        "prefix": "mf_get_id",
+        "body":[
+            "mf_get_id()"
+        ],
+        "description": "returns the ID of the currently selected event (when using the navigation commands like mf_get_first(), and mf_get_next(), etc)"
+    },
+    "mf_set_mark":
+    {
+        "prefix": "mf_set_mark",
+        "body":[
+            "mf_set_mark( ${1:<event-id>}, ${2:<mark>}, ${3:<status>} )"
+        ],
+        "description": "marks an event, so that you may groups events together and process that group quickly"
+    },
+    "mf_get_mark":
+    {
+        "prefix": "mf_get_mark",
+        "body":[
+            "mf_get_mark( ${1:<event-id>}, ${2:<mark>} )"
+        ],
+        "description": "checks if an event is marked or not. Returns 1 if it is marked, or 0 if it is not."
+    },
+    "---------------- MEMO: by_marks() is already defined at 'Event Commands' ----------------":{},
+    "by_track":
+    {
+        "prefix": "by_track",
+        "body":[
+            "by_track( ${1:<track>} )"
+        ],
+        "description": "can be used to group events by their track number"
+    },
+    "mf_get_first":
+    {
+        "prefix": "mf_get_first",
+        "body":[
+            "mf_get_first( ${1:<track-index>} )"
+        ],
+        "description": "moves the position marker to the first event in the MIDI track"
+    },
+    "mf_get_last":
+    {
+        "prefix": "mf_get_last",
+        "body":[
+            "mf_get_last( ${1:<track-index>} )"
+        ],
+        "description": "moves the position marker to the last event in the MIDI track"
+    },
+    "mf_get_next":
+    {
+        "prefix": "mf_get_next",
+        "body":[
+            "mf_get_next( ${1:<track-index>} )"
+        ],
+        "description": "moves the position marker to the next event in the MIDI track"
+    },
+    "mf_get_next_at":
+    {
+        "prefix": "mf_get_next_at",
+        "body":[
+            "mf_get_next_at( ${1:<track-index>}, ${2:<pos>} )"
+        ],
+        "description": "moves the position marker to the next event in the MIDI track right after the defined position."
+    },
+    "mf_get_prev":
+    {
+        "prefix": "mf_get_prev",
+        "body":[
+            "mf_get_prev( ${1:<track-index>} )"
+        ],
+        "description": "moves the position marker to the previous event in the MIDI track"
+    },
+    "mf_get_prev_at":
+    {
+        "prefix": "mf_get_prev_at",
+        "body":[
+            "mf_get_prev_at( ${1:<track-index>}, ${2:<pos>} )"
+        ],
+        "description": "moves the position marker to the first event before the defined position"
+    },
+    "mf_get_num_tracks":
+    {
+        "prefix": "mf_get_num_tracks",
+        "body":[
+            "mf_get_num_tracks()"
+        ],
+        "description": "returns the number of tracks in a MIDI object."
+    },
+
+"##---------------- Built-in Variables and Constants ----------------##":{}
+
 }
