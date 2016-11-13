@@ -5700,5 +5700,78 @@
         "body":[
             "~NI_MATH_P"
         ]
+    },
+
+"##---------------- Advanced Concepts ----------------##":{},
+
+    "##---------------- Preprocessor & System Scripts ----------------##":{},
+
+    "SET_CONDITION":
+    {
+        "prefix": "SET_CONDITION",
+        "body":[
+            "SET_CONDITION( ${1:<condition-symbol>} )"
+        ],
+        "description": "define a symbol to be used as a condition"
+    },
+    "RESET_CONDITION":
+    {
+        "prefix": "RESET_CONDITION",
+        "body":[
+            "RESET_CONDITION( ${1:<condition-symbol>} )"
+        ],
+        "description": "delete a definition"
+    },
+    "USE_CODE_IF":
+    {
+        "prefix": "USE_CODE_IF",
+        "body":[
+            "USE_CODE_IF( ${1:<condition-symbol>} )",
+            "${2:code...}",
+            "END_USE_CODE"
+        ],
+        "description": "interpret code when <condition> is defined"
+    },
+    "USE_CODE_IF_NOT":
+    {
+        "prefix": "USE_CODE_IF_NOT",
+        "body":[
+            "USE_CODE_IF_NOT( ${1:<condition-symbol>} )",
+            "${2:code...}",
+            "END_USE_CODE"
+        ],
+        "description": "interpret code when <condition> is not defined"
+    },
+    "NO_SYS_SCRIPT_GROUP_START":
+    {
+        "prefix": "NO_SYS_SCRIPT_GROUP_START",
+        "body":[
+            "NO_SYS_SCRIPT_GROUP_START"
+        ],
+        "description": "condition; if defined with SET_CONDITION(), the system script which handles all group start options will be bypassed"
+    },
+    "NO_SYS_SCRIPT_PEDAL":
+    {
+        "prefix": "NO_SYS_SCRIPT_PEDAL",
+        "body":[
+            "NO_SYS_SCRIPT_PEDAL"
+        ],
+        "description": "condition; if defined with SET_CONDITION(), the system script which sustains notes when CC# 64 is received will be bypassed"
+    },
+    "NO_SYS_SCRIPT_RLS_TRIG":
+    {
+        "prefix": "NO_SYS_SCRIPT_RLS_TRIG",
+        "body":[
+            "NO_SYS_SCRIPT_RLS_TRIG"
+        ],
+        "description": "condition; if defined with SET_CONDITION(), the system script which triggers samples upon the release of a key is bypassed"
+    },
+    "reset_rls_trig_counter":
+    {
+        "prefix": "reset_rls_trig_counter",
+        "body":[
+            "reset_rls_trig_counter( ${1:<note>} )"
+        ],
+        "description": "dresets the release trigger counter (used by the release trigger system script)"
     }
 }
