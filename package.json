@@ -18,8 +18,9 @@
         "languages":
         [{
             "id": "ksp",
-            "aliases": ["KONTAKT Script (KSP)", "ksp"],
-            "extensions": [".ksp"]
+            "aliases": [ "KONTAKT Script (KSP)", "ksp" ],
+            "extensions": [ ".ksp" ],
+            "configuration": "./language-configuration.json"
         }],
         "grammars":
         [{

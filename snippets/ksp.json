@@ -2,7 +2,6 @@
 
 "##---------------- Comment(Original) ----------------##":{},
 
-
     "separate_comment":
     {
         "prefix": "separate",
@@ -81,7 +80,6 @@
         "description": "declare a user-defined polyphonic variable to store a single integer value per note event"
     },
 
-
 "##---------------- KSP Reference Manual Begin ----------------##":{},
 
 
@@ -95,7 +93,7 @@
             "    ${1:async complete callback, triggered after the execution of any load/save command}",
             "}",
             "on async_complete",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -109,7 +107,7 @@
             "    ${1:MIDI controller callback, executed whenever a CC, pitch bend or channel pressure message is received}",
             "}",
             "on controller",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -126,7 +124,7 @@
             "    make_perfview",
             "    message(\"\")",
             "    set_script_title( \"${2:title}\" )",
-            "    ${3:code...}",
+            "    ${3:{your code here}}",
             "end on",
             ""
         ],
@@ -140,7 +138,7 @@
             "    ${1:listener callback, executed at definable time intervals or whenever a transport command is received}",
             "}",
             "on listener",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -154,7 +152,7 @@
             "    ${1:note callback, executed whenever a note on message is received}",
             "}",
             "on note",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -168,7 +166,7 @@
             "    ${1:executed after the init callback or whenever a snapshot has been loaded}",
             "}",
             "on persistence_changed",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -182,7 +180,7 @@
             "    ${1:executed whenever any pgs_set_key_val() command is executed in any script}",
             "}",
             "on pgs_changed",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -196,7 +194,7 @@
             "    ${1:polyphonic aftertouch callback, executed whenever a polyphonic aftertouch message is received}",
             "}",
             "on poly_at",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -210,7 +208,7 @@
             "    ${1:release callback, executed whenever a note off message is received}",
             "}",
             "on release",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -224,7 +222,7 @@
             "    ${1:rpn(registered parameter number) callback message is received}",
             "}",
             "on rpn",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -238,7 +236,7 @@
             "    ${1:nrpn(unregistered parameter number) callback message is received}",
             "}",
             "on nrpn",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -252,7 +250,7 @@
             "    ${1:UI callback, executed whenever the user changes the respective UI element}",
             "}",
             "on ui_control( \\$${2:uiVariable} )",
-            "    ${3:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -266,7 +264,7 @@
             "    ${1:UI update callback, executed with every GUI change in KONTAKT}",
             "}",
             "on ui_update",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end on",
             ""
         ],
@@ -275,6 +273,14 @@
 
 "##---------------- Variables ----------------##":{},
 
+    "declare":
+    {
+        "prefix": "declare",
+        "body":[
+            "declare ${1:name}"
+        ],
+        "description": "declare a user-defined variable"
+    },
     "make_instr_persistent":
     {
         "prefix": "make_instr_persistent",
@@ -406,7 +412,7 @@
         "prefix": "if",
         "body":[
             "if( ${1:<condition>} )",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end if"
         ],
         "description": "if statement"
@@ -416,9 +422,9 @@
         "prefix": "ifelse",
         "body":[
             "if( ${1:<condition>} )",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "else",
-            "    ${3:code...}",
+            "    ${3:{your code here}}",
             "end if"
         ],
         "description": "if...else statement"
@@ -429,7 +435,7 @@
         "body":[
             "select( ${1:<variable>} )",
             "    case ${2:case}:",
-            "        ${3:code...}",
+            "        ${3:{your code here}}",
             "end select"
         ],
         "description": "if statement"
@@ -439,10 +445,58 @@
         "prefix": "while",
         "body":[
             "while( ${1:<condition>} )",
-            "    ${2:code...}",
+            "    ${2:{your code here}}",
             "end while"
         ],
         "description": "while statement"
+    },
+    "boolean_op_gt":
+    {
+        "prefix": ">",
+        "body":[
+            "${1:x} > ${2:y}"
+        ],
+        "description": "Boolean Operator: grater than"
+    },
+    "boolean_op_lt":
+    {
+        "prefix": "<",
+        "body":[
+            "${1:x} < ${2:y}"
+        ],
+        "description": "Boolean Operator: less than"
+    },
+    "boolean_op_gt":
+    {
+        "prefix": ">=",
+        "body":[
+            "${1:x} >= ${2:y}"
+        ],
+        "description": "Boolean Operator: grater than or equal"
+    },
+    "boolean_op_lt":
+    {
+        "prefix": "<=",
+        "body":[
+            "${1:x} <= ${2:y}"
+        ],
+        "description": "Boolean Operator: less than or equal"
+    },
+    "boolean_op_eq":
+    {
+        "prefix": "=",
+        "body":[
+            "${1:x} = ${2:y}"
+        ],
+        "description": "Boolean Operator: equal"
+    },
+    "boolean_op_not_eq":
+    {
+        "prefix": "#",
+        "body":[
+            "${1:x} # ${2:y}"
+        ],
+        "description": "Boolean Operator: not equal"
     },
     "in_range":
     {
@@ -450,7 +504,31 @@
         "body":[
             "in_range( ${1:x}, ${2:y}, ${3:z} )"
         ],
-        "description": "true if x is between y and z"
+        "description": "Boolean Operator: true if x is between y and z"
+    },
+    "boolean_op_not":
+    {
+        "prefix": "not",
+        "body":[
+            "not ${1:x}"
+        ],
+        "description": "Boolean Operator: true if a is false and vice versa"
+    },
+    "boolean_op_and":
+    {
+        "prefix": "and",
+        "body":[
+            "${1:a} and ${2:b}"
+        ],
+        "description": "Boolean Operator: true if a is true and b is true"
+    },
+    "boolean_op_or":
+    {
+        "prefix": "or",
+        "body":[
+            "${1:a} or ${2:b}"
+        ],
+        "description": "Boolean Operator: true if a is true or b is true"
     },
 
 "##---------------- Arithmetic Commands & Operators ----------------##":{},
@@ -583,29 +661,29 @@
         ],
         "description": "arctangent (inverse tangent function)"
     },
-    "and":
+    "bitwise_and":
     {
         "prefix": "and",
         "body":[
             "${1:x} .and. ${2:y}"
         ],
-        "description": "bitwise and"
+        "description": "Bitwise Operator: \"and\""
     },
-    "or":
+    "bitwise_or":
     {
         "prefix": "or",
         "body":[
             "${1:x} .or. ${2:y}"
         ],
-        "description": "bitwise or"
+        "description": "Bitwise Operator: \"or\""
     },
-    "not":
+    "bitwise_not":
     {
         "prefix": "not",
         "body":[
             ".not. ${1:x}"
         ],
-        "description": "bitwise negation"
+        "description": "Bitwise Operator: \"negation\""
     },
     "sh_left":
     {
@@ -1695,6 +1773,275 @@
         "description": "returns the number of tracks in a MIDI object."
     },
 
+"##---------------- Advanced Concepts ----------------##":{},
+
+    "##---------------- Preprocessor & System Scripts ----------------##":{},
+
+    "SET_CONDITION":
+    {
+        "prefix": "SET_CONDITION",
+        "body":[
+            "SET_CONDITION( ${1:<condition-symbol>} )"
+        ],
+        "description": "define a symbol to be used as a condition"
+    },
+    "RESET_CONDITION":
+    {
+        "prefix": "RESET_CONDITION",
+        "body":[
+            "RESET_CONDITION( ${1:<condition-symbol>} )"
+        ],
+        "description": "delete a definition"
+    },
+    "USE_CODE_IF":
+    {
+        "prefix": "USE_CODE_IF",
+        "body":[
+            "USE_CODE_IF( ${1:<condition-symbol>} )",
+            "${2:{your code here}}",
+            "END_USE_CODE"
+        ],
+        "description": "interpret code when <condition> is defined"
+    },
+    "USE_CODE_IF_NOT":
+    {
+        "prefix": "USE_CODE_IF_NOT",
+        "body":[
+            "USE_CODE_IF_NOT( ${1:<condition-symbol>} )",
+            "${2:{your code here}}",
+            "END_USE_CODE"
+        ],
+        "description": "interpret code when <condition> is not defined"
+    },
+    "NO_SYS_SCRIPT_GROUP_START":
+    {
+        "prefix": "NO_SYS_SCRIPT_GROUP_START",
+        "body":[
+            "NO_SYS_SCRIPT_GROUP_START"
+        ],
+        "description": "condition; if defined with SET_CONDITION(), the system script which handles all group start options will be bypassed"
+    },
+    "NO_SYS_SCRIPT_PEDAL":
+    {
+        "prefix": "NO_SYS_SCRIPT_PEDAL",
+        "body":[
+            "NO_SYS_SCRIPT_PEDAL"
+        ],
+        "description": "condition; if defined with SET_CONDITION(), the system script which sustains notes when CC# 64 is received will be bypassed"
+    },
+    "NO_SYS_SCRIPT_RLS_TRIG":
+    {
+        "prefix": "NO_SYS_SCRIPT_RLS_TRIG",
+        "body":[
+            "NO_SYS_SCRIPT_RLS_TRIG"
+        ],
+        "description": "condition; if defined with SET_CONDITION(), the system script which triggers samples upon the release of a key is bypassed"
+    },
+    "reset_rls_trig_counter":
+    {
+        "prefix": "reset_rls_trig_counter",
+        "body":[
+            "reset_rls_trig_counter( ${1:<note>} )"
+        ],
+        "description": "dresets the release trigger counter (used by the release trigger system script)"
+    },
+
+    "##---------------- PGS ----------------##":{},
+
+    "pgs_create_key":
+    {
+        "prefix": "pgs_create_key",
+        "body":[
+            "pgs_create_key( ${1:<key-id>}, ${2:<size>} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "pgs_key_exists":
+    {
+        "prefix": "pgs_key_exists",
+        "body":[
+            "pgs_key_exists( ${1:<key-id>} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "pgs_set_key_val":
+    {
+        "prefix": "pgs_set_key_val",
+        "body":[
+            "pgs_set_key_val( ${1:<key-id>}, ${2:<index>}, ${3:<value>} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "pgs_get_key_val":
+    {
+        "prefix": "pgs_get_key_val",
+        "body":[
+            "pgs_get_key_val( ${1:<key-id>}, ${2:<index>} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+
+"** on pgs_changed defined at Callback section.":{},
+
+    "pgs_create_str_key":
+    {
+        "prefix": "pgs_create_str_key",
+        "body":[
+            "pgs_create_str_key( ${1:<key-id>} )"
+        ],
+        "description": ""
+    },
+    "pgs_str_key_exists":
+    {
+        "prefix": "pgs_str_key_exists",
+        "body":[
+            "pgs_str_key_exists( ${1:<key-id>} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "pgs_set_str_key_val":
+    {
+        "prefix": "pgs_set_str_key_val",
+        "body":[
+            "pgs_set_str_key_val( ${1:<key-id>}, ${2:<stringvalue>} )"
+        ],
+        "description": ""
+    },
+
+    "##---------------- Zone and Slice Functions ----------------##":{},
+
+    "find_zone":
+    {
+        "prefix": "find_zone",
+        "body":[
+            "find_zone( ${1:<zone-name>} )"
+        ],
+        "description": "returns the zone ID for the specified zone name. Only availabe in the init callback."
+    },
+    "get_sample_length":
+    {
+        "prefix": "get_sample_length",
+        "body":[
+            "get_sample_length( ${1:<zone-ID>} )"
+        ],
+        "description": "returns the length of the specified zone's sample in microseconds"
+    },
+    "num_slices_zone":
+    {
+        "prefix": "num_slices_zone",
+        "body":[
+            "num_slices_zone( ${1:<zone-ID>} )"
+        ],
+        "description": "returns the number of slices of the specified zone"
+    },
+    "zone_slice_length":
+    {
+        "prefix": "zone_slice_length",
+        "body":[
+            "zone_slice_length( ${1:<zone-ID>}, ${2:<slice-index>} )"
+        ],
+        "description": "returns the length in microseconds of the specified slice with respect to the current tempo"
+    },
+    "zone_slice_start":
+    {
+        "prefix": "zone_slice_start",
+        "body":[
+            "zone_slice_start( ${1:<zone-ID>}, ${2:<slice-index>} )"
+        ],
+        "description": "returns the absolute start point of the specified slice in microseconds, independent of the current tempo"
+    },
+    "zone_slice_idx_loop_start":
+    {
+        "prefix": "zone_slice_idx_loop_start",
+        "body":[
+            "zone_slice_idx_loop_start( ${1:<zone-ID>}, ${2:<loop-index>} )"
+        ],
+        "description": "returns the index number of the slice at the loop start"
+    },
+    "zone_slice_idx_loop_end":
+    {
+        "prefix": "zone_slice_idx_loop_end",
+        "body":[
+            "zone_slice_idx_loop_end( ${1:<zone-ID>}, ${2:<loop-index>} )"
+        ],
+        "description": "returns the index number of the slice at the loop end"
+    },
+    "zone_slice_loop_count":
+    {
+        "prefix": "zone_slice_loop_count",
+        "body":[
+            "zone_slice_loop_count( ${1:<zone-ID>}, ${2:<loop-index>} )"
+        ],
+        "description": "returns the loop count of the specified loop"
+    },
+    "dont_use_machine_mode":
+    {
+        "prefix": "dont_use_machine_mode",
+        "body":[
+            "dont_use_machine_mode( ${1:<ID-number>} )"
+        ],
+        "description": "play the specified event in sampler mode"
+    },
+
+    "##---------------- User defined Functions ----------------##":{},
+
+    "function":
+    {
+        "prefix": "function",
+        "body":[
+            "function ${1:<function-name>}",
+            "    ${2:{your code here}}",
+            "end function",
+            ""
+        ],
+        "description": "declares a function"
+    },
+    "call":
+    {
+        "prefix": "call",
+        "body":[
+            "call ${1:<function-name>}"
+        ],
+        "description": "calls a previously declares function"
+    },
+
+"##---------------- Multi Script ----------------##":{},
+
+    "ignore_midi":
+    {
+        "prefix": "ignore_midi",
+        "body":[
+            "ignore_midi"
+        ],
+        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
+    "on midi_in":
+    {
+        "prefix": "on midi_in",
+        "body":[
+            "{",
+            "    ${1:midi callback, triggered by every incoming MIDI event}",
+            "}",
+            "on midi_in",
+            "    ${2:{your code here}}",
+            "end on",
+            ""
+        ],
+        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
+    "set_midi":
+    {
+        "prefix": "set_midi",
+        "body":[
+            "set_midi( ${1:<channel>}, ${2:<command>}, ${3:<byte-1>}, ${4:<byte-2>} )"
+        ],
+        "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
+
+    "##---------------- Multi Script Variables ----------------##":{},
+    "** Definend at Builtin Variable section":{},
+
+"** Auto generated code":{},
 "##---------------- !Built-in Variables and Constants(Generated by builtin-variables.tools/BuiltinVariables2Json.pl) ----------------##":{},
 
     "ALL_EVENTS":
@@ -5700,78 +6047,5 @@
         "body":[
             "~NI_MATH_P"
         ]
-    },
-
-"##---------------- Advanced Concepts ----------------##":{},
-
-    "##---------------- Preprocessor & System Scripts ----------------##":{},
-
-    "SET_CONDITION":
-    {
-        "prefix": "SET_CONDITION",
-        "body":[
-            "SET_CONDITION( ${1:<condition-symbol>} )"
-        ],
-        "description": "define a symbol to be used as a condition"
-    },
-    "RESET_CONDITION":
-    {
-        "prefix": "RESET_CONDITION",
-        "body":[
-            "RESET_CONDITION( ${1:<condition-symbol>} )"
-        ],
-        "description": "delete a definition"
-    },
-    "USE_CODE_IF":
-    {
-        "prefix": "USE_CODE_IF",
-        "body":[
-            "USE_CODE_IF( ${1:<condition-symbol>} )",
-            "${2:code...}",
-            "END_USE_CODE"
-        ],
-        "description": "interpret code when <condition> is defined"
-    },
-    "USE_CODE_IF_NOT":
-    {
-        "prefix": "USE_CODE_IF_NOT",
-        "body":[
-            "USE_CODE_IF_NOT( ${1:<condition-symbol>} )",
-            "${2:code...}",
-            "END_USE_CODE"
-        ],
-        "description": "interpret code when <condition> is not defined"
-    },
-    "NO_SYS_SCRIPT_GROUP_START":
-    {
-        "prefix": "NO_SYS_SCRIPT_GROUP_START",
-        "body":[
-            "NO_SYS_SCRIPT_GROUP_START"
-        ],
-        "description": "condition; if defined with SET_CONDITION(), the system script which handles all group start options will be bypassed"
-    },
-    "NO_SYS_SCRIPT_PEDAL":
-    {
-        "prefix": "NO_SYS_SCRIPT_PEDAL",
-        "body":[
-            "NO_SYS_SCRIPT_PEDAL"
-        ],
-        "description": "condition; if defined with SET_CONDITION(), the system script which sustains notes when CC# 64 is received will be bypassed"
-    },
-    "NO_SYS_SCRIPT_RLS_TRIG":
-    {
-        "prefix": "NO_SYS_SCRIPT_RLS_TRIG",
-        "body":[
-            "NO_SYS_SCRIPT_RLS_TRIG"
-        ],
-        "description": "condition; if defined with SET_CONDITION(), the system script which triggers samples upon the release of a key is bypassed"
-    },
-    "reset_rls_trig_counter":
-    {
-        "prefix": "reset_rls_trig_counter",
-        "body":[
-            "reset_rls_trig_counter( ${1:<note>} )"
-        ],
-        "description": "dresets the release trigger counter (used by the release trigger system script)"
     }
 }
