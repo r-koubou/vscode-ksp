@@ -5,6 +5,8 @@
     "version":      "0.0.1",
     "publisher":    "r-kKoubou",
     "icon": "./images/icon.png",
+    "main": "./out/kspMain",
+    "activationEvents": [ "onLanguage:ksp" ],
     "engines":
     {
         "vscode":   "^1.0.0"
