@@ -5,5 +5,5 @@ test/**
 jsconfig.json
 vsc-extension-quickstart.md
 .eslintrc.json
-builtin-variables/**
+data/**
 .temp/**
