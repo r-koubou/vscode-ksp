@@ -1,0 +1,9 @@
+This project using following softwares.
+(Not included in this project.)
+
+- python 2.7.x ( Maybe 3.x supports my script )
+https://www.python.org/
+
+- xlrd
+Library for developers to extract data from Microsoft Excel (tm) spreadsheet files
+https://pypi.python.org/pypi/xlrd
