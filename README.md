@@ -3,19 +3,19 @@
 ## Features
 
 - Syntax highlight
-- Snipet
+- Snippet
 	- All commands
 	- All Built-in Variables
 
-## Compatibility
+## KSP Compatibility
 
 - KONTAKT 5.6's KSP syntax
 
 ## TODO
 
 - Supporting intelligence
-	- [ - ] All Commands
-	- [ - ] All Built-in Variables
+	- [WIP] All Commands
+	- [WIP] All Built-in Variables
 
 ## License
 
@@ -36,15 +36,15 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 	- 全コマンド
 	- 全ビルトイン変数
 
-## 互換性
+## KSP互換
 
 - KONTAKT 5.6 のKSPに対応しています
 
 ## TODO
 
 - インテリジェンスのサポート
-	- 全コマンド
-	- 全ビルトイン変数
+	- [WIP] 全コマンド
+	- [WIP] 全ビルトイン変数
 
 ## ソースコード
 

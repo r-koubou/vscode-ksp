@@ -3,6 +3,8 @@
 # http://pypi.python.org/pypi/xlrd
 import xlrd
 
+import KspExcelUtil
+
 TEMPLATE = """    "%(intelliSense)s":
     {
         "description": "%(description)s"
@@ -23,8 +25,8 @@ rowLength = sheet.nrows
 
 print( HEADER )
 for row in range( 1, rowLength ):
-    name   = sheet.cell( row, 2 ).value.strip()
-    desc   = sheet.cell( row, 4 ).value.strip()
+    name   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_NAME ).value.strip()
+    desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
 
     if( len( name ) == 0 ):
         continue

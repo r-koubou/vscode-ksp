@@ -3,6 +3,8 @@
 # http://pypi.python.org/pypi/xlrd
 import xlrd
 
+import KspExcelUtil
+
 TEMPLATE = """    "%(name)s":
     {
         "prefix": "%(prefix)s",
@@ -28,10 +30,10 @@ rowLength = sheet.nrows
 
 print( HEADER )
 for row in range( 1, sheet.nrows ):
-    name   = sheet.cell( row, 0 ).value.strip()
-    prefix = sheet.cell( row, 1 ).value.strip()
-    body   = sheet.cell( row, 3 ).value.strip()
-    desc   = sheet.cell( row, 4 ).value.strip()
+    name   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_NAME ).value.strip()
+    prefix = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_PREFIX ).value.strip()
+    body   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_BODY ).value.strip()
+    desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
 
     if( len( prefix ) == 0 or len( body ) == 0 ):
         continue
