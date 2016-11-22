@@ -12,7 +12,7 @@
 
 * Snippet
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
 
 * Hover
 
