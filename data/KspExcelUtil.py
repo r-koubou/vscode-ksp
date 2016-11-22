@@ -6,7 +6,8 @@ import xlrd
 HEADER_SNIPPET_NAME     = "Snippet:name"
 HEADER_SNIPPET_PREFIX   = "Snippet:prefix"
 HEADER_SNIPPET_BODY     = "Snippet:body"
-HEADER_COMPLETE_NAME    = "Complete: name"
+HEADER_COMPLETE_NAME    = "Complete:name"
+HEADER_COMPLETE_SIG     = "Complete:signature"
 HEADER_DESCRIPTION      = "description"
 
 """

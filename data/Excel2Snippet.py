@@ -35,6 +35,15 @@ for row in range( 1, sheet.nrows ):
     body   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_BODY ).value.strip()
     desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
 
+    descArray = desc.split( "\n" )
+    if( len( descArray ) > 1 ):
+        tmp = ""
+        for i in descArray:
+            tmp += i + "\\n"
+        desc = tmp
+
+    desc = desc.replace( "\"", "\\\"" )
+
     if( len( prefix ) == 0 or len( body ) == 0 ):
         continue
 
@@ -43,12 +52,12 @@ for row in range( 1, sheet.nrows ):
     tmp          = ""
     if( bodyArrayLen > 1 ):
         for i in range( bodyArrayLen ):
-            tmp += BODY_TEMPLATE % ( bodyArray[ i ] )
+            tmp += BODY_TEMPLATE % ( bodyArray[ i ].replace( "\"", "\\\"" ) )
             if( i + 1 < bodyArrayLen ):
                 tmp += ",\n"
         body = tmp
     else:
-        body = BODY_TEMPLATE % ( body )
+        body = BODY_TEMPLATE % ( body.replace( "\"", "\\\"" ) )
 
     text = TEMPLATE % {
         "name":         name,

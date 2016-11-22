@@ -2,10 +2,13 @@
 
 ## Features
 
-- Syntax highlight
-- Snippet
-	- All commands
-	- All Built-in Variables
+* Syntax highlight
+* Snippet
+	* All commands
+	* All Built-in Variables
+* Display a description and signature in following case
+    * Mouse cursor over on **Command** or **Built-inVariable**
+    * Type a '(' after **coomand_name**
 
 ## KSP Compatibility
 
@@ -13,9 +16,7 @@
 
 ## TODO
 
-- Supporting intelligence
-	- [WIP] All Commands
-	- [WIP] All Built-in Variables
+* Fine-tune / bug fix if needed
 
 ## License
 
@@ -35,6 +36,9 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 - スニペットによる補完入力
 	- 全コマンド
 	- 全ビルトイン変数
+- 以下の場合に説明文（ホバーテキスト）を表示
+    - コマンド名やビルトイン変数のテキスト上にカーソルを重ねたとき
+    - コマンド名の後に '(' をタイプした時
 
 ## KSP互換
 
@@ -42,9 +46,7 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 
 ## TODO
 
-- インテリジェンスのサポート
-	- [WIP] 全コマンド
-	- [WIP] 全ビルトイン変数
+- 適宜調整
 
 ## ソースコード
 

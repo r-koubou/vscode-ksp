@@ -8,12 +8,15 @@
 
    ======================================================================== */
 
+// Based on PHP Completion ItemProvider implementation. (completionItemProvider.js)
+
 'use strict';
 
 var assert = require( 'assert' );
 var vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require('./KSPVariables');
+var kspBuiltinVariables = require( './KSPVariables' );
+var kspCommands         = require( './KSPCommands' );
 
 var KSPCompletionItemProvider = (function () {
 
@@ -80,6 +83,11 @@ var KSPCompletionItemProvider = (function () {
         for( var name in kspBuiltinVariables.builtinVariables )
         {
             validateProposal( name, kspBuiltinVariables.builtinVariables, vscode.CompletionItemKind.Variable );
+        }
+        // Commands
+        for( var name in kspCommands.commands )
+        {
+            validateProposal( name, kspCommands.commands, vscode.CompletionItemKind.Function );
         }
 
         return Promise.resolve( result );

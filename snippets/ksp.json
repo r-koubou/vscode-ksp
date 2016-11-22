@@ -36,7 +36,7 @@
     {
         "prefix": "int",
         "body":[
-            "declare \$${1:name}"
+            "declare $${1:name}"
         ],
         "description": "declare a user-defined variable to store a single integer value"
     },
@@ -84,7 +84,7 @@
     {
         "prefix": "polyphonic",
         "body":[
-            "declare polyphonic \$${1:name}"
+            "declare polyphonic $${1:name}"
         ],
         "description": "declare a user-defined polyphonic variable to store a single integer value per note event"
     },
@@ -123,8 +123,8 @@
             "}",
             "on init",
             "    make_perfview",
-            "    message("")",
-            "    set_script_title( "${2:title}" )",
+            "    message( \"\" )",
+            "    set_script_title( \"${2:title}\"  )",
             "    ${3:{your code here}}",
             "end on"
         ],
@@ -241,7 +241,7 @@
             "{",
             "    ${1:UI callback, executed whenever the user changes the respective UI element}",
             "}",
-            "on ui_control( \$${2:uiVariable} )",
+            "on ui_control( $${2:uiVariable} )",
             "    ${2:{your code here}}",
             "end on"
         ],
@@ -296,7 +296,7 @@
     {
         "prefix": "ui_button",
         "body":[
-            "declare ui_button \$${1:<variable-name>}"
+            "declare ui_button $${1:<variable-name>}"
         ],
         "description": "create a user interface button"
     },
@@ -304,7 +304,7 @@
     {
         "prefix": "ui_knob",
         "body":[
-            "declare ui_knob \$${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:<display-ratio>} )"
+            "declare ui_knob $${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:<display-ratio>} )"
         ],
         "description": "create a user interface button"
     },
@@ -312,7 +312,7 @@
     {
         "prefix": "ui_file_selector",
         "body":[
-            "declare ui_file_selector \$${1:<variable-name>}"
+            "declare ui_file_selector $${1:<variable-name>}"
         ],
         "description": "create a user interface button"
     },
@@ -320,7 +320,7 @@
     {
         "prefix": "ui_label",
         "body":[
-            "declare ui_label \$${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
+            "declare ui_label $${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
         ],
         "description": "create a user interface text label"
     },
@@ -328,7 +328,7 @@
     {
         "prefix": "ui_level_meter",
         "body":[
-            "declare ui_level_meter \$${1:<variable-name>}"
+            "declare ui_level_meter $${1:<variable-name>}"
         ],
         "description": "create a level meter"
     },
@@ -336,7 +336,7 @@
     {
         "prefix": "ui_menu",
         "body":[
-            "declare ui_menu \$${1:<variable-name>}"
+            "declare ui_menu $${1:<variable-name>}"
         ],
         "description": "create a user interface drop-down menu"
     },
@@ -344,7 +344,7 @@
     {
         "prefix": "ui_slider",
         "body":[
-            "declare ui_slider \$${1:<variable-name>}( ${2:<min>}, ${3:<max>} )"
+            "declare ui_slider $${1:<variable-name>}( ${2:<min>}, ${3:<max>} )"
         ],
         "description": "create a user interface slider"
     },
@@ -352,7 +352,7 @@
     {
         "prefix": "ui_switch",
         "body":[
-            "declare ui_switch \$${1:<variable-name>}"
+            "declare ui_switch $${1:<variable-name>}"
         ],
         "description": "create a user interface switch"
     },
@@ -376,7 +376,7 @@
     {
         "prefix": "ui_value_edit",
         "body":[
-            "declare ui_value_edit \$${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:display-ratio} )"
+            "declare ui_value_edit $${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:display-ratio} )"
         ],
         "description": "create a user interface number box"
     },
@@ -384,7 +384,7 @@
     {
         "prefix": "ui_waveform",
         "body":[
-            "declare ui_waveform \$${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
+            "declare ui_waveform $${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
         ],
         "description": "create a waveform control to display zones and slices. Can also be used to control specific parameters per slice and for MIDI drag & drop functionality."
     },
@@ -629,7 +629,7 @@
         "body":[
             "${1:x} .and. ${2:y}"
         ],
-        "description": "Bitwise Operator: "and""
+        "description": "Bitwise Operator: \"and\""
     },
     "bitwise_or":
     {
@@ -637,7 +637,7 @@
         "body":[
             "${1:x} .or. ${2:y}"
         ],
-        "description": "Bitwise Operator: "or""
+        "description": "Bitwise Operator: \"or\""
     },
     "bitwise_not":
     {
@@ -645,7 +645,7 @@
         "body":[
             ".not. ${1:x}"
         ],
-        "description": "Bitwise Operator: "negation""
+        "description": "Bitwise Operator: \"negation\""
     },
     "sh_left":
     {
@@ -747,7 +747,7 @@
     {
         "prefix": "set_controller",
         "body":[
-            "set_controller( ${1:<MIDI CC number/\$VCC_PITCH_BEND/\$VCC_MONO>}, ${2:<value>} )"
+            "set_controller( ${1:<MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO>}, ${2:<value>} )"
         ],
         "description": "send a MIDI CC, pitchbend or channel pressure value"
     },
@@ -1269,14 +1269,13 @@
         "body":[
             "set_text( ${1:<variable>}, ${2:<text>} )"
         ],
-        "description": "when applied to a label: delete the text currently visible in the specified label and add new text.
-when applied to knobs, buttons, switches and value edits: set the display name of the ui element."
+        "description": "when applied to a label: delete the text currently visible in the specified label and add new text.\nwhen applied to knobs, buttons, switches and value edits: set the display name of the ui element.\n"
     },
     "set_ui_color":
     {
         "prefix": "set_ui_color",
         "body":[
-            "set_ui_color( ${1:<hex values(9""RRGGBBh""))>}, ${2:<text>} )"
+            "set_ui_color( ${1:<hex values(9RRGGBBh) )>}, ${2:<text>} )"
         ],
         "description": "set the main background color of the performance view"
     },
@@ -1284,7 +1283,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "set_ui_height",
         "body":[
-            "set_ui_height( ${1:<height(1 to 8)> )"
+            "set_ui_height( ${1:<height(1 to 8)>} )"
         ],
         "description": "set the height of a script performance view in grid units"
     },
@@ -1292,7 +1291,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "set_ui_height_px",
         "body":[
-            "set_ui_height_px( ${1:<height(50px to 750px)> )"
+            "set_ui_height_px( ${1:<height(50px to 750px)>} )"
         ],
         "description": "set the height of a script performance view in pixels"
     },
@@ -1300,7 +1299,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "set_ui_width_px",
         "body":[
-            "set_ui_width_px( ${1:<width(633px to 1000px)> )"
+            "set_ui_width_px( ${1:<width(633px to 1000px)>} )"
         ],
         "description": "set the width of a script performance view in pixels"
     },
@@ -1308,7 +1307,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "set_ui_wf_property",
         "body":[
-            "set_ui_wf_property( ${1:<variable>}, ${2:<property>}, ${3:<index>}, ${4:<value> )"
+            "set_ui_wf_property( ${1:<variable>}, ${2:<property>}, ${3:<index>}, ${4:<value>} )"
         ],
         "description": "sets different properties for the waveform control"
     },
@@ -1316,7 +1315,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_key_color",
         "body":[
-            "get_key_color( ${1:<note-nr> )"
+            "get_key_color( ${1:<note-nr>} )"
         ],
         "description": "returns the color constant of the specified note number"
     },
@@ -1324,7 +1323,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_key_name",
         "body":[
-            "get_key_name( ${1:<note-nr> )"
+            "get_key_name( ${1:<note-nr>} )"
         ],
         "description": "returns the name of the specified key"
     },
@@ -1332,7 +1331,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_key_triggerstate",
         "body":[
-            "get_key_triggerstate( ${1:<note-nr> )"
+            "get_key_triggerstate( ${1:<note-nr>} )"
         ],
         "description": "returns the pressed state of the specified note number (i.e. key) on the KONTAKT keyboard, can be either 1 (key pressed) or 0 (key released)"
     },
@@ -1340,7 +1339,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_key_type",
         "body":[
-            "get_key_type( ${1:<note-nr> )"
+            "get_key_type( ${1:<note-nr>} )"
         ],
         "description": "returns the key type constant of the specified key."
     },
@@ -1348,7 +1347,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_keyrange_min_note",
         "body":[
-            "get_keyrange_min_note( ${1:<note-nr> )"
+            "get_keyrange_min_note( ${1:<note-nr>} )"
         ],
         "description": "returns the lowest note of the specified key range"
     },
@@ -1356,7 +1355,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_keyrange_max_note",
         "body":[
-            "get_keyrange_max_note( ${1:<note-nr> )"
+            "get_keyrange_max_note( ${1:<note-nr>} )"
         ],
         "description": "returns the highest note of the specified key range"
     },
@@ -1364,7 +1363,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
     {
         "prefix": "get_keyrange_name",
         "body":[
-            "get_keyrange_name( ${1:<note-nr> )"
+            "get_keyrange_name( ${1:<note-nr>} )"
         ],
         "description": "returns the name of the specified key range"
     },
@@ -1398,9 +1397,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
         "body":[
             "set_key_pressed_support( ${1:<mode>} )"
         ],
-        "description": "sets the pressed state support mode for KONTAKT'S keyboard. The available modes are:
-0: KONTAKT handles all pressed states, set_key_pressed() commands are ignored (default mode)
-1: KONTAKT's keyboard is only affected by set_key_pressed() commands"
+        "description": "sets the pressed state support mode for KONTAKT'S keyboard. The available modes are:\n0: KONTAKT handles all pressed states, set_key_pressed() commands are ignored (default mode)\n1: KONTAKT's keyboard is only affected by set_key_pressed() commands\n"
     },
     "set_key_type":
     {
@@ -1408,11 +1405,7 @@ when applied to knobs, buttons, switches and value edits: set the display name o
         "body":[
             "set_key_type( ${1:<note-nr>}, ${2:<key-type-constant>} )"
         ],
-        "description": "assigns a key type to the specified key.
-The following key types are available:
-$NI_KEY_TYPE_DEFAULT (i.e. normal mapped notes that produce sound)
-$NI_KEY_TYPE_CONTROL (i.e. key switches or other notes that do not produce sound)
-$NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)"
+        "description": "assigns a key type to the specified key.\nThe following key types are available:\n$NI_KEY_TYPE_DEFAULT (i.e. normal mapped notes that produce sound)\n$NI_KEY_TYPE_CONTROL (i.e. key switches or other notes that do not produce sound)\n$NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)\n"
     },
     "set_keyrange":
     {
@@ -1746,6 +1739,14 @@ $NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)"
         ],
         "description": "interpret code when <condition> is not defined"
     },
+    "END_USE_CODE":
+    {
+        "prefix": "END_USE_CODE",
+        "body":[
+            "END_USE_CODE"
+        ],
+        "description": "end of USE_CODE_IF"
+    },
     "NO_SYS_SCRIPT_GROUP_START":
     {
         "prefix": "NO_SYS_SCRIPT_GROUP_START",
@@ -1941,7 +1942,7 @@ $NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)"
         "body":[
             "ignore_midi"
         ],
-        "description": "Like ignore_event(), ignore_midi is a very "strong" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
     },
     "on midi_in":
     {
@@ -1954,7 +1955,7 @@ $NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)"
             "    ${2:{your code here}}",
             "end on"
         ],
-        "description": "Like ignore_event(), ignore_midi is a very "strong" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
     },
     "set_midi":
     {
