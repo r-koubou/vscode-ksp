@@ -2,15 +2,13 @@
 
 ## Version 0.0.2
 
-Following features supported
-
-* Display a description and signature in following case
-    * Mouse cursor over on **Command** or **Built-inVariable**
-    * Type a '(' after **coomand_name**
+* Autocomplete supported
+* Fixed file extension ( Added ".txt")
+* Tweek some files.
 
 ## Version 0.0.1
 
-1st release. ( Based on KONTAKT 5.6 )
+### 1st release. ( Based on KONTAKT 5.6 )
 
 Following features supported
 

@@ -1,9 +1,27 @@
+
+This project is built which is based on following VS Code extensions.
+
+#-------------------------------------------------------------------------------
+# VS Code PHP builtin extension
+#-------------------------------------------------------------------------------
+https://code.visualstudio.com/
+Copyright (c) Microsoft Corporation
+
+Mac: Visual Studio Code.app/Contents/Resources/app/extensions/php
+Win: $(Visual Studio Code Dir)/extensions/php
+
+----
+
 This project using following softwares.
 (Not included in this project.)
 
-- python 2.7.x ( Maybe 3.x supports my script )
+#-------------------------------------------------------------------------------
+# python 2.7.x ( Maybe 3.x supports my script )
+#-------------------------------------------------------------------------------
 https://www.python.org/
 
-- xlrd
+#-------------------------------------------------------------------------------
+# xlrd
+#-------------------------------------------------------------------------------
 Library for developers to extract data from Microsoft Excel (tm) spreadsheet files
 https://pypi.python.org/pypi/xlrd

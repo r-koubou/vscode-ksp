@@ -2,13 +2,22 @@
 
 ## Features
 
-* Syntax highlight
+* Syntax highlighting
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
+
+* Autocomplete
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+
 * Snippet
-	* All commands
-	* All Built-in Variables
-* Display a description and signature in following case
-    * Mouse cursor over on **Command** or **Built-inVariable**
-    * Type a '(' after **coomand_name**
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+
+* Hover
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
+
 
 ## KSP Compatibility
 
@@ -16,7 +25,7 @@
 
 ## TODO
 
-* Fine-tune / bug fix if needed
+* Tweak / bug fix if needed
 
 ## License
 
@@ -32,13 +41,21 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 
 ## 機能
 
-- シンタックスハイライト
-- スニペットによる補完入力
-	- 全コマンド
-	- 全ビルトイン変数
-- 以下の場合に説明文（ホバーテキスト）を表示
-    - コマンド名やビルトイン変数のテキスト上にカーソルを重ねたとき
-    - コマンド名の後に '(' をタイプした時
+* シンタックスハイライト
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
+
+* 補完入力
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+
+* スニペット
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+
+* Hover
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
 
 ## KSP互換
 
