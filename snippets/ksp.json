@@ -388,6 +388,14 @@
         ],
         "description": "create a waveform control to display zones and slices. Can also be used to control specific parameters per slice and for MIDI drag & drop functionality."
     },
+    "ui_xy":
+    {
+        "prefix": "ui_xy",
+        "body":[
+            "declare ui_xy ?$${1:<variable-name>}[ ${2:num-of-elements} ]"
+        ],
+        "description": "create an XY pad"
+    },
     "if":
     {
         "prefix": "if",
@@ -1190,6 +1198,22 @@
             "set_control_par( ${1:<ui-ID>}, ${2:<control-parameter>}, ${3:<value>} )"
         ],
         "description": "change various parameters of the specified gui control"
+    },
+    "set_control_par_arr":
+    {
+        "prefix": "set_control_par_arr",
+        "body":[
+            "set_control_par_arr( ${1:<ui-ID>}, ${2:<control-parameter>}, ${3:<value>}, ${4:<index>} )"
+        ],
+        "description": "change various parameters of an element within an array based gui control (for example: cursors in the XY pad)"
+    },
+    "set_control_par_str_arr":
+    {
+        "prefix": "set_control_par_str_arr",
+        "body":[
+            "set_control_par_str_arr( ${1:<ui-ID>}, ${2:<control-parameter>}, ${3:<value>}, ${4:<index>} )"
+        ],
+        "description": "A variation of the command for usage with text strings. ( see: set_control_par_arr() Remarks)"
     },
     "set_knob_defval":
     {
@@ -2356,6 +2380,46 @@
             "$CONTROL_PAR_WIDTH"
         ],
         "description": "Built-in Variable: CONTROL_PAR_WIDTH"
+    },
+    "CONTROL_PAR_MOUSE_BEHAVIOUR_X":
+    {
+        "prefix": "CONTROL_PAR_MOUSE_BEHAVIOUR_X",
+        "body":[
+            "$CONTROL_PAR_MOUSE_BEHAVIOUR_X"
+        ],
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_X"
+    },
+    "CONTROL_PAR_MOUSE_BEHAVIOUR_Y":
+    {
+        "prefix": "CONTROL_PAR_MOUSE_BEHAVIOUR_Y",
+        "body":[
+            "$CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
+        ],
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
+    },
+    "CONTROL_PAR_MOUSE_MODE":
+    {
+        "prefix": "CONTROL_PAR_MOUSE_MODE",
+        "body":[
+            "$CONTROL_PAR_MOUSE_MODE"
+        ],
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_MODE"
+    },
+    "CONTROL_PAR_ACTIVE_INDEX":
+    {
+        "prefix": "CONTROL_PAR_ACTIVE_INDEX",
+        "body":[
+            "$CONTROL_PAR_ACTIVE_INDEX"
+        ],
+        "description": "Built-in Variable: CONTROL_PAR_ACTIVE_INDEX"
+    },
+    "CONTROL_PAR_CURSOR_PICTURE":
+    {
+        "prefix": "CONTROL_PAR_CURSOR_PICTURE",
+        "body":[
+            "$CONTROL_PAR_CURSOR_PICTURE"
+        ],
+        "description": "Built-in Variable: CONTROL_PAR_CURSOR_PICTURE"
     },
     "CONTROL_PAR_ZERO_LINE_COLOR":
     {

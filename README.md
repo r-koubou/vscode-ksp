@@ -21,7 +21,7 @@
 
 ## KSP Compatibility
 
-- KONTAKT 5.6's KSP syntax
+- KONTAKT 5.6.5's KSP syntax
 
 ## TODO
 
@@ -51,7 +51,7 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 
 * スニペット
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
 
 * Hover
 
@@ -59,7 +59,7 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 
 ## KSP互換
 
-- KONTAKT 5.6 のKSPに対応しています
+- KONTAKT 5.6.5 のKSPに対応しています
 
 ## TODO
 

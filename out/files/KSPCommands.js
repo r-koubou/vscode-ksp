@@ -104,7 +104,7 @@ exports.commands = {
     },
     "ui_label":
     {
-        "signature":   "(width(unit=grid),height(unit=grid))",
+        "signature":   "(width,height)",
         "description": "create a user interface text label"
     },
     "ui_level_meter":
@@ -129,7 +129,7 @@ exports.commands = {
     },
     "ui_table":
     {
-        "signature":   "(width(unit=grid),height(unit=grid),range)",
+        "signature":   "(width,height,range)",
         "description": "create a user interface switch"
     },
     "ui_text_edit":
@@ -144,8 +144,13 @@ exports.commands = {
     },
     "ui_waveform":
     {
-        "signature":   "(width(unit=grid),height(unit=grid))",
+        "signature":   "(width,height)",
         "description": "create a waveform control to display zones and slices. Can also be used to control specific parameters per slice and for MIDI drag & drop functionality."
+    },
+    "ui_xy":
+    {
+        "signature":   "",
+        "description": "create an XY pad"
     },
     "if":
     {
@@ -349,7 +354,7 @@ exports.commands = {
     },
     "message":
     {
-        "signature":   "(variable/text)",
+        "signature":   "(value)",
         "description": "display text in the status line of KONTAKT"
     },
     "note_off":
@@ -364,7 +369,7 @@ exports.commands = {
     },
     "set_controller":
     {
-        "signature":   "(MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO,value)",
+        "signature":   "(MIDI_CC_number,value)",
         "description": "send a MIDI CC, pitchbend or channel pressure value"
     },
     "set_rpn":
@@ -389,12 +394,12 @@ exports.commands = {
     },
     "change_pan":
     {
-        "signature":   "(IDNumber,panorama(-1000~1000),relativeBit(0 or 1))",
+        "signature":   "(IDNumber,panorama,relativeBit)",
         "description": "change the pan position of a specific note event"
     },
     "change_tune":
     {
-        "signature":   "(IDNumber,tuneAmount(millicents),relativeBit(0 or 1))",
+        "signature":   "(IDNumber,tuneAmount(millicents),relativeBit)",
         "description": "change the tuning of a specific note event in millicent"
     },
     "change_velo":
@@ -404,12 +409,12 @@ exports.commands = {
     },
     "change_vol":
     {
-        "signature":   "(IDNumber,volume,relativeBit(0 or 1))",
+        "signature":   "(IDNumber,volume,relativeBit)",
         "description": "change the volume of a specific note event in millidecibel"
     },
     "delete_event_mark":
     {
-        "signature":   "(IDNumber,bitMark($MARK_1 ... $MARK_28))",
+        "signature":   "(IDNumber,$MARK_n)",
         "description": "delete an event mark, i.e. ungroup the specified event from an event group"
     },
     "event_status":
@@ -449,7 +454,7 @@ exports.commands = {
     },
     "set_event_mark":
     {
-        "signature":   "(IDNumber $MARK_1 ... $MARK_28))",
+        "signature":   "(IDNumber,$MARK_n)",
         "description": "ignore a note event in a note on or note off callback"
     },
     "set_event_par":
@@ -479,7 +484,7 @@ exports.commands = {
     },
     "sort":
     {
-        "signature":   "(arrayVariable,direction(0=ascending/not 0=descending)",
+        "signature":   "(arrayVariable,direction)",
         "description": "searches the specified array for the specified value and returns the index of its first position."
     },
     "allow_group":
@@ -509,12 +514,12 @@ exports.commands = {
     },
     "purge_group":
     {
-        "signature":   "(groupIndex,mode(0 or 1))",
+        "signature":   "(groupIndex,mode)",
         "description": "purges (i.e. unloads from RAM) the samples of the specified group"
     },
     "change_listener_par":
     {
-        "signature":   "(signalType($NI_SIGNAL_TIMER_MS or $NI_SIGNAL_TIMER_BEAT),parameter)",
+        "signature":   "(signalType,parameter)",
         "description": "changes the parameters of the on listener callback. Can be used in every callback."
     },
     "ms_to_ticks":
@@ -529,7 +534,7 @@ exports.commands = {
     },
     "stop_wait":
     {
-        "signature":   "(callback-ID,parameter(0 or 1))",
+        "signature":   "(callback_ID,parameter)",
         "description": "stops wait commands in the specified callback"
     },
     "reset_ksp_timer":
@@ -564,7 +569,7 @@ exports.commands = {
     },
     "attach_level_meter":
     {
-        "signature":   "(ui-ID,group,slot,channel(0=left/1=right),bus)",
+        "signature":   "(ui_ID,group,slot,channel,bus)",
         "description": "attach a level meter to a certain position within the instrument to read volume data"
     },
     "attach_zone":
@@ -579,32 +584,32 @@ exports.commands = {
     },
     "fs_get_filename":
     {
-        "signature":   "(ui-ID,returnParameter(0 or 1 or 2))",
+        "signature":   "(ui_ID,returnParameter)",
         "description": "return the filename of the last selected file in the UI file browser."
     },
     "fs_navigate":
     {
-        "signature":   "(ui-ID,direction(0 or 1))",
+        "signature":   "(ui_ID,direction)",
         "description": "jump to the next/previous file in an ui file selector and trigger its callback."
     },
     "get_control_par":
     {
-        "signature":   "(ui-ID,controlParameter)",
+        "signature":   "(ui_ID,controlParameter)",
         "description": "retrieve various parameters of the specified gui control"
     },
     "get_menu_item_str":
     {
-        "signature":   "(menu-ID,index)",
+        "signature":   "(menu_ID,index)",
         "description": "returns the string value of the menu's entry."
     },
     "get_menu_item_value":
     {
-        "signature":   "(menu-ID,index)",
+        "signature":   "(menu_ID,index)",
         "description": "returns the value of the menu's entry."
     },
     "get_menu_item_visibility":
     {
-        "signature":   "(menu-ID,index)",
+        "signature":   "(menu_ID,index)",
         "description": "returns 1 if the menu entry is visible, otherwise 0."
     },
     "get_ui_id":
@@ -639,8 +644,18 @@ exports.commands = {
     },
     "set_control_par":
     {
-        "signature":   "(ui-ID,controlParameter,value)",
+        "signature":   "(ui_ID,controlParameter,value)",
         "description": "change various parameters of the specified gui control"
+    },
+    "set_control_par_arr":
+    {
+        "signature":   "(ui_ID,controlParameter,value,index)",
+        "description": "change various parameters of an element within an array based gui control (for example: cursors in the XY pad)"
+    },
+    "set_control_par_str_arr":
+    {
+        "signature":   "(ui_ID,controlParameter,value,index)",
+        "description": "A variation of the command for usage with text strings. ( see: set_control_par_arr() Remarks)"
     },
     "set_knob_defval":
     {
@@ -669,7 +684,7 @@ exports.commands = {
     },
     "set_menu_item_visibility":
     {
-        "signature":   "(menuId,index,visibility(0=invisible/1=visible))",
+        "signature":   "(menuId,index,visibility)",
         "description": "sets the visibility of a menu entry."
     },
     "set_table_steps_shown":
@@ -1054,37 +1069,37 @@ exports.commands = {
     },
     "get_sample_length":
     {
-        "signature":   "(zone-ID)",
+        "signature":   "(zone_ID)",
         "description": "returns the length of the specified zone's sample in microseconds"
     },
     "num_slices_zone":
     {
-        "signature":   "(zone-ID)",
+        "signature":   "(zone_ID)",
         "description": "returns the number of slices of the specified zone"
     },
     "zone_slice_length":
     {
-        "signature":   "(zone-ID,sliceIndex)",
+        "signature":   "(zone_ID,sliceIndex)",
         "description": "returns the length in microseconds of the specified slice with respect to the current tempo"
     },
     "zone_slice_start":
     {
-        "signature":   "(zone-ID,sliceIndex)",
+        "signature":   "(zone_ID,sliceIndex)",
         "description": "returns the absolute start point of the specified slice in microseconds, independent of the current tempo"
     },
     "zone_slice_idx_loop_start":
     {
-        "signature":   "(zone-ID,loopIndex)",
+        "signature":   "(zone_ID,loopIndex)",
         "description": "returns the index number of the slice at the loop start"
     },
     "zone_slice_idx_loop_end":
     {
-        "signature":   "(zone-ID,loopIndex)",
+        "signature":   "(zone_ID,loopIndex)",
         "description": "returns the index number of the slice at the loop end"
     },
     "zone_slice_loop_count":
     {
-        "signature":   "(zone-ID,loopIndex)",
+        "signature":   "(zone_ID,loopIndex)",
         "description": "returns the loop count of the specified loop"
     },
     "dont_use_machine_mode":
@@ -1114,7 +1129,7 @@ exports.commands = {
     },
     "set_midi":
     {
-        "signature":   "(channel,command,byte-1,byte-2)",
+        "signature":   "(channel,command,byte1,byte2)",
         "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
-    }
+    },
 };

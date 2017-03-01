@@ -198,6 +198,26 @@ exports.builtinVariables = {
     {
         "description": "Built-in Variable: CONTROL_PAR_WIDTH"
     },
+    "$CONTROL_PAR_MOUSE_BEHAVIOUR_X":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_X"
+    },
+    "$CONTROL_PAR_MOUSE_BEHAVIOUR_Y":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
+    },
+    "$CONTROL_PAR_MOUSE_MODE":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_MODE"
+    },
+    "$CONTROL_PAR_ACTIVE_INDEX":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_ACTIVE_INDEX"
+    },
+    "$CONTROL_PAR_CURSOR_PICTURE":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_CURSOR_PICTURE"
+    },
     "$CONTROL_PAR_ZERO_LINE_COLOR":
     {
         "description": "Built-in Variable: CONTROL_PAR_ZERO_LINE_COLOR"
@@ -2297,5 +2317,5 @@ exports.builtinVariables = {
     "~NI_MATH_PI":
     {
         "description": "Built-in Variable: NI_MATH_PI"
-    }
+    },
 };
