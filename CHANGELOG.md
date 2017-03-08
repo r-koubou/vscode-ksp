@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 0.0.4
+
+* Improved
+
+    - Syntax highlighting, hover text, autocomplete
+        - Literal string
+        - set_control_par_str()
+        - make_instr_persistent()
+        - make_persistent()
+        - read_persistent_var()
+
+
 ## Version 0.0.3
 
 * KONTAKT 5.6.5 ready. Following command, variable added
@@ -13,7 +25,7 @@
         - $CONTROL_PAR_MOUSE_BEHAVIOUR_Y
 
 	- New UI Commands
-        - New UI commands: set_control_par_arr()
+        - set_control_par_arr()
         - set_control_par_str_arr()
 
 * Improved

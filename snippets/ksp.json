@@ -1199,6 +1199,14 @@
         ],
         "description": "change various parameters of the specified gui control"
     },
+    "set_control_par_str":
+    {
+        "prefix": "set_control_par_str",
+        "body":[
+            "set_control_par_str_arr( ${1:<ui-ID>}, ${2:<CONTROL_PAR_xxx>}, ${3:<value>} )"
+        ],
+        "description": "A variation of the command for usage with text strings. ( see: set_control_par() Remarks)"
+    },
     "set_control_par_arr":
     {
         "prefix": "set_control_par_arr",

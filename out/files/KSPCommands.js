@@ -647,6 +647,11 @@ exports.commands = {
         "signature":   "(ui_ID,controlParameter,value)",
         "description": "change various parameters of the specified gui control"
     },
+    "set_control_par_str":
+    {
+        "signature":   "(ui_ID,controlParameter,value,index)",
+        "description": "A variation of the command for usage with text strings. ( see: set_control_par() Remarks)"
+    },
     "set_control_par_arr":
     {
         "signature":   "(ui_ID,controlParameter,value,index)",
