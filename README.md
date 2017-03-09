@@ -4,19 +4,19 @@
 
 * Syntax highlighting
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
 
 * Autocomplete
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
 
 * Snippet
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
 
 * Hover
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
 
 
 ## KSP Compatibility
@@ -35,6 +35,12 @@
 
 You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax-for-ksp)
 
+## About KONTAKT
+
+KONTAKT is registered trademarks of Native Instruments GmbH.
+[https://www.native-instruments.com/](https://www.native-instruments.com/)
+
+
 ----
 
 [Japanese]
@@ -43,19 +49,19 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 
 * シンタックスハイライト
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
 
 * 補完入力
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
 
 * スニペット
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
 
 * Hover
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
 
 ## KSP互換
 
@@ -68,3 +74,8 @@ You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax
 ## ソースコード
 
 [githubリポジトリに置いています](https://github.com/r-koubou/vscode-syntax-for-ksp)
+
+## KONTAKT について
+
+KONTAKT is registered trademarks of Native Instruments GmbH.
+[https://www.native-instruments.com/](https://www.native-instruments.com/)
