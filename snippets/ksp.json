@@ -1567,6 +1567,14 @@
         ],
         "description": "loads an impulse response sample into KONTAKT's convolution effect"
     },
+    "load_midi_file":
+    {
+        "prefix": "load_midi_file",
+        "body":[
+            "load_midi_file( ${1:path} )"
+        ],
+        "description": "Load MIDI file from path (*Non documented)"
+    },
     "save_array":
     {
         "prefix": "save_array",
@@ -1751,13 +1759,37 @@
         ],
         "description": "returns the number of tracks in a MIDI object."
     },
-    "load_midi_file":
+    "mf_set_pos":
     {
-        "prefix": "load_midi_file",
+        "prefix": "mf_set_pos",
         "body":[
-            "load_midi_file( ${1:path} )"
+            "mf_set_pos( ${1:<value>} )"
         ],
-        "description": "Load MIDI file from path (*Non documented)"
+        "description": "Non documented"
+    },
+    "mf_set_command":
+    {
+        "prefix": "mf_set_command",
+        "body":[
+            "mf_set_command( ${1:<value>} )"
+        ],
+        "description": "Non documented"
+    },
+    "mf_set_byte_one":
+    {
+        "prefix": "mf_set_byte_one",
+        "body":[
+            "mf_set_byte_one( ${1:<value>} )"
+        ],
+        "description": "Non documented"
+    },
+    "mf_set_byte_two":
+    {
+        "prefix": "mf_set_byte_two",
+        "body":[
+            "mf_set_byte_two( ${1:<value>} )"
+        ],
+        "description": "Non documented"
     },
     "SET_CONDITION":
     {

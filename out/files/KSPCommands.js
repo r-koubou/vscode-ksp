@@ -877,6 +877,11 @@ exports.commands = {
         "signature":   "(filePath,slot,generic)",
         "description": "loads an impulse response sample into KONTAKT's convolution effect"
     },
+    "load_midi_file":
+    {
+        "signature":   "(path)",
+        "description": "Load MIDI file from path (*Non documented)"
+    },
     "save_array":
     {
         "signature":   "(arrayVariable,mode)",
@@ -992,10 +997,25 @@ exports.commands = {
         "signature":   "(void)",
         "description": "returns the number of tracks in a MIDI object."
     },
-    "load_midi_file":
+    "mf_set_pos":
     {
-        "signature":   "(path)",
-        "description": "Load MIDI file from path (*Non documented)"
+        "signature":   "(value)",
+        "description": "Non documented"
+    },
+    "mf_set_command":
+    {
+        "signature":   "(value)",
+        "description": "Non documented"
+    },
+    "mf_set_byte_one":
+    {
+        "signature":   "(value)",
+        "description": "Non documented"
+    },
+    "mf_set_byte_two":
+    {
+        "signature":   "(value)",
+        "description": "Non documented"
     },
     "SET_CONDITION":
     {
