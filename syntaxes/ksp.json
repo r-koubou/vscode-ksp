@@ -134,7 +134,7 @@
                 },
                 {
                     "name": "variable.preprocessor.ksp",
-                    "match": "(NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG)"
+                    "match": "(NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG)\\b"
                 }
             ]
         },
@@ -143,7 +143,7 @@
             "patterns":[
                 {
                     "name":  "keyword.other.ui.ksp",
-                    "match": "(ui_button|ui_knob|ui_file_selector|ui_label|ui_level_meter|ui_menu|ui_slider|ui_switch|ui_table|ui_text_edit|ui_value_edit|ui_waveform)"
+                    "match": "(ui_button|ui_knob|ui_file_selector|ui_label|ui_level_meter|ui_menu|ui_slider|ui_switch|ui_table|ui_text_edit|ui_value_edit|ui_waveform)\\b"
                 }
             ]
         },
@@ -161,11 +161,11 @@
             "patterns":[
                 {
                     "name":  "keyword.other.boolop1.ksp",
-                    "match": "(and|or|not|in_range)"
+                    "match": "(and|or|not|in_range)\\b"
                 },
                 {
                     "name":  "keyword.other.bitop2.ksp",
-                    "match": "(\\.and\\.|\\.or\\.|\\.not\\.|sh_left|sh_right)"
+                    "match": "(\\.and\\.|\\.or\\.|\\.not\\.|sh_left|sh_right)\\b"
                 }
             ]
         },
@@ -174,15 +174,7 @@
             "patterns":[
                 {
                     "name":  "support.function.builtin.ksp",
-                    "match": "(inc|dec|mod)\\b"
-                },
-                {
-                    "name":  "support.function.builtin.ksp",
-                    "match": "(exp|log|pow|sqrt|ceil|floor|round)\\b"
-                },
-                {
-                    "name":  "support.function.builtin.ksp",
-                    "match": "(cos|sin|tan|acos|asin|atan)\\b"
+                    "match": "(inc|dec|mod|exp|log|pow|sqrt|ceil|floor|round|cos|sin|tan|acos|asin|atan|sh_left|sh_right|random|int_to_real|real_to_int|msb|lsb)\\b"
                 }
             ]
         },
@@ -204,7 +196,7 @@
             "patterns":[
                 {
                     "name":  "keyword.other.ksp",
-                    "match": "(on|end|function)"
+                    "match": "(on|end|function)\\b"
                 }
             ]
         }
