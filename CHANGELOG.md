@@ -5,11 +5,8 @@
 * Improved
 
     - Syntax highlighting, hover text, autocomplete
-        - Literal string
-        - set_control_par_str()
-        - make_instr_persistent()
-        - make_persistent()
-        - read_persistent_var()
+
+        - Some commands (incl non documented)
 
 
 ## Version 0.0.3
