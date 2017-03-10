@@ -77,6 +77,11 @@ exports.commands = {
         "signature":   "(variable)",
         "description": "retain the value of a variable only with the instrument"
     },
+    "make_instr_persistence":
+    {
+        "signature":   "(variable)",
+        "description": "retain the value of a variable only with the instrument"
+    },
     "make_persistent":
     {
         "signature":   "(variable)",
@@ -381,6 +386,11 @@ exports.commands = {
     {
         "signature":   "(address,value)",
         "description": "send a nrpn message"
+    },
+    "set_snapshot_type":
+    {
+        "signature":   "(type)",
+        "description": "configures the KSP processor behavior of all five slots when a snapshot is recalled"
     },
     "by_marks":
     {
@@ -981,6 +991,11 @@ exports.commands = {
     {
         "signature":   "(void)",
         "description": "returns the number of tracks in a MIDI object."
+    },
+    "load_midi_file":
+    {
+        "signature":   "(path)",
+        "description": "Load MIDI file from path (*Non documented)"
     },
     "SET_CONDITION":
     {

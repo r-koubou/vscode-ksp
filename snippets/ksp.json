@@ -276,6 +276,14 @@
         ],
         "description": "retain the value of a variable only with the instrument"
     },
+    "make_instr_persistence":
+    {
+        "prefix": "make_instr_persistence",
+        "body":[
+            "make_instr_persistence( ${1:variable} )"
+        ],
+        "description": "retain the value of a variable only with the instrument"
+    },
     "make_persistent":
     {
         "prefix": "make_persistent",
@@ -774,6 +782,14 @@
             "set_nrpn( ${1:<address>}, ${2:<value>} )"
         ],
         "description": "send a nrpn message"
+    },
+    "set_snapshot_type":
+    {
+        "prefix": "set_snapshot_type",
+        "body":[
+            "set_snapshot_type( ${1:<type>} )"
+        ],
+        "description": "configures the KSP processor behavior of all five slots when a snapshot is recalled"
     },
     "by_marks":
     {
@@ -1734,6 +1750,14 @@
             "mf_get_num_tracks()"
         ],
         "description": "returns the number of tracks in a MIDI object."
+    },
+    "load_midi_file":
+    {
+        "prefix": "load_midi_file",
+        "body":[
+            "load_midi_file( ${1:path} )"
+        ],
+        "description": "Load MIDI file from path (*Non documented)"
     },
     "SET_CONDITION":
     {
