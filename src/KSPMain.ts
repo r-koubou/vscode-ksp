@@ -12,12 +12,11 @@
 
 'use strict';
 
-var assert = require( 'assert' );
-var vscode = require( 'vscode' );
+import vscode  = require( 'vscode' );
 
-var completionItemProvider = require( './files/KSPCompletionItemProvider' );
-var hoverProvider          = require( './files/KSPHoverProvider' );
-var signatureHelpProvider  = require( './files/KSPSignatureHelpProvider' );
+var completionItemProvider = require( 'KSPCompletionItemProvider' );
+var hoverProvider          = require( 'KSPHoverProvider' );
+var signatureHelpProvider  = require( 'KSPSignatureHelpProvider' );
 
 function activate(context)
 {
