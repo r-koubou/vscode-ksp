@@ -1,3 +1,9 @@
+# for vsce
+out
+node_modules
+npm-debug.log
+
+# for me
 .temp/
 __pycache__/
 

@@ -2,14 +2,14 @@
     "name":         "kontakt-script-langage",
     "displayName":  "KONTAKT Script Language (KSP)",
     "description":  "NI KONTAKT Script language support",
-    "version":      "0.0.4",
+    "version":      "0.0.5",
     "publisher":    "R-Koubou",
     "icon": "images/icon.png",
-    "main": "./out/kspMain.js",
+    "main": "./out/src/KSPMain",
     "activationEvents": [ "onLanguage:ksp" ],
     "engines":
     {
-        "vscode":   "^1.0.0"
+        "vscode":   "^1.10.0"
     },
     "categories":
     [
@@ -38,5 +38,20 @@
                 "path": "./snippets/ksp.json"
             }
         ]
+    },
+    "scripts":
+    {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies":
+    {
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0",
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
     }
 }
