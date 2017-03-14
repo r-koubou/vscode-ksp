@@ -1,6 +1,6 @@
 /* =========================================================================
 
-    CompletionItemProvider.js
+    CompletionItemProvider.ts
     Copyright(c) R-Koubou
 
    [License]
@@ -11,47 +11,54 @@
 // Based on PHP Signature Help Provider implementation. (signatureHelpProvider.js)
 
 'use strict';
-var vscode              = require( 'vscode' );
+import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './KSPVariables' );
-var kspCommands         = require( './KSPCommands' );
+const kspBuiltinVariables = require( './KSPVariables' );
+const kspCommands         = require( './KSPCommands' );
 
 
-var _NL = '\n'.charCodeAt( 0 );
-var _TAB = '\t'.charCodeAt( 0 );
-var _WSB = ' '.charCodeAt( 0 );
-var _LBracket = '['.charCodeAt( 0 );
-var _RBracket = ']'.charCodeAt( 0 );
-var _LCurly = '{'.charCodeAt( 0 );
-var _RCurly = '}'.charCodeAt( 0 );
-var _LParent = '('.charCodeAt( 0 );
-var _RParent = ')'.charCodeAt( 0 );
-var _Comma = ','.charCodeAt( 0 );
-var _Quote = '\''.charCodeAt( 0 );
-var _DQuote = '"'.charCodeAt( 0 );
-var _USC = '_'.charCodeAt( 0 );
-var _a = 'a'.charCodeAt( 0 );
-var _z = 'z'.charCodeAt( 0 );
-var _A = 'A'.charCodeAt( 0 );
-var _Z = 'Z'.charCodeAt( 0 );
-var _0 = '0'.charCodeAt( 0 );
-var _9 = '9'.charCodeAt( 0 );
-var BOF = 0;
+const _NL = '\n'.charCodeAt( 0 );
+const _TAB = '\t'.charCodeAt( 0 );
+const _WSB = ' '.charCodeAt( 0 );
+const _LBracket = '['.charCodeAt( 0 );
+const _RBracket = ']'.charCodeAt( 0 );
+const _LCurly = '{'.charCodeAt( 0 );
+const _RCurly = '}'.charCodeAt( 0 );
+const _LParent = '('.charCodeAt( 0 );
+const _RParent = ')'.charCodeAt( 0 );
+const _Comma = ','.charCodeAt( 0 );
+const _Quote = '\''.charCodeAt( 0 );
+const _DQuote = '"'.charCodeAt( 0 );
+const _USC = '_'.charCodeAt( 0 );
+const _a = 'a'.charCodeAt( 0 );
+const _z = 'z'.charCodeAt( 0 );
+const _A = 'A'.charCodeAt( 0 );
+const _Z = 'Z'.charCodeAt( 0 );
+const _0 = '0'.charCodeAt( 0 );
+const _9 = '9'.charCodeAt( 0 );
+const BOF = 0;
 
-var BackwardIterator = ( function ()
+export class BackwardIterator
 {
-    function BackwardIterator( model, offset, lineNumber )
+    lineNumber;
+    offset;
+    line;
+    model;
+
+    constructor( model, offset, lineNumber )
     {
         this.lineNumber = lineNumber;
         this.offset = offset;
         this.line = model.lineAt( this.lineNumber ).text;
         this.model = model;
     }
-    BackwardIterator.prototype.hasNext = function ()
+    
+    public hasNext()
     {
         return this.lineNumber >= 0;
-    };
-    BackwardIterator.prototype.next = function ()
+    }
+
+    public next ()
     {
         if ( this.offset < 0 )
         {
@@ -68,15 +75,19 @@ var BackwardIterator = ( function ()
         var ch = this.line.charCodeAt( this.offset );
         this.offset--;
         return ch;
-    };
-    return BackwardIterator;
-}() );
-var KSPSignatureHelpProvider = ( function ()
+    }
+}
+
+export class KSPSignatureHelpProvider
 {
-    function KSPSignatureHelpProvider()
+    /**
+     * Ctor.
+     */
+    constructor()
     {
     }
-    KSPSignatureHelpProvider.prototype.provideSignatureHelp = function ( document, position, token )
+
+    public provideSignatureHelp( document, position, token )
     {
         var iterator = new BackwardIterator( document, position.character - 1, position.line );
         var paramCount = this.readArguments( iterator );
@@ -107,8 +118,9 @@ var KSPSignatureHelpProvider = ( function ()
         ret.activeSignature = 0;
         ret.activeParameter = Math.min( paramCount, signatureInfo.parameters.length - 1 );
         return Promise.resolve( ret );
-    };
-    KSPSignatureHelpProvider.prototype.readArguments = function ( iterator )
+    }
+
+    private readArguments( iterator )
     {
         var parentNesting = 0;
         var bracketNesting = 0;
@@ -156,8 +168,9 @@ var KSPSignatureHelpProvider = ( function ()
             }
         }
         return -1;
-    };
-    KSPSignatureHelpProvider.prototype.isIdentPart = function ( ch )
+    }
+
+    private isIdentPart = function ( ch )
     {
         if ( ch === _USC ||
                      ch >= _a && ch <= _z ||
@@ -168,8 +181,9 @@ var KSPSignatureHelpProvider = ( function ()
             return true;
         }
         return false;
-    };
-    KSPSignatureHelpProvider.prototype.readIdent = function ( iterator )
+    }
+
+    private readIdent = function ( iterator )
     {
         var identStarted = false;
         var ident = '';
@@ -191,8 +205,5 @@ var KSPSignatureHelpProvider = ( function ()
             }
         }
         return ident;
-    };
-    return KSPSignatureHelpProvider;
-}() );
-Object.defineProperty( exports, "__esModule", { value: true } );
-exports.default = KSPSignatureHelpProvider;
+    }
+}

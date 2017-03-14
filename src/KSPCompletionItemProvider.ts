@@ -1,6 +1,6 @@
 /* =========================================================================
 
-    CompletionItemProvider.js
+    CompletionItemProvider.ts
     Copyright(c) R-Koubou
 
    [License]
@@ -12,23 +12,23 @@
 
 'use strict';
 
-var assert = require( 'assert' );
-var vscode = require( 'vscode' );
+import vscode = require( 'vscode' );
 
 var kspBuiltinVariables = require( './KSPVariables' );
 var kspCommands         = require( './KSPCommands' );
 
-var VARIABLE_PREFIX_LIST    = [ '$', '%', '~', '?', '@', '!' ];
-var VARIABLE_REGEX          = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
-var FUNCTION_REGEX          = /function\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
+const VARIABLE_PREFIX_LIST    = [ '$', '%', '~', '?', '@', '!' ];
+const VARIABLE_REGEX          = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
+const FUNCTION_REGEX          = /function\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
 
-var KSPCompletionItemProvider = (function ()
+export class KSPCompletionItemProvider
 {
+    private triggerCharacters : string[];
 
     /**
      * Ctor.
      */
-    function KSPCompletionItemProvider()
+    constructor()
     {
         this.triggerCharacters = VARIABLE_PREFIX_LIST;
     }
@@ -36,12 +36,12 @@ var KSPCompletionItemProvider = (function ()
     /**
      *
      */
-    KSPCompletionItemProvider.prototype.provideCompletionItems = function( doc, pos, token ){
-
+    public provideCompletionItems( doc, pos, token )
+    {
         var result = [];
         var range  = doc.getWordRangeAtPosition( pos );
         var prefix = range ? doc.getText( range ) : '';
-//console.log( "pos:" + pos.character + "prefix:" + prefix );
+
         if( !range )
         {
             range = new vscode.Range( pos, pos );
@@ -152,11 +152,5 @@ var KSPCompletionItemProvider = (function ()
         }
 
         return Promise.resolve( result );
-    };
-
-    return KSPCompletionItemProvider;
-
-}());
-
-Object.defineProperty( exports, "__esModule", { value: true } );
-exports.default = KSPCompletionItemProvider;
+    }
+}

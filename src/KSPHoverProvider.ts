@@ -1,6 +1,6 @@
 /* =========================================================================
 
-    CompletionItemProvider.js
+    CompletionItemProvider.ts
     Copyright(c) R-Koubou
 
    [License]
@@ -12,22 +12,25 @@
 
 'use strict';
 
-var assert = require( 'assert' );
-var vscode = require( 'vscode' );
+import vscode = require( 'vscode' );
 
 var kspBuiltinVariables = require( './KSPVariables' );
 var kspCommands         = require( './KSPCommands' );
 
-var KSPHoverProvider = (function()
+export class KSPHoverProvider
 {
-    function KSPHoverProvider(){}
+    /**
+     * Ctor.
+     */
+    constructor()
+    {}
 
-    KSPHoverProvider.prototype.provideHover = function ( doc, pos, token )
+    public provideHover( doc, pos, token ) : vscode.Hover
     {
         var wordRange = doc.getWordRangeAtPosition( pos );
         if( !wordRange )
         {
-            return;
+            return null;
         }
 
         var name  = doc.getText( wordRange );
@@ -40,9 +43,6 @@ var KSPHoverProvider = (function()
             var contents  = [ entry.description, { language: 'ksp', value: signature } ];
             return new vscode.Hover( contents, wordRange );
         }
-    };
-    return KSPHoverProvider;
-}());
-
-Object.defineProperty( exports, "__esModule", { value: true } );
-exports.default = KSPHoverProvider;
+        return null;
+    }
+}

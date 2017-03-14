@@ -1,6 +1,6 @@
 /* =========================================================================
 
-    kspMain.js
+    KSPMain.ts
     Copyright(c) R-Koubou
 
    [License]
@@ -14,23 +14,23 @@
 
 import vscode  = require( 'vscode' );
 
-var completionItemProvider = require( 'KSPCompletionItemProvider' );
-var hoverProvider          = require( 'KSPHoverProvider' );
-var signatureHelpProvider  = require( 'KSPSignatureHelpProvider' );
+import { KSPCompletionItemProvider } from './KSPCompletionItemProvider';
+import { KSPHoverProvider } from './KSPHoverProvider';
+import { KSPSignatureHelpProvider } from './KSPSignatureHelpProvider';
 
 function activate(context)
 {
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
-            'ksp', new completionItemProvider.default(), '$', '%', '~', '?', '@', '!' )
+            'ksp', new KSPCompletionItemProvider(), '$', '%', '~', '?', '@', '!' )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerHoverProvider( 'ksp', new hoverProvider.default() )
+        vscode.languages.registerHoverProvider( 'ksp', new KSPHoverProvider() )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerSignatureHelpProvider( 'ksp', new signatureHelpProvider.default(), '(', ',' )
+        vscode.languages.registerSignatureHelpProvider( 'ksp', new KSPSignatureHelpProvider(), '(', ',' )
     );
 
     vscode.languages.setLanguageConfiguration( 'ksp', {
