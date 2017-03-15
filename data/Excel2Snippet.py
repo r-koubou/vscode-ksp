@@ -7,7 +7,8 @@ import KspExcelUtil
 
 TARGET  = "../snippets/ksp.json"
 
-TEMPLATE = """    "{name}":
+TEMPLATE = """
+    "{name}":
     {{
         "prefix": "{prefix}",
         "body":[
