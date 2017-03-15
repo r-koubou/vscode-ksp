@@ -14,9 +14,9 @@
 
 import vscode  = require( 'vscode' );
 
-import { KSPCompletionItemProvider } from './KSPCompletionItemProvider';
-import { KSPHoverProvider } from './KSPHoverProvider';
-import { KSPSignatureHelpProvider } from './KSPSignatureHelpProvider';
+import { KSPCompletionItemProvider }    from './KSPCompletionItemProvider';
+import { KSPHoverProvider }             from './KSPHoverProvider';
+import { KSPSignatureHelpProvider }     from './KSPSignatureHelpProvider';
 
 function activate(context)
 {

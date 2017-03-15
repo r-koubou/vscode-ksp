@@ -14,8 +14,8 @@
 
 import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './KSPVariables' );
-var kspCommands         = require( './KSPCommands' );
+var kspBuiltinVariables = require( './generated/KSPVariables' );
+var kspCommands         = require( './generated/KSPCommands' );
 
 const VARIABLE_PREFIX_LIST    = [ '$', '%', '~', '?', '@', '!' ];
 const VARIABLE_REGEX          = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
@@ -34,7 +34,7 @@ export class KSPCompletionItemProvider
     }
 
     /**
-     *
+     * Implementation of Completion behaviour
      */
     public provideCompletionItems( doc, pos, token )
     {

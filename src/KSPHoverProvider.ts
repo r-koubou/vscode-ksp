@@ -14,8 +14,8 @@
 
 import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './KSPVariables' );
-var kspCommands         = require( './KSPCommands' );
+var kspBuiltinVariables = require( './generated/KSPVariables' );
+var kspCommands         = require( './generated/KSPCommands' );
 
 export class KSPHoverProvider
 {
@@ -25,6 +25,9 @@ export class KSPHoverProvider
     constructor()
     {}
 
+    /**
+     * Implementation of Hover behaviour
+     */
     public provideHover( doc, pos, token ) : vscode.Hover
     {
         var wordRange = doc.getWordRangeAtPosition( pos );

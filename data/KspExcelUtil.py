@@ -1,4 +1,4 @@
-# encoding: utf8
+# encoding: utf-8
 
 # http://pypi.python.org/pypi/xlrd
 import xlrd

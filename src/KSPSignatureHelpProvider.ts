@@ -13,30 +13,29 @@
 'use strict';
 import vscode = require( 'vscode' );
 
-const kspBuiltinVariables = require( './KSPVariables' );
-const kspCommands         = require( './KSPCommands' );
+const kspBuiltinVariables = require( './generated/KSPVariables' );
+const kspCommands         = require( './generated/KSPCommands' );
 
-
-const _NL = '\n'.charCodeAt( 0 );
-const _TAB = '\t'.charCodeAt( 0 );
-const _WSB = ' '.charCodeAt( 0 );
+const _NL       = '\n'.charCodeAt( 0 );
+const _TAB      = '\t'.charCodeAt( 0 );
+const _WSB      = ' '.charCodeAt( 0 );
 const _LBracket = '['.charCodeAt( 0 );
 const _RBracket = ']'.charCodeAt( 0 );
-const _LCurly = '{'.charCodeAt( 0 );
-const _RCurly = '}'.charCodeAt( 0 );
-const _LParent = '('.charCodeAt( 0 );
-const _RParent = ')'.charCodeAt( 0 );
-const _Comma = ','.charCodeAt( 0 );
-const _Quote = '\''.charCodeAt( 0 );
-const _DQuote = '"'.charCodeAt( 0 );
-const _USC = '_'.charCodeAt( 0 );
-const _a = 'a'.charCodeAt( 0 );
-const _z = 'z'.charCodeAt( 0 );
-const _A = 'A'.charCodeAt( 0 );
-const _Z = 'Z'.charCodeAt( 0 );
-const _0 = '0'.charCodeAt( 0 );
-const _9 = '9'.charCodeAt( 0 );
-const BOF = 0;
+const _LCurly   = '{'.charCodeAt( 0 );
+const _RCurly   = '}'.charCodeAt( 0 );
+const _LParent  = '('.charCodeAt( 0 );
+const _RParent  = ')'.charCodeAt( 0 );
+const _Comma    = ','.charCodeAt( 0 );
+const _Quote    = '\''.charCodeAt( 0 );
+const _DQuote   = '"'.charCodeAt( 0 );
+const _USC      = '_'.charCodeAt( 0 );
+const _a        = 'a'.charCodeAt( 0 );
+const _z        = 'z'.charCodeAt( 0 );
+const _A        = 'A'.charCodeAt( 0 );
+const _Z        = 'Z'.charCodeAt( 0 );
+const _0        = '0'.charCodeAt( 0 );
+const _9        = '9'.charCodeAt( 0 );
+const BOF       = 0;
 
 export class BackwardIterator
 {
@@ -52,7 +51,7 @@ export class BackwardIterator
         this.line = model.lineAt( this.lineNumber ).text;
         this.model = model;
     }
-    
+
     public hasNext()
     {
         return this.lineNumber >= 0;
@@ -87,6 +86,9 @@ export class KSPSignatureHelpProvider
     {
     }
 
+    /**
+     * Implementation of function signatuire behaviour
+     */
     public provideSignatureHelp( document, position, token )
     {
         var iterator = new BackwardIterator( document, position.character - 1, position.line );

@@ -4,10 +4,15 @@ import re
 
 INPUT = "KSP Reference Manual.txt"
 
+# NOTE:
+# KSP Reference Manual.txt created by Acrobat DC (Windows version & locale cp932) and re-save on vscode as utf-8 encoding.
+# If created by different locale, change encoding name.
+ENCODING = 'utf-8'
+
 REGEX    = r"on\s+[a-z|A-Z|_]+"
 wordList = []
 
-f = open( INPUT )
+f = open( INPUT, 'r', encoding = ENCODING )
 
 print( "TODO: A character \"/\" replace manually" )
 
