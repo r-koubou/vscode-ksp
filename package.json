@@ -4,6 +4,10 @@
     "description":  "NI KONTAKT Script language support",
     "version":      "0.0.5",
     "publisher":    "R-Koubou",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/r-koubou/vscode-syntax-for-ksp.git"
+    },
     "icon": "images/icon.png",
     "main": "./out/src/KSPMain",
     "activationEvents": [ "onLanguage:ksp" ],
@@ -16,6 +20,10 @@
         "Languages",
         "Snippets"
     ],
+    "capabilities":
+    {
+        "documentSymbolProvider" : "true"
+    },
     "contributes":
     {
         "languages":

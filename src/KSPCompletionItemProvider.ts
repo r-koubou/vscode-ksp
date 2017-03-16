@@ -3,8 +3,8 @@
     CompletionItemProvider.ts
     Copyright(c) R-Koubou
 
-   [License]
-   MIT
+    [License]
+    MIT
 
    ======================================================================== */
 
