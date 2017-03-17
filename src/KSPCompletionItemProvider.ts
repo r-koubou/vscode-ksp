@@ -1,6 +1,6 @@
 /* =========================================================================
 
-    CompletionItemProvider.ts
+    KSPCompletionItemProvider.ts
     Copyright(c) R-Koubou
 
     [License]
