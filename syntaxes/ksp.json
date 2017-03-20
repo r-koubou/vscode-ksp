@@ -116,11 +116,11 @@
             "patterns":[
                 {
                     "name":  "keyword.callback.ksp",
-                    "match": "on\\s+(async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn|nrpn|ui_control|ui_update|midi_in)\\b"
+                    "match": "^\\s*on\\s+(async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn|nrpn|ui_control|ui_update|midi_in)\\b"
                 },
                 {
                     "name":  "keyword.callback.ksp",
-                    "match": "end\\s+on\\b"
+                    "match": "^\\s*end\\s+on\\b"
                 }
             ]
         },
@@ -129,11 +129,11 @@
             "patterns":[
                 {
                     "name":  "keyword.userfunction.ksp",
-                    "match": "(function)\\b"
+                    "match": "^\\s*function\\s+\\b"
                 },
                 {
                     "name":  "keyword.userfunction.ksp",
-                    "match": "end\\s+function\\b"
+                    "match": "^\\s*end\\s+function\\b"
                 }
             ]
         },
