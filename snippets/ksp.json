@@ -242,7 +242,7 @@
             "    ${1:UI callback, executed whenever the user changes the respective UI element}",
             "}",
             "on ui_control( $${2:uiVariable} )",
-            "    ${2:{your code here}}",
+            "    ${3:{your code here}}",
             "end on"
         ],
         "description": "UI callback, executed whenever the user changes the respective UI element"
@@ -2010,8 +2010,8 @@
             "{",
             "    ${1:undocumented}",
             "}",
-            "function ${2:<function-name>}",
-            "    ${3:<your code here>}",
+            "function ${2:functionName>}",
+            "    ${3:{<your code here>}}",
             "end function"
         ],
         "description": "declares a function"
@@ -2020,7 +2020,7 @@
     {
         "prefix": "call",
         "body":[
-            "call ${1:<function-name>}"
+            "call ${1:functionName}"
         ],
         "description": "calls a previously declares function"
     },
