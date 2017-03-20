@@ -8,8 +8,6 @@
 
    ======================================================================== */
 
-// Based on PHP main implementation. (phpMain.js)
-
 'use strict';
 
 import vscode  = require( 'vscode' );
@@ -19,7 +17,6 @@ import { KSPHoverProvider }             from './KSPHoverProvider';
 import { KSPSignatureHelpProvider }     from './KSPSignatureHelpProvider';
 import { KSPDocumentSymbolProvider }    from './KSPDocumentSymbolProvider';
 import { KSPDefinitionProvider }        from './KSPDefinitionProvider';
-import { KSPTypeDefinitionProvider }    from './KSPTypeDefinitionProvider';
 
 function activate(context)
 {
@@ -42,10 +39,6 @@ function activate(context)
 
     context.subscriptions.push(
         vscode.languages.registerDefinitionProvider( 'ksp', new KSPDefinitionProvider() )
-    );
-
-    context.subscriptions.push(
-        vscode.languages.registerTypeDefinitionProvider( 'ksp', new KSPTypeDefinitionProvider() )
     );
 
     vscode.languages.setLanguageConfiguration( 'ksp', {
