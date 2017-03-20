@@ -60,23 +60,23 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
         }
 
         symbols.forEach( x=>{
-            var sym : KSPSymbol = x.KspSymbol;
-            var symName         = sym.name;
+            var sym : KSPSymbol         = x.KspSymbol;
+            var symName : string        = sym.name;
+            var declaredLine : boolean  = sym.lineNumber == textLine.lineNumber;
 
-            // Declare line?
-            if( sym.lineNumber == textLine.lineNumber )
-            {
-                return;
-            }
             // User Function?
-            else if( symName == symbol )
+            if( !declaredLine && symName == symbol )
             {
                 result.push( x.location );
             }
             // Variable?
             else if( KSPSymbol.toVariableNameFormat( x.KspSymbol ) == symbol )
             {
-                result.push( x.location );
+                if( !declaredLine )
+                {
+                    result.push( x.location );
+                }
+
                 // For UI Callback?
                 if( x.KspSymbol.isUI )
                 {
