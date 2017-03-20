@@ -18,6 +18,15 @@
 
     ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
 
+* Go to Definition
+
+    - Ctrl(Command)+O
+    - F2
+    - Ctrl(Command)+Click
+
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto1.png)
+
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto2.png)
 
 ## KSP Compatibility
 
@@ -62,6 +71,17 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * Hover
 
     ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
+
+* 宣言箇所へのジャンプ
+
+    - Ctrl(Command)+O
+    - F2
+    - Ctrl(Command)+クリック
+
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto1.png)
+
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto2.png)
+
 
 ## KSP互換
 

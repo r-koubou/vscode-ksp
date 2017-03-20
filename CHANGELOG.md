@@ -1,5 +1,29 @@
 # Changelog
 
+## Version 0.0.5
+
+* NEW Feature
+
+    - Go to definition
+
+        Ctrl(Command)+Shift+O or F2 or Ctrl(Command)+Mouse Click
+        ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto1.png)
+
+        - Variable
+
+            - If variable type is ui_####, you can select following
+
+                1. Callback definition
+                2. Variable definition
+                
+                ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto2.png)
+
+        - User function
+
+* Improved
+
+    - Syntax highlighting
+
 ## Version 0.0.4
 
 * Improved
