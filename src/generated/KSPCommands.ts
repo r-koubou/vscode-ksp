@@ -225,7 +225,7 @@ export var commands = {
     "dec":
     {
         "signature":   "(x)",
-        "description": "decrement an expression by 1 (x – 1)"
+        "description": "decrement an expression by 1 (x - 1)"
     },
     "mod":
     {
@@ -630,7 +630,7 @@ export var commands = {
     "get_ui_wf_property":
     {
         "signature":   "(variable,property>},index)",
-        "description": "returns the value of the waveform’s different properties."
+        "description": "returns the value of the waveform�fs different properties."
     },
     "make_perfview":
     {
