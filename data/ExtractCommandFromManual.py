@@ -10,11 +10,21 @@ INPUT    = "KSP Reference Manual.txt"
 ENCODING = 'utf-8'
 
 REGEX    = r"[a-z|A-Z|_]+\(\).*"
+REGEX2   = r"(.*)\/(.*)"
 wordList = []
 
-f = open( INPUT, 'r', encoding = ENCODING )
+IGNORE_WORD_LIST = [
+    "select",
+    "while",
+    "ui_waveform",
+]
 
-print( "TODO: A character \"/\" replace manually" )
+def appendWord( word, targetList ):
+    if( not word in IGNORE_WORD_LIST and not word in targetList ) :
+        targetList.append( word )
+
+
+f = open( INPUT, 'r', encoding = ENCODING )
 
 line = f.readline()
 while( line ):
@@ -23,16 +33,20 @@ while( line ):
     if( m == None ):
         continue
 
-    word = m.group( 0 )
-    word = re.sub( r"^\s*", "", word )
-    word = re.sub( r"\s*$", "", word )
+    word = m.group( 0 ).strip()
     word = re.sub( r".*?\s+.*", "", word )
+    word = re.sub( r"\s*\(\s*", "", word )
+    word = re.sub( r"\s*\)\s*", "", word )
 
     if( len( word ) == 0 ):
         continue
 
-    if( not word in wordList ):
-        wordList.append( word )
+    m = re.match( re.compile( REGEX2 ), word )
+    if( m == None ):
+        appendWord( word, wordList )
+    else:
+        for i in m.groups():
+            appendWord( i.strip(), wordList )
 
 f.close()
 

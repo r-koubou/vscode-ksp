@@ -12,9 +12,15 @@ ENCODING = 'utf-8'
 REGEX    = r"on\s+[a-z|A-Z|_]+"
 wordList = []
 
-f = open( INPUT, 'r', encoding = ENCODING )
+IGNORE_WORD_LIST = [
+]
 
-print( "TODO: A character \"/\" replace manually" )
+def appendWord( word, targetList ):
+    if( not word in IGNORE_WORD_LIST and not word in targetList ) :
+        targetList.append( word )
+
+
+f = open( INPUT, 'r', encoding = ENCODING )
 
 line = f.readline()
 while( line ):
@@ -30,8 +36,7 @@ while( line ):
     if( len( word ) == 0 ):
         continue
 
-    if( not word in wordList ):
-        wordList.append( word )
+    appendWord( word, wordList )
 
 f.close()
 
