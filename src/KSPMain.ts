@@ -17,6 +17,7 @@ import { KSPHoverProvider }             from './KSPHoverProvider';
 import { KSPSignatureHelpProvider }     from './KSPSignatureHelpProvider';
 import { KSPDocumentSymbolProvider }    from './KSPDocumentSymbolProvider';
 import { KSPDefinitionProvider }        from './KSPDefinitionProvider';
+import { KSPReferenceProvider }         from './KSPReferenceProvider';
 
 function activate(context)
 {
@@ -39,6 +40,10 @@ function activate(context)
 
     context.subscriptions.push(
         vscode.languages.registerDefinitionProvider( 'ksp', new KSPDefinitionProvider() )
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerReferenceProvider( 'ksp', new KSPReferenceProvider() )
     );
 
     vscode.languages.setLanguageConfiguration( 'ksp', {
