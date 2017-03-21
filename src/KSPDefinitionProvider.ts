@@ -33,31 +33,7 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
         }
         var result = [];
         var textLine : vscode.TextLine = document.lineAt( position.line );
-        var line   : string = textLine.text;
-        var eolPos : number = line.length;
-        var symbol : string = line.charAt( position.character );
-        for( var i = position.character + 1; i < eolPos; i++ )
-        {
-            var regex : RegExp = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^]+/g;
-            var char  = line.charAt( i );
-            var match = regex.exec( char );
-            if( match )
-            {
-                break;
-            }
-            symbol += char;
-        }
-        for( var i = position.character - 1; i >= 0; i-- )
-        {
-            var regex : RegExp = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^]+/g;
-            var char  = line.charAt( i );
-            var match = regex.exec( char );
-            if( match )
-            {
-                break;
-            }
-            symbol = char + symbol;
-        }
+        var symbol : string            = KSPSymbolUtil.parseSymbolAt( document, position );
 
         symbols.forEach( x=>{
             var sym : KSPSymbol         = x.KspSymbol;

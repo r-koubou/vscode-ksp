@@ -122,6 +122,37 @@ export class KSPSymbolInformation extends vscode.SymbolInformation
 
 export class KSPSymbolUtil
 {
+    static parseSymbolAt( document: vscode.TextDocument, position: vscode.Position ) : string
+    {
+        var textLine : vscode.TextLine = document.lineAt( position.line );
+        var line   : string = textLine.text;
+        var eolPos : number = line.length;
+        var symbol : string = line.charAt( position.character );
+        for( var i = position.character + 1; i < eolPos; i++ )
+        {
+            var regex : RegExp = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^]+/g;
+            var char  = line.charAt( i );
+            var match = regex.exec( char );
+            if( match )
+            {
+                break;
+            }
+            symbol += char;
+        }
+        for( var i = position.character - 1; i >= 0; i-- )
+        {
+            var regex : RegExp = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^]+/g;
+            var char  = line.charAt( i );
+            var match = regex.exec( char );
+            if( match )
+            {
+                break;
+            }
+            symbol = char + symbol;
+        }
+        return symbol;
+    }
+
     static collect( document: vscode.TextDocument, token: vscode.CancellationToken, endLineNumber: number = -1 ) : KSPSymbolInformation[]
     {
         var result: KSPSymbolInformation[] = [];
