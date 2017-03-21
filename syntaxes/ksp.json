@@ -173,6 +173,10 @@
         {
             "patterns":[
                 {
+                    "name":  "keyword.other.arithmeticop.ksp",
+                    "match": "(mod)\\b"
+                },
+                {
                     "name":  "keyword.other.boolop1.ksp",
                     "match": "(and|or|not)\\b"
                 },
