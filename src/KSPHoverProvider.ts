@@ -14,8 +14,8 @@
 
 import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './generated/KSPVariables' );
-var kspCommands         = require( './generated/KSPCommands' );
+var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
+var kspCommands         = require( './generated/KSPCommandsInfo' );
 
 export class KSPHoverProvider
 {

@@ -1,3 +1,3 @@
-extract_command.ksp
-extract_callback.ksp
+extract_*.ksp
+__mergeed__.txt
 a.txt

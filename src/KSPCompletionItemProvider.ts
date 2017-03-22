@@ -14,8 +14,8 @@
 
 import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './generated/KSPVariables' );
-var kspCommands         = require( './generated/KSPCommands' );
+var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
+var kspCommands         = require( './generated/KSPCommandsInfo' );
 
 const VARIABLE_PREFIX_LIST    = [ '$', '%', '~', '?', '@', '!' ];
 const VARIABLE_REGEX          = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;

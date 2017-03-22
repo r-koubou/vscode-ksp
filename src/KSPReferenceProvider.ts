@@ -8,7 +8,9 @@
 
    ======================================================================== */
 
-import vscode = require( 'vscode' );
+import vscode                       = require( 'vscode' );
+import KSPCommandNameList           = require( './generated/KSPCommandNames' );
+import KSPBuiltinVariableNameList   = require( './generated/KSPBuiltinVariableNames' );
 
 import { KSPSymbolUtil }        from './KSPSymbolUtil';
 import { KSPSymbolType }        from './KSPSymbolUtil';
@@ -40,14 +42,58 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
             var text : string = document.lineAt( i ).text.trim();
             var words : string[] = text.split( /[\s|,|\[|\]|\(|\)]+/ );
 
+            // Builtin-Commands?
+            words.forEach( w=>{
+                var found : boolean = false;
+                if( w == symbol )
+                {
+                    KSPCommandNameList.commandNameList.forEach( cmd=>{
+                        if( cmd == symbol )
+                        {
+                            result.push( new vscode.Location(
+                                document.uri,
+                                new vscode.Position( i, 0 )
+                            ));
+                            found = true;
+                            return;
+                        }
+                    });
+                }
+                if( found )
+                {
+                    return;
+                }
+            });
+            // Builtin-Variables?
+            words.forEach( w=>{
+                var found : boolean = false;
+                if( w == symbol )
+                {
+                    KSPBuiltinVariableNameList.builtinVariableNameList.forEach( v=>{
+                        if( v == symbol )
+                        {
+                            result.push( new vscode.Location(
+                                document.uri,
+                                new vscode.Position( i, 0 )
+                            ));
+                            found = true;
+                            return;
+                        }
+                    });
+                }
+                if( found )
+                {
+                    return;
+                }
+            });
+            // User definition
             symbols.forEach( x=>{
                 var sym : KSPSymbol         = x.KspSymbol;
                 var symName : string        = sym.name;
 
-                // User Function / Built-in Commands?
+                // User Function?
                 if( symName == symbol )
                 {
-                    // User Function?
                     words.forEach( w=>{
                         if( w == symbol )
                         {
@@ -58,8 +104,6 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
                             return;
                         }
                     });
-                    // Builtin-Commands
-                    // TODO
                 }
                 // Variable?
                 else if( KSPSymbol.toVariableNameFormat( x.KspSymbol ) == symbol )

@@ -1173,7 +1173,7 @@
         "body":[
             "get_ui_wf_property( ${1:<variable>}, ${2:<property}>}, ${3:<index>} )"
         ],
-        "description": "returns the value of the waveform�fs different properties."
+        "description": "returns the value of the waveform’s different properties."
     },
     "make_perfview":
     {

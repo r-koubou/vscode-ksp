@@ -13,8 +13,8 @@
 'use strict';
 import vscode = require( 'vscode' );
 
-const kspBuiltinVariables = require( './generated/KSPVariables' );
-const kspCommands         = require( './generated/KSPCommands' );
+const kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
+const kspCommands         = require( './generated/KSPCommandsInfo' );
 
 const _NL       = '\n'.charCodeAt( 0 );
 const _TAB      = '\t'.charCodeAt( 0 );

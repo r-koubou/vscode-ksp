@@ -7,7 +7,7 @@ import xlrd
 
 import KspExcelUtil
 
-TARGET  = "../src/generated/KSPVariables.ts"
+TARGET  = "../src/generated/KSPVariablesInfo.ts"
 
 TEMPLATE = """
     "{intelliSense}":
