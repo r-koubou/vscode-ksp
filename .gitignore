@@ -2,6 +2,7 @@
 out
 node_modules
 npm-debug.log
+*.vsix
 
 # for me
 .temp/

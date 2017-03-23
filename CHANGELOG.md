@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 0.1.0
+
+* NEW Feature
+
+    - Find symbols and find references in script (context menu / Shift+F12)
+
+* Improved
+
+    - Syntax highlighting
+
 ## Version 0.0.5
 
 * NEW Feature
