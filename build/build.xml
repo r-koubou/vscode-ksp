@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="kspsyntaxparser" default = "all" basedir = ".." >
+
+    <!-- ビルドのためのプロパティを取得 -->
+    <property file = "build/build.properties" />
+
+
+    <!-- 実行時のタイムスタンプ取得 -->
+    <tstamp>
+        <format property="kspsyntaxparser.tstamp" pattern="yyyyMMdd"/>
+    </tstamp>
+
+    <!-- 内部処理用プロパティ -->
+    <property name = "kspsyntaxparser.prefix"         value = "${kspsyntaxparser.final-name}-${kspsyntaxparser.version}" />
+
+    <property name = "kspsyntaxparser.classes.dir"    value = "${kspsyntaxparser.target}/classes" />
+    <property name = "kspsyntaxparser.apidoc.dir"     value = "${kspsyntaxparser.target}/docs/apidoc" />
+    <property name = "kspsyntaxparser.deploy.rootdir" value = "deploy/" />
+    <property name = "kspsyntaxparser.deploy.workdir" value = "${kspsyntaxparser.deploy.rootdir}/_tmp_" />
+    <property name = "kspsyntaxparser.deploy.dir"     value = "${kspsyntaxparser.deploy.workdir}/${kspsyntaxparser.final-name}-${kspsyntaxparser.version}" />
+
+    <property name = "kspsyntaxparser.jar.name"       value = "${kspsyntaxparser.final-name}.jar" />
+    <property name = "kspsyntaxparser.jar"            value = "${kspsyntaxparser.target}/${kspsyntaxparser.jar.name}" />
+
+    <property name = "kspsyntaxparser.zip"            value = "${kspsyntaxparser.deploy.rootdir}/${kspsyntaxparser.prefix}.zip" />
+    <property name = "kspsyntaxparser.tar.gz"         value = "${kspsyntaxparser.deploy.rootdir}/${kspsyntaxparser.prefix}.tar.gz" />
+    <property name = "kspsyntaxparser.tar.bz2"        value = "${kspsyntaxparser.deploy.rootdir}/${kspsyntaxparser.prefix}.tar.bz2" />
+
+    <property name = "kspsyntaxparser.srcarchive.excludes"    value = "${kspsyntaxparser.target}/**/**,${kspsyntaxparser.deploy.rootdir}/**/**" />
+
+    <property name = "package-srcarchive.rootdir" value = "${kspsyntaxparser.target}/${kspsyntaxparser.name}.src" />
+    <property name = "package-srcarchive.workdir" value = "${package-srcarchive.rootdir}/${kspsyntaxparser.name}" />
+    <property name = "package-srcarchive.file"    value = "${kspsyntaxparser.target}//${kspsyntaxparser.name}.src.zip" />
+
+
+
+     <!--=============================================================
+        このスクリプトで生成された成果物を削除する。
+    -->
+    <target name="clean" description="このスクリプトで生成された成果物を削除する。">
+        <delete dir = "${kspsyntaxparser.classes.dir}" />
+        <delete dir = "${kspsyntaxparser.apidoc.dir}" />
+        <delete dir = "${kspsyntaxparser.deploy.workdir}" />
+
+        <mkdir dir = "${kspsyntaxparser.classes.dir}" />
+        <mkdir dir = "${kspsyntaxparser.apidoc.dir}" />
+
+    </target>
+
+    <!--=============================================================
+        コンパイル
+    -->
+    <target name="compile" description="コンパイル" depends = "javacc-jj" >
+        <echo>--------------------------------------------------------------------------</echo>
+        <echo>javac 'target'   option is "${kspsyntaxparser.javac.target-option}".</echo>
+        <echo>javac 'source'   option is "${kspsyntaxparser.javac.source-option}".</echo>
+        <echo>javac 'debug'    option is "${kspsyntaxparser.javac.debug-option}".</echo>
+        <echo>javac 'encoding' option is "${kspsyntaxparser.javac.encoding-option}".</echo>
+        <echo>[NOTE]</echo>
+        <echo>もし、上記コンパイルオプションを変更する場合は build.properties を</echo>
+        <echo>テキストエディタで開き、必要に応じて編集してください。</echo>
+        <echo>--------------------------------------------------------------------------</echo>
+        <mkdir dir = "${kspsyntaxparser.classes.dir}" />
+        <javac
+            target    = "${kspsyntaxparser.javac.target-option}"
+            source    = "${kspsyntaxparser.javac.source-option}"
+            srcdir    = "${kspsyntaxparser.src.main}"
+            destdir   = "${kspsyntaxparser.classes.dir}"
+            debug     = "${kspsyntaxparser.javac.debug-option}"
+            encoding  = "${kspsyntaxparser.javac.encoding-option}" >
+
+            <classpath>
+                <fileset dir = "${kspsyntaxparser.depends.dir}" includes = "${kspsyntaxparser.depends}" />
+            </classpath>
+
+        </javac>
+
+    </target>
+
+    <!--=============================================================
+        jar アーカイブ
+    -->
+    <target name="jar" depends = "compile, jar-common, jar.including.libs" description="jar アーカイブ">
+        <copy file = "${kspsyntaxparser.jar}" todir = "." />
+    </target>
+
+    <target name="jar-common">
+        <mkdir dir = "${kspsyntaxparser.target}" />
+        <jar
+            destfile  = "${kspsyntaxparser.jar}"
+            manifest  = "${kspsyntaxparser.manifest}"
+            compress  = "true"
+            update    = "false"
+            index     = "true" >
+                <fileset dir="${kspsyntaxparser.classes.dir}" includes = "**/**" />
+                <fileset dir="${kspsyntaxparser.src}"         includes = "${kspsyntaxparser.res.dir}" />
+                <fileset dir="${kspsyntaxparser.src.main}"    excludes = "**/*.java,**/*.class" />
+        </jar>
+
+    </target>
+
+    <!--=============================================================
+        外部依存クラスライブラリをプログラム jar ファイルに同梱する場合
+    -->
+    <condition property = "kspsyntaxparser.is-including-dependency" value = "yes" >
+            <istrue value = "${kspsyntaxparser.enable-including-dependency}" />
+    </condition>
+
+    <target name = "jar.including.libs" if = "kspsyntaxparser.is-including-dependency" >
+
+        <jar update = "true" destfile = "${kspsyntaxparser.jar}" >
+
+            <zipgroupfileset dir = "${kspsyntaxparser.depends.dir}" includes = "${kspsyntaxparser.depends}" />
+
+        </jar>
+
+    </target>
+
+    <!--=============================================================
+        javadoc生成
+    -->
+    <target name="apidoc" description="javadoc生成" >
+        <mkdir dir = "${kspsyntaxparser.apidoc.dir}" />
+        <javadoc
+            link       = "${kspsyntaxparser.javadoc.link}"
+            locale     = "ja_JP"
+            encoding   = "SJIS"
+            docencoding= "Shift_JIS"
+            doctitle   = "${kspsyntaxparser.name} ${kspsyntaxparser.version}"
+            windowtitle= "${kspsyntaxparser.name} ${kspsyntaxparser.version}"
+            destdir    = "${kspsyntaxparser.apidoc.dir}"
+            use        = "true" >
+                <fileset dir ="${kspsyntaxparser.src.main}" includes = "**/*.java" />
+        </javadoc>
+    </target>
+
+    <!--=============================================================
+       clean後、配布パッケージ生成(デフォルトターゲット)
+    -->
+    <target name ="all" depends = "clean, package" description="clean後、配布パッケージ生成(デフォルトターゲット)" >
+        <mkdir dir = "${kspsyntaxparser.classes.dir}" />
+    </target>
+
+
+    <!--=============================================================
+        配布用パッケージ生成作業（一時フォルダにコピー）
+    -->
+    <target name ="package-copy" depends = "compile, jar" >
+        <delete dir = "${kspsyntaxparser.deploy.dir}"  />
+
+        <copy todir = "${kspsyntaxparser.deploy.dir}" preservelastmodified="yes" >
+            <!-- ##modified -->
+            <fileset dir="${kspsyntaxparser.target}" includes = "**/**" excludes = "classes/**" />
+        </copy>
+
+        <copy todir = "${kspsyntaxparser.deploy.dir}" preservelastmodified = "yes" >
+            <!-- ##modified -->
+             <fileset dir="${kspsyntaxparser.package.dir}" includes = "**/**" />
+        </copy>
+
+        <copy todir = "${kspsyntaxparser.deploy.dir}" preservelastmodified = "yes" >
+            <!-- ##modified -->
+            <fileset dir="." includes = "${kspsyntaxparser.other.archivefiles}" />
+        </copy>
+
+    </target>
+
+    <!--=============================================================
+        配布用パッケージ生成時に外部依存クラスライブラリがある場合は一時フォルダにコピーする
+    -->
+    <condition property = "kspsyntaxparser.is-copy-library" value = "yes" >
+        <and>
+            <istrue    value = "${kspsyntaxparser.enable-including-dependency}" />
+            <available file  = "${kspsyntaxparser.depends.dir}" />
+        </and>
+    </condition>
+
+    <target name ="package-copy.libs" if = "kspsyntaxparser.is-copy-library" >
+
+        <mkdir dir = "${kspsyntaxparser.deploy.dir}/${kspsyntaxparser.depends.dir}" />
+        <copy todir = "${kspsyntaxparser.deploy.dir}/${kspsyntaxparser.depends.dir}" failonerror = "false" preservelastmodified="yes" >
+            <fileset dir="${kspsyntaxparser.depends.dir}" includes = "${kspsyntaxparser.depends}" />
+        </copy>
+
+    </target>
+
+    <!--=============================================================
+        配布パッケージ生成
+        ・zip
+        ・tar.gz
+        ・tar.bz2
+        の３形式を生成する。
+        不要なフォーマットがあれば任意に削除する
+    -->
+    <target name ="package" depends = "package-srcarchive, package-copy, package-copy.libs" description="配布パッケージ生成" >
+
+        <delete file = "${kspsyntaxparser.zip}"     failonerror = "false" />
+        <delete file = "${kspsyntaxparser.tar.gz}"  failonerror = "false" />
+        <delete file = "${kspsyntaxparser.tar.bz2}" failonerror = "false" />
+
+        <!-- zip -->
+        <zip
+            basedir  = "${kspsyntaxparser.deploy.workdir}"
+            destfile = "${kspsyntaxparser.zip}"
+            compress = "true"
+        />
+
+        <!-- tar.gz -->
+        <tar destfile = "${kspsyntaxparser.tar.gz}" compression = "gzip" >
+
+        	<tarfileset dir = "${kspsyntaxparser.deploy.workdir}" mode = "0755" >
+                <include name = "**/*.sh" />
+            </tarfileset>
+            <tarfileset dir = "${kspsyntaxparser.deploy.workdir}" mode = "0644" >
+                <include name = "**/**"  />
+            	<exclude name = "**/*.sh" />
+            </tarfileset>
+        </tar>
+
+        <delete dir = "${kspsyntaxparser.deploy.workdir}" failonerror = "false" />
+
+    </target>
+
+
+
+    <!--=============================================================
+        配布用パッケージ生成時にソースコード一式のアーカイブを作成するかどうか
+    -->
+    <target name ="package-srcarchive" if = "kspsyntaxparser.srcarchive" >
+
+        <!-- プロジェクト一式を一旦コピー -->
+        <mkdir dir="${package-srcarchive.workdir}" />
+        <copy todir="${package-srcarchive.workdir}" preservelastmodified="yes" >
+            <fileset dir=".">
+                <exclude name = "${kspsyntaxparser.target}/" />
+                <exclude name = "${kspsyntaxparser.deploy.rootdir}/" />
+            </fileset>
+        </copy>
+
+        <!-- zip -->
+        <zip
+            basedir  = "${package-srcarchive.rootdir}"
+            destfile = "${package-srcarchive.file}"
+            compress = "true"
+        />
+
+        <delete dir = "${package-srcarchive.rootdir}" failonerror = "false" />
+
+    </target>
+
+    <!--=============================================================
+        プログラムの実行
+    -->
+    <target name ="run" depends = "jar" >
+
+        <java
+            jar       = "${kspsyntaxparser.jar.name}"
+            classpath = "${kspsyntaxparser.classpath}"
+            fork      = "true" >
+            <arg    line = "${kspsyntaxparser.run.args}" />
+            <jvmarg line = "${kspsyntaxparser.run.vmargs}" />
+        </java>
+    </target>
+
+<!-- ######################################################################## -->
+<!-- JavaCC (Optional)-->
+<!-- ######################################################################## -->
+
+    <condition property = "kspsyntaxparser.is-using-javacc" value = "yes" >
+            <istrue value = "${kspsyntaxparser.enable-using-javacc}" />
+    </condition>
+
+    <!--=============================================================
+        javacc による文法定義ファイルから構文解析器の生成
+    -->
+    <target name ="javacc-jj" depends = "javacc-jjt" if = "kspsyntaxparser.is-using-javacc" >
+
+        <mkdir dir = "${kspsyntaxparser.javacc.dest}" />
+
+        <javacc
+            javacchome      = "${kspsyntaxparser.javacc.home}"
+            target          = "${kspsyntaxparser.javacc.spec}"
+            outputdirectory = "${kspsyntaxparser.javacc.dest}"
+        />
+<!--
+        <mkdir dir = "${kspsyntaxparser.package.dir}/docs" if = "kspsyntaxparser.is-using-javacc" />
+        <jjdoc
+            target     = "${kspsyntaxparser.javacc.spec}"
+            outputfile = "${kspsyntaxparser.package.dir}/docs/JavaCCLanguageSpecifications.html"
+            javacchome = "${kspsyntaxparser.javacc.home}"
+        />
+-->
+    </target>
+
+    <!--=============================================================
+        javacc(JJTree) による文法定義ファイルのプリプロセス
+    -->
+    <target name ="javacc-jjt" if = "kspsyntaxparser.is-using-javacc" >
+
+        <mkdir dir = "${kspsyntaxparser.javacc.dest}" />
+        <mkdir dir = "${kspsyntaxparser.javacc.jjtdest}" />
+
+        <jjtree
+            javacchome      = "${kspsyntaxparser.javacc.home}"
+            target          = "${kspsyntaxparser.javacc.jjt}"
+            outputdirectory = "${kspsyntaxparser.javacc.jjtdest}"
+        />
+
+    </target>
+
+</project>
