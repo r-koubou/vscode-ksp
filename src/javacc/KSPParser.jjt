@@ -452,10 +452,11 @@ void SelectStatement() #SelectStatement:
 {}
 {
         <SELECT>   (<MULTI_LINE_DELIMITER>)*        // select
-        <LPAREN>   (<MULTI_LINE_DELIMITER>)*        // (
-        Variable() (<MULTI_LINE_DELIMITER>)*        // cond
+        <LPAREN>        // (
+        Expression() (<MULTI_LINE_DELIMITER>)*        // cond
         <RPAREN>   (<MULTI_LINE_DELIMITER>)*        // )
-        CaseStatement()                             // case xxx (to yyy)
+        <EOL>
+        ( CaseStatement() )+                        // case xxx (to yyy)
         <END> (<MULTI_LINE_DELIMITER>)* <SELECT>    // end select
 }
 
@@ -466,11 +467,12 @@ void CaseStatement() #CaseStatement:
 {}
 {
     (
-        <CASE> (<MULTI_LINE_DELIMITER>)*        // case
-        [ <MINUS> ] <INTEGER_LITERAL>           // cond
+        <CASE> (<MULTI_LINE_DELIMITER>)*    // case
+        [ <MINUS> ] <INTEGER_LITERAL>       // cond
         (
             <TO> (<MULTI_LINE_DELIMITER>)* [ <MINUS> ] <INTEGER_LITERAL> // e.g. -1000 to 1000
         )?
+        <EOL>
         Block()
         (<MULTI_LINE_DELIMITER>)*
     )
@@ -638,7 +640,7 @@ void PrimaryExpression() :
 }
 
 //
-// コマンド / リテラル / 行またぎ記号
+// コマンド / リテラル
 //
 void PrimaryPrefix() :
 {}

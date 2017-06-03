@@ -283,14 +283,21 @@
             target          = "${kspsyntaxparser.javacc.spec}"
             outputdirectory = "${kspsyntaxparser.javacc.dest}"
         />
-<!--
-        <mkdir dir = "${kspsyntaxparser.package.dir}/docs" if = "kspsyntaxparser.is-using-javacc" />
+
+    </target>
+
+    <!--=============================================================
+        javacc による文法定義ファイルからBNFのHTML生成
+    -->
+    <target name ="javacc-doc" depends = "javacc-jjt" if = "kspsyntaxparser.is-using-javacc" >
+
+        <mkdir dir = "${kspsyntaxparser.package.dir}/docs" />
         <jjdoc
             target     = "${kspsyntaxparser.javacc.spec}"
             outputfile = "${kspsyntaxparser.package.dir}/docs/JavaCCLanguageSpecifications.html"
             javacchome = "${kspsyntaxparser.javacc.home}"
         />
--->
+
     </target>
 
     <!--=============================================================
