@@ -1,6 +1,6 @@
 options
 {
-    DEBUG_PARSER        = true;
+    DEBUG_PARSER        = false;
     DEBUG_TOKEN_MANAGER = false;
     STATIC              = false;
     UNICODE_INPUT       = true;
@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import net.rkoubou.kspparser.javacc.MessageManager;
 
 public class KSPParser
 {
@@ -59,7 +61,8 @@ public class KSPParser
         }
         catch( ParseException pe )
         {
-            pe.printStackTrace();
+            //pe.printStackTrace();
+            System.out.println( MessageManager.expand( pe ) );
         }
         catch( Throwable e )
         {
@@ -84,6 +87,22 @@ public class KSPParser
     {
         return true;
     }
+
+    /**
+     * 構文解析中にエラーが出た場合の復帰先までトークンを読み飛ばす
+     */
+    void errorSkipto( int kind )
+    {
+        ParseException e = generateParseException();
+        System.out.println( MessageManager.expand( e ) );
+        Token t;
+        do
+        {
+            t = getNextToken();
+        }
+        while( t.kind != EOF && t.kind != kind );
+    }
+
 }
 PARSER_END( KSPParser )
 
@@ -306,10 +325,12 @@ void VariableDeclarator() #VariableDeclaration :
     ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
     Variable()
     (
-        [ <LBRACKET> Expression() <RBRACKET> ]
-    )
+        (
+            [ <LBRACKET> Expression() <RBRACKET> ]
+        )
 
-    [ <ASSIGN> VariableInitializer() ]
+        [ LOOKAHEAD(2) VariableInitializer() ]
+    )
 }
 
 //
@@ -318,14 +339,26 @@ void VariableDeclarator() #VariableDeclaration :
 void VariableInitializer() :
 {}
 {
-      LOOKAHEAD(3) ArrayInitializer()
-    | Expression()
+      LOOKAHEAD(3) <ASSIGN> ArrayInitializer()
+    | UIInitializer()
+    | <ASSIGN> Expression()
 }
 
 //
 // 配列変数初期値代入
 //
 void ArrayInitializer() :
+{}
+{
+    <LPAREN>
+        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+    <RPAREN>
+}
+
+//
+// UI変数初期値代入
+//
+void UIInitializer() :
 {}
 {
     <LPAREN>
@@ -407,12 +440,19 @@ void BlockStatement() :
 void Statement() :
 {}
 {
-      StatementExpression()
-    | IfStatement()
-    | SelectStatement()
-    | WhileStatement()
-    | <MULTI_LINE_DELIMITER>
-    | <EOL>
+    try
+    {
+        StatementExpression()
+        | IfStatement()
+        | SelectStatement()
+        | WhileStatement()
+        | <MULTI_LINE_DELIMITER>
+        | <EOL>
+    }
+    catch( ParseException e )
+    {
+        errorSkipto( EOL );
+    }
 }
 
 void StatementExpression() :
@@ -626,7 +666,21 @@ void UnaryExpression() :
         | <MINUS>                 UnaryExpression() #Neg(1)
     )
 |
+    UnaryExpressionNot()
+|
     PrimaryExpression()
+}
+
+//
+// 単項NOT
+//
+void UnaryExpressionNot() :
+{}
+{
+    (
+          <BIT_NOT>  UnaryExpression() #Not(1)
+        | <BOOL_NOT> UnaryExpression() #LogicalNot(1)
+    )
 }
 
 //

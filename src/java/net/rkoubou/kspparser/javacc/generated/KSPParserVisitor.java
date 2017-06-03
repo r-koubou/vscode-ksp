@@ -33,8 +33,10 @@ public interface KSPParserVisitor
   public Object visit(ASTDiv node, Object data);
   public Object visit(ASTMod node, Object data);
   public Object visit(ASTNeg node, Object data);
+  public Object visit(ASTNot node, Object data);
+  public Object visit(ASTLogicalNot node, Object data);
   public Object visit(ASTLiteral node, Object data);
   public Object visit(ASTRefVariable node, Object data);
   public Object visit(ASTCallCommand node, Object data);
 }
-/* JavaCC - OriginalChecksum=5efe58b632bdccd955df5009ea974393 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4d3b10d52a19b7fb7b9c1adbf97ddf67 (do not edit this line) */

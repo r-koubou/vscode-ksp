@@ -96,6 +96,12 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTNeg node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTNot node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTLogicalNot node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTLiteral node, Object data){
     return defaultVisit(node, data);
   }
@@ -106,4 +112,4 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=b34d6e6e7758a402262be71e4a739be3 (do not edit this line) */
+/* JavaCC - OriginalChecksum=a880806cf507f40d1064f4cec64b0ba9 (do not edit this line) */

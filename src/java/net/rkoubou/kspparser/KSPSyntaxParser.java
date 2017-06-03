@@ -22,7 +22,7 @@ public class KSPSyntaxParser
      */
     static public void main( String[] args ) throws Throwable
     {
-        File file = new File( "./.temp/test.ksp" );
+        File file = new File( args[ 0 ] );
         KSPParser p = new KSPParser( file );
         p.analyzeSyntax();
     }

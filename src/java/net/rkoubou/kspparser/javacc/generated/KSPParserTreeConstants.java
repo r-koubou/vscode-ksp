@@ -33,9 +33,11 @@ public interface KSPParserTreeConstants
   public int JJTDIV = 27;
   public int JJTMOD = 28;
   public int JJTNEG = 29;
-  public int JJTLITERAL = 30;
-  public int JJTREFVARIABLE = 31;
-  public int JJTCALLCOMMAND = 32;
+  public int JJTNOT = 30;
+  public int JJTLOGICALNOT = 31;
+  public int JJTLITERAL = 32;
+  public int JJTREFVARIABLE = 33;
+  public int JJTCALLCOMMAND = 34;
 
 
   public String[] jjtNodeName = {
@@ -69,9 +71,11 @@ public interface KSPParserTreeConstants
     "Div",
     "Mod",
     "Neg",
+    "Not",
+    "LogicalNot",
     "Literal",
     "RefVariable",
     "CallCommand",
   };
 }
-/* JavaCC - OriginalChecksum=c497dfb52573996ddf85d218cf1cab43 (do not edit this line) */
+/* JavaCC - OriginalChecksum=abbbd0560e9a749d7ce39e43a6fd43c2 (do not edit this line) */

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import net.rkoubou.kspparser.javacc.MessageManager;
 
 /** Token Manager. */
 @SuppressWarnings("unused")public class KSPParserTokenManager implements KSPParserConstants {
