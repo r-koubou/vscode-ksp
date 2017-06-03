@@ -81,6 +81,9 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTSub node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTStrAdd node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTMul node, Object data){
     return defaultVisit(node, data);
   }
@@ -88,9 +91,6 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
   public Object visit(ASTMod node, Object data){
-    return defaultVisit(node, data);
-  }
-  public Object visit(ASTStrAdd node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTNeg node, Object data){
@@ -106,4 +106,4 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=4fd162fff757a33e6cd3a52b4e01e32b (do not edit this line) */
+/* JavaCC - OriginalChecksum=b34d6e6e7758a402262be71e4a739be3 (do not edit this line) */

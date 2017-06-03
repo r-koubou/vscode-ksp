@@ -92,9 +92,9 @@ PARSER_END( KSPParser )
 //------------------------------------------------------------------------------
 SKIP :
 {
-  " "
-| "\t"
-| "\f"
+      " "
+    | "\t"
+    | "\f"
 }
 
 //------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ TOKEN:
 TOKEN:
 {
       <EOL: [ "\n", "\r" ] >
-    | <MULTI_LINE_DELIMITER: "..." <EOL> >
+    | <MULTI_LINE_DELIMITER: "..." ([ " ", "\t" ])* <EOL> >
 }
 
 //------------------------------------------------------------------------------
@@ -166,10 +166,10 @@ TOKEN:
 TOKEN:
 {
     // 変数
-      <DECLARE: "declare" (<MULTI_LINE_DELIMITER>)* >
-    | <CONST: "const" (<MULTI_LINE_DELIMITER>)* >
-    | <POLYPHONIC: "polyphonic" (<MULTI_LINE_DELIMITER>)* >
-    | <UI_DECLARE: "ui_" ([ "a"-"z" ])+ (<MULTI_LINE_DELIMITER>)* >
+      <DECLARE: "declare" >
+    | <CONST: "const" >
+    | <POLYPHONIC: "polyphonic">
+    | <UI_DECLARE: "ui_" ([ "a"-"z" ])+ >
     // コールバック
     | <ON: "on" >
     | <END: "end" >
@@ -288,7 +288,7 @@ void Variable():
 void VariableDeclaration() :
 {}
 {
-    <DECLARE>
+    <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
     (
           <CONST>
         | <POLYPHONIC>
@@ -411,13 +411,14 @@ void Statement() :
     | IfStatement()
     | SelectStatement()
     | WhileStatement()
+    | <MULTI_LINE_DELIMITER>
     | <EOL>
 }
 
 void StatementExpression() :
 {}
 {
-      Assignment()
+      LOOKAHEAD(3) Assignment()
     | PrimaryExpression()
 }
 
@@ -592,8 +593,9 @@ void AdditiveExpression() :
 {
     MultiplicativeExpression()
     (
-          <PLUS>  MultiplicativeExpression() #Add(2)
-        | <MINUS> MultiplicativeExpression() #Sub(2)
+          <PLUS>        MultiplicativeExpression() #Add(2)
+        | <MINUS>       MultiplicativeExpression() #Sub(2)
+        | <STRING_ADD>  MultiplicativeExpression() #StrAdd(2)
     )*
 }
 
@@ -603,23 +605,11 @@ void AdditiveExpression() :
 void MultiplicativeExpression() :
 {}
 {
-    StringAddExpression()
-    (
-          <MUL> StringAddExpression() #Mul(2)
-        | <DIV> StringAddExpression() #Div(2)
-        | <MOD> StringAddExpression() #Mod(2)
-    )*
-}
-
-//
-// 乗算
-//
-void StringAddExpression() :
-{}
-{
     UnaryExpression()
     (
-        <STRING_ADD> UnaryExpression() #StrAdd(2)
+          <MUL> UnaryExpression() #Mul(2)
+        | <DIV> UnaryExpression() #Div(2)
+        | <MOD> UnaryExpression() #Mod(2)
     )*
 }
 
@@ -630,8 +620,8 @@ void UnaryExpression() :
 {}
 {
     (
-          <PLUS>  UnaryExpression()
-        | <MINUS> UnaryExpression() #Neg(1)
+          <MULTI_LINE_DELIMITER>  UnaryExpression()
+        | <MINUS>                 UnaryExpression() #Neg(1)
     )
 |
     PrimaryExpression()
@@ -656,7 +646,6 @@ void PrimaryPrefix() :
       RefVariable()
     | CallCommand()
     | Literal()
-    | <MULTI_LINE_DELIMITER> Expression()
 }
 
 //

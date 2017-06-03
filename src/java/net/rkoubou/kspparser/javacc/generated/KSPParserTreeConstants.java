@@ -28,10 +28,10 @@ public interface KSPParserTreeConstants
   public int JJTGE = 22;
   public int JJTADD = 23;
   public int JJTSUB = 24;
-  public int JJTMUL = 25;
-  public int JJTDIV = 26;
-  public int JJTMOD = 27;
-  public int JJTSTRADD = 28;
+  public int JJTSTRADD = 25;
+  public int JJTMUL = 26;
+  public int JJTDIV = 27;
+  public int JJTMOD = 28;
   public int JJTNEG = 29;
   public int JJTLITERAL = 30;
   public int JJTREFVARIABLE = 31;
@@ -64,14 +64,14 @@ public interface KSPParserTreeConstants
     "GE",
     "Add",
     "Sub",
+    "StrAdd",
     "Mul",
     "Div",
     "Mod",
-    "StrAdd",
     "Neg",
     "Literal",
     "RefVariable",
     "CallCommand",
   };
 }
-/* JavaCC - OriginalChecksum=7b3e1df9d21e596cbea06f6da94954cb (do not edit this line) */
+/* JavaCC - OriginalChecksum=c497dfb52573996ddf85d218cf1cab43 (do not edit this line) */

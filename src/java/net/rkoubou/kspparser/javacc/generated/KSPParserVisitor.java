@@ -28,13 +28,13 @@ public interface KSPParserVisitor
   public Object visit(ASTGE node, Object data);
   public Object visit(ASTAdd node, Object data);
   public Object visit(ASTSub node, Object data);
+  public Object visit(ASTStrAdd node, Object data);
   public Object visit(ASTMul node, Object data);
   public Object visit(ASTDiv node, Object data);
   public Object visit(ASTMod node, Object data);
-  public Object visit(ASTStrAdd node, Object data);
   public Object visit(ASTNeg node, Object data);
   public Object visit(ASTLiteral node, Object data);
   public Object visit(ASTRefVariable node, Object data);
   public Object visit(ASTCallCommand node, Object data);
 }
-/* JavaCC - OriginalChecksum=7c11657763223e10fa4a5feb75b8bd47 (do not edit this line) */
+/* JavaCC - OriginalChecksum=5efe58b632bdccd955df5009ea974393 (do not edit this line) */
