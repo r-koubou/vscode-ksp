@@ -59,11 +59,12 @@ public class KSPParser
         {
             rootNode = KSPScript();
         }
+/*
         catch( ParseException pe )
         {
-            //pe.printStackTrace();
             System.out.println( MessageManager.expand( pe ) );
         }
+*/
         catch( Throwable e )
         {
             e.printStackTrace();
@@ -95,6 +96,7 @@ public class KSPParser
     {
         ParseException e = generateParseException();
         System.out.println( MessageManager.expand( e ) );
+        //e.printStackTrace();
         Token t;
         do
         {
@@ -188,7 +190,6 @@ TOKEN:
       <DECLARE: "declare" >
     | <CONST: "const" >
     | <POLYPHONIC: "polyphonic">
-    | <UI_DECLARE: "ui_" ([ "a"-"z" ])+ >
     // コールバック
     | <ON: "on" >
     | <END: "end" >
@@ -274,12 +275,21 @@ ASTRootNode KSPScript() #RootNode:
 {}
 {
     (
-        ( <MULTI_LINE_DELIMITER> )*
-        (
-              CallbackDeclaration()
-            | UserFunctionDeclaration()
-        )
-        (<EOL>)*
+        try
+        {
+            ( <MULTI_LINE_DELIMITER> )*
+            (
+                  CallbackDeclaration()
+                | UserFunctionDeclaration()
+            )
+            (<EOL>)*
+        }
+        catch( ParseException e )
+        {
+            System.out.println("-------------0");
+            errorSkipto( EOL );
+        }
+
     )*
     <EOF>
     {
@@ -311,7 +321,7 @@ void VariableDeclaration() :
     (
           <CONST>
         | <POLYPHONIC>
-        | <UI_DECLARE>
+        | <IDENTIFIER> // ui_****
     )?
     VariableDeclarator()
 }
@@ -418,10 +428,18 @@ void UserFunctionDeclaration() #UserFunctionDeclaration:
 void Block() #Block:
 {}
 {
-    (
-        LOOKAHEAD(2)
-        BlockStatement()
-    )*
+    try
+    {
+        (
+            LOOKAHEAD(2)
+            BlockStatement()
+        )*
+    }
+    catch( ParseException e )
+    {
+        errorSkipto( EOL );
+    }
+
 }
 
 //
@@ -442,7 +460,7 @@ void Statement() :
 {
     try
     {
-        StatementExpression()
+          StatementExpression()
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
@@ -492,8 +510,8 @@ void SelectStatement() #SelectStatement:
 {}
 {
         <SELECT>   (<MULTI_LINE_DELIMITER>)*        // select
-        <LPAREN>        // (
-        Expression() (<MULTI_LINE_DELIMITER>)*        // cond
+        <LPAREN>                                    // (
+        Expression() (<MULTI_LINE_DELIMITER>)*      // cond
         <RPAREN>   (<MULTI_LINE_DELIMITER>)*        // )
         <EOL>
         ( CaseStatement() )+                        // case xxx (to yyy)

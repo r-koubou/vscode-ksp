@@ -33,91 +33,89 @@ public interface KSPParserConstants {
   /** RegularExpression Id. */
   int POLYPHONIC = 16;
   /** RegularExpression Id. */
-  int UI_DECLARE = 17;
+  int ON = 17;
   /** RegularExpression Id. */
-  int ON = 18;
+  int END = 18;
   /** RegularExpression Id. */
-  int END = 19;
+  int FUNCTION = 19;
   /** RegularExpression Id. */
-  int FUNCTION = 20;
+  int IF = 20;
   /** RegularExpression Id. */
-  int IF = 21;
+  int ELSE = 21;
   /** RegularExpression Id. */
-  int ELSE = 22;
+  int SELECT = 22;
   /** RegularExpression Id. */
-  int SELECT = 23;
+  int CASE = 23;
   /** RegularExpression Id. */
-  int CASE = 24;
+  int TO = 24;
   /** RegularExpression Id. */
-  int TO = 25;
+  int WHILE = 25;
   /** RegularExpression Id. */
-  int WHILE = 26;
+  int VARIABLE_INT = 26;
   /** RegularExpression Id. */
-  int VARIABLE_INT = 27;
+  int VARIABLE_INT_ARRAY = 27;
   /** RegularExpression Id. */
-  int VARIABLE_INT_ARRAY = 28;
+  int VARIABLE_REAL = 28;
   /** RegularExpression Id. */
-  int VARIABLE_REAL = 29;
+  int VARIABLE_REAL_ARRAY = 29;
   /** RegularExpression Id. */
-  int VARIABLE_REAL_ARRAY = 30;
+  int VARIABLE_STRING = 30;
   /** RegularExpression Id. */
-  int VARIABLE_STRING = 31;
+  int VARIABLE_STRING_ARRAY = 31;
   /** RegularExpression Id. */
-  int VARIABLE_STRING_ARRAY = 32;
+  int BOOL_GT = 32;
   /** RegularExpression Id. */
-  int BOOL_GT = 33;
+  int BOOL_LT = 33;
   /** RegularExpression Id. */
-  int BOOL_LT = 34;
+  int BOOL_GE = 34;
   /** RegularExpression Id. */
-  int BOOL_GE = 35;
+  int BOOL_LE = 35;
   /** RegularExpression Id. */
-  int BOOL_LE = 36;
+  int BOOL_EQ = 36;
   /** RegularExpression Id. */
-  int BOOL_EQ = 37;
+  int BOOL_NE = 37;
   /** RegularExpression Id. */
-  int BOOL_NE = 38;
+  int BOOL_NOT = 38;
   /** RegularExpression Id. */
-  int BOOL_NOT = 39;
+  int BOOL_AND = 39;
   /** RegularExpression Id. */
-  int BOOL_AND = 40;
+  int BOOL_OR = 40;
   /** RegularExpression Id. */
-  int BOOL_OR = 41;
+  int ASSIGN = 41;
   /** RegularExpression Id. */
-  int ASSIGN = 42;
+  int PLUS = 42;
   /** RegularExpression Id. */
-  int PLUS = 43;
+  int MINUS = 43;
   /** RegularExpression Id. */
-  int MINUS = 44;
+  int MUL = 44;
   /** RegularExpression Id. */
-  int MUL = 45;
+  int DIV = 45;
   /** RegularExpression Id. */
-  int DIV = 46;
+  int MOD = 46;
   /** RegularExpression Id. */
-  int MOD = 47;
+  int BIT_AND = 47;
   /** RegularExpression Id. */
-  int BIT_AND = 48;
+  int BIT_OR = 48;
   /** RegularExpression Id. */
-  int BIT_OR = 49;
+  int BIT_NOT = 49;
   /** RegularExpression Id. */
-  int BIT_NOT = 50;
+  int STRING_ADD = 50;
   /** RegularExpression Id. */
-  int STRING_ADD = 51;
+  int LPAREN = 51;
   /** RegularExpression Id. */
-  int LPAREN = 52;
+  int RPAREN = 52;
   /** RegularExpression Id. */
-  int RPAREN = 53;
+  int LBRACKET = 53;
   /** RegularExpression Id. */
-  int LBRACKET = 54;
+  int RBRACKET = 54;
   /** RegularExpression Id. */
-  int RBRACKET = 55;
+  int COMMA = 55;
   /** RegularExpression Id. */
-  int COMMA = 56;
+  int IDENTIFIER = 56;
   /** RegularExpression Id. */
-  int IDENTIFIER = 57;
+  int LETTER = 57;
   /** RegularExpression Id. */
-  int LETTER = 58;
-  /** RegularExpression Id. */
-  int PART_LETTER = 59;
+  int PART_LETTER = 58;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -143,7 +141,6 @@ public interface KSPParserConstants {
     "\"declare\"",
     "\"const\"",
     "\"polyphonic\"",
-    "<UI_DECLARE>",
     "\"on\"",
     "\"end\"",
     "\"function\"",

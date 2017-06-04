@@ -63,11 +63,12 @@ public class KSPParser/*@bgen(jjtree)*/implements KSPParserTreeConstants/*@egen*
         {
             rootNode = KSPScript();
         }
+/*
         catch( ParseException pe )
         {
-            //pe.printStackTrace();
             System.out.println( MessageManager.expand( pe ) );
         }
+*/
         catch( Throwable e )
         {
             e.printStackTrace();
@@ -99,6 +100,7 @@ public class KSPParser/*@bgen(jjtree)*/implements KSPParserTreeConstants/*@egen*
     {
         ParseException e = generateParseException();
         System.out.println( MessageManager.expand( e ) );
+        //e.printStackTrace();
         Token t;
         do
         {
@@ -192,7 +194,6 @@ TOKEN:
       <DECLARE: "declare" >
     | <CONST: "const" >
     | <POLYPHONIC: "polyphonic">
-    | <UI_DECLARE: "ui_" ([ "a"-"z" ])+ >
     // \u30b3\u30fc\u30eb\u30d0\u30c3\u30af
     | <ON: "on" >
     | <END: "end" >
@@ -284,12 +285,21 @@ ASTRootNode KSPScript()          :
     try {
 /*@egen*/
     (
-        ( <MULTI_LINE_DELIMITER> )*
-        (
-              CallbackDeclaration()
-            | UserFunctionDeclaration()
-        )
-        (<EOL>)*
+        try
+        {
+            ( <MULTI_LINE_DELIMITER> )*
+            (
+                  CallbackDeclaration()
+                | UserFunctionDeclaration()
+            )
+            (<EOL>)*
+        }
+        catch( ParseException e )
+        {
+            System.out.println("-------------0");
+            errorSkipto( EOL );
+        }
+
     )*
     <EOF>/*@bgen(jjtree)*/
     {
@@ -346,7 +356,7 @@ void VariableDeclaration() :
     (
           <CONST>
         | <POLYPHONIC>
-        | <UI_DECLARE>
+        | <IDENTIFIER> // ui_****
     )?
     VariableDeclarator()
 }
@@ -589,10 +599,17 @@ void Block()       :
 {/*@bgen(jjtree) Block */
     try {
 /*@egen*/
-    (
-        LOOKAHEAD(2)
-        BlockStatement()
-    )*/*@bgen(jjtree)*/
+    try
+    {
+        (
+            LOOKAHEAD(2)
+            BlockStatement()
+        )*
+    }
+    catch( ParseException e )
+    {
+        errorSkipto( EOL );
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -613,6 +630,7 @@ void Block()       :
       }
     }
 /*@egen*/
+
 }
 
 //
@@ -633,7 +651,7 @@ void Statement() :
 {
     try
     {
-        StatementExpression()
+          StatementExpression()
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
@@ -715,8 +733,8 @@ void SelectStatement()                 :
         try {
 /*@egen*/
         <SELECT>   (<MULTI_LINE_DELIMITER>)*        // select
-        <LPAREN>        // (
-        Expression() (<MULTI_LINE_DELIMITER>)*        // cond
+        <LPAREN>                                    // (
+        Expression() (<MULTI_LINE_DELIMITER>)*      // cond
         <RPAREN>   (<MULTI_LINE_DELIMITER>)*        // )
         <EOL>
         ( CaseStatement() )+                        // case xxx (to yyy)
