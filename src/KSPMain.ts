@@ -18,9 +18,13 @@ import { KSPSignatureHelpProvider }     from './KSPSignatureHelpProvider';
 import { KSPDocumentSymbolProvider }    from './KSPDocumentSymbolProvider';
 import { KSPDefinitionProvider }        from './KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './KSPReferenceProvider';
+import { KSPValidationProvider }        from './KSPValidationProvider';
 
 function activate(context)
 {
+    let validator = new KSPValidationProvider( context.workspaceState );
+    validator.activate( context.subscriptions );
+
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
             'ksp', new KSPCompletionItemProvider(), '$', '%', '~', '?', '@', '!' )

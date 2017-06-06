@@ -8,7 +8,7 @@
 
    ======================================================================== */
 
-// Based on PHP Signature Help Provider implementation. (signatureHelpProvider.js)
+// Based on PHP Signature Help Provider implementation. (signatureHelpProvider.ts)
 
 'use strict';
 import vscode = require( 'vscode' );

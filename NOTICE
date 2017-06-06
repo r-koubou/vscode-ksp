@@ -2,13 +2,13 @@
 This project is built which is based on following VS Code extensions.
 
 #-------------------------------------------------------------------------------
-# VS Code PHP builtin extension
+# VS Code builtin extension (MIT)
 #-------------------------------------------------------------------------------
-https://code.visualstudio.com/
 Copyright (c) Microsoft Corporation
+https://github.com/Microsoft/vscode
 
-Mac: Visual Studio Code.app/Contents/Resources/app/extensions/php
-Win: $(Visual Studio Code Dir)/extensions/php
+src/libs/async.ts
+-> extensions/php/src/features/utils/async.ts
 
 ----
 
