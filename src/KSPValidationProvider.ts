@@ -125,7 +125,7 @@ export class KSPValidationProvider
                 let msg: string[] = line.split( "\t" );
                 if( msg.length > 0 )
                 {
-                    let line    = Number.parseFloat( msg[ 0 ] );
+                    let line    = Number.parseFloat( msg[ 0 ] ) - 1; // zero origin
                     let message = msg[ 1 ];
                     let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
                         new vscode.Range( line, 0, line, Number.MAX_VALUE ),
