@@ -92,17 +92,27 @@ public class KSPParser
     /**
      * 構文解析中にエラーが出た場合の復帰先までトークンを読み飛ばす
      */
-    void errorSkipto( int kind )
+    void errorSkipTo( ParseException e )
     {
-        ParseException e = generateParseException();
         System.out.println( MessageManager.expand( e ) );
         //e.printStackTrace();
-        Token t;
+        Token t = null;
         do
         {
-            t = getNextToken();
+            try
+            {
+                t = getNextToken();
+            }
+            catch( Throwable ee )
+            {}
         }
-        while( t.kind != EOF && t.kind != kind );
+        while( t != null &&
+               t.kind != EOF &&
+               t.kind != EOL &&
+               t.kind != MULTI_LINE_DELIMITER &&
+               t.kind != RPAREN &&
+               t.kind != RBRACKET
+        );
     }
 
 }
@@ -274,21 +284,19 @@ TOKEN:
 ASTRootNode KSPScript() #RootNode:
 {}
 {
-    (
-        try
-        {
-            ( <EOL> | <MULTI_LINE_DELIMITER> )*
-            (
-                  CallbackDeclaration()
-                | UserFunctionDeclaration()
-            )
-        }
-        catch( ParseException e )
-        {
-            errorSkipto( EOL );
-        }
-
-    )*
+    try
+    {
+        (
+              CallbackDeclaration()
+            | UserFunctionDeclaration()
+            | <EOL>
+            | <MULTI_LINE_DELIMITER>
+        )*
+    }
+    catch( ParseException e )
+    {
+        errorSkipTo( e );
+    }
     <EOF>
     {
         return jjtThis;
@@ -435,7 +443,7 @@ void Block() #Block:
     }
     catch( ParseException e )
     {
-        errorSkipto( EOL );
+        errorSkipTo( e );
     }
 
 }
@@ -467,7 +475,7 @@ void Statement() :
     }
     catch( ParseException e )
     {
-        errorSkipto( EOL );
+        errorSkipTo( e );
     }
 }
 
@@ -705,8 +713,16 @@ void UnaryExpressionNot() :
 void PrimaryExpression() :
 {}
 {
-      PrimaryPrefix()
-    | <LPAREN> Expression()  <RPAREN>
+    PrimaryPrefix()
+|
+    try
+    {
+        <LPAREN> Expression()  <RPAREN>
+    }
+    catch( ParseException e )
+    {
+        errorSkipTo( e );
+    }
 }
 
 //

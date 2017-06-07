@@ -96,17 +96,27 @@ public class KSPParser/*@bgen(jjtree)*/implements KSPParserTreeConstants/*@egen*
     /**
      * \u69cb\u6587\u89e3\u6790\u4e2d\u306b\u30a8\u30e9\u30fc\u304c\u51fa\u305f\u5834\u5408\u306e\u5fa9\u5e30\u5148\u307e\u3067\u30c8\u30fc\u30af\u30f3\u3092\u8aad\u307f\u98db\u3070\u3059
      */
-    void errorSkipto( int kind )
+    void errorSkipTo( ParseException e )
     {
-        ParseException e = generateParseException();
         System.out.println( MessageManager.expand( e ) );
         //e.printStackTrace();
-        Token t;
+        Token t = null;
         do
         {
-            t = getNextToken();
+            try
+            {
+                t = getNextToken();
+            }
+            catch( Throwable ee )
+            {}
         }
-        while( t.kind != EOF && t.kind != kind );
+        while( t != null &&
+               t.kind != EOF &&
+               t.kind != EOL &&
+               t.kind != MULTI_LINE_DELIMITER &&
+               t.kind != RPAREN &&
+               t.kind != RBRACKET
+        );
     }
 
 }
@@ -284,21 +294,19 @@ ASTRootNode KSPScript()          :
 {/*@bgen(jjtree) RootNode */
     try {
 /*@egen*/
-    (
-        try
-        {
-            ( <EOL> | <MULTI_LINE_DELIMITER> )*
-            (
-                  CallbackDeclaration()
-                | UserFunctionDeclaration()
-            )
-        }
-        catch( ParseException e )
-        {
-            errorSkipto( EOL );
-        }
-
-    )*
+    try
+    {
+        (
+              CallbackDeclaration()
+            | UserFunctionDeclaration()
+            | <EOL>
+            | <MULTI_LINE_DELIMITER>
+        )*
+    }
+    catch( ParseException e )
+    {
+        errorSkipTo( e );
+    }
     <EOF>/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
@@ -606,7 +614,7 @@ void Block()       :
     }
     catch( ParseException e )
     {
-        errorSkipto( EOL );
+        errorSkipTo( e );
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -658,7 +666,7 @@ void Statement() :
     }
     catch( ParseException e )
     {
-        errorSkipto( EOL );
+        errorSkipTo( e );
     }
 }
 
@@ -1539,8 +1547,16 @@ void UnaryExpressionNot() :
 void PrimaryExpression() :
 {}
 {
-      PrimaryPrefix()
-    | <LPAREN> Expression()  <RPAREN>
+    PrimaryPrefix()
+|
+    try
+    {
+        <LPAREN> Expression()  <RPAREN>
+    }
+    catch( ParseException e )
+    {
+        errorSkipTo( e );
+    }
 }
 
 //
