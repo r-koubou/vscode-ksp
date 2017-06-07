@@ -287,16 +287,14 @@ ASTRootNode KSPScript()          :
     (
         try
         {
-            ( <MULTI_LINE_DELIMITER> )*
+            ( <EOL> | <MULTI_LINE_DELIMITER> )*
             (
                   CallbackDeclaration()
                 | UserFunctionDeclaration()
             )
-            (<EOL>)*
         }
         catch( ParseException e )
         {
-            System.out.println("-------------0");
             errorSkipto( EOL );
         }
 

@@ -24,7 +24,7 @@ public class MessageManager
 {
 
     /** 定義ファイルパス */
-    static private final String PROPERTIES_PATH = "data/lang/message";
+    static private final String PROPERTIES_PATH;
 
     /** 変数格納 */
     static private final Properties properties;
@@ -35,6 +35,7 @@ public class MessageManager
      */
     static
     {
+        PROPERTIES_PATH = System.getProperty( "kspparser.datadir", "data/lang/message" );
         properties = new Properties();
         try
         {
