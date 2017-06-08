@@ -1,0 +1,6 @@
+﻿{
+	"configuration.title": "KSP NI KONTAKT Script",
+	"configuration.validate.enable": "Enable/disable KSP syntax validation(*ALPHA VERSION). Require: Java 1.6 or higher (Recommend:1.8 or higher) Note: Although the parser will attempt as much error detection as possible, if the grammar of the script content deviates from the KSP specification, it will not function properly.",
+	"configuration.realtime.validate.enable": "Enable/disable Realtime KSP syntax validation. If true, validator runs on type and save. If false, validator runs on save only.",
+	"configuration.realtime.validate.delay": "Delay time to start validation. (unit:milliseconds) Recommend: about 500 ms."
+}

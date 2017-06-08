@@ -1,0 +1,6 @@
+﻿{
+	"configuration.title": "KSP NI KONTAKT Script",
+	"configuration.validate.enable": "文法チェック機能の有効/無効を設定します。（※アルファバージョン）実行には Java 1.6 以上をインストールされている必要があります。推奨は1.8以上です。注意：可能な限り多くのエラー検出を試みますが、スクリプト内容の文法がKSPの仕様を逸脱している場合、正常に機能しません。",
+	"configuration.realtime.validate.enable": "文法チェックをリアルタイムに実行します。trueの場合はタイピング毎とファイル保存時のタイミングでチェックを行います。falseの場合は、ファイル保存時にのみチェックを行います。",
+	"configuration.realtime.validate.delay": "リアルタイムチェック有効時：タイピング後、文法チェック開始までの時間を設定します。単位：ミリ秒。500ms程度を推奨します。"
+}
