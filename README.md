@@ -13,12 +13,16 @@
 * Find symbols and find references in script ( *Simplified version )
     - Context menu
     - Shift+F12
-* **NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
+* **NEW!: Syntax validation ( ALPHA VERSION!! ). Semantic analysis not yet.**
 
     Default is **"disabled"**.
     You can change setting at Preferences -> Settings (Part of "KSP NI KONTAKT Script" ).
     
-    **[NOTE] You need to install Java 1.6 (or higher). Recomended 1.8 or higher to work it.**
+### [NOTE]
+
+* **You need to install Java 1.6 (or higher). Recomended 1.8 or higher to work it.**
+    
+* **Although the parser will attempt as much error detection as possible, if the grammar of the script content deviates from the KSP specification, it will not function properly.**
 
 ## KSP Compatibility
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 0.2.0
+
+**NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
+
+### NOTE
+
+* Default is **"disabled"**.
+
+    You can change setting at Preferences -> Settings (Part of "KSP NI KONTAKT Script" ).
+
+* You need to install **Java 1.6 (or higher).**
+
+    **Recomended** 1.8 or higher to work it.
+
 ## Version 0.1.0
 
 * NEW Feature
@@ -25,7 +39,7 @@
 
                 1. Callback definition
                 2. Variable definition
-                
+
                 ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto2.png)
 
         - User function

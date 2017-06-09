@@ -2,7 +2,7 @@
     "name": "kontakt-script-langage",
     "displayName": "KONTAKT Script Language (KSP)",
     "description": "NI KONTAKT Script language support",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "publisher": "R-Koubou",
     "repository": {
         "type": "git",
