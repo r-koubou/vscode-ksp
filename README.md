@@ -13,6 +13,12 @@
 * Find symbols and find references in script ( *Simplified version )
     - Context menu
     - Shift+F12
+* **NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
+
+    Default is **"disabled"**.
+    You can change setting at Preferences -> Settings (Part of "KSP NI KONTAKT Script" ).
+    
+    **[NOTE] You need to install Java 1.6 (or higher). Recomended 1.8 or higher to work it.**
 
 ## KSP Compatibility
 
@@ -22,10 +28,7 @@
 
 * Tweak / bug fix if needed
 * If i have time to spare, i'll refactor and add some functions.(maybe at a slow pace)
-    * Implement syntax analysis and semantic analysis for KSP script
-        * For improvement User variable / function definition
-        * For improvement Find symbols and find references
-        * For add more powerful function in the future
+    * Implement semantic analysis for KSP script
 
 ## License
 
@@ -81,6 +84,12 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * スクリプト内のシンボル参照箇所の検索（*簡易版）
     - シンボルを右クリック後、コンテキストメニューから選択
     - Shift+F12
+* **新機能： 文法解析機能( ※アルファバージョン ) このバージョンでは、意味解析処理は含んでいません**
+
+    初期設定ではこの機能はオフになっています。
+    使用する際は、設定画面で設定を変えて下さい。（Preferences->Settings内、KSP NI KONTAKT Script ） 
+    
+    **[注意] この機能を使用するには Java 1.6 以上が必要です。推奨： Java 1.8 以上**
 
 ## KSP互換
 
@@ -90,10 +99,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 * 適宜調整
 * もし時間に余裕があれば、スローペースになりますが以下を予定しています。
-    * 文法解析・意味解析の実装
-        * ユーザー定義の変数・関数の定義箇所へのジャンプ機能の改善
-        * スクリプト内のシンボル参照箇所収集機能の改善
-        * 将来、その他強力な機能を実装する場合のため
+    * 意味解析の実装
 
 ## ソースコード
 

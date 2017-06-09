@@ -8,28 +8,27 @@
 
    ======================================================================== */
 
-// Based on PHP Validation Provider implementation. (validationProvider.ts)
+// I implemented based on Part of PHP Validation Provider implementation. (validationProvider.ts)
 
 import * as vscode          from 'vscode';
 import * as cp              from 'child_process';
 import * as tmp             from 'tmp';
 import * as fs              from 'fs';
 import { ThrottledDelayer } from './libs/async';
-import * as config          from './KSPConfigConstants';
+import * as config          from './KSPConfigurationConstants';
 
 const CHECKED_EXECUTABLE_PATH = 'ksp.validate.checkedExecutablePath';
 const PARSER_MESSAGE_DELIMITER: string = "\t";
 const COMMAND_UNTRUST_VALIDATION_EXECUTABLE = 'ksp.untrustValidationExecutable'
-const COMMAND_UNTRUST_VALIDATION_EXECUTABLE_CONTEXT = 'ksp.untrustValidationExecutableContext'
 
 export class KSPValidationProvider
 {
 
     private validationEnabled: boolean          = false;
     private realtimeValidationEnabled: boolean  = false;
-    private realtimeValidationDelay:number      = config.DEFAULT_VARIDATE_DELAY;
+    private realtimeValidationDelay:number      = config.DEFAULT_VALIDATE_DELAY;
 
-    private executable: string                  = "java";
+    private executable: string                  = config.DEFAULT_JAVA_LOCATION;
     private pauseValidation: boolean            = false;
     private realtimeTrigger: boolean            = false;
 
@@ -64,12 +63,6 @@ export class KSPValidationProvider
             this.diagnosticCollection.delete( textDocument.uri );
             delete this.delayers[ textDocument.uri.toString() ];
         }, null, subscriptions );
-
-        subscriptions.push(
-            vscode.commands.registerCommand(
-            COMMAND_UNTRUST_VALIDATION_EXECUTABLE,
-            this.untrustValidationExecutable, this
-        ));
     }
 
     /**
@@ -108,9 +101,9 @@ export class KSPValidationProvider
                     section.update( key, defaultValue, true );
                 }
             };
-            initConfig<boolean>( config.KEY_ENABLE_VARIDATE,            config.DEFAULT_ENABLE_VARIDATE );
-            initConfig<boolean>( config.KEY_ENABLE_REALTIME_VARIDATE,   config.DEFAULT_REALTIME_VARIDATE );
-            initConfig<number>(  config.KEY_REALTIME_VARIDATE_DELAY,    config.DEFAULT_VARIDATE_DELAY );
+            initConfig<boolean>( config.KEY_ENABLE_VALIDATE,            config.DEFAULT_ENABLE_VALIDATE );
+            initConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE,   config.DEFAULT_REALTIME_VALIDATE );
+            initConfig<number>(  config.KEY_REALTIME_VALIDATE_DELAY,    config.DEFAULT_VALIDATE_DELAY );
         }
     }
 
@@ -144,23 +137,26 @@ export class KSPValidationProvider
                 callback( value, userDefined );
             };
             // Get configurations
-            getConfig<boolean>( config.KEY_ENABLE_VARIDATE, false, (v, user) =>{
+            getConfig<boolean>( config.KEY_ENABLE_VALIDATE, false, (v, user) =>{
                 this.validationEnabled = v;
             });
-            getConfig<boolean>( config.KEY_ENABLE_REALTIME_VARIDATE, false, (v, user) =>{
+            getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, false, (v, user) =>{
                 this.realtimeValidationEnabled = v;
             });
-            getConfig<number>( config.KEY_REALTIME_VARIDATE_DELAY, config.DEFAULT_VARIDATE_DELAY, (v, user) =>{
+            getConfig<number>( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, (v, user) =>{
                 if( v < 16 )
                 {
-                    this.realtimeValidationDelay = config.DEFAULT_VARIDATE_DELAY;
-                    section.update( config.KEY_REALTIME_VARIDATE_DELAY, config.DEFAULT_VARIDATE_DELAY, true );
-                    vscode.window.showWarningMessage( "KSP Configuration: " + config.KEY_REALTIME_VARIDATE_DELAY + ": too short or negative. Reset default time." );
+                    this.realtimeValidationDelay = config.DEFAULT_VALIDATE_DELAY;
+                    section.update( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, true );
+                    vscode.window.showWarningMessage( "KSP Configuration: " + config.KEY_REALTIME_VALIDATE_DELAY + ": too short or negative. Reset default time." );
                 }
                 else
                 {
                     this.realtimeValidationDelay = v;
                 }
+            });
+            getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION, (v, user) =>{
+                this.executable = v;
             });
             // ~Get configurations
 
@@ -195,14 +191,8 @@ export class KSPValidationProvider
     }
 
     /**
-     *
+     * Handling for validation
      */
-    private untrustValidationExecutable()
-    {
-        this.workspaceStore.update( CHECKED_EXECUTABLE_PATH, undefined );
-        vscode.commands.executeCommand( 'setContext', COMMAND_UNTRUST_VALIDATION_EXECUTABLE_CONTEXT, false );
-    }
-
     private triggerValidate( textDocument: vscode.TextDocument ): void
     {
         if( textDocument.languageId !== "ksp" || !this.validationEnabled )
@@ -238,7 +228,7 @@ export class KSPValidationProvider
     {
         return new Promise<void>( (resolve, reject) =>
         {
-            let exec = "java";
+            let exec = this.executable;
             let diagnostics: vscode.Diagnostic[] = [];
 
             let processLine = (lineText: string) =>
@@ -262,22 +252,23 @@ export class KSPValidationProvider
                 let matches = lineText.match( regex );
                 if( matches )
                 {
-                    let message = "FATAL Lexical error";
+                    let message = "FATAL : Lexical Parser program crashed. Check your script carefully again.";
                     let line = Number.parseInt( matches[ 2 ] );
                     let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
                         new vscode.Range( line, 0, line, Number.MAX_VALUE ),
                         message
                     );
-                    vscode.window.showErrorMessage( "KSPSyntaxParser.jar FATAL : Lexical error. Check your script again." );
+                    diagnostics.push( diagnostic );
+                    this.showFatal( message );
                 }
             }
 
-            let thisExtention    = vscode.extensions.getExtension( "R-Koubou.kontakt-script-langage" );
-            let thisExtentionDir = thisExtention.extensionPath;
-            let options       = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
-            let args: string[] = [];
-            let src = textDocument.fileName;
-            let tmpFile = undefined;
+            let thisExtention       = vscode.extensions.getExtension( "R-Koubou.kontakt-script-langage" );
+            let thisExtentionDir    = thisExtention.extensionPath;
+            let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
+            let args: string[]      = [];
+            let src                 = textDocument.fileName;
+            let tmpFile             = undefined;
 
             if( this.realtimeValidationEnabled )
             {
@@ -299,12 +290,18 @@ export class KSPValidationProvider
                 childProcess.on( 'error', (error: Error) =>
                 {
                     console.log( error );
+                    if( tmpFile )
+                    {
+                        tmpFile.removeCallback();
+                        tmpFile = undefined;
+                    }
+
                     if( this.pauseValidation )
                     {
                         resolve();
                         return;
                     }
-                    this.showError( error, exec );
+                    this.showFatal( 'Command "java" not found' );
                     this.pauseValidation = true;
                     resolve();
                 });
@@ -340,18 +337,33 @@ export class KSPValidationProvider
             }
             catch( e )
             {
-                this.showError( e, exec );
+                this.showException( e, exec );
             }
         });
     }
 
-    private showError( error: any, executable: string ): void
+    private showException( error: any, executable: string ): void
     {
         let message: string = "KSP fatal error";
         if( error.message )
         {
             message = error.message;
         }
+        this.showFatal( message );
+    }
+
+    private showInfo( message: string ): void
+    {
         vscode.window.showInformationMessage( message );
+    }
+
+    private showWarn( message: string ): void
+    {
+        vscode.window.showWarningMessage( message );
+    }
+
+    private showFatal( message: string ): void
+    {
+        vscode.window.showErrorMessage( message );
     }
 }

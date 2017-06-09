@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "tmp": "0.0.31",
-        "typescript": "^2.3.4",
+        "typescript": "^2.3.2",
         "vscode": "^1.1.0",
         "vscode-nls": "^2.0.2"
     },
@@ -75,6 +75,11 @@
                     "type": "number",
                     "default": 500,
                     "description": "%configuration.realtime.validate.delay%"
+                },
+                "ksp.java.location": {
+                    "type": "string",
+                    "default": null,
+                    "description": "%configuration.java.location%"
                 }
             }
         }
@@ -87,10 +92,10 @@
     },
     "devDependencies": {
         "@types/mocha": "^2.2.32",
-        "@types/node": "^6.0.40",
+        "@types/node": "^6.0.78",
         "mocha": "^2.3.3",
-        "typescript": "^2.3.4",
+        "typescript": "^2.3.2",
         "vscode": "^1.0.0",
-        "vscode-nls": "^1.0.7"
+        "vscode-nls": "^2.0.2"
     }
 }

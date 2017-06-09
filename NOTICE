@@ -1,27 +1,33 @@
 
-This project is built which is based on following VS Code extensions.
+KONTAKT Script Language (KSP)
+Copyright 2017 R-Koubou
 
 #-------------------------------------------------------------------------------
-# VS Code builtin extension (MIT)
+# VS Code builtin extension
 #-------------------------------------------------------------------------------
-Copyright (c) Microsoft Corporation
+This software contains code derived from Microsoft Corporation.
 https://github.com/Microsoft/vscode
 
-src/libs/async.ts
--> extensions/php/src/features/utils/async.ts
+[code]
+extensions/php/src/features/utils/async.ts
 
-----
+#-------------------------------------------------------------------------------
+# KSP Syntax Parser
+#-------------------------------------------------------------------------------
+This software contains sofware derived from Syntax Parser for NI KONTAKT Script(KSP).
+Copyright (c) R-Koubou
+https://github.com/r-koubou/KSPSyntaxParser
 
-This project using following softwares.
-(Not included in this project.)
 
 #-------------------------------------------------------------------------------
 # python 2.7.x ( Maybe 3.x supports my script )
 #-------------------------------------------------------------------------------
-https://www.python.org/
+This software using sofware derived from https://www.python.org/ to generate code.
+
 
 #-------------------------------------------------------------------------------
 # xlrd
 #-------------------------------------------------------------------------------
-Library for developers to extract data from Microsoft Excel (tm) spreadsheet files
-https://pypi.python.org/pypi/xlrd
+This software using sofware derived from https://pypi.python.org/pypi/xlrd to generate code.
+xlrd is Library for developers to extract data from Microsoft Excel (tm) spreadsheet files
+
