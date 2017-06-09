@@ -1679,7 +1679,10 @@ void CallCommand()             :
 void CommandArguments() :
 {}
 {
-    <LPAREN> [ CommandArgumentList() ] <RPAREN>
+    <LPAREN>
+        [ LOOKAHEAD(2) CommandArgumentList() ]
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+    <RPAREN>
 }
 
 //
@@ -1688,7 +1691,12 @@ void CommandArguments() :
 void CommandArgumentList() :
 {}
 {
-    Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+    ( LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+    Expression()
+    (
+            LOOKAHEAD(2)( <MULTI_LINE_DELIMITER> )*
+            <COMMA> Expression()
+    )*
 }
 
 
