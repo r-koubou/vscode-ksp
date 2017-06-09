@@ -5,10 +5,10 @@ python Excel2CompleteVariables.py KSP.xlsx
 python Excel2Snippet.py KSP.xlsx
 
 ./extract.sh
-echo  "# Generate Command Name Array : ../src/generated/KSPCommandNames.ts"
+echo  "# Generate Command Name Array : ../src/features/generated/KSPCommandNames.ts"
 python VerifyExtractedManualData.py extract_command.ksp > /dev/null
 python Text2TSArray.py  __mergeed__.txt \
-                        ../src/generated/KSPCommandNames.ts \
+                        ../src/features/generated/KSPCommandNames.ts \
                         commandNameList \
                         ui_knob \
                         ui_label \
@@ -17,10 +17,10 @@ python Text2TSArray.py  __mergeed__.txt \
                         ui_value_edit \
                         ui_waveform
 
-echo  "# Generate Builtin Variable Name Array : ../src/generated/KSPBuiltinVariableNames.ts"
+echo  "# Generate Builtin Variable Name Array : ../src/features/generated/KSPBuiltinVariableNames.ts"
 python VerifyExtractedManualData.py extract_variables.ksp -v > /dev/null
 python Text2TSArray.py  __mergeed__.txt \
-                        ../src/generated/KSPBuiltinVariableNames.ts \
+                        ../src/features/generated/KSPBuiltinVariableNames.ts \
                         builtinVariableNameList
 
 rm ./__mergeed__.txt

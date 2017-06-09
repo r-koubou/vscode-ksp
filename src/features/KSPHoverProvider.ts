@@ -8,7 +8,7 @@
 
    ======================================================================== */
 
-// Based on PHP HOver Provider implementation. (hoverProvider.js)
+// Implemented based on Part of PHP HOver Provider implementation. (hoverProvider.ts)
 
 'use strict';
 

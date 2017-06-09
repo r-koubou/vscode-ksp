@@ -96,7 +96,7 @@
             "    ${1:async complete callback, triggered after the execution of any load/save command}",
             "}",
             "on async_complete",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "async complete callback, triggered after the execution of any load/save command"
@@ -109,7 +109,7 @@
             "    ${1:MIDI controller callback, executed whenever a CC, pitch bend or channel pressure message is received}",
             "}",
             "on controller",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "MIDI controller callback, executed whenever a CC, pitch bend or channel pressure message is received"
@@ -125,7 +125,7 @@
             "    make_perfview",
             "    message( \"\" )",
             "    set_script_title( \"${2:title}\" )",
-            "    ${3:{your code here}}",
+            "    ${3:{your code here\\}}",
             "end on"
         ],
         "description": "initialization callback, executed when the script was successfully analyzed"
@@ -138,7 +138,7 @@
             "    ${1:listener callback, executed at definable time intervals or whenever a transport command is received}",
             "}",
             "on listener",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "listener callback, executed at definable time intervals or whenever a transport command is received"
@@ -151,7 +151,7 @@
             "    ${1:note callback, executed whenever a note on message is received}",
             "}",
             "on note",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "note callback, executed whenever a note on message is received"
@@ -164,7 +164,7 @@
             "    ${1:executed after the init callback or whenever a snapshot has been loaded}",
             "}",
             "on persistence_changed",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "executed after the init callback or whenever a snapshot has been loaded"
@@ -177,7 +177,7 @@
             "    ${1:executed whenever any pgs_set_key_val() command is executed in any script}",
             "}",
             "on pgs_changed",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "executed whenever any pgs_set_key_val() command is executed in any script"
@@ -190,7 +190,7 @@
             "    ${1:polyphonic aftertouch callback, executed whenever a polyphonic aftertouch message is received}",
             "}",
             "on poly_at",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "polyphonic aftertouch callback, executed whenever a polyphonic aftertouch message is received"
@@ -203,7 +203,7 @@
             "    ${1:release callback, executed whenever a note off message is received}",
             "}",
             "on release",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "release callback, executed whenever a note off message is received"
@@ -216,7 +216,7 @@
             "    ${1:rpn(registered parameter number) callback message is received}",
             "}",
             "on rpn",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "rpn(registered parameter number) callback message is received"
@@ -229,7 +229,7 @@
             "    ${1:nrpn(unregistered parameter number) callback message is received}",
             "}",
             "on nrpn",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "nrpn(unregistered parameter number) callback message is received"
@@ -242,7 +242,7 @@
             "    ${1:UI callback, executed whenever the user changes the respective UI element}",
             "}",
             "on ui_control( $${2:uiVariable} )",
-            "    ${3:{your code here}}",
+            "    ${3:{your code here\\}}",
             "end on"
         ],
         "description": "UI callback, executed whenever the user changes the respective UI element"
@@ -255,7 +255,7 @@
             "    ${1:UI update callback, executed with every GUI change in KONTAKT}",
             "}",
             "on ui_update",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "UI update callback, executed with every GUI change in KONTAKT"
@@ -409,7 +409,7 @@
         "prefix": "if",
         "body":[
             "if( ${1:<condition>} )",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end if"
         ],
         "description": "if statement"
@@ -419,9 +419,9 @@
         "prefix": "ifelse",
         "body":[
             "if( ${1:<condition>} )",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "else",
-            "    ${3:{your code here}}",
+            "    ${3:{your code here\\}}",
             "end if"
         ],
         "description": "if...else statement"
@@ -432,7 +432,7 @@
         "body":[
             "select( ${1:<variable>} )",
             "    case ${2:case}:",
-            "        ${3:{your code here}}",
+            "        ${3:{your code here\\}}",
             "end select"
         ],
         "description": "if statement"
@@ -442,7 +442,7 @@
         "prefix": "while",
         "body":[
             "while( ${1:<condition>} )",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end while"
         ],
         "description": "while statement"
@@ -1812,7 +1812,7 @@
         "prefix": "USE_CODE_IF",
         "body":[
             "USE_CODE_IF( ${1:<condition-symbol>} )",
-            "${2:{your code here}}",
+            "${2:{your code here\\}}",
             "END_USE_CODE"
         ],
         "description": "interpret code when <condition> is defined"
@@ -1822,7 +1822,7 @@
         "prefix": "USE_CODE_IF_NOT",
         "body":[
             "USE_CODE_IF_NOT( ${1:<condition-symbol>} )",
-            "${2:{your code here}}",
+            "${2:{your code here\\}}",
             "END_USE_CODE"
         ],
         "description": "interpret code when <condition> is not defined"
@@ -2040,7 +2040,7 @@
             "    ${1:midi callback, triggered by every incoming MIDI event}",
             "}",
             "on midi_in",
-            "    ${2:{your code here}}",
+            "    ${2:{your code here\\}}",
             "end on"
         ],
         "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
@@ -6684,5 +6684,5 @@
             "~NI_MATH_PI"
         ],
         "description": "Built-in Variable: NI_MATH_PI"
-    }
+    },
 }

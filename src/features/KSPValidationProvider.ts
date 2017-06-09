@@ -8,7 +8,7 @@
 
    ======================================================================== */
 
-// I implemented based on Part of PHP Validation Provider implementation. (validationProvider.ts)
+// Implemented based on Part of PHP Validation Provider implementation. (validationProvider.ts)
 
 import * as vscode          from 'vscode';
 import * as cp              from 'child_process';
@@ -199,7 +199,7 @@ export class KSPValidationProvider
         {
             return;
         }
-
+console.log( textDocument.getText() );
         let trigger = () =>
         {
             let key = textDocument.uri.toString();
@@ -224,7 +224,7 @@ export class KSPValidationProvider
     /**
      * Execute syntax parser program
      */
-    private doValidate(textDocument: vscode.TextDocument): Promise<void>
+    private doValidate( textDocument: vscode.TextDocument ): Promise<void>
     {
         return new Promise<void>( (resolve, reject) =>
         {
@@ -344,7 +344,7 @@ export class KSPValidationProvider
 
     private showException( error: any, executable: string ): void
     {
-        let message: string = "KSP fatal error";
+        let message: string = "KSP Syntax Parser: FATAL ERROR";
         if( error.message )
         {
             message = error.message;

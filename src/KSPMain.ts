@@ -12,13 +12,13 @@
 
 import vscode  = require( 'vscode' );
 
-import { KSPCompletionItemProvider }    from './KSPCompletionItemProvider';
-import { KSPHoverProvider }             from './KSPHoverProvider';
-import { KSPSignatureHelpProvider }     from './KSPSignatureHelpProvider';
-import { KSPDocumentSymbolProvider }    from './KSPDocumentSymbolProvider';
-import { KSPDefinitionProvider }        from './KSPDefinitionProvider';
-import { KSPReferenceProvider }         from './KSPReferenceProvider';
-import { KSPValidationProvider }        from './KSPValidationProvider';
+import { KSPCompletionItemProvider }    from './features/KSPCompletionItemProvider';
+import { KSPHoverProvider }             from './features/KSPHoverProvider';
+import { KSPSignatureHelpProvider }     from './features/KSPSignatureHelpProvider';
+import { KSPDocumentSymbolProvider }    from './features/KSPDocumentSymbolProvider';
+import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
+import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
+import { KSPValidationProvider }        from './features/KSPValidationProvider';
 
 function activate(context)
 {

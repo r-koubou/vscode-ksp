@@ -8,7 +8,7 @@
 
    ======================================================================== */
 
-// Based on PHP Completion ItemProvider implementation. (completionItemProvider.js)
+// Implemented based on Part of PHP Completion ItemProvider implementation. (completionItemProvider.ts)
 
 'use strict';
 
