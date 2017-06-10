@@ -23,6 +23,9 @@ const COMMAND_UNTRUST_VALIDATION_EXECUTABLE = 'ksp.untrustValidationExecutable'
 
 export class KSPValidationProvider
 {
+    private static REGEX_VARIABLE_SYMBOL: RegExp = /[\$|%|\~|\?|@|!]/;
+    private static REGEX_TOKEN_MGR_ERROR: RegExp = /.*?TokenMgrError\: Lexical error at line (\d+)/;
+    private static REGEX_PARSE_EXCEPTION: RegExp = /.*?ParseException\:.*?at line (\d+)/;
 
     private validationEnabled: boolean          = false;
     private realtimeValidationEnabled: boolean  = false;
@@ -43,7 +46,6 @@ export class KSPValidationProvider
     constructor( private workspaceStore: vscode.Memento )
     {
         this.delayers = Object.create( null );
-        this.onSaveListener = vscode.workspace.onDidSaveTextDocument( this.triggerValidate, this) ;
     }
 
     /**
@@ -199,7 +201,6 @@ export class KSPValidationProvider
         {
             return;
         }
-console.log( textDocument.getText() );
         let trigger = () =>
         {
             let key = textDocument.uri.toString();
@@ -234,32 +235,51 @@ console.log( textDocument.getText() );
             let processLine = (lineText: string) =>
             {
                 let msg: string[] = lineText.split( PARSER_MESSAGE_DELIMITER );
-                if( msg.length > 0 )
+                if( msg.length >= 3 )
                 {
-                    let line    = Number.parseFloat( msg[ 0 ] ) - 1; // zero origin
-                    let message = msg[ 1 ];
-                    let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
-                        new vscode.Range( line, 0, line, Number.MAX_VALUE ),
-                        message
-                    );
+                    let level   = msg[ 0 ].toUpperCase();
+                    let line    = Number.parseInt( msg[ 1 ] ) - 1; // zero origin
+                    let message = "[KSP] " + msg[ 2 ];
+                    let range   = new vscode.Range( line, 0, line, Number.MAX_VALUE );
+                    let diagnostic: vscode.Diagnostic = new vscode.Diagnostic( range, message );
+
+                    if( level === "ERROR" )
+                    {
+                        diagnostic.severity = vscode.DiagnosticSeverity.Error;
+                    }
+                    else if( level === "WARNING" )
+                    {
+                        diagnostic.severity = vscode.DiagnosticSeverity.Warning;
+                    }
+                    else if( level === "INFO" || level === "DEBUG" )
+                    {
+                        diagnostic.severity = vscode.DiagnosticSeverity.Information;
+                    }
+                    else
+                    {
+                        diagnostic.severity = vscode.DiagnosticSeverity.Error;
+                    }
                     diagnostics.push( diagnostic );
                 }
             }; //~ processLine
             let processLineStdErr = (lineText: string) =>
             {
                 // net.rkoubou.kspparser.javacc.generated.TokenMgrError: Lexical error at line <number>,
-                let regex: RegExp = /.*?TokenMgrError\: Lexical error at line (\d+)/;
-                let matches = lineText.match( regex );
+                let matches = lineText.match( KSPValidationProvider.REGEX_TOKEN_MGR_ERROR );
+                let line: number = 0;
+                if( !matches )
+                {
+                    matches = lineText.match( KSPValidationProvider.REGEX_PARSE_EXCEPTION );
+                }
                 if( matches )
                 {
-                    let message = "FATAL : Lexical Parser program crashed. Check your script carefully again.";
-                    let line = Number.parseInt( matches[ 2 ] );
+                    let message = "[KSP Parser] FATAL : Check your script carefully again.";
+                    let line = Number.parseInt( matches[ 1 ] ) - 1; // zero origin
                     let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
                         new vscode.Range( line, 0, line, Number.MAX_VALUE ),
                         message
                     );
                     diagnostics.push( diagnostic );
-                    this.showFatal( message );
                 }
             }
 
@@ -279,6 +299,9 @@ console.log( textDocument.getText() );
 
             // java -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
             args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data/lang/message" )
+// Force launch en-US mode
+//            args.push( "-Duser.language=en" );
+//            args.push( "-Duser.country=US" );
             args.push( "-jar" );
             args.push( thisExtentionDir + "/kspparser/kspsyntaxparser.jar" );
             args.push( src );
@@ -289,7 +312,6 @@ console.log( textDocument.getText() );
 
                 childProcess.on( 'error', (error: Error) =>
                 {
-                    console.log( error );
                     if( tmpFile )
                     {
                         tmpFile.removeCallback();
@@ -313,9 +335,10 @@ console.log( textDocument.getText() );
                     {
                         processLine( data.toString() );
                     });
-                    // handling stdout
+                    // handling stderr
                     childProcess.stderr.on( 'data', (data: Buffer) =>
                     {
+                        console.log( data.toString() );
                         processLineStdErr( data.toString() );
                     });
                     // process finished

@@ -26,7 +26,8 @@
     },
     "categories": [
         "Languages",
-        "Snippets"
+        "Snippets",
+        "Linters"
     ],
     "capabilities": {
         "documentSymbolProvider": "true"

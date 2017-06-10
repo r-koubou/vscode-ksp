@@ -2,7 +2,10 @@
 
 ## Version 0.2.0
 
-**NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
+1. Modified some snipet.
+2. **NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
+
+![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxparser.gif)
 
 ### NOTE
 

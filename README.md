@@ -53,6 +53,10 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
     ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
 
+* Syntax check (*Option)
+
+    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxparser.gif)
+
 * Autocomplete
 
     ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
