@@ -23,11 +23,22 @@ import net.rkoubou.kspparser.javacc.generated.ParseException;
 public class MessageManager
 {
 
+    public enum Level
+    {
+        ERROR,
+        WARNING,
+        INFO,
+        DEBUG
+    }
+
     /** 定義ファイルパス */
     static private final String PROPERTIES_PATH;
 
     /** 変数格納 */
     static private final Properties properties;
+
+    /** プロパティー名：文法解析フェーズのエラー */
+    static public final String PROPERTY_KEY_LEXICAL = "error.lexical";
 
     //////////////////////////////////////////////////////////////////////////
     /**
@@ -105,33 +116,28 @@ public class MessageManager
      */
     static public String expand( ParseException src )
     {
-        //
-        // ${line}        :行
-        // ${colmn}       :位置（トークンの開始）
-        // ${token}       :該当のトークン
-        // ${tokenLen}    :トークンの文字列長
-        //
-        String message = properties.getProperty( "error.lexical" );
-        message = message.replace( "${line}",         "" + src.currentToken.beginLine );
-        message = message.replace( "${colmn}",   "" + src.currentToken.beginColumn );
-        message = message.replace( "${token}",        src.currentToken.image );
-        message = message.replace( "${tokenLen}",     "" + src.currentToken.image.length() );
-        return message;
+        return expand(
+            PROPERTY_KEY_LEXICAL,
+            Level.ERROR,
+            src.currentToken.beginLine,
+            src.currentToken.beginColumn,
+            src.currentToken.image.length()
+        );
     }
 
-    static public String expand( int errorLine, int errorColumn, char curChar )
+    static public String expand( String propertyKey, Level level, int errorLine, int errorColumn, int tokenLen )
     {
         //
+        // ${level}       :エラーレベル
         // ${line}        :行
         // ${colmn}       :位置（トークンの開始）
-        // ${token}       :該当のトークン
         // ${tokenLen}    :トークンの文字列長
         //
-        String message = properties.getProperty( "error.lexical" );
+        String message = properties.getProperty( propertyKey );
+        message = message.replace( "${level}",      "" + level.toString() );
         message = message.replace( "${line}",       "" + errorLine );
         message = message.replace( "${colmn}",      "" + errorColumn );
-        message = message.replace( "${token}",      String.valueOf( curChar ) );
-        message = message.replace( "${tokenLen}",   "1" );
+        message = message.replace( "${tokenLen}",   "" + tokenLen );
         return message;
     }
 }
