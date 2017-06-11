@@ -191,7 +191,9 @@ TOKEN:
 //------------------------------------------------------------------------------
 TOKEN:
 {
-      <EOL: [ "\n", "\r" ] >
+      <EOL: (<CR><LF>) | <LF> >
+    | <#CR: "\r" >
+    | <#LF: "\n" >
     | <MULTI_LINE_DELIMITER: "..." ([ " ", "\t" ])* <EOL> >
 }
 
@@ -341,15 +343,27 @@ ASTRootNode KSPScript()          :
 //
 // \u5909\u6570\u306e\u5b9a\u7fa9
 //
-void Variable():
-{}
-{
+void Variable()          :
+{/*@bgen(jjtree) Variable */
+  ASTVariable jjtn000 = new ASTVariable(this, JJTVARIABLE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Variable */
+      try {
+/*@egen*/
       <VARIABLE_INT>
     | <VARIABLE_INT_ARRAY>
     | <VARIABLE_REAL>
     | <VARIABLE_REAL_ARRAY>
     | <VARIABLE_STRING>
-    | <VARIABLE_STRING_ARRAY>
+    | <VARIABLE_STRING_ARRAY>/*@bgen(jjtree)*/
+      } finally {
+        if (jjtc000) {
+          jjtree.closeNodeScope(jjtn000, true);
+        }
+      }
+/*@egen*/
 }
 
 //
@@ -742,7 +756,7 @@ void SelectStatement()                 :
         <LPAREN>                                    // (
         Expression() (<MULTI_LINE_DELIMITER>)*      // cond
         <RPAREN>   (<MULTI_LINE_DELIMITER>)*        // )
-        <EOL>
+        (<EOL>)+
         ( CaseStatement() )+                        // case xxx (to yyy)
         <END> (<MULTI_LINE_DELIMITER>)* <SELECT>/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
@@ -781,14 +795,45 @@ void CaseStatement()               :
 /*@egen*/
     (
         <CASE> (<MULTI_LINE_DELIMITER>)*    // case
-        [ <MINUS> ] <INTEGER_LITERAL>       // cond
+        CaseCondition()       // cond
         (
-            <TO> (<MULTI_LINE_DELIMITER>)* [ <MINUS> ] <INTEGER_LITERAL> // e.g. -1000 to 1000
+            <TO> (<MULTI_LINE_DELIMITER>)* CaseCondition() // e.g. -1000 to 1000
         )?
-        <EOL>
         Block()
         (<MULTI_LINE_DELIMITER>)*
     )/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void CaseCondition()               :
+{/*@bgen(jjtree) CaseCondition */
+  ASTCaseCondition jjtn000 = new ASTCaseCondition(this, JJTCASECONDITION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) CaseCondition */
+    try {
+/*@egen*/
+    ( [ <MINUS> ] <INTEGER_LITERAL> | Variable() )/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -908,6 +953,7 @@ void Assignment()               :
 void ConditionalOrExpression():
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     ConditionalAndExpression() ( <BOOL_OR>/*@bgen(jjtree) #ConditionalOr( 2) */
                                            {
                                              ASTConditionalOr jjtn001 = new ASTConditionalOr(this, JJTCONDITIONALOR);
@@ -944,6 +990,7 @@ void ConditionalOrExpression():
 void ConditionalAndExpression():
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     InclusiveOrExpression() ( <BOOL_AND>/*@bgen(jjtree) #ConditionalAnd( 2) */
                                          {
                                            ASTConditionalAnd jjtn001 = new ASTConditionalAnd(this, JJTCONDITIONALAND);
@@ -980,6 +1027,7 @@ void ConditionalAndExpression():
 void InclusiveOrExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AndExpression()
     (
         <BIT_OR>/*@bgen(jjtree) #InclusiveOr( 2) */
@@ -1019,6 +1067,7 @@ void InclusiveOrExpression() :
 void AndExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
         <BIT_AND>/*@bgen(jjtree) #And( 2) */
@@ -1058,6 +1107,7 @@ void AndExpression() :
 void EqualityExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     RelationalExpression()
     (
           <BOOL_EQ>/*@bgen(jjtree) #Equal( 2) */
@@ -1125,6 +1175,7 @@ void EqualityExpression() :
 void RelationalExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AdditiveExpression()
     (
           <BOOL_LT>/*@bgen(jjtree) #LT( 2) */
@@ -1248,6 +1299,7 @@ void RelationalExpression() :
 void AdditiveExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     MultiplicativeExpression()
     (
           <PLUS>/*@bgen(jjtree) #Add( 2) */
@@ -1343,6 +1395,7 @@ void AdditiveExpression() :
 void MultiplicativeExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     UnaryExpression()
     (
           <MUL>/*@bgen(jjtree) #Mul( 2) */
@@ -1438,6 +1491,7 @@ void MultiplicativeExpression() :
 void UnaryExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     (
           <MULTI_LINE_DELIMITER>  UnaryExpression()
         | <MINUS>/*@bgen(jjtree) #Neg( 1) */
@@ -1551,7 +1605,11 @@ void PrimaryExpression() :
 |
     try
     {
-        <LPAREN> Expression()  <RPAREN>
+        <LPAREN>
+        (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+        Expression()
+        (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+        <RPAREN>
     }
     catch( ParseException e )
     {
@@ -1568,6 +1626,9 @@ void PrimaryPrefix() :
       RefVariable()
     | CallCommand()
     | Literal()
+
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+
 }
 
 //

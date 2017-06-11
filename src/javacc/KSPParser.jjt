@@ -187,7 +187,9 @@ TOKEN:
 //------------------------------------------------------------------------------
 TOKEN:
 {
-      <EOL: [ "\n", "\r" ] >
+      <EOL: (<CR><LF>) | <LF> >
+    | <#CR: "\r" >
+    | <#LF: "\n" >
     | <MULTI_LINE_DELIMITER: "..." ([ " ", "\t" ])* <EOL> >
 }
 
@@ -306,7 +308,7 @@ ASTRootNode KSPScript() #RootNode:
 //
 // 変数の定義
 //
-void Variable():
+void Variable() #Variable:
 {}
 {
       <VARIABLE_INT>
@@ -519,7 +521,7 @@ void SelectStatement() #SelectStatement:
         <LPAREN>                                    // (
         Expression() (<MULTI_LINE_DELIMITER>)*      // cond
         <RPAREN>   (<MULTI_LINE_DELIMITER>)*        // )
-        <EOL>
+        (<EOL>)+
         ( CaseStatement() )+                        // case xxx (to yyy)
         <END> (<MULTI_LINE_DELIMITER>)* <SELECT>    // end select
 }
@@ -532,14 +534,19 @@ void CaseStatement() #CaseStatement:
 {
     (
         <CASE> (<MULTI_LINE_DELIMITER>)*    // case
-        [ <MINUS> ] <INTEGER_LITERAL>       // cond
+        CaseCondition()       // cond
         (
-            <TO> (<MULTI_LINE_DELIMITER>)* [ <MINUS> ] <INTEGER_LITERAL> // e.g. -1000 to 1000
+            <TO> (<MULTI_LINE_DELIMITER>)* CaseCondition() // e.g. -1000 to 1000
         )?
-        <EOL>
         Block()
         (<MULTI_LINE_DELIMITER>)*
     )
+}
+
+void CaseCondition() #CaseCondition:
+{}
+{
+    ( [ <MINUS> ] <INTEGER_LITERAL> | Variable() )
 }
 
 //
@@ -587,6 +594,7 @@ void Assignment() #Assignment(2):
 void ConditionalOrExpression():
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     ConditionalAndExpression() ( <BOOL_OR> ConditionalAndExpression() #ConditionalOr(2) )*
 }
 
@@ -596,6 +604,7 @@ void ConditionalOrExpression():
 void ConditionalAndExpression():
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     InclusiveOrExpression() ( <BOOL_AND> InclusiveOrExpression() #ConditionalAnd(2) )*
 }
 
@@ -605,6 +614,7 @@ void ConditionalAndExpression():
 void InclusiveOrExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AndExpression()
     (
         <BIT_OR> AndExpression() #InclusiveOr(2)
@@ -617,6 +627,7 @@ void InclusiveOrExpression() :
 void AndExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
         <BIT_AND> EqualityExpression() #And(2)
@@ -629,6 +640,7 @@ void AndExpression() :
 void EqualityExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     RelationalExpression()
     (
           <BOOL_EQ> RelationalExpression() #Equal( 2 )
@@ -642,6 +654,7 @@ void EqualityExpression() :
 void RelationalExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AdditiveExpression()
     (
           <BOOL_LT> AdditiveExpression() #LT(2)
@@ -657,6 +670,7 @@ void RelationalExpression() :
 void AdditiveExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     MultiplicativeExpression()
     (
           <PLUS>        MultiplicativeExpression() #Add(2)
@@ -671,6 +685,7 @@ void AdditiveExpression() :
 void MultiplicativeExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     UnaryExpression()
     (
           <MUL> UnaryExpression() #Mul(2)
@@ -685,6 +700,7 @@ void MultiplicativeExpression() :
 void UnaryExpression() :
 {}
 {
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     (
           <MULTI_LINE_DELIMITER>  UnaryExpression()
         | <MINUS>                 UnaryExpression() #Neg(1)
@@ -717,7 +733,11 @@ void PrimaryExpression() :
 |
     try
     {
-        <LPAREN> Expression()  <RPAREN>
+        <LPAREN>
+        (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+        Expression()
+        (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+        <RPAREN>
     }
     catch( ParseException e )
     {
@@ -734,6 +754,9 @@ void PrimaryPrefix() :
       RefVariable()
     | CallCommand()
     | Literal()
+
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+
 }
 
 //

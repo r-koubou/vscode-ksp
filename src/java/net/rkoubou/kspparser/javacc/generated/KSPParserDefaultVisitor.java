@@ -12,6 +12,9 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTRootNode node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTVariable node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTVariableDeclaration node, Object data){
     return defaultVisit(node, data);
   }
@@ -37,6 +40,9 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
   public Object visit(ASTCaseStatement node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTCaseCondition node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTWhileStatement node, Object data){
@@ -112,4 +118,4 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=a880806cf507f40d1064f4cec64b0ba9 (do not edit this line) */
+/* JavaCC - OriginalChecksum=ab9a26cea4238284da87ab94bbc9f597 (do not edit this line) */

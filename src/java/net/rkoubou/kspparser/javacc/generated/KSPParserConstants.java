@@ -25,97 +25,101 @@ public interface KSPParserConstants {
   /** RegularExpression Id. */
   int EOL = 12;
   /** RegularExpression Id. */
-  int MULTI_LINE_DELIMITER = 13;
+  int CR = 13;
   /** RegularExpression Id. */
-  int DECLARE = 14;
+  int LF = 14;
   /** RegularExpression Id. */
-  int CONST = 15;
+  int MULTI_LINE_DELIMITER = 15;
   /** RegularExpression Id. */
-  int POLYPHONIC = 16;
+  int DECLARE = 16;
   /** RegularExpression Id. */
-  int ON = 17;
+  int CONST = 17;
   /** RegularExpression Id. */
-  int END = 18;
+  int POLYPHONIC = 18;
   /** RegularExpression Id. */
-  int FUNCTION = 19;
+  int ON = 19;
   /** RegularExpression Id. */
-  int IF = 20;
+  int END = 20;
   /** RegularExpression Id. */
-  int ELSE = 21;
+  int FUNCTION = 21;
   /** RegularExpression Id. */
-  int SELECT = 22;
+  int IF = 22;
   /** RegularExpression Id. */
-  int CASE = 23;
+  int ELSE = 23;
   /** RegularExpression Id. */
-  int TO = 24;
+  int SELECT = 24;
   /** RegularExpression Id. */
-  int WHILE = 25;
+  int CASE = 25;
   /** RegularExpression Id. */
-  int VARIABLE_INT = 26;
+  int TO = 26;
   /** RegularExpression Id. */
-  int VARIABLE_INT_ARRAY = 27;
+  int WHILE = 27;
   /** RegularExpression Id. */
-  int VARIABLE_REAL = 28;
+  int VARIABLE_INT = 28;
   /** RegularExpression Id. */
-  int VARIABLE_REAL_ARRAY = 29;
+  int VARIABLE_INT_ARRAY = 29;
   /** RegularExpression Id. */
-  int VARIABLE_STRING = 30;
+  int VARIABLE_REAL = 30;
   /** RegularExpression Id. */
-  int VARIABLE_STRING_ARRAY = 31;
+  int VARIABLE_REAL_ARRAY = 31;
   /** RegularExpression Id. */
-  int BOOL_GT = 32;
+  int VARIABLE_STRING = 32;
   /** RegularExpression Id. */
-  int BOOL_LT = 33;
+  int VARIABLE_STRING_ARRAY = 33;
   /** RegularExpression Id. */
-  int BOOL_GE = 34;
+  int BOOL_GT = 34;
   /** RegularExpression Id. */
-  int BOOL_LE = 35;
+  int BOOL_LT = 35;
   /** RegularExpression Id. */
-  int BOOL_EQ = 36;
+  int BOOL_GE = 36;
   /** RegularExpression Id. */
-  int BOOL_NE = 37;
+  int BOOL_LE = 37;
   /** RegularExpression Id. */
-  int BOOL_NOT = 38;
+  int BOOL_EQ = 38;
   /** RegularExpression Id. */
-  int BOOL_AND = 39;
+  int BOOL_NE = 39;
   /** RegularExpression Id. */
-  int BOOL_OR = 40;
+  int BOOL_NOT = 40;
   /** RegularExpression Id. */
-  int ASSIGN = 41;
+  int BOOL_AND = 41;
   /** RegularExpression Id. */
-  int PLUS = 42;
+  int BOOL_OR = 42;
   /** RegularExpression Id. */
-  int MINUS = 43;
+  int ASSIGN = 43;
   /** RegularExpression Id. */
-  int MUL = 44;
+  int PLUS = 44;
   /** RegularExpression Id. */
-  int DIV = 45;
+  int MINUS = 45;
   /** RegularExpression Id. */
-  int MOD = 46;
+  int MUL = 46;
   /** RegularExpression Id. */
-  int BIT_AND = 47;
+  int DIV = 47;
   /** RegularExpression Id. */
-  int BIT_OR = 48;
+  int MOD = 48;
   /** RegularExpression Id. */
-  int BIT_NOT = 49;
+  int BIT_AND = 49;
   /** RegularExpression Id. */
-  int STRING_ADD = 50;
+  int BIT_OR = 50;
   /** RegularExpression Id. */
-  int LPAREN = 51;
+  int BIT_NOT = 51;
   /** RegularExpression Id. */
-  int RPAREN = 52;
+  int STRING_ADD = 52;
   /** RegularExpression Id. */
-  int LBRACKET = 53;
+  int LPAREN = 53;
   /** RegularExpression Id. */
-  int RBRACKET = 54;
+  int RPAREN = 54;
   /** RegularExpression Id. */
-  int COMMA = 55;
+  int LBRACKET = 55;
   /** RegularExpression Id. */
-  int IDENTIFIER = 56;
+  int RBRACKET = 56;
   /** RegularExpression Id. */
-  int LETTER = 57;
+  int COMMA = 57;
   /** RegularExpression Id. */
-  int PART_LETTER = 58;
+  int IDENTIFIER = 58;
+  /** RegularExpression Id. */
+  int LETTER = 59;
+  /** RegularExpression Id. */
+  int PART_LETTER = 60;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -137,6 +141,8 @@ public interface KSPParserConstants {
     "<REAL_LITERAL>",
     "<STRING_LITERAL>",
     "<EOL>",
+    "\"\\r\"",
+    "\"\\n\"",
     "<MULTI_LINE_DELIMITER>",
     "\"declare\"",
     "\"const\"",
