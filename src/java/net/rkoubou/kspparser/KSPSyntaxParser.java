@@ -8,6 +8,7 @@
 package net.rkoubou.kspparser;
 
 import java.io.File;
+import java.io.PrintStream;
 
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
 
@@ -18,12 +19,31 @@ public class KSPSyntaxParser
 {
     //////////////////////////////////////////////////////////////////////////
     /**
-     * commant
+     * アプリケーション・エントリポイント
      */
     static public void main( String[] args ) throws Throwable
     {
-        File file = new File( args[ 0 ] );
-        KSPParser p = new KSPParser( file );
-        p.analyzeSyntax();
+        PrintStream stdout = null;
+        PrintStream stderr = null;
+        try
+        {
+            // -Dkspparser.stdout.encoding=#### の指定があった場合、そのエンコードを標準出力・エラーに再設定する
+            if( System.getProperty( "kspparser.stdout.encoding" ) != null )
+            {
+                String encoding = System.getProperty( "kspparser.stdout.encoding" );
+                stdout = new PrintStream( System.out, true, encoding );
+                stderr = new PrintStream( System.err, true, encoding );
+                System.setOut( stdout );
+                System.setErr( stderr );
+            }
+            File file   = new File( args[ 0 ] );
+            KSPParser p = new KSPParser( file );
+            p.analyzeSyntax();
+        }
+        finally
+        {
+            if( stdout != null ){ try{ stdout.close(); } catch( Throwable e ){} }
+            if( stderr != null ){ try{ stdout.close(); } catch( Throwable e ){} }
+        }
     }
 }
