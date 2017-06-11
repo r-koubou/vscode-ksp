@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 0.2.2
+
+### BUG Fixed Syntax Parser program
+
+* For Windows & Locale ja_JP users
+
+    Error messages: Garbled characters
+
+See also: [https://github.com/r-koubou/vscode-ksp/issues/1]()
+
 ## Version 0.2.1
 
 ### BUG Fixed Syntax Parser program
@@ -12,7 +22,7 @@
 1. Modified some snippet.
 2. **NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
 
-![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxparser.gif)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/syntaxparser.gif)
 
 ### NOTE
 
@@ -41,7 +51,7 @@
     - Go to definition
 
         Ctrl(Command)+Shift+O or F2 or Ctrl(Command)+Mouse Click
-        ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto1.png)
+        ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto1.png)
 
         - Variable
 
@@ -50,7 +60,7 @@
                 1. Callback definition
                 2. Variable definition
 
-                ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto2.png)
+                ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto2.png)
 
         - User function
 

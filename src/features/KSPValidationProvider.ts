@@ -297,7 +297,8 @@ export class KSPValidationProvider
                 src = tmpFile.name;
             }
 
-            // java -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
+            // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
+            args.push( "-Dkspparser.stdout.encoding=UTF-8" )
             args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data/lang/message" )
 // launch en-US mode
 //            args.push( "-Duser.language=en" );
@@ -338,7 +339,6 @@ export class KSPValidationProvider
                     // handling stderr
                     childProcess.stderr.on( 'data', (data: Buffer) =>
                     {
-                        console.log( data.toString() );
                         processLineStdErr( data.toString() );
                     });
                     // process finished

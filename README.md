@@ -17,11 +17,11 @@
 
     Default is **"disabled"**.
     You can change setting at Preferences -> Settings (Part of "KSP NI KONTAKT Script" ).
-    
+
 ### [NOTE]
 
 * **You need to install Java 1.6 (or higher). Recomended 1.8 or higher to work it.**
-    
+
 * **Although the parser will attempt as much error detection as possible, if the grammar of the script content deviates from the KSP specification, it will not function properly.**
 
 ## KSP Compatibility
@@ -36,11 +36,11 @@
 
 ## License
 
-[MIT License](https://github.com/r-koubou/vscode-syntax-for-ksp/blob/master/LICENSE)
+[MIT License](https://github.com/r-koubou/vscode-ksp/blob/master/LICENSE)
 
 ## Source Code
 
-You can accsess to [github repository](https://github.com/r-koubou/vscode-syntax-for-ksp)
+You can accsess to [github repository](https://github.com/r-koubou/vscode-ksp)
 
 ## About KONTAKT
 
@@ -51,29 +51,29 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 * Syntax highlighting
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxhilghting.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/syntaxhilghting.png)
 
 * Syntax check (*Option)
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxparser.gif)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/syntaxparser.gif)
 
 * Autocomplete
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/completion.gif)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/completion.gif)
 
 * Snippet
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/snippet.gif)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/snippet.gif)
 
 * Hover
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/hover.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/hover.png)
 
 * Go to Definition
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto1.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto1.png)
 
-    ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/goto2.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto2.png)
 
 ----
 
@@ -95,8 +95,8 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * **新機能： 文法解析機能( ※アルファバージョン ) このバージョンでは、意味解析処理は含んでいません**
 
     初期設定ではこの機能はオフになっています。
-    使用する際は、設定画面で設定を変えて下さい。（Preferences->Settings内、KSP NI KONTAKT Script ） 
-    
+    使用する際は、設定画面で設定を変えて下さい。（Preferences->Settings内、KSP NI KONTAKT Script ）
+
     **[注意] この機能を使用するには Java 1.6 以上が必要です。推奨： Java 1.8 以上**
 
 ## KSP互換
@@ -111,7 +111,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ## ソースコード
 
-[githubリポジトリに置いています](https://github.com/r-koubou/vscode-syntax-for-ksp)
+[githubリポジトリに置いています](https://github.com/r-koubou/vscode-ksp)
 
 ## KONTAKT について
 
