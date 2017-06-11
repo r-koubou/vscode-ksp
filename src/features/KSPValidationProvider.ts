@@ -299,7 +299,7 @@ export class KSPValidationProvider
 
             // java -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
             args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data/lang/message" )
-// Force launch en-US mode
+// launch en-US mode
 //            args.push( "-Duser.language=en" );
 //            args.push( "-Duser.country=US" );
             args.push( "-jar" );

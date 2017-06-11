@@ -1,4 +1,4 @@
-# Native Instruments KONNTAKT Script for VS Code
+# Native Instruments KONTAKT Script for VS Code
 
 ## Features
 

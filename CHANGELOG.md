@@ -1,8 +1,15 @@
 # Changelog
 
+## Version 0.2.1
+
+### BUG Fixed Syntax Parser program
+
+* Not work when newline is CRLF
+* select statement
+
 ## Version 0.2.0
 
-1. Modified some snipet.
+1. Modified some snippet.
 2. **NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
 
 ![](https://github.com/r-koubou/vscode-syntax-for-ksp/raw/master/images/readme/syntaxparser.gif)
