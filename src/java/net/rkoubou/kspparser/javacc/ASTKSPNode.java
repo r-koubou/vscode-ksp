@@ -7,6 +7,8 @@
 
 package net.rkoubou.kspparser.javacc;
 
+import net.rkoubou.kspparser.analyzer.SymbolDefinition;
+
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
@@ -21,7 +23,8 @@ abstract public class ASTKSPNode implements Node, KSPParserTreeConstants
     public int           id;
     public Object        value;
     public KSPParser     parser;
-    public int           line;
+
+    public final SymbolDefinition symbol = new SymbolDefinition();
 
     /**
      * このノードが親のノードから見てどの位置にいるかを調べる。

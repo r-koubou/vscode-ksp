@@ -10,6 +10,8 @@ package net.rkoubou.kspparser;
 import java.io.File;
 import java.io.PrintStream;
 
+import net.rkoubou.kspparser.analyzer.SymbolCollector;;
+import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
 
 /**
@@ -36,9 +38,18 @@ public class KSPSyntaxParser
                 System.setOut( stdout );
                 System.setErr( stderr );
             }
-            File file   = new File( args[ 0 ] );
-            KSPParser p = new KSPParser( file );
-            p.analyzeSyntax();
+            File file            = new File( args[ 0 ] );
+            KSPParser p          = new KSPParser( file );
+
+            // 構文解析フェーズ
+            ASTRootNode rootNode = p.analyzeSyntax();
+            if( rootNode == null )
+            {
+                return;
+            }
+            // シンボル収集フェーズ
+            SymbolCollector symbolCollector = new SymbolCollector( rootNode );
+            symbolCollector.collect();
         }
         finally
         {

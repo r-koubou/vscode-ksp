@@ -22,9 +22,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import net.rkoubou.kspparser.javacc.MessageManager;
+import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.MessageManager;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 
-public class KSPParser
+public class KSPParser implements AnalyzerConstants
 {
     /** ルートの構文木 */
     ASTRootNode rootNode;
@@ -101,6 +103,7 @@ public class KSPParser
         {
             try
             {
+                t = null; // getNextTokenコール時、例外発生時の無限ループ対策
                 t = getNextToken();
             }
             catch( Throwable ee )
@@ -308,47 +311,70 @@ ASTRootNode KSPScript() #RootNode:
 //
 // 変数の定義
 //
-void Variable() #Variable:
-{}
+Token Variable() #Variable:
 {
-      <VARIABLE_INT>
-    | <VARIABLE_INT_ARRAY>
-    | <VARIABLE_REAL>
-    | <VARIABLE_REAL_ARRAY>
-    | <VARIABLE_STRING>
-    | <VARIABLE_STRING_ARRAY>
+    Token var;
+}
+{
+    (
+          var = <VARIABLE_INT>
+        | var = <VARIABLE_INT_ARRAY>
+        | var = <VARIABLE_REAL>
+        | var = <VARIABLE_REAL_ARRAY>
+        | var = <VARIABLE_STRING>
+        | var = <VARIABLE_STRING_ARRAY>
+    )
+    {
+        return var;
+    }
 }
 
 //
 // 変数宣言
 //
-void VariableDeclaration() :
-{}
+void VariableDeclaration() #VariableDeclaration:
 {
-    <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+    Token declare;
+}
+{
     (
-          <CONST>
-        | <POLYPHONIC>
-        | <IDENTIFIER> // ui_****
-    )?
-    VariableDeclarator()
+        declare = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+        (
+              <CONST>       { jjtThis.symbol.accessFlag = ACCESS_ATTR_CONST; }
+            | <POLYPHONIC>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
+            | <IDENTIFIER>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
+        )?
+        VariableDeclarator( jjtThis )
+    )
+    {
+        jjtThis.symbol.line  = declare.beginLine;
+        jjtThis.symbol.colmn = declare.beginColumn;
+    }
 }
 
 //
 // 変数宣言(詳細)
 //
-void VariableDeclarator() #VariableDeclaration :
-{}
+void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
 {
-    ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
-    Variable()
+    Token name;
+}
+{
     (
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+        name = Variable()
         (
-            [ <LBRACKET> Expression() <RBRACKET> ]
-        )
+            (
+                [ <LBRACKET> Expression() <RBRACKET> ]
+            )
 
-        [ LOOKAHEAD(2) VariableInitializer() ]
+            [ LOOKAHEAD(2) VariableInitializer() ]
+        )
     )
+    {
+        decl.symbol.name = name.image;
+        decl.symbol.setTypeFromVariableName();
+    }
 }
 
 //

@@ -5,7 +5,7 @@
 
    ======================================================================== */
 
-package net.rkoubou.kspparser.javacc;
+package net.rkoubou.kspparser.analyzer;
 
 import java.io.File;
 import java.io.FileInputStream;

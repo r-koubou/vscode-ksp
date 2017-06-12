@@ -23,9 +23,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import net.rkoubou.kspparser.javacc.MessageManager;
+import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.MessageManager;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 
-public class KSPParser/*@bgen(jjtree)*/implements KSPParserTreeConstants/*@egen*/
+public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@egen*/ AnalyzerConstants
 {/*@bgen(jjtree)*/
   protected JJTKSPParserState jjtree = new JJTKSPParserState();
 
@@ -105,6 +107,7 @@ public class KSPParser/*@bgen(jjtree)*/implements KSPParserTreeConstants/*@egen*
         {
             try
             {
+                t = null; // getNextToken\u30b3\u30fc\u30eb\u6642\u3001\u4f8b\u5916\u767a\u751f\u6642\u306e\u7121\u9650\u30eb\u30fc\u30d7\u5bfe\u7b56
                 t = getNextToken();
             }
             catch( Throwable ee )
@@ -343,65 +346,129 @@ ASTRootNode KSPScript()          :
 //
 // \u5909\u6570\u306e\u5b9a\u7fa9
 //
-void Variable()          :
+Token Variable()          :
 {/*@bgen(jjtree) Variable */
-  ASTVariable jjtn000 = new ASTVariable(this, JJTVARIABLE);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) Variable */
-      try {
+    ASTVariable jjtn000 = new ASTVariable(this, JJTVARIABLE);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
 /*@egen*/
-      <VARIABLE_INT>
-    | <VARIABLE_INT_ARRAY>
-    | <VARIABLE_REAL>
-    | <VARIABLE_REAL_ARRAY>
-    | <VARIABLE_STRING>
-    | <VARIABLE_STRING_ARRAY>/*@bgen(jjtree)*/
-      } finally {
-        if (jjtc000) {
-          jjtree.closeNodeScope(jjtn000, true);
-        }
+    Token var;
+}
+{/*@bgen(jjtree) Variable */
+    try {
+/*@egen*/
+    (
+          var = <VARIABLE_INT>
+        | var = <VARIABLE_INT_ARRAY>
+        | var = <VARIABLE_REAL>
+        | var = <VARIABLE_REAL_ARRAY>
+        | var = <VARIABLE_STRING>
+        | var = <VARIABLE_STRING_ARRAY>
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        return var;
+    }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
       }
+    }
 /*@egen*/
 }
 
 //
 // \u5909\u6570\u5ba3\u8a00
 //
-void VariableDeclaration() :
-{}
-{
-    <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+void VariableDeclaration()                     :
+{/*@bgen(jjtree) VariableDeclaration */
+    ASTVariableDeclaration jjtn000 = new ASTVariableDeclaration(this, JJTVARIABLEDECLARATION);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token declare;
+}
+{/*@bgen(jjtree) VariableDeclaration */
+    try {
+/*@egen*/
     (
-          <CONST>
-        | <POLYPHONIC>
-        | <IDENTIFIER> // ui_****
-    )?
-    VariableDeclarator()
+        declare = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+        (
+              <CONST>       { jjtn000.symbol.accessFlag = ACCESS_ATTR_CONST; }
+            | <POLYPHONIC>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_POLY; }
+            | <IDENTIFIER>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
+        )?
+        VariableDeclarator( jjtn000 )
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.line  = declare.beginLine;
+        jjtn000.symbol.colmn = declare.beginColumn;
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
 }
 
 //
 // \u5909\u6570\u5ba3\u8a00(\u8a73\u7d30)
 //
-void VariableDeclarator()                      :
-{/*@bgen(jjtree) VariableDeclaration */
-  ASTVariableDeclaration jjtn000 = new ASTVariableDeclaration(this, JJTVARIABLEDECLARATION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) VariableDeclaration */
+void VariableDeclarator( ASTVariableDeclaration decl )                    :
+{/*@bgen(jjtree) VariableDeclarator */
+    ASTVariableDeclarator jjtn000 = new ASTVariableDeclarator(this, JJTVARIABLEDECLARATOR);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token name;
+}
+{/*@bgen(jjtree) VariableDeclarator */
     try {
 /*@egen*/
-    ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
-    Variable()
     (
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+        name = Variable()
         (
-            [ <LBRACKET> Expression() <RBRACKET> ]
-        )
+            (
+                [ <LBRACKET> Expression() <RBRACKET> ]
+            )
 
-        [ LOOKAHEAD(2) VariableInitializer() ]
+            [ LOOKAHEAD(2) VariableInitializer() ]
+        )
     )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        decl.symbol.name = name.image;
+        decl.symbol.setTypeFromVariableName();
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
