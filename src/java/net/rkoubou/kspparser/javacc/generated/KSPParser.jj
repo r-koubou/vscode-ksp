@@ -100,7 +100,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
      */
     void errorSkipTo( ParseException e )
     {
-        System.out.println( MessageManager.expand( e ) );
+        MessageManager.println( e );
         //e.printStackTrace();
         Token t = null;
         do
@@ -529,18 +529,30 @@ void UIInitializer() :
 //
 void CallbackDeclaration()                     :
 {/*@bgen(jjtree) CallbackDeclaration */
-  ASTCallbackDeclaration jjtn000 = new ASTCallbackDeclaration(this, JJTCALLBACKDECLARATION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTCallbackDeclaration jjtn000 = new ASTCallbackDeclaration(this, JJTCALLBACKDECLARATION);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token name;
+}
 {/*@bgen(jjtree) CallbackDeclaration */
     try {
 /*@egen*/
-    <ON> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
-    [ CallbackArgument() ]
-    <EOL>
-    Block()
-    <END> (<MULTI_LINE_DELIMITER>)* <ON>/*@bgen(jjtree)*/
+    (
+        <ON> (<MULTI_LINE_DELIMITER>)* name = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        [ CallbackArgument() ]
+        <EOL>
+        Block()
+        <END> (<MULTI_LINE_DELIMITER>)* <ON>
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name = name.image;
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

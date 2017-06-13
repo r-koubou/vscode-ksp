@@ -10,7 +10,7 @@ package net.rkoubou.kspparser;
 import java.io.File;
 import java.io.PrintStream;
 
-import net.rkoubou.kspparser.analyzer.SymbolCollector;;
+import net.rkoubou.kspparser.analyzer.SymbolCollector;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
 

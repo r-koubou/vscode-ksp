@@ -23,11 +23,11 @@ public class SymbolDefinition implements AnalyzerConstants
     /** 定義した行中の列 */
     public int colmn = 0;
     /** 型 */
-    public int type = 0;
+    public int type = TYPE_UNKNOWN;
     /** 値がある場合はその値 */
     public Object value = null;
     /** 戻り値型（KSPでは文法上存在しないので、現在は使用しない） */
-    public int returnType = 0;
+    public int returnType = TYPE_UNKNOWN;
     /** 代入式ノードで使用する */
     public AssignOprator oprator = AssignOprator.NULL;
 
@@ -49,11 +49,11 @@ public class SymbolDefinition implements AnalyzerConstants
      */
     static public void copy( SymbolDefinition src, SymbolDefinition dest )
     {
-        dest.index = src.index;
+        dest.index      = src.index;
         dest.accessFlag = src.accessFlag;
-        dest.name = src.name;
-        dest.type = src.type;
-        dest.value = src.value;
+        dest.name       = src.name;
+        dest.type       = src.type;
+        dest.value      = src.value;
         dest.returnType = src.returnType;
     }
 

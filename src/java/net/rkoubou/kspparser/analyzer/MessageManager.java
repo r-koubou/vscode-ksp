@@ -133,11 +133,42 @@ public class MessageManager
         // ${colmn}       :位置（トークンの開始）
         // ${tokenLen}    :トークンの文字列長
         //
+        if( tokenLen <= 0 )
+        {
+            tokenLen = Integer.MAX_VALUE;
+        }
         String message = properties.getProperty( propertyKey );
         message = message.replace( "${level}",      "" + level.toString() );
         message = message.replace( "${line}",       "" + errorLine );
         message = message.replace( "${colmn}",      "" + errorColumn );
         message = message.replace( "${tokenLen}",   "" + tokenLen );
         return message;
+    }
+
+    /**
+     * 標準出力に出力する
+     */
+    static public void println( ParseException src )
+    {
+        System.out.println( expand( src ) );
+    }
+
+    /**
+     * 標準出力に出力する
+     */
+    static public void println( String propertyKey, Level level, int errorLine, int errorColumn, int tokenLen )
+    {
+        String message = expand( propertyKey, level, errorLine, errorColumn, tokenLen );
+        System.out.println( message );
+    }
+
+    /**
+     * 標準出力に出力する
+     */
+    static public void println( String propertyKey, Level level, SymbolDefinition symbol )
+    {
+        String message = expand( propertyKey, level, symbol.line, symbol.colmn, symbol.name.length() );
+        message = message.replace( "${symbolname}", symbol.name );
+        System.out.println( message );
     }
 }

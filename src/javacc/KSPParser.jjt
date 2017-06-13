@@ -96,7 +96,7 @@ public class KSPParser implements AnalyzerConstants
      */
     void errorSkipTo( ParseException e )
     {
-        System.out.println( MessageManager.expand( e ) );
+        MessageManager.println( e );
         //e.printStackTrace();
         Token t = null;
         do
@@ -414,13 +414,20 @@ void UIInitializer() :
 // コールバック本体
 //
 void CallbackDeclaration() #CallbackDeclaration:
-{}
 {
-    <ON> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
-    [ CallbackArgument() ]
-    <EOL>
-    Block()
-    <END> (<MULTI_LINE_DELIMITER>)* <ON>
+    Token name;
+}
+{
+    (
+        <ON> (<MULTI_LINE_DELIMITER>)* name = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        [ CallbackArgument() ]
+        <EOL>
+        Block()
+        <END> (<MULTI_LINE_DELIMITER>)* <ON>
+    )
+    {
+        jjtThis.symbol.name = name.image;
+    }
 }
 
 //
