@@ -190,49 +190,38 @@ if (jjtc000) {
 //
 // 変数の定義
 //
-  final public Token Variable() throws ParseException {/*@bgen(jjtree) Variable */
-    ASTVariable jjtn000 = new ASTVariable(this, JJTVARIABLE);
-    boolean jjtc000 = true;
-    jjtree.openNodeScope(jjtn000);Token var;
-    try {
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case VARIABLE_INT:{
-        var = jj_consume_token(VARIABLE_INT);
-        break;
-        }
-      case VARIABLE_INT_ARRAY:{
-        var = jj_consume_token(VARIABLE_INT_ARRAY);
-        break;
-        }
-      case VARIABLE_REAL:{
-        var = jj_consume_token(VARIABLE_REAL);
-        break;
-        }
-      case VARIABLE_REAL_ARRAY:{
-        var = jj_consume_token(VARIABLE_REAL_ARRAY);
-        break;
-        }
-      case VARIABLE_STRING:{
-        var = jj_consume_token(VARIABLE_STRING);
-        break;
-        }
-      case VARIABLE_STRING_ARRAY:{
-        var = jj_consume_token(VARIABLE_STRING_ARRAY);
-        break;
-        }
-      default:
-        jj_la1[2] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+  final public Token Variable() throws ParseException {Token var;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case VARIABLE_INT:{
+      var = jj_consume_token(VARIABLE_INT);
+      break;
       }
-jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-{if ("" != null) return var;}
-    } finally {
-if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
+    case VARIABLE_INT_ARRAY:{
+      var = jj_consume_token(VARIABLE_INT_ARRAY);
+      break;
       }
+    case VARIABLE_REAL:{
+      var = jj_consume_token(VARIABLE_REAL);
+      break;
+      }
+    case VARIABLE_REAL_ARRAY:{
+      var = jj_consume_token(VARIABLE_REAL_ARRAY);
+      break;
+      }
+    case VARIABLE_STRING:{
+      var = jj_consume_token(VARIABLE_STRING);
+      break;
+      }
+    case VARIABLE_STRING_ARRAY:{
+      var = jj_consume_token(VARIABLE_STRING_ARRAY);
+      break;
+      }
+    default:
+      jj_la1[2] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
+{if ("" != null) return var;}
     throw new Error("Missing return statement in function");
   }
 

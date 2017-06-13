@@ -346,17 +346,11 @@ ASTRootNode KSPScript()          :
 //
 // \u5909\u6570\u306e\u5b9a\u7fa9
 //
-Token Variable()          :
-{/*@bgen(jjtree) Variable */
-    ASTVariable jjtn000 = new ASTVariable(this, JJTVARIABLE);
-    boolean jjtc000 = true;
-    jjtree.openNodeScope(jjtn000);
-/*@egen*/
+Token Variable() :
+{
     Token var;
 }
-{/*@bgen(jjtree) Variable */
-    try {
-/*@egen*/
+{
     (
           var = <VARIABLE_INT>
         | var = <VARIABLE_INT_ARRAY>
@@ -364,21 +358,10 @@ Token Variable()          :
         | var = <VARIABLE_REAL_ARRAY>
         | var = <VARIABLE_STRING>
         | var = <VARIABLE_STRING_ARRAY>
-    )/*@bgen(jjtree)*/
-    {
-      jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-    }
-/*@egen*/
+    )
     {
         return var;
-    }/*@bgen(jjtree)*/
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
     }
-/*@egen*/
 }
 
 //

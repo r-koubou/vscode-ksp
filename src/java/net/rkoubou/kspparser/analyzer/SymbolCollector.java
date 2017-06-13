@@ -48,9 +48,8 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         [node]
         VariableDeclaration
             -> VariableDeclarator
-                -> Variable
-                    -> [VariableInitializer]
-                        -> Expression
+                -> [VariableInitializer]
+                    -> Expression
 */
         //--------------------------------------------------------------------------
         // 変数は on init 内でしか宣言できない

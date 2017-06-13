@@ -311,7 +311,7 @@ ASTRootNode KSPScript() #RootNode:
 //
 // 変数の定義
 //
-Token Variable() #Variable:
+Token Variable() :
 {
     Token var;
 }
