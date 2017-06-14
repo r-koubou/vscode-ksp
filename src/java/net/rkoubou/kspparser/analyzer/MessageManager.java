@@ -23,10 +23,20 @@ import net.rkoubou.kspparser.javacc.generated.ParseException;
 public class MessageManager
 {
 
+    static public final String PROPERTY_ERROR_LEXICAL                   = "error.lexical";
+    static public final String PROPERTY_ERROR_VARIABLE_ONINIT           = "error.variable.declared.oninit";
+    static public final String PROPERTY_ERROR_VARIABLE_DECLARED         = "error.variable.already.declared";
+    static public final String PROPERTY_ERROR_VARIABLE_RESERVED         = "error.variable.reserved";
+    static public final String PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED  = "error.variable.reserved.prefix";
+    static public final String PROPERTY_WARN_COMMAND_UNKNOWN            = "warning.command.unknown";
+
     public enum Level
     {
         ERROR,
-        WARNING,
+        WARNING,         // KONTAKT上のコンパイルでエラーになるかもしれないレベルの警告
+        IGNORE_WARNING,  // シュリンクの提示や無視しても動作には支障がないと想定される警告
+        IGNORE_COMMAND,  // 定義ファイルに登録されていないコマンドが出現した場合の警告
+        IGNORE_VARIABLE, // 定義ファイルに登録されていないビルトイン変数が出現した場合の警告
         INFO,
         DEBUG
     }
@@ -37,10 +47,6 @@ public class MessageManager
     /** 変数格納 */
     static private final Properties properties;
 
-    /** プロパティー名：文法解析フェーズのエラー */
-    static public final String PROPERTY_KEY_LEXICAL = "error.lexical";
-
-    //////////////////////////////////////////////////////////////////////////
     /**
      * static initializer
      */
@@ -83,7 +89,6 @@ public class MessageManager
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////
     /**
      * Loading
      */
@@ -104,20 +109,18 @@ public class MessageManager
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////
     /**
      * Ctor.
      */
     private MessageManager(){}
 
-    //////////////////////////////////////////////////////////////////////////
     /**
      * 文法解析中のエラーメッセージを設定ファイル「message.properties」の書式に従い展開
      */
     static public String expand( ParseException src )
     {
         return expand(
-            PROPERTY_KEY_LEXICAL,
+            PROPERTY_ERROR_LEXICAL,
             Level.ERROR,
             src.currentToken.beginLine,
             src.currentToken.beginColumn,
@@ -170,5 +173,37 @@ public class MessageManager
         String message = expand( propertyKey, level, symbol.line, symbol.colmn, symbol.name.length() );
         message = message.replace( "${symbolname}", symbol.name );
         System.out.println( message );
+    }
+
+    /**
+     * 標準出力に出力する(レベル：ERROR)
+     */
+    static public void printlnE( String propertyKey, SymbolDefinition symbol )
+    {
+        println( propertyKey, Level.ERROR, symbol );
+    }
+
+    /**
+     * 標準出力に出力する(レベル：WARN)
+     */
+    static public void printlnW( String propertyKey, SymbolDefinition symbol )
+    {
+        println( propertyKey, Level.WARNING, symbol );
+    }
+
+    /**
+     * 標準出力に出力する(レベル：INFO)
+     */
+    static public void printlnI( String propertyKey, SymbolDefinition symbol )
+    {
+        println( propertyKey, Level.INFO, symbol );
+    }
+
+    /**
+     * 標準出力に出力する(レベル：DEBUG)
+     */
+    static public void printlnD( String propertyKey, SymbolDefinition symbol )
+    {
+        println( propertyKey, Level.DEBUG, symbol );
     }
 }

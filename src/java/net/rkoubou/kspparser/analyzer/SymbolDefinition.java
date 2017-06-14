@@ -16,6 +16,8 @@ public class SymbolDefinition implements AnalyzerConstants
     public int index = 0;
     /** アクセス識別フラグ（ある場合に使用。未使用の場合は0） */
     public int accessFlag = 0;
+    /** 実行環境で予約済みのシンボルかどうか） */
+    public boolean reserved = false;
     /** 識別子名 */
     public String name = null;
     /** 定義した行番号 */
@@ -51,10 +53,14 @@ public class SymbolDefinition implements AnalyzerConstants
     {
         dest.index      = src.index;
         dest.accessFlag = src.accessFlag;
+        dest.reserved   = src.reserved;
         dest.name       = src.name;
+        dest.line       = src.line;
+        dest.colmn      = src.colmn;
         dest.type       = src.type;
         dest.value      = src.value;
         dest.returnType = src.returnType;
+        dest.oprator    = src.oprator;
     }
 
     /**
