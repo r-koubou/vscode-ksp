@@ -33,6 +33,9 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTBlock node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTPreProcessorStatement node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTIfStatement node, Object data){
     return defaultVisit(node, data);
   }
@@ -118,4 +121,4 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=ab9a26cea4238284da87ab94bbc9f597 (do not edit this line) */
+/* JavaCC - OriginalChecksum=2fc671ebacbf2425a2a31d4643a0c8bd (do not edit this line) */

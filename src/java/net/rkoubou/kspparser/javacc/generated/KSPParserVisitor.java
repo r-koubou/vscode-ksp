@@ -12,6 +12,7 @@ public interface KSPParserVisitor
   public Object visit(ASTCallbackArgumentList node, Object data);
   public Object visit(ASTUserFunctionDeclaration node, Object data);
   public Object visit(ASTBlock node, Object data);
+  public Object visit(ASTPreProcessorStatement node, Object data);
   public Object visit(ASTIfStatement node, Object data);
   public Object visit(ASTSelectStatement node, Object data);
   public Object visit(ASTCaseStatement node, Object data);
@@ -41,4 +42,4 @@ public interface KSPParserVisitor
   public Object visit(ASTRefVariable node, Object data);
   public Object visit(ASTCallCommand node, Object data);
 }
-/* JavaCC - OriginalChecksum=e5a58d0c507ae749952f3d94c9a1325d (do not edit this line) */
+/* JavaCC - OriginalChecksum=5afa02473d6979a35a399f5005e10eed (do not edit this line) */

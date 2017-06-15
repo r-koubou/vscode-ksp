@@ -55,71 +55,87 @@ public interface KSPParserConstants {
   /** RegularExpression Id. */
   int WHILE = 27;
   /** RegularExpression Id. */
-  int VARIABLE_INT = 28;
+  int PREPROCESSOR_SET_COND = 28;
   /** RegularExpression Id. */
-  int VARIABLE_INT_ARRAY = 29;
+  int PREPROCESSOR_RESET_COND = 29;
   /** RegularExpression Id. */
-  int VARIABLE_REAL = 30;
+  int PREPROCESSOR_CODE_IF = 30;
   /** RegularExpression Id. */
-  int VARIABLE_REAL_ARRAY = 31;
+  int PREPROCESSOR_CODE_IF_NOT = 31;
   /** RegularExpression Id. */
-  int VARIABLE_STRING = 32;
+  int PREPROCESSOR_CODE_END_IF = 32;
   /** RegularExpression Id. */
-  int VARIABLE_STRING_ARRAY = 33;
+  int PREPROCESSOR_NO_SYS_SCRIPT_GROUP_START = 33;
   /** RegularExpression Id. */
-  int BOOL_GT = 34;
+  int PREPROCESSOR_NO_SYS_SCRIPT_PEDAL = 34;
   /** RegularExpression Id. */
-  int BOOL_LT = 35;
+  int PREPROCESSOR_NO_SYS_SCRIPT_RLS_TRIG = 35;
   /** RegularExpression Id. */
-  int BOOL_GE = 36;
+  int VARIABLE_INT = 36;
   /** RegularExpression Id. */
-  int BOOL_LE = 37;
+  int VARIABLE_INT_ARRAY = 37;
   /** RegularExpression Id. */
-  int BOOL_EQ = 38;
+  int VARIABLE_REAL = 38;
   /** RegularExpression Id. */
-  int BOOL_NE = 39;
+  int VARIABLE_REAL_ARRAY = 39;
   /** RegularExpression Id. */
-  int BOOL_NOT = 40;
+  int VARIABLE_STRING = 40;
   /** RegularExpression Id. */
-  int BOOL_AND = 41;
+  int VARIABLE_STRING_ARRAY = 41;
   /** RegularExpression Id. */
-  int BOOL_OR = 42;
+  int BOOL_GT = 42;
   /** RegularExpression Id. */
-  int ASSIGN = 43;
+  int BOOL_LT = 43;
   /** RegularExpression Id. */
-  int PLUS = 44;
+  int BOOL_GE = 44;
   /** RegularExpression Id. */
-  int MINUS = 45;
+  int BOOL_LE = 45;
   /** RegularExpression Id. */
-  int MUL = 46;
+  int BOOL_EQ = 46;
   /** RegularExpression Id. */
-  int DIV = 47;
+  int BOOL_NE = 47;
   /** RegularExpression Id. */
-  int MOD = 48;
+  int BOOL_NOT = 48;
   /** RegularExpression Id. */
-  int BIT_AND = 49;
+  int BOOL_AND = 49;
   /** RegularExpression Id. */
-  int BIT_OR = 50;
+  int BOOL_OR = 50;
   /** RegularExpression Id. */
-  int BIT_NOT = 51;
+  int ASSIGN = 51;
   /** RegularExpression Id. */
-  int STRING_ADD = 52;
+  int PLUS = 52;
   /** RegularExpression Id. */
-  int LPAREN = 53;
+  int MINUS = 53;
   /** RegularExpression Id. */
-  int RPAREN = 54;
+  int MUL = 54;
   /** RegularExpression Id. */
-  int LBRACKET = 55;
+  int DIV = 55;
   /** RegularExpression Id. */
-  int RBRACKET = 56;
+  int MOD = 56;
   /** RegularExpression Id. */
-  int COMMA = 57;
+  int BIT_AND = 57;
   /** RegularExpression Id. */
-  int IDENTIFIER = 58;
+  int BIT_OR = 58;
   /** RegularExpression Id. */
-  int LETTER = 59;
+  int BIT_NOT = 59;
   /** RegularExpression Id. */
-  int PART_LETTER = 60;
+  int STRING_ADD = 60;
+  /** RegularExpression Id. */
+  int LPAREN = 61;
+  /** RegularExpression Id. */
+  int RPAREN = 62;
+  /** RegularExpression Id. */
+  int LBRACKET = 63;
+  /** RegularExpression Id. */
+  int RBRACKET = 64;
+  /** RegularExpression Id. */
+  int COMMA = 65;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 66;
+  /** RegularExpression Id. */
+  int LETTER = 67;
+  /** RegularExpression Id. */
+  int PART_LETTER = 68;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -156,6 +172,14 @@ public interface KSPParserConstants {
     "\"case\"",
     "\"to\"",
     "\"while\"",
+    "\"SET_CONDITION\"",
+    "\"RESET_CONDITION\"",
+    "\"USE_CODE_IF\"",
+    "\"USE_CODE_IF_NOT\"",
+    "\"END_USE_CODE\"",
+    "\"NO_SYS_SCRIPT_GROUP_START\"",
+    "\"NO_SYS_SCRIPT_PEDAL\"",
+    "\"NO_SYS_SCRIPT_RLS_TRIG\"",
     "<VARIABLE_INT>",
     "<VARIABLE_INT_ARRAY>",
     "<VARIABLE_REAL>",

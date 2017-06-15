@@ -215,6 +215,21 @@ TOKEN:
     | <WHILE: "while" >
 }
 
+//--------------------------------------------------------------------------
+// プリプロセッサ
+//--------------------------------------------------------------------------
+TOKEN:
+{
+      <PREPROCESSOR_SET_COND: "SET_CONDITION" >
+    | <PREPROCESSOR_RESET_COND: "RESET_CONDITION" >
+    | <PREPROCESSOR_CODE_IF: "USE_CODE_IF" >
+    | <PREPROCESSOR_CODE_IF_NOT: "USE_CODE_IF_NOT" >
+    | <PREPROCESSOR_CODE_END_IF: "END_USE_CODE" >
+    | <PREPROCESSOR_NO_SYS_SCRIPT_GROUP_START: "NO_SYS_SCRIPT_GROUP_START" >
+    | <PREPROCESSOR_NO_SYS_SCRIPT_PEDAL: "NO_SYS_SCRIPT_PEDAL" >
+    | <PREPROCESSOR_NO_SYS_SCRIPT_RLS_TRIG: "NO_SYS_SCRIPT_RLS_TRIG" >
+}
+
 //------------------------------------------------------------------------------
 // 変数
 //------------------------------------------------------------------------------
@@ -468,7 +483,8 @@ void Statement() :
 {
     try
     {
-          StatementExpression()
+          PreProcessorStatement()
+        | StatementExpression()
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
@@ -479,6 +495,57 @@ void Statement() :
     {
         errorSkipTo( e );
     }
+}
+
+//
+// プリプロセッサ
+//
+void PreProcessorStatement() #PreProcessorStatement :
+{}
+{
+    // SET_CONDITION(<condition-symbol>)
+    (
+        <PREPROCESSOR_SET_COND> (<MULTI_LINE_DELIMITER>)*           // SET_CONDITION
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        <IDENTIFIER>                                                // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+    )
+|
+    // RESET_CONDITION(<condition-symbol>)
+    (
+        <PREPROCESSOR_RESET_COND> (<MULTI_LINE_DELIMITER>)*         // RESET_CONDITION
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        <IDENTIFIER>                                                // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+    )
+|
+    // USE_CODE_IF(<condition-symbol>)
+    (
+        <PREPROCESSOR_CODE_IF> (<MULTI_LINE_DELIMITER>)*            // USE_CODE_IF
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        <IDENTIFIER>                                                // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+        Block()                                                     // code
+        <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
+    )
+|
+    // USE_CODE_IF_NOT(<condition-symbol>)
+    (
+        <PREPROCESSOR_CODE_IF_NOT> (<MULTI_LINE_DELIMITER>)*        // USE_CODE_IF_NOT
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        <IDENTIFIER>                                                // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+        Block()                                                     // code
+        <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
+    )
 }
 
 void StatementExpression() :
