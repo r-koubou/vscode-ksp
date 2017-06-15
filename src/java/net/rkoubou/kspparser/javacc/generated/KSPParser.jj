@@ -222,6 +222,21 @@ TOKEN:
     | <WHILE: "while" >
 }
 
+//--------------------------------------------------------------------------
+// \u30d7\u30ea\u30d7\u30ed\u30bb\u30c3\u30b5
+//--------------------------------------------------------------------------
+TOKEN:
+{
+      <PREPROCESSOR_SET_COND: "SET_CONDITION" >
+    | <PREPROCESSOR_RESET_COND: "RESET_CONDITION" >
+    | <PREPROCESSOR_CODE_IF: "USE_CODE_IF" >
+    | <PREPROCESSOR_CODE_IF_NOT: "USE_CODE_IF_NOT" >
+    | <PREPROCESSOR_CODE_END_IF: "END_USE_CODE" >
+    | <PREPROCESSOR_NO_SYS_SCRIPT_GROUP_START: "NO_SYS_SCRIPT_GROUP_START" >
+    | <PREPROCESSOR_NO_SYS_SCRIPT_PEDAL: "NO_SYS_SCRIPT_PEDAL" >
+    | <PREPROCESSOR_NO_SYS_SCRIPT_RLS_TRIG: "NO_SYS_SCRIPT_RLS_TRIG" >
+}
+
 //------------------------------------------------------------------------------
 // \u5909\u6570
 //------------------------------------------------------------------------------
@@ -733,7 +748,8 @@ void Statement() :
 {
     try
     {
-          StatementExpression()
+          PreProcessorStatement()
+        | StatementExpression()
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
@@ -744,6 +760,210 @@ void Statement() :
     {
         errorSkipTo( e );
     }
+}
+
+//
+// \u30d7\u30ea\u30d7\u30ed\u30bb\u30c3\u30b5
+//
+void PreProcessorStatement() :
+{}
+{
+      PreProcessorDefine()        // SET_CONDITION(<condition-symbol>)
+    | PreProcessorUnDefine()      // RESET_CONDITION(<condition-symbol>)
+    | PreProcessorIfDefined()     // USE_CODE_IF(<condition-symbol>)
+    | PreProcessorIfUnDefined()   // USE_CODE_IF_NOT(<condition-symbol>)
+}
+
+//
+// \u30d7\u30ea\u30d7\u30ed\u30bb\u30c3\u30b5\uff1a\u30b7\u30f3\u30dc\u30eb\u5b9a\u7fa9
+//
+void PreProcessorDefine()                    :
+{/*@bgen(jjtree) PreProcessorDefine */
+    ASTPreProcessorDefine jjtn000 = new ASTPreProcessorDefine(this, JJTPREPROCESSORDEFINE);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
+{/*@bgen(jjtree) PreProcessorDefine */
+    try {
+/*@egen*/
+    // SET_CONDITION(<condition-symbol>)
+    (
+        <PREPROCESSOR_SET_COND> (<MULTI_LINE_DELIMITER>)*           // SET_CONDITION
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        symbol = <IDENTIFIER>                                       // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name = symbol.image;
+        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+    }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+//
+// \u30d7\u30ea\u30d7\u30ed\u30bb\u30c3\u30b5\uff1a\u30b7\u30f3\u30dc\u30eb\u7834\u68c4
+//
+void PreProcessorUnDefine()                      :
+{/*@bgen(jjtree) PreProcessorUnDefine */
+    ASTPreProcessorUnDefine jjtn000 = new ASTPreProcessorUnDefine(this, JJTPREPROCESSORUNDEFINE);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
+{/*@bgen(jjtree) PreProcessorUnDefine */
+    try {
+/*@egen*/
+    // RESET_CONDITION(<condition-symbol>)
+    (
+        <PREPROCESSOR_RESET_COND> (<MULTI_LINE_DELIMITER>)*         // RESET_CONDITION
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        symbol = <IDENTIFIER>                                       // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name = symbol.image;
+        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+    }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+//
+// \u30d7\u30ea\u30d7\u30ed\u30bb\u30c3\u30b5\uff1a\u30b7\u30f3\u30dc\u30eb\u5b9a\u7fa9\u5206\u5c90(=ifdef)
+//
+void PreProcessorIfDefined()                       :
+{/*@bgen(jjtree) PreProcessorIfDefined */
+    ASTPreProcessorIfDefined jjtn000 = new ASTPreProcessorIfDefined(this, JJTPREPROCESSORIFDEFINED);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
+{/*@bgen(jjtree) PreProcessorIfDefined */
+    try {
+/*@egen*/
+    // USE_CODE_IF(<condition-symbol>)
+    (
+        <PREPROCESSOR_CODE_IF> (<MULTI_LINE_DELIMITER>)*            // USE_CODE_IF
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        symbol = <IDENTIFIER>                                       // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+        Block()                                                     // code
+        <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name = symbol.image;
+        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+//
+// \u30d7\u30ea\u30d7\u30ed\u30bb\u30c3\u30b5\uff1a\u30b7\u30f3\u30dc\u30eb\u5b9a\u7fa9\u5206\u5c90(=ifndef)
+//
+void PreProcessorIfUnDefined()                         :
+{/*@bgen(jjtree) PreProcessorIfUnDefined */
+    ASTPreProcessorIfUnDefined jjtn000 = new ASTPreProcessorIfUnDefined(this, JJTPREPROCESSORIFUNDEFINED);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
+{/*@bgen(jjtree) PreProcessorIfUnDefined */
+    try {
+/*@egen*/
+    // USE_CODE_IF_NOT(<condition-symbol>)
+    (
+        <PREPROCESSOR_CODE_IF_NOT> (<MULTI_LINE_DELIMITER>)*        // USE_CODE_IF_NOT
+        <LPAREN>                                                    // (
+        (<MULTI_LINE_DELIMITER>)*
+        symbol = <IDENTIFIER>                                       // SYMBOL
+        (<MULTI_LINE_DELIMITER>)*
+        <RPAREN>                                                    // )
+        Block()                                                     // code
+        <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name = symbol.image;
+        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
 }
 
 void StatementExpression() :

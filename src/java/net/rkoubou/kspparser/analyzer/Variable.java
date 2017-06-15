@@ -68,7 +68,6 @@ public class Variable extends SymbolDefinition
         this.astNode = node;
     }
 
-    //////////////////////////////////////////////////////////////////////////
     /**
      * 数値型かどうかを判定する
      */

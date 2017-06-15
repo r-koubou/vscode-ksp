@@ -7,11 +7,10 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import net.rkoubou.kspparser.analyzer.MessageManager.Level;
-
 import net.rkoubou.kspparser.javacc.generated.KSPParserDefaultVisitor;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.Node;
+import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
@@ -62,14 +61,29 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
     public Object visit( ASTVariableDeclaration node, Object data )
     {
         Object ret = defaultVisit( node, data );
-
+//--------------------------------------------------------------------------
 /*
+    変数
         [node]
         VariableDeclaration
             -> VariableDeclarator
                 -> [VariableInitializer]
                     -> Expression
 */
+//--------------------------------------------------------------------------
+        if( validateVariableImpl( node ) )
+        {
+            variableTable.add( node );
+        }
+
+        return ret;
+    }
+
+    /**
+     * 変数、プリプロセッサシンボル収集の共通の事前検証処理
+     */
+    protected boolean validateVariableImpl( SimpleNode node )
+    {
         //--------------------------------------------------------------------------
         // 変数は on init 内でしか宣言できない
         //--------------------------------------------------------------------------
@@ -120,20 +134,21 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
                 if( v != null && v.reserved )
                 {
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_RESERVED, d );
+                    return false;
                 }
                 // ユーザー変数との重複
                 else if( v != null )
                 {
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_DECLARED, d );
+                    return false;
                 }
-                // 未定義：新規追加
+                // 未定義：新規追加可能
                 else
                 {
-                    variableTable.add( node );
+                    return true;
                 }
             }
         }
-        return ret;
     }
 
     /**
