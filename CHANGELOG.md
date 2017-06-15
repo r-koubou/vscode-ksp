@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.2.3
+
+### Improved - Syntax Parser
+
+Support Preprocessor statement (Lexical Analysis only)
+
 ## Version 0.2.2
 
 ### BUG Fixed Syntax Parser program

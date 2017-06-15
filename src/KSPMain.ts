@@ -20,7 +20,7 @@ import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 
-function activate(context)
+export function activate( context:vscode.ExtensionContext ) : any
 {
     let validator = new KSPValidationProvider( context.workspaceState );
     validator.activate( context.subscriptions );
@@ -55,5 +55,3 @@ function activate(context)
     });
 
 }
-
-exports.activate = activate;
