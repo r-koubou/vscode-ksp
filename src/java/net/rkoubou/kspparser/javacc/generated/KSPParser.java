@@ -337,7 +337,7 @@ if (jjtc000) {
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 decl.symbol.name = name.image;
-        decl.symbol.setTypeFromVariableName();
+        decl.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -915,7 +915,7 @@ errorSkipTo( e );
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
@@ -977,7 +977,7 @@ if (jjtc000) {
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
@@ -1041,7 +1041,7 @@ if (jjtc000) {
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1119,7 +1119,7 @@ if (jjtc000) {
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

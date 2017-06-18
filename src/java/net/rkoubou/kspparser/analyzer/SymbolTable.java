@@ -21,7 +21,6 @@ import java.util.Hashtable;
  */
 abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends SymbolDefinition> implements AnalyzerConstants
 {
-
     public enum SortType
     {
         BY_ID,
@@ -32,6 +31,37 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
 
     protected int index;
     protected Hashtable<String, SYMBOL> table = new Hashtable<String, SYMBOL>( 64 );
+
+    public final Comparator<SymbolDefinition> comparatorById =
+
+        new Comparator<SymbolDefinition>()
+        {
+            /**
+             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+             */
+            public int compare( SymbolDefinition o1, SymbolDefinition o2 )
+            {
+                return o1.index - o2.index;
+            }
+        };
+
+    public final Comparator<SymbolDefinition> comparatorByType =
+
+        new Comparator<SymbolDefinition>()
+        {
+            /**
+             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+             */
+            public int compare( SymbolDefinition o1, SymbolDefinition o2 )
+            {
+                int cmp = o1.symbolType.compareTo( o2.symbolType );
+                if( cmp == 0 )
+                {
+                    return comparatorById.compare( o1, o2 );
+                }
+                return cmp;
+            }
+        };
 
     /**
      * ctor
@@ -63,7 +93,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     /**
      * シンボルテーブルへの追加
      */
-    abstract public boolean add( NODE node );
+    abstract public boolean add( NODE node, SymbolDefinition.SymbolType type );
 
     /**
      * 指定したシンボル名がテーブルに登録されているか検索する
@@ -134,19 +164,19 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     /**
      * 登録されているシンボルを配列形式で返す
      */
-    public Variable[] toArray( SortType sortType )
+    public SymbolDefinition[] toArray( SortType sortType )
     {
-        Comparator<Variable> c = null;
+        Comparator<SymbolDefinition> c = null;
 
         switch( sortType )
         {
-            case BY_ID:   c = Variable.comparatorById;   break;
-            case BY_TYPE: c = Variable.comparatorByType; break;
+            case BY_ID:   c = comparatorById;   break;
+            case BY_TYPE: c = comparatorByType; break;
             default:
                 throw new IllegalArgumentException();
         }
 
-        Variable[] array = table.values().toArray( new Variable[ 0 ] );
+        SymbolDefinition[] array = table.values().toArray( new Variable[ 0 ] );
         if( array.length > 0 )
         {
             Arrays.sort( array, c );
@@ -176,7 +206,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
      */
     public void dumpSymbol( PrintStream ps )
     {
-        for( Variable v : toArray( SortType.BY_TYPE) )
+        for( SymbolDefinition v : toArray( SortType.BY_TYPE) )
         {
             ps.println( v.name );
         }

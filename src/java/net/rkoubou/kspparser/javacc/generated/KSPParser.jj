@@ -465,7 +465,7 @@ void VariableDeclarator( ASTVariableDeclaration decl )                    :
 /*@egen*/
     {
         decl.symbol.name = name.image;
-        decl.symbol.setTypeFromVariableName();
+        decl.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -804,7 +804,7 @@ void PreProcessorDefine()                    :
 /*@egen*/
     {
         jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -844,7 +844,7 @@ void PreProcessorUnDefine()                      :
 /*@egen*/
     {
         jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -886,7 +886,7 @@ void PreProcessorIfDefined()                       :
 /*@egen*/
     {
         jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -942,7 +942,7 @@ void PreProcessorIfUnDefined()                         :
 /*@egen*/
     {
         jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {

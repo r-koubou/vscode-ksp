@@ -7,57 +7,35 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import java.util.Comparator;
-
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
 /**
  * 値、変数の中間表現を示す
  */
-public class Variable extends SymbolDefinition
+public class Variable<T> extends SymbolDefinition
 {
     public final ASTVariableDeclaration astNode;
 
-    int    arraySize;
-    int    constantIndex = -1;
-    int    objectID;
+    /** 型 */
+    public int type = TYPE_UNKNOWN;
 
+    /** 配列型の場合の要素数 */
+    public int arraySize;
+
+    /** コンスタントプールに格納される場合のインデックス番号 */
+    public int constantIndex = -1;
+
+    /** 値がある場合はその値(Integer,Double,String) */
+    public T value = null;
+
+    /** 意味解析フェーズ中に走査し参照されたかを記録する */
     boolean referenced = false;
-    boolean constantValueWithSingleOperator = false; // 単項演算子により生成、かつリテラル値
+
+    /** 単項演算子により生成、かつリテラル値 */
+    boolean constantValueWithSingleOperator = false;
 
     /** 状態 */
     public VariableState status = VariableState.UNLOADED;
-
-    static public Comparator<Variable> comparatorById =
-
-        new Comparator<Variable>()
-        {
-            /**
-             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-             */
-            public int compare( Variable o1, Variable o2 )
-            {
-                return o1.index - o2.index;
-            }
-        };
-
-    static public Comparator<Variable> comparatorByType =
-
-        new Comparator<Variable>()
-        {
-            /**
-             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-             */
-            public int compare( Variable o1, Variable o2 )
-            {
-                int cmp = o1.type - o2.type;
-                if( cmp == 0 )
-                {
-                    return comparatorById.compare( o1, o2 );
-                }
-                return cmp;
-            }
-        };
 
     /**
      * Ctor.
@@ -73,7 +51,7 @@ public class Variable extends SymbolDefinition
      */
     public boolean isNumeric()
     {
-        switch( type )
+        switch( type & TYPE_MASK )
         {
             case TYPE_INT:
                 return true;
@@ -108,41 +86,78 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * valueの比較
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
+
     public boolean equals( Object obj )
     {
-        if( obj == null || !( obj instanceof Variable ) )
+        if( obj == null || !( obj instanceof Variable<?> ) )
         {
             return false;
         }
 
-        Variable p = (Variable)obj;
+        Variable<?> p = (Variable<?>)obj;
 
-        if( p.type != this.type )
+        return p.value.equals( this.value );
+    }
+
+    /**
+     * 変数名の1文字目の記号から型情報を算出する
+     */
+    public boolean setTypeFromVariableName()
+    {
+        this.type = getTypeFromVariableName( this.name );
+        return this.type != TYPE_UNKNOWN;
+    }
+/**
+     * 変数名の1文字目の記号から型情報を算出する
+     */
+    static public Variable<?> create( ASTVariableDeclaration decl )
+    {
+        String variableName = decl.symbol.name;
+        if( variableName == null || variableName.length() == 0 )
         {
-            return false;
+            throw new IllegalArgumentException();
         }
-
-        switch( p.type & TYPE_MASK )
+        char t = variableName.charAt( 0 );
+        switch( t )
         {
-            case TYPE_INT:
-                int v1 = (Integer)this.value;
-                int v2 = (Integer)p.value;
-                return v1 == v2;
-
-            case TYPE_STRING:
-                return p.value.toString().equals( this.value.toString() );
-
+            case '$':
+            case '%':
+                return new Variable<Integer>( decl );
+            case '~':
+            case '?':
+                return new Variable<Double>( decl );
+            case '@':
+            case '!':
+                return new Variable<String>( decl );
+            default:
+                throw new IllegalArgumentException();
         }
+    }
 
-        if( ( type & TYPE_ATTR_ARRAY ) != 0 )
+    /**
+     * 変数名の1文字目の記号から型情報を算出する
+     */
+    static public int getTypeFromVariableName( String variableName )
+    {
+        if( variableName == null || variableName.length() == 0 )
         {
-            return p.value == value;
+            return TYPE_UNKNOWN;
         }
-
-        return false;
+        char t = variableName.charAt( 0 );
+        switch( t )
+        {
+            case '$': return TYPE_INT;
+            case '%': return TYPE_INT | TYPE_ATTR_ARRAY;
+            case '~': return TYPE_REAL;
+            case '?': return TYPE_REAL | TYPE_ATTR_ARRAY;
+            case '@': return TYPE_STRING;
+            case '!': return TYPE_STRING | TYPE_ATTR_ARRAY;
+            default:
+                return TYPE_UNKNOWN;
+        }
     }
 }
-

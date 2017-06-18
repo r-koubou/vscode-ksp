@@ -12,6 +12,18 @@ package net.rkoubou.kspparser.analyzer;
  */
 public class SymbolDefinition implements AnalyzerConstants
 {
+    public enum SymbolType
+    {
+        Unknown,
+        Callback,
+        Command,
+        UserFunction,
+        Variable,
+        PreprocessorSymbol,
+    };
+
+    /** シンボルの種類 */
+    public SymbolType symbolType = SymbolType.Unknown;
     /** シンボルテーブルインデックス値 */
     public int index = 0;
     /** アクセス識別フラグ（ある場合に使用。未使用の場合は0） */
@@ -24,10 +36,6 @@ public class SymbolDefinition implements AnalyzerConstants
     public int line = 0;
     /** 定義した行中の列 */
     public int colmn = 0;
-    /** 型 */
-    public int type = TYPE_UNKNOWN;
-    /** 値がある場合はその値 */
-    public Object value = null;
     /** 戻り値型（KSPでは文法上存在しないので、現在は使用しない） */
     public int returnType = TYPE_UNKNOWN;
     /** 代入式ノードで使用する */
@@ -51,76 +59,44 @@ public class SymbolDefinition implements AnalyzerConstants
      */
     static public void copy( SymbolDefinition src, SymbolDefinition dest )
     {
+        dest.symbolType = src.symbolType;
         dest.index      = src.index;
         dest.accessFlag = src.accessFlag;
         dest.reserved   = src.reserved;
         dest.name       = src.name;
         dest.line       = src.line;
         dest.colmn      = src.colmn;
-        dest.type       = src.type;
-        dest.value      = src.value;
         dest.returnType = src.returnType;
         dest.oprator    = src.oprator;
     }
 
-    /**
-     * このシンボルが変数である場合、値をセットする
-     * @param type AnalyzerConstants.TYPE_####
-     * @param value 値となるトークン文字列
-     * @see AnalyzerConstants
-     */
-    public void setVariableValue( int type, String value )
-    {
-        this.type  = type;
+    // /**
+    //  * このシンボルが変数である場合、値をセットする
+    //  * @param type AnalyzerConstants.TYPE_####
+    //  * @param value 値となるトークン文字列
+    //  * @see AnalyzerConstants
+    //  */
+    // public void setVariableValue( int type, String value )
+    // {
+    //     this.type  = type;
 
-        if( type == TYPE_INT )
-        {
-            this.value = new Integer( Long.decode( value ).intValue() );
-        }
-        else if( type == TYPE_REAL )
-        {
-            this.value = new Double( Double.parseDouble( value ) );
-        }
-        else if( type == TYPE_STRING )
-        {
-            value = value.replaceAll( "\\\\t",    "\t" );
-            value = value.replaceAll( "\\\\n",    "\n" );
-            value = value.replaceAll( "\\\\r",    "\r" );
-            value = value.replaceAll( "\\\\\"",   "\"" );
-            value = value.replaceAll( "\\{2}",    "\\" );
-            this.value = value;
-        }
-    }
+    //     if( type == TYPE_INT )
+    //     {
+    //         this.value = new Integer( Long.decode( value ).intValue() );
+    //     }
+    //     else if( type == TYPE_REAL )
+    //     {
+    //         this.value = new Double( Double.parseDouble( value ) );
+    //     }
+    //     else if( type == TYPE_STRING )
+    //     {
+    //         value = value.replaceAll( "\\\\t",    "\t" );
+    //         value = value.replaceAll( "\\\\n",    "\n" );
+    //         value = value.replaceAll( "\\\\r",    "\r" );
+    //         value = value.replaceAll( "\\\\\"",   "\"" );
+    //         value = value.replaceAll( "\\{2}",    "\\" );
+    //         this.value = value;
+    //     }
+    // }
 
-    /**
-     * 変数名の1文字目の記号から型情報を算出する
-     */
-    public boolean setTypeFromVariableName()
-    {
-        this.type = getTypeFromVariableName( this.name );
-        return this.type != TYPE_UNKNOWN;
-    }
-
-    /**
-     * 変数名の1文字目の記号から型情報を算出する
-     */
-    static public int getTypeFromVariableName( String variableName )
-    {
-        if( variableName == null || variableName.length() == 0 )
-        {
-            return TYPE_UNKNOWN;
-        }
-        char t = variableName.charAt( 0 );
-        switch( t )
-        {
-            case '$': return TYPE_INT;
-            case '%': return TYPE_INT | TYPE_ATTR_ARRAY;
-            case '~': return TYPE_REAL;
-            case '?': return TYPE_REAL | TYPE_ATTR_ARRAY;
-            case '@': return TYPE_STRING;
-            case '!': return TYPE_STRING | TYPE_ATTR_ARRAY;
-            default:
-                return TYPE_UNKNOWN;
-        }
-    }
 }

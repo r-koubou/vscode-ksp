@@ -11,6 +11,7 @@ import net.rkoubou.kspparser.javacc.generated.KSPParserDefaultVisitor;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
@@ -73,7 +74,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
 //--------------------------------------------------------------------------
         if( validateVariableImpl( node ) )
         {
-            variableTable.add( node );
+            variableTable.add( node, SymbolType.Variable );
         }
 
         return ret;
@@ -129,7 +130,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
             // 定義着済みの検査
             //--------------------------------------------------------------------------
             {
-                Variable v = variableTable.searchVariable( d.name );
+                Variable<?> v = variableTable.searchVariable( d.name );
                 // NI の予約変数との重複
                 if( v != null && v.reserved )
                 {

@@ -388,7 +388,7 @@ void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
     )
     {
         decl.symbol.name = name.image;
-        decl.symbol.setTypeFromVariableName();
+        decl.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }
 }
 
@@ -561,7 +561,7 @@ void PreProcessorDefine() #PreProcessorDefine:
     )
     {
         jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -584,7 +584,7 @@ void PreProcessorUnDefine() #PreProcessorUnDefine:
     )
     {
         jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -609,7 +609,7 @@ void PreProcessorIfDefined() #PreProcessorIfDefined:
     )
     {
         jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -634,7 +634,7 @@ void PreProcessorIfUnDefined() #PreProcessorIfUnDefined:
     )
     {
         jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.type = TYPE_PREPROCESSOR_SYMBOL;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
