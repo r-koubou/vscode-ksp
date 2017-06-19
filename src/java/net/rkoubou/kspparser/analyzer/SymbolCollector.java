@@ -24,10 +24,16 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
     private final ASTRootNode rootNode;
     private final VariableTable variableTable = new VariableTable();
 
+    /**
+     * NI が使用を禁止している変数名の接頭文字
+     */
     static private final String[] RESERVED_VARIABLE_PREFIX_LIST =
     {
+        // From KSP Reference Manual:
+        // Please do not create variables with the prefixes below, as these prefixes are used for
+        // internal variables and constants
         "$NI_",
-        "$_CONTROL_PAR_",
+        "$CONTROL_PAR_",
         "$EVENT_PAR_",
         "$ENGINE_PAR_",
     };
@@ -45,6 +51,16 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
      */
     private void collectReservedariable()
     {
+        ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
+        try
+        {
+            mgr.load();
+            mgr.apply( variableTable );
+        }
+        catch( Throwable e )
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -52,6 +68,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
      */
     public void collect()
     {
+        collectReservedariable();
         this.rootNode.jjtAccept( this, null );
     }
 
@@ -127,10 +144,10 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_ONINIT, d );
             }
             //--------------------------------------------------------------------------
-            // 定義着済みの検査
+            // 定義済みの検査
             //--------------------------------------------------------------------------
             {
-                Variable<?> v = variableTable.searchVariable( d.name );
+                Variable v = variableTable.searchVariable( d.name );
                 // NI の予約変数との重複
                 if( v != null && v.reserved )
                 {

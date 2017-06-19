@@ -14,7 +14,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 /**
  * 変数テーブル
  */
-public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable<?>> implements AnalyzerConstants
+public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable> implements AnalyzerConstants
 {
     /**
      * ctor
@@ -46,13 +46,13 @@ public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable<
     @Override
     public boolean add( ASTVariableDeclaration decl, SymbolDefinition.SymbolType type )
     {
-        return add( Variable.create( decl ) );
+        return add( new Variable( decl ) );
     }
 
     /**
      * 変数テーブルへの追加
      */
-    public boolean add( Variable<?> v )
+    public boolean add( Variable v )
     {
         final String name = v.name;
         if( table.containsKey( name ) )

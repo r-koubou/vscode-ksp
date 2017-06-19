@@ -1,28 +1,36 @@
-# Tab separated colmn format
+# What's this and Purposes?
+
+Export NI's reserved symbol in tab separated column file.(Plain text)
+
+These files puts on to **data/reserved**.
+
+-> It is for eliminating hard coding to re-build parser program.
+
+# Tab separated column format
 
 ## Variables
 
-(name)
+\<type\>\t\<name\>
 
 ## Callback
 
 1. has argument(s)
 
-    (name)\t(type)(\t(type)*
+    \<name\>\t\<type\>(\t\<type\>)*
 
 2. don't have argument
 
-    (name)
-
+    \<name\>
+
 ## Command
 
-1. has argument(s)
+1. have argument(s)
 
-    (return-type)\t(name)\t(type)(\t(type))*
+    \<return-type\>\t\<name\>\t\<type\>(\t\<type\>)*
 
 2. don't have argument
 
-    (return-type)\t(name)
+    \<return-type\>\t\<name\>
 
 ## Type
 
@@ -31,6 +39,6 @@
 - R   : real
 - R[] : real array
 - S   : string
-- R[] : string array
+- S[] : string array
 - V   : void ( command not return value )
-- \*   : any
+- PP  : Preprocessor Symbol

@@ -13,6 +13,9 @@ package net.rkoubou.kspparser.analyzer;
 public interface AnalyzerConstants
 {
 
+    /** VM引数 -D dataフォルダの明示的指定時のプロパティ名 */
+    String SYSTEM_PROPERTY_DATADIR = "kspparser.datadir";
+
     /** アトリビュート：読み取り専用 */
     int ACCESS_ATTR_CONST = 0x01;
 
@@ -61,9 +64,8 @@ public interface AnalyzerConstants
     // 配列などの情報フラグ (0x0100~0xff00)
     //--------------------------------------------------------------------------
     int TYPE_ATTR_MASK  = 0xff00;
-    int TYPE_ATTR_BASE = ( 1 << 8 );
     // 配列
-    int TYPE_ATTR_ARRAY = TYPE_ATTR_BASE + 0x01;
+    int TYPE_ATTR_ARRAY = 0x0100;
     // e.g. type is int[]
     // type = TYPE_INT | TYPE_ATTR_ARRAY
     // if( ( type & TYPE_ATTR_MASK ) == TYPE_ATTR_ARRAY )

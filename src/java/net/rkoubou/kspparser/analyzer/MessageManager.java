@@ -20,7 +20,7 @@ import net.rkoubou.kspparser.javacc.generated.ParseException;
  * パース中処理中のメッセージ処理出力に関するマネージャー。
  * I18Nや変数展開機能を提供する。
  */
-public class MessageManager
+public class MessageManager implements AnalyzerConstants
 {
 
     static public final String PROPERTY_ERROR_LEXICAL                   = "error.lexical";
@@ -52,7 +52,16 @@ public class MessageManager
      */
     static
     {
-        PROPERTIES_PATH = System.getProperty( "kspparser.datadir", "data/lang/message" );
+        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
+        if( dir == null )
+        {
+            dir = "data/lang";
+        }
+        else
+        {
+            dir += "/lang";
+        }
+        PROPERTIES_PATH = dir + "/message";
         properties = new Properties();
         try
         {
