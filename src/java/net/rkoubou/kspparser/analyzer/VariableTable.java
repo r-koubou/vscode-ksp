@@ -8,6 +8,7 @@
 package net.rkoubou.kspparser.analyzer;
 
 import net.rkoubou.kspparser.analyzer.Variable;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
 
@@ -44,9 +45,11 @@ public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable>
      * 変数テーブルへの追加
      */
     @Override
-    public boolean add( ASTVariableDeclaration decl, SymbolDefinition.SymbolType type )
+    public boolean add( ASTVariableDeclaration decl )
     {
-        return add( new Variable( decl ) );
+        Variable v = new Variable( decl );
+        v.symbolType = SymbolType.Variable;
+        return add( v );
     }
 
     /**
@@ -71,6 +74,7 @@ public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable>
             index++;
         }
         table.put( name, v );
+        v.symbolType = SymbolType.Variable;
         v.setTypeFromVariableName();
         return true;
     }

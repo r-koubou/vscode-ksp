@@ -48,8 +48,8 @@ public class Variable extends SymbolDefinition
     public Variable( ASTVariableDeclaration node )
     {
         copy( node.symbol, this );
-        this.astNode = node;
-    }
+        this.astNode    = node;
+}
 
     /**
      * 数値型かどうかを判定する

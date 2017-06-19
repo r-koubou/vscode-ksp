@@ -91,7 +91,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
 //--------------------------------------------------------------------------
         if( validateVariableImpl( node ) )
         {
-            variableTable.add( node, SymbolType.Variable );
+            variableTable.add( node );
         }
 
         return ret;

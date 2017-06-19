@@ -93,7 +93,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     /**
      * シンボルテーブルへの追加
      */
-    abstract public boolean add( NODE node, SymbolDefinition.SymbolType type );
+    abstract public boolean add( NODE node );
 
     /**
      * 指定したシンボル名がテーブルに登録されているか検索する
