@@ -48,7 +48,6 @@ public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable>
     public boolean add( ASTVariableDeclaration decl )
     {
         Variable v = new Variable( decl );
-        v.symbolType = SymbolType.Variable;
         return add( v );
     }
 

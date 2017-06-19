@@ -550,6 +550,7 @@ void CallbackDeclaration()                     :
 /*@egen*/
     {
         jjtn000.symbol.name = name.image;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -658,10 +659,20 @@ void UserFunctionDeclaration()                         :
 {/*@bgen(jjtree) UserFunctionDeclaration */
     try {
 /*@egen*/
-    <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
-    <EOL>
-    Block()
-    <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>/*@bgen(jjtree)*/
+    (
+        <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
+        <EOL>
+        Block()
+        <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

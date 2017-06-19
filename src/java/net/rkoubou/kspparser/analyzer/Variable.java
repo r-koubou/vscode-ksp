@@ -49,6 +49,7 @@ public class Variable extends SymbolDefinition
     {
         copy( node.symbol, this );
         this.astNode    = node;
+        this.symbolType = SymbolType.Variable;
 }
 
     /**

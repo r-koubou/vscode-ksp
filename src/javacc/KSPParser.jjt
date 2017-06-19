@@ -442,6 +442,7 @@ void CallbackDeclaration() #CallbackDeclaration:
     )
     {
         jjtThis.symbol.name = name.image;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
     }
 }
 
@@ -472,10 +473,15 @@ void CallbackArgumentList() #CallbackArgumentList:
 void UserFunctionDeclaration() #UserFunctionDeclaration:
 {}
 {
-    <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
-    <EOL>
-    Block()
-    <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
+    (
+        <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
+        <EOL>
+        Block()
+        <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
+    )
+    {
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+    }
 }
 
 //
