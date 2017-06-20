@@ -8,42 +8,41 @@ public interface KSPParserTreeConstants
   public int JJTVARIABLEDECLARATION = 2;
   public int JJTVARIABLEDECLARATOR = 3;
   public int JJTCALLBACKDECLARATION = 4;
-  public int JJTCALLBACKARGUMENT = 5;
-  public int JJTCALLBACKARGUMENTLIST = 6;
-  public int JJTUSERFUNCTIONDECLARATION = 7;
-  public int JJTBLOCK = 8;
-  public int JJTPREPROCESSORDEFINE = 9;
-  public int JJTPREPROCESSORUNDEFINE = 10;
-  public int JJTPREPROCESSORIFDEFINED = 11;
-  public int JJTPREPROCESSORIFUNDEFINED = 12;
-  public int JJTIFSTATEMENT = 13;
-  public int JJTSELECTSTATEMENT = 14;
-  public int JJTCASESTATEMENT = 15;
-  public int JJTCASECONDITION = 16;
-  public int JJTWHILESTATEMENT = 17;
-  public int JJTASSIGNMENT = 18;
-  public int JJTCONDITIONALOR = 19;
-  public int JJTCONDITIONALAND = 20;
-  public int JJTINCLUSIVEOR = 21;
-  public int JJTAND = 22;
-  public int JJTEQUAL = 23;
-  public int JJTNOTEQUAL = 24;
-  public int JJTLT = 25;
-  public int JJTGT = 26;
-  public int JJTLE = 27;
-  public int JJTGE = 28;
-  public int JJTADD = 29;
-  public int JJTSUB = 30;
-  public int JJTSTRADD = 31;
-  public int JJTMUL = 32;
-  public int JJTDIV = 33;
-  public int JJTMOD = 34;
-  public int JJTNEG = 35;
-  public int JJTNOT = 36;
-  public int JJTLOGICALNOT = 37;
-  public int JJTLITERAL = 38;
-  public int JJTREFVARIABLE = 39;
-  public int JJTCALLCOMMAND = 40;
+  public int JJTCALLBACKARGUMENTLIST = 5;
+  public int JJTUSERFUNCTIONDECLARATION = 6;
+  public int JJTBLOCK = 7;
+  public int JJTPREPROCESSORDEFINE = 8;
+  public int JJTPREPROCESSORUNDEFINE = 9;
+  public int JJTPREPROCESSORIFDEFINED = 10;
+  public int JJTPREPROCESSORIFUNDEFINED = 11;
+  public int JJTIFSTATEMENT = 12;
+  public int JJTSELECTSTATEMENT = 13;
+  public int JJTCASESTATEMENT = 14;
+  public int JJTCASECONDITION = 15;
+  public int JJTWHILESTATEMENT = 16;
+  public int JJTASSIGNMENT = 17;
+  public int JJTCONDITIONALOR = 18;
+  public int JJTCONDITIONALAND = 19;
+  public int JJTINCLUSIVEOR = 20;
+  public int JJTAND = 21;
+  public int JJTEQUAL = 22;
+  public int JJTNOTEQUAL = 23;
+  public int JJTLT = 24;
+  public int JJTGT = 25;
+  public int JJTLE = 26;
+  public int JJTGE = 27;
+  public int JJTADD = 28;
+  public int JJTSUB = 29;
+  public int JJTSTRADD = 30;
+  public int JJTMUL = 31;
+  public int JJTDIV = 32;
+  public int JJTMOD = 33;
+  public int JJTNEG = 34;
+  public int JJTNOT = 35;
+  public int JJTLOGICALNOT = 36;
+  public int JJTLITERAL = 37;
+  public int JJTREFVARIABLE = 38;
+  public int JJTCALLCOMMAND = 39;
 
 
   public String[] jjtNodeName = {
@@ -52,7 +51,6 @@ public interface KSPParserTreeConstants
     "VariableDeclaration",
     "VariableDeclarator",
     "CallbackDeclaration",
-    "CallbackArgument",
     "CallbackArgumentList",
     "UserFunctionDeclaration",
     "Block",
@@ -90,4 +88,4 @@ public interface KSPParserTreeConstants
     "CallCommand",
   };
 }
-/* JavaCC - OriginalChecksum=949cbd6e46fea2913ecc48bf5eca90a4 (do not edit this line) */
+/* JavaCC - OriginalChecksum=74532d8879df60e44c4f68ae14fb9c34 (do not edit this line) */

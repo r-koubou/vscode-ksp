@@ -7,18 +7,19 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 
 /**
- * コールバックの中間表現を示す
+ * コールバック（引数なし）の中間表現を示す
  */
 public class Callback extends SymbolDefinition
 {
 
+    /** 元となるASTノード */
     public final ASTCallbackDeclaration astNode;
+
+    /** 多重宣言を許可するかどうか(例：on ui_controlなどは複数宣言可能) */
+    public boolean allowDuplicate;
 
     /**
      * Ctor.

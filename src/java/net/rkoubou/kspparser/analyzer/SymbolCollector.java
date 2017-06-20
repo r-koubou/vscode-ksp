@@ -11,7 +11,6 @@ import net.rkoubou.kspparser.javacc.generated.KSPParserDefaultVisitor;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
-import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
@@ -23,6 +22,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
 {
     private final ASTRootNode rootNode;
     private final VariableTable variableTable = new VariableTable();
+    private final CallbackTable callbackTable = new CallbackTable();
 
     /**
      * NI が使用を禁止している変数名の接頭文字
@@ -176,7 +176,13 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
     public Object visit( ASTCallbackDeclaration node, Object data )
     {
         Object ret = defaultVisit( node, data );
-        return data;
+
+        if( !callbackTable.add( node ) )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_CALLBACK_DECLARED, node.symbol );
+        }
+
+        return ret;
     }
 
 }

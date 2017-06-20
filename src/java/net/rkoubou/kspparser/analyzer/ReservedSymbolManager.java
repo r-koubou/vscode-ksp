@@ -12,8 +12,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Vector;
+import java.util.ArrayList;
 
+import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
+import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 
@@ -36,6 +38,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
     /** 予約済み変数 */
     private Variable[] variables = new Variable[ 0 ];
+
+    /** 予約済みコールバック */
+    private Callback[] callbacks = new Callback[ 0 ];
 
     /**
      * static initializer
@@ -67,6 +72,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     public void load() throws IOException
     {
         loadVariables();
+        loadCallbacks();
     }
 
     /**
@@ -94,7 +100,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadVariables() throws IOException
     {
-        Vector<Variable> newVariables = new Vector<Variable>( 1024 );
+        ArrayList<Variable> newVariables = new ArrayList<Variable>( 1024 );
 
         File f            = new File( BASE_DIR, "variables.txt" );
         BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
@@ -110,8 +116,8 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data = line.split( DELIMITER );
-                int type      = toVariableType( data[ 0 ] );
-                String name   = Variable.toKSPTypeCharacter( type ) + data[ 1 ];
+                int type      = toVariableType( data[ 0 ].trim() );
+                String name   = Variable.toKSPTypeCharacter( type ) + data[ 1 ].trim();
 
                 ASTVariableDeclaration ast = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
                 ast.symbol.name = name;
@@ -129,6 +135,95 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             try { br.close(); } catch( Throwable e ) {}
         }
         variables = newVariables.toArray( new Variable[0] );
+    }
+
+    /**
+     * 変数の予約済み定義ファイルから Variable クラスインスタンスを生成する
+     */
+    private void loadCallbacks() throws IOException
+    {
+        ArrayList<Callback> newCallbacks = new ArrayList<Callback>();
+
+        File f            = new File( BASE_DIR, "callbacks.txt" );
+        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
+        try
+        {
+            String line;
+            while( ( line = br.readLine() ) != null )
+            {
+                line = line.trim();
+                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
+                {
+                    continue;
+                }
+
+                String[] data = line.split( DELIMITER );
+                String name   = data[ 0 ].trim();
+                boolean dup   = data[ 1 ].trim().equals( "Y" );
+
+                //--------------------------------------------------------------------------
+                // data[2] 以降：引数を含む場合
+                // 引数のAST、変数を生成
+                //--------------------------------------------------------------------------
+                ArrayList<Argument> args = new ArrayList<Argument>();
+                if( data.length >= 3 )
+                {
+                    final int len            = data.length;
+                    for( int i = 2, index = 1; i < len; i++, index++ )
+                    {
+                        String typeString = data[ i ];
+                        boolean requireDeclarationOnInit = false;
+
+                        if( typeString.startsWith( "&" ) )
+                        {
+                            // ui_control など引数==宣言した変数の場合
+                            requireDeclarationOnInit = true;
+                            typeString =typeString.substring( 1 );
+                        }
+
+                        int type      = toVariableType( typeString );
+
+                        ASTVariableDeclaration ast = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
+                        ast.symbol.name = "arg" + index;
+
+                        Argument v    = new Argument( ast );
+                        v.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
+                        v.type        = type;
+                        v.reserved    = true;                   // 予約変数
+                        v.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
+                        v.status      = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
+                        args.add( v );
+                    }
+                }
+                //--------------------------------------------------------------------------
+                // コールバックのAST、変数を生成
+                //--------------------------------------------------------------------------
+                {
+                    ASTCallbackDeclaration ast = new ASTCallbackDeclaration( JJTCALLBACKDECLARATION );
+                    ast.symbol.name = name;
+                    if( args.size() > 0 )
+                    {
+                        ASTCallbackArgumentList astList = new ASTCallbackArgumentList( JJTCALLBACKARGUMENTLIST );
+                        for( Argument a : args )
+                        {
+                            astList.args.add( a.name );
+                        }
+                        ast.jjtAddChild( astList, 0 );
+                        newCallbacks.add( new CallbackWithArgs( ast ) );
+                    }
+                    else
+                    {
+                        newCallbacks.add( new Callback( ast ) );
+                    }
+                }
+
+            } //~while( ( line = br.readLine() ) != null )
+        }
+        finally
+        {
+            try { br.close(); } catch( Throwable e ) {}
+        }
+        callbacks = newCallbacks.toArray( new Callback[0] );
     }
 
     /**
@@ -167,6 +262,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         }
         throw new IllegalArgumentException( "Unknown type : " + t );
     }
+
 
     /**
      * Unit test

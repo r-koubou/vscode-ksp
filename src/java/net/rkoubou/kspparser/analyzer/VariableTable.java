@@ -72,9 +72,9 @@ public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable>
             v.index = index;
             index++;
         }
-        table.put( name, v );
         v.symbolType = SymbolType.Variable;
         v.setTypeFromVariableName();
+        table.put( name, v );
         return true;
     }
 }

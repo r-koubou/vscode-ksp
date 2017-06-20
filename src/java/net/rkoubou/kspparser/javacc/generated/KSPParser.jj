@@ -577,38 +577,12 @@ void CallbackDeclaration()                     :
 //
 // \u30b3\u30fc\u30eb\u30d0\u30c3\u30af\u30fb\u5f15\u6570\u5ba3\u8a00
 //
-void CallbackArgument()                  :
-{/*@bgen(jjtree) CallbackArgument */
-  ASTCallbackArgument jjtn000 = new ASTCallbackArgument(this, JJTCALLBACKARGUMENT);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) CallbackArgument */
-    try {
-/*@egen*/
+void CallbackArgument() :
+{}
+{
     <LPAREN> (<MULTI_LINE_DELIMITER>)*
     CallbackArgumentList()
-    <RPAREN>/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
-/*@egen*/
+    <RPAREN>
 }
 
 //
@@ -616,14 +590,25 @@ void CallbackArgument()                  :
 //
 void CallbackArgumentList()                      :
 {/*@bgen(jjtree) CallbackArgumentList */
-  ASTCallbackArgumentList jjtn000 = new ASTCallbackArgumentList(this, JJTCALLBACKARGUMENTLIST);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTCallbackArgumentList jjtn000 = new ASTCallbackArgumentList(this, JJTCALLBACKARGUMENTLIST);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token arg1, argN ;
+}
 {/*@bgen(jjtree) CallbackArgumentList */
     try {
 /*@egen*/
-    ( Variable() ) ( <COMMA> Variable() )*/*@bgen(jjtree)*/
+    ( arg1 = Variable() )
+    {
+        jjtn000.args.add( arg1.image );
+    }
+    (
+        ( <COMMA> argN = Variable() )
+        {
+            jjtn000.args.add( argN.image );
+        }
+    )*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

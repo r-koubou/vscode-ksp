@@ -449,7 +449,7 @@ void CallbackDeclaration() #CallbackDeclaration:
 //
 // コールバック・引数宣言
 //
-void CallbackArgument() #CallbackArgument:
+void CallbackArgument() :
 {}
 {
     <LPAREN> (<MULTI_LINE_DELIMITER>)*
@@ -461,9 +461,20 @@ void CallbackArgument() #CallbackArgument:
 // コールバック・引数リスト
 //
 void CallbackArgumentList() #CallbackArgumentList:
-{}
 {
-    ( Variable() ) ( <COMMA> Variable() )*
+    Token arg1, argN ;
+}
+{
+    ( arg1 = Variable() )
+    {
+        jjtThis.args.add( arg1.image );
+    }
+    (
+        ( <COMMA> argN = Variable() )
+        {
+            jjtThis.args.add( argN.image );
+        }
+    )*
 }
 
 
