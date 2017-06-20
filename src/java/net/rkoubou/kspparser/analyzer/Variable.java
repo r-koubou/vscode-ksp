@@ -124,7 +124,7 @@ public class Variable extends SymbolDefinition
      */
     public void setValue( int v )
     {
-        if( getType() != TYPE_INT )
+        if( !isInt() )
         {
             throw new IllegalStateException( "Type is " + getTypeName() );
         }
@@ -136,7 +136,7 @@ public class Variable extends SymbolDefinition
      */
     public void setValue( int[] v )
     {
-        if( getType() != TYPE_INT && !isArray() )
+        if( !isInt() || !isArray() )
         {
             throw new IllegalStateException( "Type is " + getTypeName() );
         }
@@ -149,7 +149,7 @@ public class Variable extends SymbolDefinition
      */
     public void setValue( double v )
     {
-        if( getType() != TYPE_REAL )
+        if( !isReal() )
         {
             throw new IllegalStateException( "Type is " + getTypeName() );
         }
@@ -161,7 +161,7 @@ public class Variable extends SymbolDefinition
      */
     public void setValue( double[] v )
     {
-        if( getType() != TYPE_REAL && !isArray() )
+        if( !isReal() || !isArray() )
         {
             throw new IllegalStateException( "Type is " + getTypeName() );
         }
@@ -174,7 +174,7 @@ public class Variable extends SymbolDefinition
      */
     public void setValue( String v )
     {
-        if( getType() != TYPE_STRING )
+        if( !isString() )
         {
             throw new IllegalStateException( "Type is " + getTypeName() );
         }
@@ -186,7 +186,7 @@ public class Variable extends SymbolDefinition
      */
     public void setValue( String[] v )
     {
-        if( getType() != TYPE_STRING && !isArray() )
+        if( !isString() || !isArray() )
         {
             throw new IllegalStateException( "Type is " + getTypeName() );
         }
@@ -195,7 +195,31 @@ public class Variable extends SymbolDefinition
     }
 
     /**
-     * この変数の型が配列かどうかを判別する
+     * この変数の型がIntegerかどうかを判別する
+     */
+    public boolean isInt()
+    {
+        return ( getType() & TYPE_INT ) != 0;
+    }
+
+    /**
+     * この変数の型がRealかどうかを判別する
+     */
+    public boolean isReal()
+    {
+        return ( getType() & TYPE_REAL ) != 0;
+    }
+
+    /**
+     * この変数の型がStringかどうかを判別する
+     */
+    public boolean isString()
+    {
+        return ( getType() & TYPE_STRING ) != 0;
+    }
+
+    /**
+     * この変数の型が配列属性が付いているかどうかを判別する
      */
     public boolean isArray()
     {
@@ -203,9 +227,17 @@ public class Variable extends SymbolDefinition
     }
 
     /**
-     * 型の識別値を返す
+     * 型の識別値のビットフラグを返す個別の判定は isInt()、isReal()、isString() 等を使用すること。
      */
     public int getType()
+    {
+        return type & TYPE_ATTR_MASK;
+    }
+
+    /**
+     * 型の付随識別情報のビットフラグを返す。個別の判定は isArray() 等を使用すること。
+     */
+    public int getTypeAttribute()
     {
         return type & TYPE_ATTR_MASK;
     }

@@ -56,6 +56,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         {
             mgr.load();
             mgr.apply( variableTable );
+            mgr.apply( callbackTable );
         }
         catch( Throwable e )
         {

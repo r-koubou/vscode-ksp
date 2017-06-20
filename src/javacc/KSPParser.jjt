@@ -84,14 +84,6 @@ public class KSPParser implements AnalyzerConstants
     }
 
     /**
-     * 意味解析
-     */
-    public boolean analyzeSemantic() throws Exception
-    {
-        return true;
-    }
-
-    /**
      * 構文解析中にエラーが出た場合の復帰先までトークンを読み飛ばす
      */
     void errorSkipTo( ParseException e )
@@ -362,8 +354,9 @@ void VariableDeclaration() #VariableDeclaration:
         VariableDeclarator( jjtThis )
     )
     {
-        jjtThis.symbol.line  = declare.beginLine;
-        jjtThis.symbol.colmn = declare.beginColumn;
+        jjtThis.symbol.line       = declare.beginLine;
+        jjtThis.symbol.colmn      = declare.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }
 }
 
@@ -388,7 +381,6 @@ void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
     )
     {
         decl.symbol.name = name.image;
-        decl.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }
 }
 
@@ -430,18 +422,20 @@ void UIInitializer() :
 //
 void CallbackDeclaration() #CallbackDeclaration:
 {
-    Token name;
+    Token declare;
 }
 {
     (
-        <ON> (<MULTI_LINE_DELIMITER>)* name = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        <ON> (<MULTI_LINE_DELIMITER>)* declare = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
         [ CallbackArgument() ]
         <EOL>
         Block()
         <END> (<MULTI_LINE_DELIMITER>)* <ON>
     )
     {
-        jjtThis.symbol.name = name.image;
+        jjtThis.symbol.name       = declare.image;
+        jjtThis.symbol.line       = declare.beginLine;
+        jjtThis.symbol.colmn      = declare.beginColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
     }
 }

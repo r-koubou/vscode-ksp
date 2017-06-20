@@ -21,6 +21,8 @@ public class Callback extends SymbolDefinition
     /** 多重宣言を許可するかどうか(例：on ui_controlなどは複数宣言可能) */
     public boolean allowDuplicate;
 
+    public boolean declared = false;
+
     /**
      * Ctor.
      */

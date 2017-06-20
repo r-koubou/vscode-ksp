@@ -1,13 +1,13 @@
-async_complete
-controller
-init
-listener
-note
-persistence_changed
-pgs_changed
-poly_at
-release
-rpn
-nrpn
-ui_control	*
-ui_update
+async_complete	N
+controller	N
+init	N
+listener	N
+note	N
+persistence_changed	N
+pgs_changed	N
+poly_at	N
+release	N
+rpn	N
+nrpn	N
+ui_control	Y	&*
+ui_update	N

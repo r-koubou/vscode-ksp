@@ -88,14 +88,6 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     }
 
     /**
-     * \u610f\u5473\u89e3\u6790
-     */
-    public boolean analyzeSemantic() throws Exception
-    {
-        return true;
-    }
-
-    /**
      * \u69cb\u6587\u89e3\u6790\u4e2d\u306b\u30a8\u30e9\u30fc\u304c\u51fa\u305f\u5834\u5408\u306e\u5fa9\u5e30\u5148\u307e\u3067\u30c8\u30fc\u30af\u30f3\u3092\u8aad\u307f\u98db\u3070\u3059
      */
     void errorSkipTo( ParseException e )
@@ -408,8 +400,9 @@ void VariableDeclaration()                     :
     }
 /*@egen*/
     {
-        jjtn000.symbol.line  = declare.beginLine;
-        jjtn000.symbol.colmn = declare.beginColumn;
+        jjtn000.symbol.line       = declare.beginLine;
+        jjtn000.symbol.colmn      = declare.beginColumn;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -465,7 +458,6 @@ void VariableDeclarator( ASTVariableDeclaration decl )                    :
 /*@egen*/
     {
         decl.symbol.name = name.image;
-        decl.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -531,13 +523,13 @@ void CallbackDeclaration()                     :
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
-    Token name;
+    Token declare;
 }
 {/*@bgen(jjtree) CallbackDeclaration */
     try {
 /*@egen*/
     (
-        <ON> (<MULTI_LINE_DELIMITER>)* name = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        <ON> (<MULTI_LINE_DELIMITER>)* declare = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
         [ CallbackArgument() ]
         <EOL>
         Block()
@@ -549,7 +541,9 @@ void CallbackDeclaration()                     :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name = name.image;
+        jjtn000.symbol.name       = declare.image;
+        jjtn000.symbol.line       = declare.beginLine;
+        jjtn000.symbol.colmn      = declare.beginColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {

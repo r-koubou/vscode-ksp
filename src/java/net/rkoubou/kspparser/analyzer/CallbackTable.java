@@ -7,16 +7,16 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import java.util.ArrayList;
-
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
+import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
+import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 
 /**
  * コールバックテーブル
  */
-public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback> implements AnalyzerConstants
+public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback> implements AnalyzerConstants, KSPParserTreeConstants
 {
     /**
      * ctor
@@ -48,18 +48,25 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
     @Override
     public boolean add( ASTCallbackDeclaration decl )
     {
-        Callback c;
-        if( decl.jjtGetNumChildren() > 0 )
+        if( decl.jjtGetNumChildren() == 2 )
         {
+            /*
+                            CallbackDeclaration
+                                      |
+                        +-------------+-----------+
+                        |                         |
+                CallbackArgumentList            Block
+            */
             // 引数有り
-            c = new Callback( decl );
+            CallbackWithArgs c = new CallbackWithArgs( decl );
+            return addWithArgs( c );
         }
         else
         {
             // 引数なし
-            c = new CallbackWithArgs( decl );
+            Callback c = new Callback( decl );
+            return add( c );
         }
-        return add( c );
     }
 
     /**
@@ -75,6 +82,15 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
             //--------------------------------------------------------------------------
             {
                 Callback p = table.get( name );
+                //--------------------------------------------------------------------------
+                // 外部定義ファイルで取り込んだシンボルがソースコード上で宣言されているかどうか
+                // 初回の検出時はフラグを立てるだけ
+                //--------------------------------------------------------------------------
+                if( p.reserved && !p.declared )
+                {
+                    p.declared = true;
+                    return true;
+                }
                 //--------------------------------------------------------------------------
                 // 多重定義を許可されていないコールバックには追加不可
                 //--------------------------------------------------------------------------
@@ -93,7 +109,6 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
 
         c.index = index;
         index++;
-
         c.symbolType = SymbolType.Callback;
         table.put( name, c );
         return true;
@@ -102,7 +117,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
     /**
      * コールバックテーブルへの追加
      */
-    public boolean add( CallbackWithArgs c )
+    public boolean addWithArgs( CallbackWithArgs c )
     {
         final String name = c.name;
         if( table.containsKey( name ) )
@@ -124,32 +139,34 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
                 // 今回のコールバックの引数リストを保管させておく
                 // この段階ではまだ型チェックは行わない。
                 //--------------------------------------------------------------------------
-                if( p instanceof CallbackWithArgs && p.astNode.jjtGetNumChildren() > 0 )
+                if( p instanceof CallbackWithArgs && p.astNode.jjtGetNumChildren() > 0 && c.astNode.jjtGetNumChildren() > 0 )
                 {
-                    ASTCallbackArgumentList list      = (ASTCallbackArgumentList)p.astNode.jjtGetChild( 0 );
-                    CallbackWithArgs callbackWithArgs = (CallbackWithArgs)p;
                     /*
                         ASTCallbackDeclaration
                             -> ASTCallbackArgumentList
                     */
-                    boolean match = true;
-                    for( String n : list.args )
-                    {
-                        if( !callbackWithArgs.contains( n ) )
-                        {
-                            match = false;
-                            break;
-                        }
-                    }
-                    if( match )
-                    {
-                        c.index = index;
-                        index++;
+                    //ASTCallbackArgumentList srcList   = (ASTCallbackArgumentList)c.astNode.jjtGetChild( 0 );
+                    CallbackWithArgs callbackWithArgs = (CallbackWithArgs)p;
 
-                        c.symbolType = SymbolType.Callback;
+                    //--------------------------------------------------------------------------
+                    // 重複宣言チェック
+                    //--------------------------------------------------------------------------
+                    c.updateArgList();
+                    if( callbackWithArgs.duplicateList.size() > 0 )
+                    {
+                        if( callbackWithArgs.equalsArgList( c ) )
+                        {
+                            return false;
+                        }
                         callbackWithArgs.duplicateList.add( c );
-                        return true;
                     }
+                    else
+                    {
+                        // AST が持つ原始的なリストからテーブル変数へコピー
+                        c.updateArgList();
+                        callbackWithArgs.duplicateList.add( c );
+                    }
+                    return true;
                 }
                 else
                 {
@@ -159,12 +176,19 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
                 }
             }
         }// ~if( table.containsKey( name ) )
+        else
+        {
+            ASTCallbackArgumentList argList = (ASTCallbackArgumentList)c.astNode.jjtGetChild( 0 );
+            for( String n : argList.args )
+            {
+                c.add( n );
+            }
 
-        c.index = index;
-        index++;
-
-        c.symbolType = SymbolType.Callback;
-        table.put( name, c );
-        return true;
+            c.index = index;
+            index++;
+            c.symbolType = SymbolType.Callback;
+            table.put( name, c );
+            return true;
+        }
     }
 }
