@@ -341,11 +341,11 @@ Token Variable() :
 //
 void VariableDeclaration() #VariableDeclaration:
 {
-    Token declare;
+    Token symbol;
 }
 {
     (
-        declare = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+        symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
         (
               <CONST>       { jjtThis.symbol.accessFlag = ACCESS_ATTR_CONST; }
             | <POLYPHONIC>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
@@ -354,8 +354,8 @@ void VariableDeclaration() #VariableDeclaration:
         VariableDeclarator( jjtThis )
     )
     {
-        jjtThis.symbol.line       = declare.beginLine;
-        jjtThis.symbol.colmn      = declare.beginColumn;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }
 }
@@ -422,20 +422,20 @@ void UIInitializer() :
 //
 void CallbackDeclaration() #CallbackDeclaration:
 {
-    Token declare;
+    Token symbol;
 }
 {
     (
-        <ON> (<MULTI_LINE_DELIMITER>)* declare = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        <ON> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
         [ CallbackArgument() ]
         <EOL>
         Block()
         <END> (<MULTI_LINE_DELIMITER>)* <ON>
     )
     {
-        jjtThis.symbol.name       = declare.image;
-        jjtThis.symbol.line       = declare.beginLine;
-        jjtThis.symbol.colmn      = declare.beginColumn;
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
     }
 }
@@ -476,15 +476,20 @@ void CallbackArgumentList() #CallbackArgumentList:
 // ユーザー定義関数本体
 //
 void UserFunctionDeclaration() #UserFunctionDeclaration:
-{}
+{
+    Token symbol;
+}
 {
     (
-        <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
+        <FUNCTION> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
         <EOL>
         Block()
         <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
     )
     {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }
 }
@@ -571,8 +576,10 @@ void PreProcessorDefine() #PreProcessorDefine:
         <RPAREN>                                                    // )
     )
     {
-        jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -594,8 +601,10 @@ void PreProcessorUnDefine() #PreProcessorUnDefine:
         <RPAREN>                                                    // )
     )
     {
-        jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -619,8 +628,10 @@ void PreProcessorIfDefined() #PreProcessorIfDefined:
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
     {
-        jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -644,8 +655,10 @@ void PreProcessorIfUnDefined() #PreProcessorIfUnDefined:
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
     {
-        jjtThis.symbol.name = symbol.image;
-        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
 
@@ -942,9 +955,19 @@ void Literal() #Literal :
 // 変数参照
 //
 void RefVariable() #RefVariable :
-{}
 {
-    Variable() [ ArrayIndex() ]
+    Token symbol;
+}
+{
+    (
+        symbol = Variable() [ ArrayIndex() ]
+    )
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+    }
 }
 
 //
@@ -961,9 +984,19 @@ void ArrayIndex() :
 // コマンド呼び出し
 //
 void CallCommand() #CallCommand:
-{}
 {
-    <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]
+    Token symbol;
+}
+{
+    (
+        symbol = <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]
+    )
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+    }
 }
 
 //

@@ -13,6 +13,7 @@ import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
+import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
 
 /**
@@ -21,8 +22,9 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
 public class SymbolCollector extends KSPParserDefaultVisitor implements AnalyzerConstants, KSPParserTreeConstants
 {
     private final ASTRootNode rootNode;
-    private final VariableTable variableTable = new VariableTable();
-    private final CallbackTable callbackTable = new CallbackTable();
+    private final VariableTable variableTable           = new VariableTable();
+    private final CallbackTable callbackTable           = new CallbackTable();
+    private final UserFunctionTable userFunctionTable   = new UserFunctionTable();
 
     /**
      * NI が使用を禁止している変数名の接頭文字
@@ -186,4 +188,19 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         return ret;
     }
 
+    /**
+     * ユーザー定義関数テーブル構築
+     */
+    @Override
+    public Object visit( ASTUserFunctionDeclaration node, Object data )
+    {
+        Object ret = defaultVisit( node, data );
+
+        if( !userFunctionTable.add( node ) )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_FUNCTION_DECLARED, node.symbol );
+        }
+
+        return ret;
+    }
 }

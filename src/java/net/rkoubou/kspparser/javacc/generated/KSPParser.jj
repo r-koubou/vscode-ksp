@@ -380,13 +380,13 @@ void VariableDeclaration()                     :
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
-    Token declare;
+    Token symbol;
 }
 {/*@bgen(jjtree) VariableDeclaration */
     try {
 /*@egen*/
     (
-        declare = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+        symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
         (
               <CONST>       { jjtn000.symbol.accessFlag = ACCESS_ATTR_CONST; }
             | <POLYPHONIC>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_POLY; }
@@ -400,8 +400,8 @@ void VariableDeclaration()                     :
     }
 /*@egen*/
     {
-        jjtn000.symbol.line       = declare.beginLine;
-        jjtn000.symbol.colmn      = declare.beginColumn;
+        jjtn000.symbol.line       = symbol.beginLine;
+        jjtn000.symbol.colmn      = symbol.beginColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -523,13 +523,13 @@ void CallbackDeclaration()                     :
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
-    Token declare;
+    Token symbol;
 }
 {/*@bgen(jjtree) CallbackDeclaration */
     try {
 /*@egen*/
     (
-        <ON> (<MULTI_LINE_DELIMITER>)* declare = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        <ON> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
         [ CallbackArgument() ]
         <EOL>
         Block()
@@ -541,9 +541,9 @@ void CallbackDeclaration()                     :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = declare.image;
-        jjtn000.symbol.line       = declare.beginLine;
-        jjtn000.symbol.colmn      = declare.beginColumn;
+        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.line       = symbol.beginLine;
+        jjtn000.symbol.colmn      = symbol.beginColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -631,15 +631,17 @@ void CallbackArgumentList()                      :
 //
 void UserFunctionDeclaration()                         :
 {/*@bgen(jjtree) UserFunctionDeclaration */
-  ASTUserFunctionDeclaration jjtn000 = new ASTUserFunctionDeclaration(this, JJTUSERFUNCTIONDECLARATION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTUserFunctionDeclaration jjtn000 = new ASTUserFunctionDeclaration(this, JJTUSERFUNCTIONDECLARATION);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
 {/*@bgen(jjtree) UserFunctionDeclaration */
     try {
 /*@egen*/
     (
-        <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
+        <FUNCTION> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
         <EOL>
         Block()
         <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
@@ -650,6 +652,9 @@ void UserFunctionDeclaration()                         :
     }
 /*@egen*/
     {
+        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.line       = symbol.beginLine;
+        jjtn000.symbol.colmn      = symbol.beginColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -793,8 +798,10 @@ void PreProcessorDefine()                    :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.line         = symbol.beginLine;
+        jjtn000.symbol.colmn        = symbol.beginColumn;
+        jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -833,8 +840,10 @@ void PreProcessorUnDefine()                      :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.line         = symbol.beginLine;
+        jjtn000.symbol.colmn        = symbol.beginColumn;
+        jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -875,8 +884,10 @@ void PreProcessorIfDefined()                       :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.line         = symbol.beginLine;
+        jjtn000.symbol.colmn        = symbol.beginColumn;
+        jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -931,8 +942,10 @@ void PreProcessorIfUnDefined()                         :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name = symbol.image;
-        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.PreprocessorSymbol;
+        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.line         = symbol.beginLine;
+        jjtn000.symbol.colmn        = symbol.beginColumn;
+        jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -1931,14 +1944,29 @@ void Literal()          :
 //
 void RefVariable()              :
 {/*@bgen(jjtree) RefVariable */
-  ASTRefVariable jjtn000 = new ASTRefVariable(this, JJTREFVARIABLE);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTRefVariable jjtn000 = new ASTRefVariable(this, JJTREFVARIABLE);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
 {/*@bgen(jjtree) RefVariable */
     try {
 /*@egen*/
-    Variable() [ ArrayIndex() ]/*@bgen(jjtree)*/
+    (
+        symbol = Variable() [ ArrayIndex() ]
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.line       = symbol.beginLine;
+        jjtn000.symbol.colmn      = symbol.beginColumn;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1976,14 +2004,29 @@ void ArrayIndex() :
 //
 void CallCommand()             :
 {/*@bgen(jjtree) CallCommand */
-  ASTCallCommand jjtn000 = new ASTCallCommand(this, JJTCALLCOMMAND);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTCallCommand jjtn000 = new ASTCallCommand(this, JJTCALLCOMMAND);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
 {/*@bgen(jjtree) CallCommand */
     try {
 /*@egen*/
-    <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]/*@bgen(jjtree)*/
+    (
+        symbol = <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.line       = symbol.beginLine;
+        jjtn000.symbol.colmn      = symbol.beginColumn;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

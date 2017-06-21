@@ -9,7 +9,6 @@ package net.rkoubou.kspparser.analyzer;
 
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
-import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 
@@ -111,6 +110,13 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
         index++;
         c.symbolType = SymbolType.Callback;
         table.put( name, c );
+
+        // NI が定義していないコールバックの可能性
+        if( !c.reserved )
+        {
+            MessageManager.printlnW( MessageManager.PROPERTY_WARN_CALLBACK_UNKNOWN, c );
+        }
+
         return true;
     }
 
@@ -188,6 +194,13 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
             index++;
             c.symbolType = SymbolType.Callback;
             table.put( name, c );
+
+            // NI が定義していないコールバックの可能性
+            if( !c.reserved )
+            {
+                MessageManager.printlnW( MessageManager.PROPERTY_WARN_CALLBACK_UNKNOWN, c );
+            }
+
             return true;
         }
     }

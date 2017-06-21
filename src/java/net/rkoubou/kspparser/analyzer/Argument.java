@@ -7,8 +7,6 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import java.util.Arrays;
-
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
 /**

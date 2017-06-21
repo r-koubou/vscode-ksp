@@ -8,7 +8,6 @@
 package net.rkoubou.kspparser.analyzer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;

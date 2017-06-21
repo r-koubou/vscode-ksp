@@ -30,6 +30,8 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED  = "error.variable.reserved.prefix";
     static public final String PROPERTY_ERROR_CALLBACK_DECLARED         = "error.callback.already.declared";
     static public final String PROPERTY_WARN_COMMAND_UNKNOWN            = "warning.command.unknown";
+    static public final String PROPERTY_WARN_CALLBACK_UNKNOWN           = "warning.callback.unknown";
+    static public final String PROPERTY_ERROR_FUNCTION_DECLARED         = "error.userfunction.already.declared";
 
     public enum Level
     {

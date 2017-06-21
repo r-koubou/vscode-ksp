@@ -9,7 +9,6 @@ package net.rkoubou.kspparser.javacc;
 
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 
-import net.rkoubou.kspparser.javacc.generated.KSPParser;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 
