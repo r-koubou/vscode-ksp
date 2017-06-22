@@ -1,3 +1,26 @@
+Table of contents
+
+<!-- TOC -->
+
+- [Native Instruments KONTAKT Script for VS Code](#native-instruments-kontakt-script-for-vs-code)
+    - [Features](#features)
+        - [About Syntax validation](#about-syntax-validation)
+    - [KSP Compatibility](#ksp-compatibility)
+    - [TODO](#todo)
+    - [License](#license)
+    - [Source Code](#source-code)
+    - [About KONTAKT](#about-kontakt)
+    - [Screenshots](#screenshots)
+- [Native Instruments KONTAKT Script for VS Code (日本語)](#native-instruments-kontakt-script-for-vs-code-日本語)
+    - [機能](#機能)
+        - [文法解析機能について](#文法解析機能について)
+    - [KSP互換](#ksp互換)
+    - [TODO](#todo-1)
+    - [ソースコード](#ソースコード)
+    - [KONTAKT について](#kontakt-について)
+
+<!-- /TOC -->
+
 # Native Instruments KONTAKT Script for VS Code
 
 ## Features
@@ -13,16 +36,18 @@
 * Find symbols and find references in script ( *Simplified version )
     - Context menu
     - Shift+F12
-* **NEW!: Syntax validation ( ALPHA VERSION!! ). Semantic analysis not yet.**
+* `UPDATED!`: Syntax validation ( `ALPHA VERSION 2` ). Semantic analysis not yet.
 
-    Default is **"disabled"**.
+    `Default is "disabled".`
     You can change setting at Preferences -> Settings (Part of "KSP NI KONTAKT Script" ).
 
-### [NOTE]
+### About Syntax validation
 
-* **You need to install Java 1.6 (or higher). Recomended 1.8 or higher to work it.**
+* You need to install Java 1.6 (or higher).
 
-* **Although the parser will attempt as much error detection as possible, if the grammar of the script content deviates from the KSP specification, it will not function properly.**
+    `Recomended: 1.8 or higher to work it`
+
+* `Although the parser will attempt as much error detection as possible, if the grammar of the script content deviates from the KSP specification, it will not function properly.`
 
 ## KSP Compatibility
 
@@ -77,7 +102,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ----
 
-[Japanese]
+# Native Instruments KONTAKT Script for VS Code (日本語)
 
 ## 機能
 
@@ -92,12 +117,16 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * スクリプト内のシンボル参照箇所の検索（*簡易版）
     - シンボルを右クリック後、コンテキストメニューから選択
     - Shift+F12
-* **新機能： 文法解析機能( ※アルファバージョン ) このバージョンでは、意味解析処理は含んでいません**
+* `更新しました！`： 文法解析機能( `※アルファバージョン２` ) このバージョンでは、意味解析処理は含んでいません
 
-    初期設定ではこの機能はオフになっています。
+    `初期設定ではこの機能はオフになっています。`
     使用する際は、設定画面で設定を変えて下さい。（Preferences->Settings内、KSP NI KONTAKT Script ）
 
-    **[注意] この機能を使用するには Java 1.6 以上が必要です。推奨： Java 1.8 以上**
+### 文法解析機能について
+
+* この機能を使用するには Java 1.6 以上が必要です。
+
+    `推奨： Java 1.8 以上`
 
 ## KSP互換
 

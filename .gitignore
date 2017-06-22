@@ -3,6 +3,7 @@ out
 node_modules
 npm-debug.log
 *.vsix
+package-lock.json
 
 # for me
 .temp/
