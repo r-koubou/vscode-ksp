@@ -8,6 +8,7 @@
 package net.rkoubou.kspparser.analyzer;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
@@ -18,7 +19,7 @@ public class Variable extends SymbolDefinition
 {
 
     /** 変数名：プリプロセッサシンボルの正規表現 */
-    static public final String REGEX_PREPROCESSOR_PREFIX = "^[a-z|A-Z|_]";
+    static public final Pattern REGEX_PREPROCESSOR_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
 
     /** 元となるASTノード */
     public final ASTVariableDeclaration astNode;
@@ -259,7 +260,7 @@ public class Variable extends SymbolDefinition
             return "Unknown";
         }
 
-        if( name.matches( REGEX_PREPROCESSOR_PREFIX ) )
+        if( REGEX_PREPROCESSOR_PREFIX.matcher( name ).find() )
         {
             return "Preprocessor Symbol";
         }
@@ -289,7 +290,7 @@ public class Variable extends SymbolDefinition
         }
         char t = variableName.charAt( 0 );
 
-        if( variableName.matches( REGEX_PREPROCESSOR_PREFIX ) )
+        if( REGEX_PREPROCESSOR_PREFIX.matcher( variableName ).find() )
         {
             return TYPE_PREPROCESSOR_SYMBOL;
         }
@@ -303,7 +304,7 @@ public class Variable extends SymbolDefinition
             case '@': return TYPE_STRING;
             case '!': return TYPE_STRING | TYPE_ATTR_ARRAY;
             default:
-                throw new IllegalArgumentException( "unknown type : " + String.valueOf( t ) );
+                throw new IllegalArgumentException( "unknown type : " + String.valueOf( t ) + ":" + variableName );
         }
     }
 

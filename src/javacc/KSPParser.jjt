@@ -220,9 +220,6 @@ TOKEN:
     | <PREPROCESSOR_CODE_IF: "USE_CODE_IF" >
     | <PREPROCESSOR_CODE_IF_NOT: "USE_CODE_IF_NOT" >
     | <PREPROCESSOR_CODE_END_IF: "END_USE_CODE" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_GROUP_START: "NO_SYS_SCRIPT_GROUP_START" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_PEDAL: "NO_SYS_SCRIPT_PEDAL" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_RLS_TRIG: "NO_SYS_SCRIPT_RLS_TRIG" >
 }
 
 //------------------------------------------------------------------------------
@@ -768,7 +765,7 @@ void Expression():
 //
 // 代入式
 //
-void Assignment() #Assignment(2):
+void Assignment() #Assignment:
 {}
 {
     Variable() [ ArrayIndex() ] <ASSIGN> Expression()

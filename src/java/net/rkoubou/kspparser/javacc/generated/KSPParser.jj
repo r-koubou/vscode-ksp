@@ -224,9 +224,6 @@ TOKEN:
     | <PREPROCESSOR_CODE_IF: "USE_CODE_IF" >
     | <PREPROCESSOR_CODE_IF_NOT: "USE_CODE_IF_NOT" >
     | <PREPROCESSOR_CODE_END_IF: "END_USE_CODE" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_GROUP_START: "NO_SYS_SCRIPT_GROUP_START" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_PEDAL: "NO_SYS_SCRIPT_PEDAL" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_RLS_TRIG: "NO_SYS_SCRIPT_RLS_TRIG" >
 }
 
 //------------------------------------------------------------------------------
@@ -1205,13 +1202,13 @@ void Expression():
 //
 // \u4ee3\u5165\u5f0f
 //
-void Assignment()               :
-{/*@bgen(jjtree) #Assignment( 2) */
+void Assignment()            :
+{/*@bgen(jjtree) Assignment */
   ASTAssignment jjtn000 = new ASTAssignment(this, JJTASSIGNMENT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
-{/*@bgen(jjtree) #Assignment( 2) */
+{/*@bgen(jjtree) Assignment */
     try {
 /*@egen*/
     Variable() [ ArrayIndex() ] <ASSIGN> Expression()/*@bgen(jjtree)*/
@@ -1231,7 +1228,7 @@ void Assignment()               :
       throw (Error)jjte000;
     } finally {
       if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000,  2);
+        jjtree.closeNodeScope(jjtn000, true);
       }
     }
 /*@egen*/
