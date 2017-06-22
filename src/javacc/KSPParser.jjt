@@ -342,18 +342,23 @@ Token Variable() :
 void VariableDeclaration() #VariableDeclaration:
 {
     Token symbol;
+    Token uiType = null;
 }
 {
     (
         symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
         (
-              <CONST>       { jjtThis.symbol.accessFlag = ACCESS_ATTR_CONST; }
-            | <POLYPHONIC>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
-            | <IDENTIFIER>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
+              <CONST>                { jjtThis.symbol.accessFlag = ACCESS_ATTR_CONST; }
+            | <POLYPHONIC>           { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
+            | uiType = <IDENTIFIER>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
         )?
         VariableDeclarator( jjtThis )
     )
     {
+        if( uiType != null )
+        {
+            jjtThis.symbol.uiTypeName = uiType.image;
+        }
         jjtThis.symbol.line       = symbol.beginLine;
         jjtThis.symbol.colmn      = symbol.beginColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;

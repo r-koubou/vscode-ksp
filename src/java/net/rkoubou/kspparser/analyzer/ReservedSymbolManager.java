@@ -37,6 +37,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     /** シングルトンインスタンス */
     static private final ReservedSymbolManager instance = new ReservedSymbolManager();
 
+    /** 予約済みUIタイプ変数 */
+    private UIType[] uiTypes = new UIType[ 0 ];
+
     /** 予約済み変数 */
     private Variable[] variables = new Variable[ 0 ];
 
@@ -72,6 +75,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void load() throws IOException
     {
+        loadUITypes();
         loadVariables();
         loadCallbacks();
     }
@@ -82,6 +86,18 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     static public ReservedSymbolManager getManager()
     {
         return instance;
+    }
+
+    /**
+     * 指定されたUI型テーブルにこのクラスが読み込んだ外部変数を適用する
+     */
+    public void apply( UITypeTable dest )
+    {
+        final UIType[] list = uiTypes;
+        for( UIType v : list )
+        {
+            dest.add( v );
+        }
     }
 
     /**
@@ -115,6 +131,57 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             }
         }
     }
+
+    /**
+     * UIタイプの予約済み定義ファイルから UIType クラスインスタンスを生成する
+     */
+    private void loadUITypes() throws IOException
+    {
+        ArrayList<UIType> newUITypes = new ArrayList<UIType>( 1024 );
+
+        File f            = new File( BASE_DIR, "uitypes.txt" );
+        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
+        try
+        {
+            String line;
+            while( ( line = br.readLine() ) != null )
+            {
+                line = line.trim();
+                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
+                {
+                    continue;
+                }
+
+                String[] data = line.split( DELIMITER );
+                String name                 = data[ 0 ].trim();
+                boolean constant            = "Y".equals( data[ 1 ].trim() );
+                boolean initializerRequired = "Y".equals( data[ 2 ].trim() );
+                int type                    = toVariableType( data[ 3 ].trim() );
+                int[] typeList = null;
+
+                //--------------------------------------------------------------------------
+                // 初期値代入式が必須の場合
+                //--------------------------------------------------------------------------
+                if( data.length >= 5 )
+                {
+                    typeList = new int[ data.length - 4 ];
+                    for( int i = 4, x = 0; i < data.length; i++, x++ )
+                    {
+                        typeList[ x ] = toVariableType( data[ i ].trim() );
+                    }
+                }
+
+                UIType ui = new UIType( name, true, type, constant, initializerRequired, typeList );
+                newUITypes.add( ui );
+            }
+        }
+        finally
+        {
+            try { br.close(); } catch( Throwable e ) {}
+        }
+        uiTypes = newUITypes.toArray( new UIType[0] );
+    }
+
 
     /**
      * 変数の予約済み定義ファイルから Variable クラスインスタンスを生成する
@@ -263,6 +330,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             return TYPE_ANY;
         }
+        if( t == "V" )
+        {
+            return TYPE_VOID;
+        }
         if( t == "I" )
         {
             return TYPE_INT;
@@ -304,8 +375,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
     //     ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
     //     mgr.load();
-    //     for( Variable v : mgr.variables )
+    //     for( UIType v : mgr.uiTypes )
     //     {
+    //         System.out.println( v.name );
     //         //System.out.println( v.toKSPTypeCharacter() );
     //     }
     // }

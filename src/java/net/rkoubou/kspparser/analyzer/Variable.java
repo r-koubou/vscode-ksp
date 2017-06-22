@@ -17,20 +17,29 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 public class Variable extends SymbolDefinition
 {
 
+    /** 変数名：プリプロセッサシンボルの正規表現 */
     static public final String REGEX_PREPROCESSOR_PREFIX = "^[a-z|A-Z|_]";
 
+    /** 元となるASTノード */
     public final ASTVariableDeclaration astNode;
 
-    /** 型 */
-    public int type = TYPE_UNKNOWN;
+    /** データ型 */
+    public int type = TYPE_NONE;
 
     /** 配列型の場合の要素数 */
     public int arraySize = 0;
 
+    /**
+     * UI型変数の場合に値がセットされる（シンボル収集フェーズ）
+     * 初期値は null
+     * @see SymbolCollector
+     */
+    public UIType uiTypeInfo = null;
+
     /** コンスタントプールに格納される場合のインデックス番号 */
     public int constantIndex = -1;
 
-    /** 値がある場合はその値(Integer,Double,String) */
+    /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */
     public Object value = null;
 
     /** 意味解析フェーズ中に走査し参照されたかを記録する */
@@ -50,22 +59,6 @@ public class Variable extends SymbolDefinition
         copy( node.symbol, this );
         this.astNode    = node;
         this.symbolType = SymbolType.Variable;
-}
-
-    /**
-     * 数値型かどうかを判定する
-     */
-    public boolean isNumeric()
-    {
-        switch( type & TYPE_MASK )
-        {
-            case TYPE_INT:
-            case TYPE_REAL:
-                return true;
-
-            default:
-                return false;
-        }
     }
 
     /**
@@ -93,30 +86,12 @@ public class Variable extends SymbolDefinition
     }
 
     /**
-     * valueの比較
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-
-    public boolean equals( Object obj )
-    {
-        if( obj == null || !( obj instanceof Variable ) )
-        {
-            return false;
-        }
-
-        Variable p = (Variable)obj;
-
-        return p.value.equals( this.value );
-    }
-
-    /**
      * 変数名の1文字目の記号から型情報を算出する
      */
     public boolean setTypeFromVariableName()
     {
         this.type = getTypeFromVariableName( this.name );
-        return this.type != TYPE_UNKNOWN;
+        return this.type != TYPE_NONE;
     }
 
     /**
@@ -195,6 +170,22 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * 数値型かどうかを判定する
+     */
+    public boolean isNumeric()
+    {
+        switch( type & TYPE_MASK )
+        {
+            case TYPE_INT:
+            case TYPE_REAL:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    /**
      * この変数の型がIntegerかどうかを判別する
      */
     public boolean isInt()
@@ -227,11 +218,19 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * #TYPE_VOID フラグがONかどうかを判定する
+     */
+    public boolean isVoid()
+    {
+        return ( type & TYPE_VOID ) != 0;
+    }
+
+    /**
      * 型の識別値のビットフラグを返す個別の判定は isInt()、isReal()、isString() 等を使用すること。
      */
     public int getType()
     {
-        return type & TYPE_ATTR_MASK;
+        return type & TYPE_MASK;
     }
 
     /**
@@ -286,7 +285,7 @@ public class Variable extends SymbolDefinition
     {
         if( variableName == null || variableName.length() == 0 )
         {
-            return TYPE_UNKNOWN;
+            return TYPE_NONE;
         }
         char t = variableName.charAt( 0 );
 
@@ -304,7 +303,7 @@ public class Variable extends SymbolDefinition
             case '@': return TYPE_STRING;
             case '!': return TYPE_STRING | TYPE_ATTR_ARRAY;
             default:
-                return TYPE_UNKNOWN;
+                throw new IllegalArgumentException( "unknown type : " + String.valueOf( t ) );
         }
     }
 

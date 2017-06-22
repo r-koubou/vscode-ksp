@@ -381,6 +381,7 @@ void VariableDeclaration()                     :
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
     Token symbol;
+    Token uiType = null;
 }
 {/*@bgen(jjtree) VariableDeclaration */
     try {
@@ -388,9 +389,9 @@ void VariableDeclaration()                     :
     (
         symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
         (
-              <CONST>       { jjtn000.symbol.accessFlag = ACCESS_ATTR_CONST; }
-            | <POLYPHONIC>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_POLY; }
-            | <IDENTIFIER>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
+              <CONST>                { jjtn000.symbol.accessFlag = ACCESS_ATTR_CONST; }
+            | <POLYPHONIC>           { jjtn000.symbol.accessFlag = ACCESS_ATTR_POLY; }
+            | uiType = <IDENTIFIER>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
         )?
         VariableDeclarator( jjtn000 )
     )/*@bgen(jjtree)*/
@@ -400,6 +401,10 @@ void VariableDeclaration()                     :
     }
 /*@egen*/
     {
+        if( uiType != null )
+        {
+            jjtn000.symbol.uiTypeName = uiType.image;
+        }
         jjtn000.symbol.line       = symbol.beginLine;
         jjtn000.symbol.colmn      = symbol.beginColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;

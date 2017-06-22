@@ -23,14 +23,40 @@ import net.rkoubou.kspparser.javacc.generated.ParseException;
 public class MessageManager implements AnalyzerConstants
 {
 
+    //--------------------------------------------------------------------------
+    // Lexical
+    //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_LEXICAL                   = "error.lexical";
+
+    //--------------------------------------------------------------------------
+    // Variable
+    //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_VARIABLE_ONINIT           = "error.variable.declared.oninit";
     static public final String PROPERTY_ERROR_VARIABLE_DECLARED         = "error.variable.already.declared";
     static public final String PROPERTY_ERROR_VARIABLE_RESERVED         = "error.variable.reserved";
     static public final String PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED  = "error.variable.reserved.prefix";
+    static public final String PROPERTY_WARN_UI_VARIABLE_UNKNOWN        = "warning.variable.ui.unknown";
+
+    //--------------------------------------------------------------------------
+    // PreProcessor
+    //--------------------------------------------------------------------------
+    static public final String PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF  = "warn.preprocessor.unknown.defined";
+    static public final String PROPERTY_WARN_PREPROCESSOR_ALREADY_DEF  = "warn.preprocessor.already.defined";
+
+    //--------------------------------------------------------------------------
+    // Callback
+    //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_CALLBACK_DECLARED         = "error.callback.already.declared";
-    static public final String PROPERTY_WARN_COMMAND_UNKNOWN            = "warning.command.unknown";
     static public final String PROPERTY_WARN_CALLBACK_UNKNOWN           = "warning.callback.unknown";
+
+    //--------------------------------------------------------------------------
+    // Command
+    //--------------------------------------------------------------------------
+    static public final String PROPERTY_WARN_COMMAND_UNKNOWN            = "warning.command.unknown";
+
+    //--------------------------------------------------------------------------
+    // User Function
+    //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_FUNCTION_DECLARED         = "error.userfunction.already.declared";
 
     public enum Level

@@ -11,7 +11,10 @@ import net.rkoubou.kspparser.javacc.generated.KSPParserDefaultVisitor;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
+import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
+import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
@@ -21,10 +24,11 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
  */
 public class SymbolCollector extends KSPParserDefaultVisitor implements AnalyzerConstants, KSPParserTreeConstants
 {
-    private final ASTRootNode rootNode;
-    private final VariableTable variableTable           = new VariableTable();
-    private final CallbackTable callbackTable           = new CallbackTable();
-    private final UserFunctionTable userFunctionTable   = new UserFunctionTable();
+    public final ASTRootNode rootNode;
+    public final UITypeTable uiTypeTable               = new UITypeTable();
+    public final VariableTable variableTable           = new VariableTable();
+    public final CallbackTable callbackTable           = new CallbackTable();
+    public final UserFunctionTable userFunctionTable   = new UserFunctionTable();
 
     /**
      * NI が使用を禁止している変数名の接頭文字
@@ -57,6 +61,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         try
         {
             mgr.load();
+            mgr.apply( uiTypeTable );
             mgr.apply( variableTable );
             mgr.apply( callbackTable );
         }
@@ -95,6 +100,32 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         if( validateVariableImpl( node ) )
         {
             variableTable.add( node );
+            Variable v = variableTable.searchVariable( node.symbol.name );
+            //--------------------------------------------------------------------------
+            // UI変数チェック / 外部定義とのマージ
+            //--------------------------------------------------------------------------
+            if( v.isUIVariable() )
+            {
+                String uiName = v.uiTypeName;
+                UIType uiType = uiTypeTable.search( uiName );
+                if( uiType == null )
+                {
+                    // NI が定義していないUIの可能性
+                    MessageManager.printlnW( MessageManager.PROPERTY_WARN_UI_VARIABLE_UNKNOWN, v );
+                }
+                else
+                {
+                    // UI変数に適したデータ型へマージ
+                    v.accessFlag = ACCESS_ATTR_UI;
+                    v.type       = uiType.uiValueType;
+                    if( uiType.constant )
+                    {
+                        v.accessFlag |= ACCESS_ATTR_CONST;
+                    }
+                    // 意味解析フェーズで詳細を参照するため保持
+                    v.uiTypeInfo = uiType;
+                }
+            }
         }
 
         return ret;
@@ -170,6 +201,41 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
                 }
             }
         }
+    }
+
+    /**
+     * プリプロセッサシンボル定義
+     */
+    @Override
+    public Object visit( ASTPreProcessorDefine node, Object data )
+    {
+        Object ret = defaultVisit( node, data );
+        // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
+        // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
+        {
+            ASTVariableDeclaration decl = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
+            SymbolDefinition.copy( node.symbol,  decl.symbol );
+            decl.symbol.symbolType = SymbolType.PreprocessorSymbol;
+
+            Variable v = new Variable( decl );
+            variableTable.add( v );
+        }
+        return ret;
+    }
+
+    /**
+     * プリプロセッサシンボル破棄
+     */
+    @Override
+    public Object visit( ASTPreProcessorUnDefine node, Object data )
+    {
+        Object ret = defaultVisit( node, data );
+        // 宣言されていないシンボルを undef しようとした場合
+        if( variableTable.searchVariable( node.symbol.name ) == null )
+        {
+            MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
+        }
+        return ret;
     }
 
     /**

@@ -25,19 +25,21 @@ public class SymbolDefinition implements AnalyzerConstants
     /** シンボルの種類 */
     public SymbolType symbolType = SymbolType.Unknown;
     /** シンボルテーブルインデックス値 */
-    public int index = 0;
+    public int index = -1;
     /** アクセス識別フラグ（ある場合に使用。未使用の場合は0） */
     public int accessFlag = 0;
     /** 実行環境で予約済みのシンボルかどうか） */
     public boolean reserved = false;
     /** 識別子名 */
     public String name = null;
+    /** accessFlagにACCESS_ATTR_UIが含まれている場合のUIタイプの識別子名 */
+    public String uiTypeName = null;
     /** 定義した行番号 */
     public int line = 0;
     /** 定義した行中の列 */
     public int colmn = 0;
     /** 戻り値型（KSPでは文法上存在しないので、現在は使用しない） */
-    public int returnType = TYPE_UNKNOWN;
+    public int returnType = TYPE_NONE;
     /** 代入式ノードで使用する */
     public AssignOprator oprator = AssignOprator.NULL;
 
@@ -59,15 +61,16 @@ public class SymbolDefinition implements AnalyzerConstants
      */
     static public void copy( SymbolDefinition src, SymbolDefinition dest )
     {
-        dest.symbolType = src.symbolType;
-        dest.index      = src.index;
-        dest.accessFlag = src.accessFlag;
-        dest.reserved   = src.reserved;
-        dest.name       = src.name;
-        dest.line       = src.line;
-        dest.colmn      = src.colmn;
-        dest.returnType = src.returnType;
-        dest.oprator    = src.oprator;
+        dest.symbolType     = src.symbolType;
+        dest.index          = src.index;
+        dest.accessFlag     = src.accessFlag;
+        dest.reserved       = src.reserved;
+        dest.name           = src.name;
+        dest.uiTypeName     = src.uiTypeName;
+        dest.line           = src.line;
+        dest.colmn          = src.colmn;
+        dest.returnType     = src.returnType;
+        dest.oprator        = src.oprator;
     }
 
     // /**

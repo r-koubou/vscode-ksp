@@ -17,7 +17,7 @@ import java.util.Hashtable;
 
 
 /**
- * 基底シンボルテーブル
+ * ASTをベースにした基底シンボルテーブル
  */
 abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends SymbolDefinition> implements AnalyzerConstants
 {

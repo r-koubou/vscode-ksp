@@ -16,6 +16,9 @@ public interface AnalyzerConstants
     /** VM引数 -D dataフォルダの明示的指定時のプロパティ名 */
     String SYSTEM_PROPERTY_DATADIR = "kspparser.datadir";
 
+    /** アトリビュート：なし */
+    int ACCESS_ATTR_NONE = 0x00;
+
     /** アトリビュート：読み取り専用 */
     int ACCESS_ATTR_CONST = 0x01;
 
@@ -43,31 +46,32 @@ public interface AnalyzerConstants
         ASSIGN,
     };
 
-// 型情報は16bitで構成
+// 型情報は24bitで構成
 /*
-    0b 00000000 00000000
-       ---+---- ---+----
+    0b 00000000 00000000 00000000
+       ---+---- ---+-------------
           |        |
           |        +-- データ型
           +----------- 配列等の補足情報
 */
     //--------------------------------------------------------------------------
-    // 基本型情報 (0x0000-0x00ff)
+    // 基本型情報 (0x0000-0xffff)
     //--------------------------------------------------------------------------
-    int TYPE_MASK    = 0xff;
-    int TYPE_UNKNOWN = 0x00;
+    int TYPE_MASK    = 0x00ffff;
+    int TYPE_NONE    = 0x00;
     int TYPE_INT     = 0x01;
     int TYPE_STRING  = 0x02;
     int TYPE_REAL    = 0x04;
-    int TYPE_PREPROCESSOR_SYMBOL = 0x80;
+    int TYPE_VOID    = 0x4000;
+    int TYPE_PREPROCESSOR_SYMBOL = 0x8000;
     int TYPE_ANY     = 0xffff; // 全ビット ON
 
     //--------------------------------------------------------------------------
-    // 配列などの情報フラグ (0x0100~0xff00)
+    // 配列などの情報フラグ (0x010000~0xff0000)
     //--------------------------------------------------------------------------
-    int TYPE_ATTR_MASK  = 0xff00;
+    int TYPE_ATTR_MASK  = 0xff0000;
     // 配列
-    int TYPE_ATTR_ARRAY = 0x0100;
+    int TYPE_ATTR_ARRAY = 0x010000;
     // e.g. type is int[]
     // type = TYPE_INT | TYPE_ATTR_ARRAY
     // if( ( type & TYPE_ATTR_MASK ) == TYPE_ATTR_ARRAY )
