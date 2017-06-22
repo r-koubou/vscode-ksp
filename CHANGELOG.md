@@ -3,6 +3,7 @@
 <!-- TOC -->
 
 - [Changelog](#changelog)
+    - [Version 0.2.5](#version-025)
     - [Version 0.2.4](#version-024)
         - [Improved - Syntax Parser](#improved---syntax-parser)
     - [Version 0.2.3](#version-023)
@@ -22,6 +23,10 @@
         - [1st release. ( Based on KONTAKT 5.6 )](#1st-release--based-on-kontakt-56-)
 
 <!-- /TOC -->
+
+## Version 0.2.5
+
+* Syntax Parser - Bug fixed
 
 ## Version 0.2.4
 

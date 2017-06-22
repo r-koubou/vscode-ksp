@@ -299,7 +299,7 @@ export class KSPValidationProvider
 
             // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
             args.push( "-Dkspparser.stdout.encoding=UTF-8" )
-            args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data/lang/message" )
+            args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data" )
 // launch en-US mode
 //            args.push( "-Duser.language=en" );
 //            args.push( "-Duser.country=US" );
@@ -334,11 +334,13 @@ export class KSPValidationProvider
                     // handling stdout
                     childProcess.stdout.on( 'data', (data: Buffer) =>
                     {
+                        //console.log( data.toString() );
                         processLine( data.toString() );
                     });
                     // handling stderr
                     childProcess.stderr.on( 'data', (data: Buffer) =>
                     {
+                        //console.log( data.toString() );
                         processLineStdErr( data.toString() );
                     });
                     // process finished

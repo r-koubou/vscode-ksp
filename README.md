@@ -1,27 +1,6 @@
-Table of contents
-
-<!-- TOC -->
-
-- [Native Instruments KONTAKT Script for VS Code](#native-instruments-kontakt-script-for-vs-code)
-    - [Features](#features)
-        - [About Syntax validation](#about-syntax-validation)
-    - [KSP Compatibility](#ksp-compatibility)
-    - [TODO](#todo)
-    - [License](#license)
-    - [Source Code](#source-code)
-    - [About KONTAKT](#about-kontakt)
-    - [Screenshots](#screenshots)
-- [Native Instruments KONTAKT Script for VS Code (日本語)](#native-instruments-kontakt-script-for-vs-code-日本語)
-    - [機能](#機能)
-        - [文法解析機能について](#文法解析機能について)
-    - [KSP互換](#ksp互換)
-    - [TODO](#todo-1)
-    - [ソースコード](#ソースコード)
-    - [KONTAKT について](#kontakt-について)
-
-<!-- /TOC -->
-
 # Native Instruments KONTAKT Script for VS Code
+
+<small>※日本語の説明は英語の後に書いています</small>
 
 ## Features
 
@@ -102,7 +81,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ----
 
-# Native Instruments KONTAKT Script for VS Code (日本語)
+# Native Instruments KONTAKT Script for VS Code (Japanese)
 
 ## 機能
 
