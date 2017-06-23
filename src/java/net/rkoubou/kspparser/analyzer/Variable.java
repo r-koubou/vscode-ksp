@@ -24,9 +24,6 @@ public class Variable extends SymbolDefinition
     /** 元となるASTノード */
     public final ASTVariableDeclaration astNode;
 
-    /** データ型 */
-    public int type = TYPE_NONE;
-
     /** 配列型の場合の要素数 */
     public int arraySize = 0;
 
@@ -39,9 +36,6 @@ public class Variable extends SymbolDefinition
 
     /** コンスタントプールに格納される場合のインデックス番号 */
     public int constantIndex = -1;
-
-    /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */
-    public Object value = null;
 
     /** 意味解析フェーズ中に走査し参照されたかを記録する */
     boolean referenced = false;

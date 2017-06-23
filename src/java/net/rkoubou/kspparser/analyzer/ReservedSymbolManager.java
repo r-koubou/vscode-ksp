@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
+import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
@@ -42,6 +43,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
     /** 予約済み変数 */
     private Variable[] variables = new Variable[ 0 ];
+
+    /** 予約済みコマンド */
+    private Command[] commands = new Command[ 0 ];
 
     /** 予約済みコールバック */
     private Callback[] callbacks = new Callback[ 0 ];
@@ -77,6 +81,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     {
         loadUITypes();
         loadVariables();
+        loadCommands();
         loadCallbacks();
     }
 
@@ -113,7 +118,20 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     }
 
     /**
-     * 指定された変数テーブルにこのクラスが読み込んだ外部コールバックを適用する
+     * 指定されたコマンドテーブルにこのクラスが読み込んだ外部コールバックを適用する
+     */
+    public void apply( CommandTable dest )
+    {
+        final Command[] list = commands;
+
+        for( Command v : list )
+        {
+            dest.add( v );
+        }
+    }
+
+    /**
+     * 指定されたコールバックテーブルにこのクラスが読み込んだ外部コールバックを適用する
      */
     public void apply( CallbackTable dest )
     {
@@ -226,7 +244,88 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     }
 
     /**
-     * 変数の予約済み定義ファイルから Variable クラスインスタンスを生成する
+     * コールバックの予約済み定義ファイルから Variable クラスインスタンスを生成する
+     */
+    private void loadCommands() throws IOException
+    {
+        ArrayList<Command> newCommands = new ArrayList<Command>( 256 );
+
+        File f            = new File( BASE_DIR, "commands.txt" );
+        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
+        try
+        {
+            String line;
+            while( ( line = br.readLine() ) != null )
+            {
+                line = line.trim();
+                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
+                {
+                    continue;
+                }
+
+                String[] data  = line.split( DELIMITER );
+                int returnType = toVariableType( data[ 0 ].trim() );
+                String name    = data[ 1 ].trim();
+                boolean hasParenthesis = false;
+
+                //--------------------------------------------------------------------------
+                // data[2] 以降：引数を含む場合
+                // 引数のAST、変数を生成
+                //--------------------------------------------------------------------------
+                ArrayList<Argument> args = new ArrayList<Argument>();
+                if( data.length >= 3 )
+                {
+                    hasParenthesis = true;
+                    final int len = data.length;
+                    for( int i = 2; i < len; i++ )
+                    {
+                        String typeString = data[ i ];
+
+                        int type = toVariableType( typeString );
+
+                        ASTVariableDeclaration ast = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
+                        ast.symbol.name = "arg"; // 使用・参照しないのでダミー
+
+                        Argument v    = new Argument( ast );
+                        v.requireDeclarationOnInit = true;      // 引数の変数が on init で宣言した変数かどうか
+                        v.type        = type;
+                        v.reserved    = false;                  // KONTAKT内部のビルトインコマンドにつき、非予約変数
+                        v.referenced  = true;                   // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
+                        v.status      = VariableState.LOADED;   // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
+                        args.add( v );
+                    }
+                }
+                //--------------------------------------------------------------------------
+                // コマンドのAST、変数を生成
+                //--------------------------------------------------------------------------
+                {
+                    Command newItem;
+                    ASTCallCommand ast = new ASTCallCommand( JJTCALLCOMMAND );
+                    ast.symbol.name = name;
+                    newItem = new Command( ast );
+
+                    if( args.size() > 0 )
+                    {
+                        newItem.argList.addAll( args );
+                    }
+                    newItem.hasParenthesis = hasParenthesis;
+                    newItem.returnType     = returnType;
+                    newItem.symbolType     = SymbolType.Command;
+                    newItem.reserved       = true;
+                    newCommands.add( newItem );
+                }
+
+            } //~while( ( line = br.readLine() ) != null )
+        }
+        finally
+        {
+            try { br.close(); } catch( Throwable e ) {}
+        }
+        commands = newCommands.toArray( new Command[0] );
+    }
+
+    /**
+     * コールバックの予約済み定義ファイルから Variable クラスインスタンスを生成する
      */
     private void loadCallbacks() throws IOException
     {
@@ -365,7 +464,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         throw new IllegalArgumentException( "Unknown type : " + t );
     }
 
-
     /**
      * Unit test
      */
@@ -375,7 +473,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
     //     ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
     //     mgr.load();
-    //     for( UIType v : mgr.uiTypes )
+    //     for( Command v : mgr.commands )
     //     {
     //         System.out.println( v.name );
     //         //System.out.println( v.toKSPTypeCharacter() );

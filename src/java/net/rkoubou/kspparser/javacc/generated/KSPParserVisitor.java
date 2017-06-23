@@ -20,6 +20,7 @@ public interface KSPParserVisitor
   public Object visit(ASTCaseStatement node, Object data);
   public Object visit(ASTCaseCondition node, Object data);
   public Object visit(ASTWhileStatement node, Object data);
+  public Object visit(ASTExpression node, Object data);
   public Object visit(ASTAssignment node, Object data);
   public Object visit(ASTConditionalOr node, Object data);
   public Object visit(ASTConditionalAnd node, Object data);
@@ -43,5 +44,6 @@ public interface KSPParserVisitor
   public Object visit(ASTLiteral node, Object data);
   public Object visit(ASTRefVariable node, Object data);
   public Object visit(ASTCallCommand node, Object data);
+  public Object visit(ASTCommandArgumentList node, Object data);
 }
-/* JavaCC - OriginalChecksum=053112ad2f8855dc3e83ca5072916f2c (do not edit this line) */
+/* JavaCC - OriginalChecksum=c7d6abc9f7da7e268476c197a5578e01 (do not edit this line) */

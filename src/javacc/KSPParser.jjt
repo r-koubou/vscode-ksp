@@ -756,7 +756,7 @@ void WhileStatement() #WhileStatement:
 //------------------------------------------------------------------------------
 // 式
 //------------------------------------------------------------------------------
-void Expression():
+void Expression() #Expression:
 {}
 {
     ConditionalOrExpression()
@@ -946,11 +946,33 @@ void PrimaryPrefix() :
 // リテラル
 //
 void Literal() #Literal :
-{}
 {
-      <INTEGER_LITERAL>
-    | <REAL_LITERAL>
-    | <STRING_LITERAL>
+    Token token;
+}
+{
+    (
+        token = <INTEGER_LITERAL>
+        {
+              jjtThis.symbol.value = Integer.valueOf( token.image );
+              jjtThis.symbol.type  = TYPE_INT;
+        }
+|       token = <REAL_LITERAL>
+        {
+            jjtThis.symbol.value = Double.valueOf( token.image );
+            jjtThis.symbol.type  = TYPE_REAL;
+        }
+|       token = <STRING_LITERAL>
+        {
+            jjtThis.symbol.value = token.image;
+            jjtThis.symbol.type  = TYPE_STRING;
+        }
+    )
+    {
+        jjtThis.symbol.accessFlag   = ACCESS_ATTR_CONST;
+        jjtThis.symbol.line         = token.beginLine;
+        jjtThis.symbol.colmn        = token.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
+    }
 }
 
 //
@@ -997,7 +1019,7 @@ void CallCommand() #CallCommand:
         jjtThis.symbol.name       = symbol.image;
         jjtThis.symbol.line       = symbol.beginLine;
         jjtThis.symbol.colmn      = symbol.beginColumn;
-        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
     }
 }
 
@@ -1016,7 +1038,7 @@ void CommandArguments() :
 //
 // コマンド引数リスト
 //
-void CommandArgumentList() :
+void CommandArgumentList() #CommandArgumentList:
 {}
 {
     ( LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*

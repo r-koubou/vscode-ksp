@@ -19,6 +19,7 @@ public class SymbolDefinition implements AnalyzerConstants
         Command,
         UserFunction,
         Variable,
+        Literal,
         PreprocessorSymbol,
     };
 
@@ -26,6 +27,8 @@ public class SymbolDefinition implements AnalyzerConstants
     public SymbolType symbolType = SymbolType.Unknown;
     /** シンボルテーブルインデックス値 */
     public int index = -1;
+    /** データ型 */
+    public int type = TYPE_NONE;
     /** アクセス識別フラグ（ある場合に使用。未使用の場合は0） */
     public int accessFlag = 0;
     /** 実行環境で予約済みのシンボルかどうか） */
@@ -34,12 +37,12 @@ public class SymbolDefinition implements AnalyzerConstants
     public String name = null;
     /** accessFlagにACCESS_ATTR_UIが含まれている場合のUIタイプの識別子名 */
     public String uiTypeName = null;
+    /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */
+    public Object value = null;
     /** 定義した行番号 */
     public int line = 0;
     /** 定義した行中の列 */
     public int colmn = 0;
-    /** 戻り値型（KSPでは文法上存在しないので、現在は使用しない） */
-    public int returnType = TYPE_NONE;
     /** 代入式ノードで使用する */
     public AssignOprator oprator = AssignOprator.NULL;
 
@@ -63,43 +66,14 @@ public class SymbolDefinition implements AnalyzerConstants
     {
         dest.symbolType     = src.symbolType;
         dest.index          = src.index;
+        dest.type           = src.type;
         dest.accessFlag     = src.accessFlag;
         dest.reserved       = src.reserved;
         dest.name           = src.name;
         dest.uiTypeName     = src.uiTypeName;
+        dest.value          = src.value;
         dest.line           = src.line;
         dest.colmn          = src.colmn;
-        dest.returnType     = src.returnType;
         dest.oprator        = src.oprator;
     }
-
-    // /**
-    //  * このシンボルが変数である場合、値をセットする
-    //  * @param type AnalyzerConstants.TYPE_####
-    //  * @param value 値となるトークン文字列
-    //  * @see AnalyzerConstants
-    //  */
-    // public void setVariableValue( int type, String value )
-    // {
-    //     this.type  = type;
-
-    //     if( type == TYPE_INT )
-    //     {
-    //         this.value = new Integer( Long.decode( value ).intValue() );
-    //     }
-    //     else if( type == TYPE_REAL )
-    //     {
-    //         this.value = new Double( Double.parseDouble( value ) );
-    //     }
-    //     else if( type == TYPE_STRING )
-    //     {
-    //         value = value.replaceAll( "\\\\t",    "\t" );
-    //         value = value.replaceAll( "\\\\n",    "\n" );
-    //         value = value.replaceAll( "\\\\r",    "\r" );
-    //         value = value.replaceAll( "\\\\\"",   "\"" );
-    //         value = value.replaceAll( "\\{2}",    "\\" );
-    //         this.value = value;
-    //     }
-    // }
-
 }
