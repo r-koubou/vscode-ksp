@@ -1,27 +1,26 @@
 # Arithmetic Commands
-V	inc
-V	dec
-V	mod
-V	exp
-V	log
-V	pow
-V	sqrt
-V	ceil
-V	floor
-V	round
-V	cos
-V	sin
-V	tan
-V	acos
-V	asin
-V	atan
-V	sh_left
-V	sh_right
-V	random
-V	int_to_real
-V	real_to_int
-V	msb
-V	lsb
+V	inc	I
+V	dec	I
+R	exp	@R
+R	log	@R
+R	pow	@R	@R
+R	sqrt	@R
+R	ceil	@R
+R	floor	@R
+R	round	@R
+R	cos	@R
+R	sin	@R
+R	tan	@R
+R	acos	@R
+R	asin	@R
+R	atan	@R
+I	sh_left	@I	@I
+I	sh_right	@I	@I
+I	random	@I	@I
+I	int_to_real	@I
+R	real_to_int	@R
+I	msb	@I
+I	lsb	@I
 # General Commands
 V	exit
 V	ignore_controller

@@ -61,12 +61,6 @@ public class KSPParser implements AnalyzerConstants
         {
             rootNode = KSPScript();
         }
-/*
-        catch( ParseException pe )
-        {
-            System.out.println( MessageManager.expand( pe ) );
-        }
-*/
         catch( Throwable e )
         {
             e.printStackTrace();
@@ -153,7 +147,7 @@ TOKEN :
 |
   <#DECIMAL_LITERAL: ( "0" ) | ( ["1"-"9"] (["0"-"9"])* ) >
 |
-  <#HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+  <#HEX_LITERAL: "9" (["0"-"9","a"-"f","A"-"F"])+ ["h","H"] >
 }
 
 TOKEN:
@@ -953,8 +947,20 @@ void Literal() #Literal :
     (
         token = <INTEGER_LITERAL>
         {
-              jjtThis.symbol.value = Integer.valueOf( token.image );
-              jjtThis.symbol.type  = TYPE_INT;
+            String v = token.image.toLowerCase();
+            if( v.startsWith( "9" ) && v.endsWith( "h" ) )
+            {
+                // KSP 16進数 → Java 16進数
+                // 0x80000000以上の値の扱いが特殊なので一時64bitで扱い回避。
+                // http://qiita.com/oboenikui/items/cfd396b08f20798f0b3e
+                jjtThis.symbol.value = Integer.valueOf( (int)Long.parseLong( v.substring( 1, v.length() - 1 ), 16 ) );
+            }
+            else
+            {
+                // 10進数
+                jjtThis.symbol.value = Integer.valueOf( v );
+            }
+            jjtThis.symbol.type  = TYPE_INT;
         }
 |       token = <REAL_LITERAL>
         {

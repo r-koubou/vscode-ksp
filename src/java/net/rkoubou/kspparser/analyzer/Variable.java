@@ -37,11 +37,14 @@ public class Variable extends SymbolDefinition
     /** コンスタントプールに格納される場合のインデックス番号 */
     public int constantIndex = -1;
 
+    /** on init 内で使用可能な変数かどうか（外部低ファイルから読み込むビルトイン変数用） */
+    public boolean availableOnInit = true;
+
     /** 意味解析フェーズ中に走査し参照されたかを記録する */
-    boolean referenced = false;
+    public boolean referenced = false;
 
     /** 単項演算子により生成、かつリテラル値 */
-    boolean constantValueWithSingleOperator = false;
+    public boolean constantValueWithSingleOperator = false;
 
     /** 状態 */
     public VariableState status = VariableState.UNLOADED;

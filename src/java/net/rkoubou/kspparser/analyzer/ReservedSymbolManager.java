@@ -221,15 +221,17 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     continue;
                 }
 
-                String[] data = line.split( DELIMITER );
-                int type      = toVariableType( data[ 0 ].trim() );
-                String name   = Variable.toKSPTypeCharacter( type ) + data[ 1 ].trim();
+                String[] data               = line.split( DELIMITER );
+                int type                    = toVariableType( data[ 0 ].trim() );
+                String name                 = Variable.toKSPTypeCharacter( type ) + data[ 1 ].trim();
+                boolean availableOnInit     = "Y".equals( data[ 2 ].trim() );
 
-                ASTVariableDeclaration ast = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
+                ASTVariableDeclaration ast  = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
                 ast.symbol.name = name;
 
                 Variable v    = new Variable( ast );
                 v.type        = type;
+                v.availableOnInit = availableOnInit;    // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
                 v.reserved    = true;                   // 予約変数
                 v.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
                 v.status      = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
@@ -292,6 +294,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                         v.reserved    = false;                  // KONTAKT内部のビルトインコマンドにつき、非予約変数
                         v.referenced  = true;                   // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
                         v.status      = VariableState.LOADED;   // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
+                        if( typeString.startsWith( "@" ) )
+                        {
+                            v.accessFlag = ACCESS_ATTR_CONST;
+                        }
                         args.add( v );
                     }
                 }
@@ -437,6 +443,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             return TYPE_INT;
         }
+        if( t == "@I" )
+        {
+            return TYPE_INT;
+        }
         if( t == "I[]" )
         {
             return TYPE_INT | TYPE_ATTR_ARRAY;
@@ -445,11 +455,19 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             return TYPE_REAL;
         }
+        if( t == "@R" )
+        {
+            return TYPE_REAL;
+        }
         if( t == "R[]" )
         {
             return TYPE_REAL | TYPE_ATTR_ARRAY;
         }
         if( t == "S" )
+        {
+            return TYPE_STRING;
+        }
+        if( t == "@S" )
         {
             return TYPE_STRING;
         }
@@ -467,16 +485,16 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     /**
      * Unit test
      */
-    // static public void main( String[] args ) throws Throwable
-    // {
-    //     // command: java -classpath ./target/classes/ net.rkoubou.kspparser.analyzer.ReservedSymbolManager
+    static public void main( String[] args ) throws Throwable
+    {
+        // command: java -classpath ./target/classes/ net.rkoubou.kspparser.analyzer.ReservedSymbolManager
 
-    //     ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
-    //     mgr.load();
-    //     for( Command v : mgr.commands )
-    //     {
-    //         System.out.println( v.name );
-    //         //System.out.println( v.toKSPTypeCharacter() );
-    //     }
-    // }
+        ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
+        mgr.load();
+        // for( Variable v : mgr.variables )
+        // {
+        //     System.out.println( v.name );
+        //     //System.out.println( v.toKSPTypeCharacter() );
+        // }
+    }
 }
