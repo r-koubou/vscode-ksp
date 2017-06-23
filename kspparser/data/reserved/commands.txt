@@ -1,0 +1,166 @@
+# Arithmetic Commands
+V	inc	I
+V	dec	I
+R	exp	@R
+R	log	@R
+R	pow	@R	@R
+R	sqrt	@R
+R	ceil	@R
+R	floor	@R
+R	round	@R
+R	cos	@R
+R	sin	@R
+R	tan	@R
+R	acos	@R
+R	asin	@R
+R	atan	@R
+I	sh_left	@I	@I
+I	sh_right	@I	@I
+I	random	@I	@I
+I	int_to_real	@I
+R	real_to_int	@R
+I	msb	@I
+I	lsb	@I
+# General Commands
+V	exit
+V	ignore_controller
+V	message
+V	note_off
+V	play_note
+V	set_controller
+V	set_rpn
+V	set_nrpn
+V	set_snapshot_type
+# Event Commands
+V	by_marks
+V	change_note
+V	change_pan
+V	change_tune
+V	change_velo
+V	change_vol
+V	delete_event_mark
+V	event_status
+V	fade_in
+V	fade_out
+V	get_event_ids
+V	get_event_par
+V	get_event_par_arr
+V	ignore_event
+V	set_event_mark
+V	set_event_par
+V	set_event_par_arr
+# Array Commands
+V	array_equal
+V	num_elements
+V	search
+V	sort
+V	allow_group
+V	disallow_group
+V	find_group
+V	get_purge_state
+V	group_name
+V	purge_group
+# Time-Related Commands
+V	change_listener_par
+V	ms_to_ticks
+V	set_listener
+V	stop_wait
+V	reset_ksp_timer
+V	ticks_to_ms
+V	wait
+V	wait_ticks
+# User Interface Commands
+V	add_menu_item
+V	add_text_line
+V	attach_level_meter
+V	attach_zone
+V	hide_part
+V	fs_get_filename
+V	fs_navigate
+V	get_control_par
+V	get_menu_item_str
+V	get_menu_item_value
+V	get_menu_item_visibility
+V	get_ui_id
+V	get_ui_wf_property
+V	make_perfview
+V	move_control
+V	move_control_px
+V	set_control_help
+V	set_control_par
+V	set_control_par_str
+V	set_control_par_arr
+V	set_control_par_str_arr
+V	set_knob_defval
+V	set_knob_label
+V	set_knob_unit
+V	set_menu_item_str
+V	set_menu_item_value
+V	set_menu_item_visibility
+V	set_table_steps_shown
+V	set_script_title
+V	set_skin_offset
+V	set_text
+V	set_ui_color
+V	set_ui_height
+V	set_ui_height_px
+V	set_ui_width_px
+V	set_ui_wf_property
+V	# Keyboard Commands
+V	get_key_color
+V	get_key_name
+V	get_key_triggerstate
+V	get_key_type
+V	get_keyrange_min_note
+V	get_keyrange_max_note
+V	get_keyrange_name
+V	set_key_color
+V	set_key_name
+V	set_key_pressed
+V	set_key_pressed_support
+V	set_key_type
+V	set_keyrange
+V	remove_keyrange
+# Engine Parameter Commands
+V	find_mod
+V	find_target
+V	get_engine_par
+V	get_engine_par_disp
+V	get_voice_limit
+V	output_channel_name
+V	set_engine_par
+V	set_voice_limit
+# Load/Save Commands
+V	get_folder
+V	load_array
+V	load_array_str
+V	load_ir_sample
+V	load_midi_file
+V	save_array
+V	save_array_str
+V	save_midi_file
+# MIDI Object Commands
+V	mf_insert_file
+V	mf_set_export_area
+V	mf_set_buffer_size
+V	mf_get_buffer_size
+V	mf_reset
+V	mf_insert_event
+V	mf_remove_event
+V	mf_set_event_par
+V	mf_get_event_par
+V	mf_get_id
+V	mf_set_mark
+V	mf_get_mark
+V	by_track
+V	mf_get_first
+V	mf_get_last
+V	mf_get_next
+V	mf_get_next_at
+V	mf_get_prev
+V	mf_get_prev_at
+V	mf_get_num_tracks
+V	mf_set_pos
+V	mf_set_command
+V	mf_set_byte_one
+V	mf_set_byte_two
