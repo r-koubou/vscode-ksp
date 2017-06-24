@@ -171,10 +171,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data = line.split( DELIMITER );
-                String name                 = data[ 0 ].trim();
-                boolean constant            = "Y".equals( data[ 1 ].trim() );
-                boolean initializerRequired = "Y".equals( data[ 2 ].trim() );
-                int type                    = toVariableType( data[ 3 ].trim() );
+                String name                 = data[ 0 ];
+                boolean constant            = "Y".equals( data[ 1 ] );
+                boolean initializerRequired = "Y".equals( data[ 2 ] );
+                int type                    = toVariableType( data[ 3 ] );
                 int[] typeList = null;
 
                 //--------------------------------------------------------------------------
@@ -185,7 +185,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     typeList = new int[ data.length - 4 ];
                     for( int i = 4, x = 0; i < data.length; i++, x++ )
                     {
-                        typeList[ x ] = toVariableType( data[ i ].trim() );
+                        typeList[ x ] = toVariableType( data[ i ] );
                     }
                 }
 
@@ -222,9 +222,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data               = line.split( DELIMITER );
-                int type                    = toVariableType( data[ 0 ].trim() );
-                String name                 = Variable.toKSPTypeCharacter( type ) + data[ 1 ].trim();
-                boolean availableOnInit     = "Y".equals( data[ 2 ].trim() );
+                int type                    = toVariableType( data[ 0 ] );
+                String name                 = Variable.toKSPTypeCharacter( type ) + data[ 1 ];
+                boolean availableOnInit     = "Y".equals( data[ 2 ] );
 
                 ASTVariableDeclaration ast  = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
                 ast.symbol.name = name;
@@ -266,20 +266,21 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data  = line.split( DELIMITER );
-                int returnType = toVariableType( data[ 0 ].trim() );
-                String name    = data[ 1 ].trim();
+                int returnType = toVariableType( data[ 0 ] );
+                String name    = data[ 1 ];
+                String availableCallbackScope = data[ 2 ];
                 boolean hasParenthesis = false;
 
                 //--------------------------------------------------------------------------
-                // data[2] 以降：引数を含む場合
+                // data[3] 以降：引数を含む場合
                 // 引数のAST、変数を生成
                 //--------------------------------------------------------------------------
                 ArrayList<Argument> args = new ArrayList<Argument>();
-                if( data.length >= 3 )
+                if( data.length >= 4 )
                 {
                     hasParenthesis = true;
                     final int len = data.length;
-                    for( int i = 2; i < len; i++ )
+                    for( int i = 3; i < len; i++ )
                     {
                         String typeString = data[ i ];
 
@@ -314,10 +315,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     {
                         newItem.argList.addAll( args );
                     }
-                    newItem.hasParenthesis = hasParenthesis;
-                    newItem.returnType     = returnType;
-                    newItem.symbolType     = SymbolType.Command;
-                    newItem.reserved       = true;
+                    newItem.hasParenthesis          = hasParenthesis;
+                    newItem.returnType              = returnType;
+                    newItem.symbolType              = SymbolType.Command;
+                    newItem.reserved                = true;
+                    newItem.availableCallbackScope  = availableCallbackScope;
                     newCommands.add( newItem );
                 }
 
@@ -351,8 +353,8 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data = line.split( DELIMITER );
-                String name   = data[ 0 ].trim();
-                boolean dup   = data[ 1 ].trim().equals( "Y" );
+                String name   = data[ 0 ];
+                boolean dup   = "Y".equals( data[ 1 ] );
 
                 //--------------------------------------------------------------------------
                 // data[2] 以降：引数を含む場合

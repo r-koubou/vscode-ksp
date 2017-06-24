@@ -30,6 +30,12 @@ public class Command extends SymbolDefinition implements KSPParserTreeConstants
     public int returnType = TYPE_NONE;
 
     /**
+     * 使用可能なコマンドのコールバック（外部低ファイルから読み込むビルトインコマンド用）
+     * <p>詳細： https://github.com/r-koubou/KSPSyntaxParser/wiki/External-symbol-definition-file-format#command</p>
+     */
+    public String availableCallbackScope = "*";
+
+    /**
      * Ctor.
      */
     public Command( ASTCallCommand node )
