@@ -45,15 +45,16 @@ V	fade_out	*	@I	@I	@I
 V	get_event_ids	!init	I[]
 I	get_event_par	*	@I	@I
 I	get_event_par_arr	*	@I	@I	@I
-V	ignore_event	note&release	@I
+V	ignore_event	note&&release	@I
 V	set_event_mark	*	@I	@I
 V	set_event_par	*	@I	@I	@I
 V	set_event_par_arr	*	@I	@I	@I	@I
 # Array Commands
-V	array_equal	*
-V	num_elements	*
-V	search	*
-V	sort	*
+B	array_equal	*	I[]	I[]
+I	num_elements	*	*[]
+I	search	*	I[]
+V	sort	*	I[]||R[]	@I
+# Group Commands
 V	allow_group	*
 V	disallow_group	*
 V	find_group	*

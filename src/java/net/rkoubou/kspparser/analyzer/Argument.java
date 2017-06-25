@@ -24,4 +24,13 @@ public class Argument extends Variable
     {
         super( node );
     }
+
+    /**
+     * Ctor.
+     */
+    public Argument( Variable src )
+    {
+        super( src.astNode );
+        SymbolDefinition.copy( src, this );
+    }
 }

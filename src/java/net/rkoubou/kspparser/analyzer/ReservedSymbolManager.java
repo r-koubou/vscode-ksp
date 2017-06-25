@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import net.rkoubou.kspparser.analyzer.CommandArgument.CondType;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
@@ -174,7 +175,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 String name                 = data[ 0 ];
                 boolean constant            = "Y".equals( data[ 1 ] );
                 boolean initializerRequired = "Y".equals( data[ 2 ] );
-                int type                    = toVariableType( data[ 3 ] );
+                int type                    = toVariableType( data[ 3 ] ).type;
                 int[] typeList = null;
 
                 //--------------------------------------------------------------------------
@@ -185,7 +186,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     typeList = new int[ data.length - 4 ];
                     for( int i = 4, x = 0; i < data.length; i++, x++ )
                     {
-                        typeList[ x ] = toVariableType( data[ i ] );
+                        typeList[ x ] = toVariableType( data[ i ] ).type;
                     }
                 }
 
@@ -222,19 +223,15 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data               = line.split( DELIMITER );
-                int type                    = toVariableType( data[ 0 ] );
-                String name                 = Variable.toKSPTypeCharacter( type ) + data[ 1 ];
+                Variable v                  = toVariableType( data[ 0 ] );
+                String name                 = Variable.toKSPTypeCharacter( v.type ) + data[ 1 ];
                 boolean availableOnInit     = "Y".equals( data[ 2 ] );
 
-                ASTVariableDeclaration ast  = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
-                ast.symbol.name = name;
-
-                Variable v    = new Variable( ast );
-                v.type        = type;
-                v.availableOnInit = availableOnInit;    // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
-                v.reserved    = true;                   // 予約変数
-                v.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                v.status      = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
+                v.name              = name;
+                v.availableOnInit   = availableOnInit;    // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
+                v.reserved          = true;                   // 予約変数
+                v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
+                v.status            = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
                 newVariables.add( v );
             }
         }
@@ -266,7 +263,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 String[] data  = line.split( DELIMITER );
-                int returnType = toVariableType( data[ 0 ] );
+                int returnType = toVariableType( data[ 0 ] ).type;
                 String name    = data[ 1 ];
                 String availableCallbackScope = data[ 2 ];
                 boolean hasParenthesis = false;
@@ -275,31 +272,18 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 // data[3] 以降：引数を含む場合
                 // 引数のAST、変数を生成
                 //--------------------------------------------------------------------------
-                ArrayList<Argument> args = new ArrayList<Argument>();
+                ArrayList<CommandArgument> args = new ArrayList<CommandArgument>();
                 if( data.length >= 4 )
                 {
                     hasParenthesis = true;
                     final int len = data.length;
                     for( int i = 3; i < len; i++ )
                     {
+                        //--------------------------------------------------------------------------
+                        // 複数のデータ型を許容するコマンドがあるので単一にせずにリストにストックしていく
+                        //--------------------------------------------------------------------------
                         String typeString = data[ i ];
-
-                        int type = toVariableType( typeString );
-
-                        ASTVariableDeclaration ast = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
-                        ast.symbol.name = "arg"; // 使用・参照しないのでダミー
-
-                        Argument v    = new Argument( ast );
-                        v.requireDeclarationOnInit = true;      // 引数の変数が on init で宣言した変数かどうか
-                        v.type        = type;
-                        v.reserved    = false;                  // KONTAKT内部のビルトインコマンドにつき、非予約変数
-                        v.referenced  = true;                   // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
-                        v.status      = VariableState.LOADED;   // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
-                        if( typeString.startsWith( "@" ) )
-                        {
-                            v.accessFlag = ACCESS_ATTR_CONST;
-                        }
-                        args.add( v );
+                        args.add( toVariableTypeForArgument( typeString ) );
                     }
                 }
                 //--------------------------------------------------------------------------
@@ -376,18 +360,14 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                             typeString =typeString.substring( 1 );
                         }
 
-                        int type      = toVariableType( typeString );
-
-                        ASTVariableDeclaration ast = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
-                        ast.symbol.name = ""; // シンボル収集時にマージ
-
-                        Argument v    = new Argument( ast );
-                        v.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
-                        v.type        = type;
-                        v.reserved    = true;                   // 予約変数
-                        v.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                        v.status      = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
-                        args.add( v );
+                        Variable v    = toVariableType( typeString );
+                        Argument a    = new Argument( v );
+                        a.name        = ""; // シンボル収集時にマージ
+                        a.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
+                        a.reserved    = true;                   // 予約変数
+                        a.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
+                        a.status      = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
+                        args.add( a );
                     }
                 }
                 //--------------------------------------------------------------------------
@@ -430,58 +410,141 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     /**
      * 型識別文字から Variableクラスのtypeに格納する形式の値に変換する
      */
-    static public int toVariableType( String t )
+    static public Variable toVariableType( String t )
     {
+        Variable ret = new Variable( new ASTVariableDeclaration( JJTVARIABLEDECLARATION ) );
+        int type       = TYPE_NONE;
+        int accessFlag = ACCESS_ATTR_NONE;
+
         t = t.intern();
         if( t == "*" )
         {
-            return TYPE_ANY;
+            type = TYPE_ANY;
         }
-        if( t == "V" )
+        else if( t == "*[]" )
         {
-            return TYPE_VOID;
+            type = TYPE_ANY | TYPE_ATTR_ARRAY;
         }
-        if( t == "I" )
+        else if( t == "V" )
         {
-            return TYPE_INT;
+            type = TYPE_VOID;
         }
-        if( t == "@I" )
+        else if( t == "I" || t == "@I" )
         {
-            return TYPE_INT;
+            type = TYPE_INT;
         }
-        if( t == "I[]" )
+        else if( t == "I[]" )
         {
-            return TYPE_INT | TYPE_ATTR_ARRAY;
+            type = TYPE_INT | TYPE_ATTR_ARRAY;
         }
-        if( t == "R" )
+        else if( t == "R" || t == "@R" )
         {
-            return TYPE_REAL;
+            type = TYPE_REAL;
         }
-        if( t == "@R" )
+        else if( t == "R[]" )
         {
-            return TYPE_REAL;
+            type = TYPE_REAL | TYPE_ATTR_ARRAY;
         }
-        if( t == "R[]" )
+        else if( t == "S" || t == "@S" )
         {
-            return TYPE_REAL | TYPE_ATTR_ARRAY;
+            type = TYPE_STRING;
         }
-        if( t == "S" )
+        else if( t == "S[]" )
         {
-            return TYPE_STRING;
+            type = TYPE_STRING | TYPE_ATTR_ARRAY;
         }
-        if( t == "@S" )
+        else if( t == "B" || t == "@B" )
         {
-            return TYPE_STRING;
+            type = TYPE_BOOL;
         }
-        if( t == "S[]" )
+        else if( t == "B[]" )
         {
-            return TYPE_STRING | TYPE_ATTR_ARRAY;
+            type = TYPE_BOOL | TYPE_ATTR_ARRAY;
         }
-        if( t == "PP" )
+        else if( t == "PP" )
         {
-            return TYPE_PREPROCESSOR_SYMBOL;
+            type = TYPE_PREPROCESSOR_SYMBOL;
         }
-        throw new IllegalArgumentException( "Unknown type : " + t );
+        else
+        {
+            throw new IllegalArgumentException( "Unknown type : " + t );
+        }
+
+        if( t.startsWith( "@" ) )
+        {
+            accessFlag |= ACCESS_ATTR_CONST;
+        }
+
+        ret.name       = "tmp";
+        ret.type       = type;
+        ret.accessFlag = accessFlag;
+        return ret;
+    }
+
+    /**
+     * 型識別文字から引数の値に変換する(コマンド引数で複数の型を扱う場合)
+     */
+    static public CommandArgument toVariableTypeForArgument( String t )
+    {
+        t = t.intern();
+        CommandArgument ret;
+        ArrayList<Variable> args          = new ArrayList<Variable>();
+        CommandArgument.CondType condType = CondType.None;
+
+        String[] andCond = t.split( "&&" );
+        String[] orCond  = t.split( "\\|\\|" );
+
+        //--------------------------------------------------------------------------
+        // A かつ B かつ .... n の場合
+        //--------------------------------------------------------------------------
+        if( andCond.length >= 2 )
+        {
+            condType = CondType.And;
+            for( String i : andCond )
+            {
+                if( i.indexOf( "||" ) >= 0 )
+                {
+                    continue;
+                }
+                Variable v = toVariableType( i );
+                args.add( v );            }
+        }
+        //--------------------------------------------------------------------------
+        // A または B または .... n の場合
+        //--------------------------------------------------------------------------
+        else if( orCond.length >= 2 )
+        {
+            condType = CondType.Or;
+            for( String i : orCond )
+            {
+                if( i.indexOf( "&&" ) >= 0 )
+                {
+                    continue;
+                }
+                Variable v = toVariableType( i );
+                args.add( v );
+            }
+        }
+        else
+        {
+            Variable v = toVariableType( t );
+            args.add( v );
+        }
+
+        //--------------------------------------------------------------------------
+        // 共通の値設定
+        //--------------------------------------------------------------------------
+        for( int x = 0; x < args.size(); x++ )
+        {
+            Variable v = args.get( x );
+            v.reserved                  = false;                    // KONTAKT内部のビルトインコマンドにつき、非予約変数
+            v.referenced                = true;                     // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
+            v.status                    = VariableState.LOADED;     // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
+        }
+
+        ret = new CommandArgument( args );
+        ret.condType = condType;
+        return ret;
     }
 
     /**
@@ -493,10 +556,5 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
         ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
         mgr.load();
-        // for( Variable v : mgr.variables )
-        // {
-        //     System.out.println( v.name );
-        //     //System.out.println( v.toKSPTypeCharacter() );
-        // }
     }
 }

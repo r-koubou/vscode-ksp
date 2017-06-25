@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
 /**
- * 値、変数の中間表現を示す
+ * KSPの値、変数の中間表現を示す
  */
 public class Variable extends SymbolDefinition
 {
@@ -88,7 +88,7 @@ public class Variable extends SymbolDefinition
      */
     public boolean setTypeFromVariableName()
     {
-        this.type = getTypeFromVariableName( this.name );
+        this.type = getKSPTypeFromVariableName( this.name );
         return this.type != TYPE_NONE;
     }
 
@@ -168,6 +168,31 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * valueに指定された値のBooleanインスタンスを割り当てる
+     */
+    public void setValue( Boolean v )
+    {
+        if( !isBoolean() )
+        {
+            throw new IllegalStateException( "Type is " + getTypeName() );
+        }
+        this.value = v;
+    }
+
+    /**
+     * valueに指定された値のboolean[]インスタンスを割り当てる
+     */
+    public void setValue( boolean[] v )
+    {
+        if( !isBoolean() || !isArray() )
+        {
+            throw new IllegalStateException( "Type is " + getTypeName() );
+        }
+        boolean[] newV = Arrays.copyOf( v, v.length );
+        this.value = newV;
+    }
+
+    /**
      * 数値型かどうかを判定する
      */
     public boolean isNumeric()
@@ -205,6 +230,14 @@ public class Variable extends SymbolDefinition
     public boolean isString()
     {
         return ( getType() & TYPE_STRING ) != 0;
+    }
+
+    /**
+     * この変数の型がBooleanかどうかを判別する
+     */
+    public boolean isBoolean()
+    {
+        return ( getType() & TYPE_BOOL ) != 0;
     }
 
     /**
@@ -248,7 +281,7 @@ public class Variable extends SymbolDefinition
     }
 
     /**
-     * 変数名を元に文字列表現された型情報を返す
+     * KSPの変数名を元に文字列表現された型情報を返す
      */
     static public String getTypeName( String name )
     {
@@ -279,7 +312,7 @@ public class Variable extends SymbolDefinition
     /**
      * 変数名の1文字目の記号から型情報を算出する
      */
-    static public int getTypeFromVariableName( String variableName )
+    static public int getKSPTypeFromVariableName( String variableName )
     {
         if( variableName == null || variableName.length() == 0 )
         {
@@ -301,7 +334,7 @@ public class Variable extends SymbolDefinition
             case '@': return TYPE_STRING;
             case '!': return TYPE_STRING | TYPE_ATTR_ARRAY;
             default:
-                throw new IllegalArgumentException( "unknown type : " + String.valueOf( t ) + ":" + variableName );
+                throw new IllegalArgumentException( "unknown ksp type : " + String.valueOf( t ) + ":" + variableName );
         }
     }
 

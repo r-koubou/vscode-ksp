@@ -21,7 +21,7 @@ public class Command extends SymbolDefinition implements KSPParserTreeConstants
     public final ASTCallCommand astNode;
 
     /** 引数リスト */
-    public final ArrayList<Argument> argList = new ArrayList<Argument>();
+    public final ArrayList<CommandArgument> argList = new ArrayList<CommandArgument>();
 
     /** 引数の括弧の有無の判定フラグ */
     public boolean hasParenthesis;

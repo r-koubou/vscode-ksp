@@ -62,6 +62,7 @@ public interface AnalyzerConstants
     int TYPE_INT     = 0x01;
     int TYPE_STRING  = 0x02;
     int TYPE_REAL    = 0x04;
+    int TYPE_BOOL    = 0x2000;
     int TYPE_VOID    = 0x4000;
     int TYPE_PREPROCESSOR_SYMBOL = 0x8000;
     int TYPE_ANY     = 0xffff; // 全ビット ON
