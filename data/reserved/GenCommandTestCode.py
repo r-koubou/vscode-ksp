@@ -1,12 +1,14 @@
 # encoding: utf-8
 
 #
-# AnalyzerConstants.java
+# GenCommandTestCode.py
 # Copyright (c) R-Koubou
 #
 
 # Test statement here.
-COMMAND_STATEMENT = ""
+COMMAND_STATEMENT = """
+
+"""
 
 TEMPLATE = """
 
@@ -31,7 +33,11 @@ declare !sa1[ 2 ]
 declare !sa2[ 2 ]
 
 {{ ui variable }}
-declare ui_knob $Knob( 0, 1000, 1 )
+declare ui_knob $knob( 0, 1000, 1 )
+declare ui_menu $menu
+declare ui_label $label (1,1)
+declare ui_level_meter $level
+declare ui_waveform $waveform(6,6)
 
 {testcode}
 
@@ -77,7 +83,7 @@ on nrpn
 {testcode}
 end on
 
-on ui_control( $Knob )
+on ui_control( $knob )
 {testcode}
 end on
 

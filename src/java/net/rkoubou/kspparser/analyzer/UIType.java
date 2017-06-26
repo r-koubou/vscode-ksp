@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * 変数宣言時：UIの種類を識別するための中間表現を示す
  */
-public class UIType
+public class UIType implements AnalyzerConstants
 {
 
     /** UIの種類 ui_###### */
@@ -41,6 +41,9 @@ public class UIType
 
     /** シンボルテーブルインデックス値 */
     public int index = -1;
+
+    /** 全UIタイプを表現するインスタンス。コマンド引数の意味解析時のインスタンス比較用 */
+    static public UIType ANY_UI = new UIType( "ui_*", true, TYPE_ANY, false, false, new int[ 0 ] );
 
     /**
      * Ctor.

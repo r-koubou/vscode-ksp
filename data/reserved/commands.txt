@@ -71,11 +71,11 @@ I	ticks_to_ms	*	@I
 V	wait	!init	@I
 V	wait_ticks	!init	@I
 # User Interface Commands
-V	add_menu_item	*
-V	add_text_line	*
-V	attach_level_meter	*
-V	attach_zone	*
-V	hide_part	*
+V	add_menu_item	init	ui_menu	@S	@I
+V	add_text_line	*	ui_label	@S
+V	attach_level_meter	*	@I	@I	@I	@I	@I
+V	attach_zone	*	ui_waveform	@I	@I
+V	hide_part	*	ui_*	@I
 V	fs_get_filename	*
 V	fs_navigate	*
 V	get_control_par	*

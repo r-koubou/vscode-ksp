@@ -40,13 +40,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     static private final ReservedSymbolManager instance = new ReservedSymbolManager();
 
     /** 予約済みUIタイプ変数 */
-    private UIType[] uiTypes = new UIType[ 0 ];
+    private final ArrayList<UIType> uiTypes = new ArrayList<UIType>();
 
     /** 予約済み変数 */
-    private Variable[] variables = new Variable[ 0 ];
+    private final ArrayList<Variable> variables = new ArrayList<Variable>( 512 );
 
     /** 予約済みコマンド */
-    private Command[] commands = new Command[ 0 ];
+    private final ArrayList<Command> commands = new ArrayList<Command>( 256 );
 
     /** 予約済みコールバック */
     private Callback[] callbacks = new Callback[ 0 ];
@@ -82,8 +82,8 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     {
         loadUITypes();
         loadVariables();
-        loadCommands();
         loadCallbacks();
+        loadCommands();
     }
 
     /**
@@ -99,8 +99,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( UITypeTable dest )
     {
-        final UIType[] list = uiTypes;
-        for( UIType v : list )
+        for( UIType v : uiTypes )
         {
             dest.add( v );
         }
@@ -111,8 +110,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( VariableTable dest )
     {
-        final Variable[] list = variables;
-        for( Variable v : list )
+        for( Variable v : variables )
         {
             dest.add( v );
         }
@@ -123,9 +121,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( CommandTable dest )
     {
-        final Command[] list = commands;
-
-        for( Command v : list )
+        for( Command v : commands )
         {
             dest.add( v );
         }
@@ -156,13 +152,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadUITypes() throws IOException
     {
-        ArrayList<UIType> newUITypes = new ArrayList<UIType>( 1024 );
-
         File f            = new File( BASE_DIR, "uitypes.txt" );
         BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
         try
         {
             String line;
+            uiTypes.clear();
+
             while( ( line = br.readLine() ) != null )
             {
                 line = line.trim();
@@ -191,14 +187,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 UIType ui = new UIType( name, true, type, constant, initializerRequired, typeList );
-                newUITypes.add( ui );
+                uiTypes.add( ui );
             }
         }
         finally
         {
             try { br.close(); } catch( Throwable e ) {}
         }
-        uiTypes = newUITypes.toArray( new UIType[0] );
     }
 
 
@@ -207,13 +202,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadVariables() throws IOException
     {
-        ArrayList<Variable> newVariables = new ArrayList<Variable>( 1024 );
-
         File f            = new File( BASE_DIR, "variables.txt" );
         BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
         try
         {
             String line;
+            variables.clear();
+
             while( ( line = br.readLine() ) != null )
             {
                 line = line.trim();
@@ -232,14 +227,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 v.reserved          = true;                   // 予約変数
                 v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
                 v.status            = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
-                newVariables.add( v );
+                variables.add( v );
             }
         }
         finally
         {
             try { br.close(); } catch( Throwable e ) {}
         }
-        variables = newVariables.toArray( new Variable[0] );
     }
 
     /**
@@ -247,13 +241,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadCommands() throws IOException
     {
-        ArrayList<Command> newCommands = new ArrayList<Command>( 256 );
-
         File f            = new File( BASE_DIR, "commands.txt" );
         BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
         try
         {
             String line;
+            commands.clear();
+
             while( ( line = br.readLine() ) != null )
             {
                 line = line.trim();
@@ -304,7 +298,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     newItem.symbolType              = SymbolType.Command;
                     newItem.reserved                = true;
                     newItem.availableCallbackScope  = availableCallbackScope;
-                    newCommands.add( newItem );
+                    commands.add( newItem );
                 }
 
             } //~while( ( line = br.readLine() ) != null )
@@ -313,7 +307,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             try { br.close(); } catch( Throwable e ) {}
         }
-        commands = newCommands.toArray( new Command[0] );
     }
 
     /**
@@ -410,11 +403,12 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     /**
      * 型識別文字から Variableクラスのtypeに格納する形式の値に変換する
      */
-    static public Variable toVariableType( String t )
+    public Variable toVariableType( String t )
     {
         Variable ret = new Variable( new ASTVariableDeclaration( JJTVARIABLEDECLARATION ) );
-        int type       = TYPE_NONE;
-        int accessFlag = ACCESS_ATTR_NONE;
+        int type          = TYPE_NONE;
+        int accessFlag    = ACCESS_ATTR_NONE;
+        UIType uiTypeInfo = null;
 
         t = t.intern();
         if( t == "*" )
@@ -465,6 +459,31 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             type = TYPE_PREPROCESSOR_SYMBOL;
         }
+        // 全UIタイプを許容する場合
+        else if( t.equals( "ui_*" ) )
+        {
+            uiTypeInfo  = UIType.ANY_UI;
+            accessFlag |= ACCESS_ATTR_UI;
+        }
+        // 指定のUIタイプの場合
+        else if( t.startsWith( "ui_" ) )
+        {
+            boolean found = false;
+            for( UIType ui : this.uiTypes )
+            {
+                if( ui.name.equals( t ) )
+                {
+                    uiTypeInfo  = ui;
+                    accessFlag |= ACCESS_ATTR_UI;
+                    found = true;
+                    break;
+                }
+            }
+            if( !found )
+            {
+                throw new IllegalArgumentException( "Unknown type : " + t );
+            }
+        }
         else
         {
             throw new IllegalArgumentException( "Unknown type : " + t );
@@ -478,13 +497,15 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         ret.name       = "tmp";
         ret.type       = type;
         ret.accessFlag = accessFlag;
+        ret.uiTypeInfo = uiTypeInfo;
+
         return ret;
     }
 
     /**
      * 型識別文字から引数の値に変換する(コマンド引数で複数の型を扱う場合)
      */
-    static public CommandArgument toVariableTypeForArgument( String t )
+    public CommandArgument toVariableTypeForArgument( String t )
     {
         t = t.intern();
         CommandArgument ret;
@@ -507,7 +528,8 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     continue;
                 }
                 Variable v = toVariableType( i );
-                args.add( v );            }
+                args.add( v );
+            }
         }
         //--------------------------------------------------------------------------
         // A または B または .... n の場合
@@ -540,6 +562,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             v.reserved                  = false;                    // KONTAKT内部のビルトインコマンドにつき、非予約変数
             v.referenced                = true;                     // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
             v.status                    = VariableState.LOADED;     // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
+            if( v.uiTypeInfo != null )
+            {
+                v.uiTypeName = v.uiTypeInfo.name;
+            }
         }
 
         ret = new CommandArgument( args );
