@@ -34,10 +34,10 @@ V	set_snapshot_type	*	@I
 # Event Commands
 I	by_marks	*	@I
 V	change_note	note	@I	@I
-V	change_pan	!init
-V	change_tune	!init
-V	change_velo	note
-V	change_vol	!init
+V	change_pan	!init	@I	@I	@I
+V	change_tune	!init	@I	@I	@I
+V	change_velo	note	@I	@I
+V	change_vol	!init	@I	@I	@I
 V	delete_event_mark	*	@I	@I
 I	event_status	*	@I
 V	fade_in	*	@I	@I
@@ -55,21 +55,21 @@ I	num_elements	*	*[]
 I	search	*	I[]
 V	sort	*	I[]||R[]	@I
 # Group Commands
-V	allow_group	*
-V	disallow_group	*
-V	find_group	*
-V	get_purge_state	*
-V	group_name	*
-V	purge_group	*
+V	allow_group	note&&release	@I
+V	disallow_group	note&&release	@I
+I	find_group	*	@S
+I	get_purge_state	*	@I
+V	group_name	*	@I
+V	purge_group	ui_control&&persistence_changed	@I	@I
 # Time-Related Commands
-V	change_listener_par	*
-V	ms_to_ticks	*
-V	set_listener	*
-V	stop_wait	*
+V	change_listener_par	*	@I	@I
+I	ms_to_ticks	*	@I
+V	set_listener	init	@I	@I
+V	stop_wait	!init	@I	@I
 V	reset_ksp_timer	*
-V	ticks_to_ms	*
-V	wait	*
-V	wait_ticks	*
+I	ticks_to_ms	*	@I
+V	wait	!init	@I
+V	wait_ticks	!init	@I
 # User Interface Commands
 V	add_menu_item	*
 V	add_text_line	*
