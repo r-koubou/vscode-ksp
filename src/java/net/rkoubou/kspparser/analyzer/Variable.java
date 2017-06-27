@@ -359,7 +359,13 @@ public class Variable extends SymbolDefinition
             case TYPE_REAL | TYPE_ATTR_ARRAY:   return "?";
             case TYPE_STRING:                   return "@";
             case TYPE_STRING | TYPE_ATTR_ARRAY: return "!";
-            case TYPE_PREPROCESSOR_SYMBOL:      return "(Preprocessor Symbol)";
+            //--------------------------------------------------------------------------
+            // 内部処理用
+            //--------------------------------------------------------------------------
+            case TYPE_BOOL:                     return "bool";
+            case TYPE_VOID:                     return "void";
+            case TYPE_PREPROCESSOR_SYMBOL:      return "preprocessor";
+            case TYPE_ANY:                      return "any";
             default:
                 throw new IllegalArgumentException( "type is " + type );
         }

@@ -12,24 +12,11 @@ import java.util.ArrayList;
 /**
  * コマンドコール時：引数の変数の中間表現を示す
  */
-public class CommandArgument
+public class CommandArgument implements AnalyzerConstants
 {
-
-    /**
-     * 複数のデータ型指定があった場合のAND/OR識別子
-     */
-    public enum CondType
-    {
-        None,
-        And,
-        Or
-    }
 
     /** 引数を格納する（複数タイプを許容するコマンドに対応するため配列としている） */
     protected final ArrayList<Argument> arguments = new ArrayList<Argument>();
-
-    /** 複数のデータ型指定があった場合のAND/OR識別子 */
-    public CondType condType = CondType.None;
 
     /**
      * Ctor.

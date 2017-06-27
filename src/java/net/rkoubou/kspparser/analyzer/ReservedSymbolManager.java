@@ -13,8 +13,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import net.rkoubou.kspparser.analyzer.CommandArgument.CondType;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
@@ -36,20 +36,35 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     /** 行コメント文字 */
     static public final String LINE_COMMENT = "#";
 
+    /** split処理で使用する、条件式ANDの文字列表現 */
+    static public final String SPLIT_COND_AND = "&&";
+
+    /** split処理で使用する、条件式ORの文字列表現 */
+    static public final String SPLIT_COND_OR = "||";
+
+    /** split処理で使用する、条件式NOTの文字列表現 */
+    static public final String COND_NOT = "NOT";
+
+    /** split処理で使用する、条件式ANDの正規表現 */
+    static public final String REGEX_SPLIT_COND_AND = "&&";
+
+    /** split処理で使用する、条件式ORの正規表現 */
+    static public final String REGEX_SPLIT_COND_OR = "\\|\\|";
+
     /** シングルトンインスタンス */
     static private final ReservedSymbolManager instance = new ReservedSymbolManager();
 
     /** 予約済みUIタイプ変数 */
-    private final ArrayList<UIType> uiTypes = new ArrayList<UIType>();
+    private final HashMap<String,UIType> uiTypes = new HashMap<String,UIType>();
 
     /** 予約済み変数 */
-    private final ArrayList<Variable> variables = new ArrayList<Variable>( 512 );
+    private final HashMap<String,Variable> variables = new HashMap<String,Variable>( 512 );
 
     /** 予約済みコマンド */
-    private final ArrayList<Command> commands = new ArrayList<Command>( 256 );
+    private final HashMap<String,Command> commands = new HashMap<String,Command>( 256 );
 
     /** 予約済みコールバック */
-    private Callback[] callbacks = new Callback[ 0 ];
+    private HashMap<String,Callback> callbacks = new HashMap<String,Callback>();
 
     /**
      * static initializer
@@ -99,9 +114,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( UITypeTable dest )
     {
-        for( UIType v : uiTypes )
+        for( String key : uiTypes.keySet() )
         {
-            dest.add( v );
+            dest.add( uiTypes.get( key ) );
         }
     }
 
@@ -110,9 +125,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( VariableTable dest )
     {
-        for( Variable v : variables )
+        for( String key : variables.keySet() )
         {
-            dest.add( v );
+            dest.add( variables.get( key ) );
         }
     }
 
@@ -121,9 +136,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( CommandTable dest )
     {
-        for( Command v : commands )
+        for( String key : commands.keySet() )
         {
-            dest.add( v );
+            dest.add( commands.get( key ) );
         }
     }
 
@@ -132,10 +147,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( CallbackTable dest )
     {
-        final Callback[] list = callbacks;
-
-        for( Callback v : list )
+        for( String key : callbacks.keySet() )
         {
+            Callback v = callbacks.get( key );
             if( v instanceof CallbackWithArgs )
             {
                 dest.addWithArgs( (CallbackWithArgs)v );
@@ -187,7 +201,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 }
 
                 UIType ui = new UIType( name, true, type, constant, initializerRequired, typeList );
-                uiTypes.add( ui );
+                uiTypes.put( name, ui );
             }
         }
         finally
@@ -227,7 +241,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 v.reserved          = true;                   // 予約変数
                 v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
                 v.status            = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
-                variables.add( v );
+                variables.put( name, v );
             }
         }
         finally
@@ -256,11 +270,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     continue;
                 }
 
-                String[] data  = line.split( DELIMITER );
-                int returnType = toVariableType( data[ 0 ] ).type;
-                String name    = data[ 1 ];
-                String availableCallbackScope = data[ 2 ];
-                boolean hasParenthesis = false;
+                String[] data               = line.split( DELIMITER );
+                String returnType           = data[ 0 ];
+                String name                 = data[ 1 ];
+                String availableCallback    = data[ 2 ];
+                boolean hasParenthesis      = false;
 
                 //--------------------------------------------------------------------------
                 // data[3] 以降：引数を含む場合
@@ -294,11 +308,12 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                         newItem.argList.addAll( args );
                     }
                     newItem.hasParenthesis          = hasParenthesis;
-                    newItem.returnType              = returnType;
+                    toReturnTypeForCommand( returnType, newItem.returnType );
                     newItem.symbolType              = SymbolType.Command;
                     newItem.reserved                = true;
-                    newItem.availableCallbackScope  = availableCallbackScope;
-                    commands.add( newItem );
+                    newItem.availableCallbackList.clear();
+                    toAvailableCommandOnCallbackList( availableCallback, newItem.availableCallbackList );
+                    commands.put( name, newItem );
                 }
 
             } //~while( ( line = br.readLine() ) != null )
@@ -314,13 +329,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadCallbacks() throws IOException
     {
-        ArrayList<Callback> newCallbacks = new ArrayList<Callback>();
-
         File f            = new File( BASE_DIR, "callbacks.txt" );
         BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
         try
         {
             String line;
+            callbacks.clear();
+
             while( ( line = br.readLine() ) != null )
             {
                 line = line.trim();
@@ -388,7 +403,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                     newItem.reserved       = true;
                     newItem.declared       = false;
                     newItem.allowDuplicate = dup;
-                    newCallbacks.add( newItem );
+                    callbacks.put( name, newItem );
                 }
 
             } //~while( ( line = br.readLine() ) != null )
@@ -397,7 +412,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             try { br.close(); } catch( Throwable e ) {}
         }
-        callbacks = newCallbacks.toArray( new Callback[0] );
     }
 
     /**
@@ -469,15 +483,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         else if( t.startsWith( "ui_" ) )
         {
             boolean found = false;
-            for( UIType ui : this.uiTypes )
+            if( uiTypes.containsKey( t ) )
             {
-                if( ui.name.equals( t ) )
-                {
-                    uiTypeInfo  = ui;
-                    accessFlag |= ACCESS_ATTR_UI;
-                    found = true;
-                    break;
-                }
+                uiTypeInfo  = uiTypes.get( t );
+                accessFlag |= ACCESS_ATTR_UI;
+                found = true;
             }
             if( !found )
             {
@@ -503,6 +513,45 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     }
 
     /**
+     * 型識別文字から戻り値の値に変換する(コマンドによって複数の戻り値がある)
+     */
+    public void toReturnTypeForCommand( String t, ReturnType dest )
+    {
+        t = t.intern();
+
+        String[] andCond = t.split( REGEX_SPLIT_COND_AND );
+        String[] orCond  = t.split( REGEX_SPLIT_COND_OR );
+
+        //--------------------------------------------------------------------------
+        // A かつ B かつ .... n の場合
+        // 理論上、戻り値の型が複合した条件は発生し得ない
+        // int かつ real っていうような戻り値を代入する術はなく、矛盾しているため
+        //--------------------------------------------------------------------------
+        if( andCond.length >= 2 )
+        {
+            throw new IllegalArgumentException( "Cannot use '&&'' for command argument : " + t );
+        }
+        //--------------------------------------------------------------------------
+        // A または B または .... n の場合
+        //--------------------------------------------------------------------------
+        else if( orCond.length >= 2 )
+        {
+            for( String i : orCond )
+            {
+                if( i.indexOf( SPLIT_COND_AND ) >= 0 )
+                {
+                    continue;
+                }
+                dest.typeList.add( toVariableType( i ).type );
+            }
+        }
+        else
+        {
+            dest.typeList.add( toVariableType( t ).type );
+        }
+    }
+
+    /**
      * 型識別文字から引数の値に変換する(コマンド引数で複数の型を扱う場合)
      */
     public CommandArgument toVariableTypeForArgument( String t )
@@ -510,36 +559,27 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         t = t.intern();
         CommandArgument ret;
         ArrayList<Variable> args          = new ArrayList<Variable>();
-        CommandArgument.CondType condType = CondType.None;
 
-        String[] andCond = t.split( "&&" );
-        String[] orCond  = t.split( "\\|\\|" );
+        String[] andCond = t.split( REGEX_SPLIT_COND_AND );
+        String[] orCond  = t.split( REGEX_SPLIT_COND_OR );
 
         //--------------------------------------------------------------------------
         // A かつ B かつ .... n の場合
+        // 理論上、引数の型が複合した条件は発生し得ない
+        // int かつ real っていうような記述をする術はなく、矛盾しているため
         //--------------------------------------------------------------------------
         if( andCond.length >= 2 )
         {
-            condType = CondType.And;
-            for( String i : andCond )
-            {
-                if( i.indexOf( "||" ) >= 0 )
-                {
-                    continue;
-                }
-                Variable v = toVariableType( i );
-                args.add( v );
-            }
+            throw new IllegalArgumentException( "Cannot use '&&'' for command argument : " + t );
         }
         //--------------------------------------------------------------------------
         // A または B または .... n の場合
         //--------------------------------------------------------------------------
         else if( orCond.length >= 2 )
         {
-            condType = CondType.Or;
             for( String i : orCond )
             {
-                if( i.indexOf( "&&" ) >= 0 )
+                if( i.indexOf( SPLIT_COND_AND ) >= 0 )
                 {
                     continue;
                 }
@@ -569,8 +609,87 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         }
 
         ret = new CommandArgument( args );
-        ret.condType = condType;
         return ret;
+    }
+
+    /**
+     * コマンドテーブル生成用：利用可能なコールバック名の記述を元に、利用可能リストを生成する
+     */
+    public void toAvailableCommandOnCallbackList( String callbackName, HashMap<String,Callback> dest )
+    {
+        callbackName            = callbackName.intern();
+
+        String[] andCond  = callbackName.split( REGEX_SPLIT_COND_AND );
+        String[] orCond   = callbackName.split( REGEX_SPLIT_COND_OR );
+
+        //--------------------------------------------------------------------------
+        // 全コールバックで使用可能
+        //--------------------------------------------------------------------------
+        if( callbackName == "*" )
+        {
+            dest.putAll( callbacks );
+            return;
+        }
+        //--------------------------------------------------------------------------
+        // A かつ B かつ .... n の場合
+        //--------------------------------------------------------------------------
+        if( andCond.length >= 2 )
+        {
+            for( String i : andCond )
+            {
+                if( i.indexOf( SPLIT_COND_OR ) >= 0 )
+                {
+                    continue;
+                }
+                if( callbacks.containsKey( i ) )
+                {
+                    dest.put( i, callbacks.get( i ) );
+                    break;
+                }
+            }
+        }
+        //--------------------------------------------------------------------------
+        // A または B または .... n の場合
+        //--------------------------------------------------------------------------
+        else if( orCond.length >= 2 )
+        {
+            for( String i : orCond )
+            {
+                if( i.indexOf( SPLIT_COND_AND ) >= 0 )
+                {
+                    continue;
+                }
+                if( callbacks.containsKey( i ) )
+                {
+                    dest.put( i, callbacks.get( i ) );
+                    break;
+                }
+            }
+        }
+        //--------------------------------------------------------------------------
+        // A 以外の場合
+        //--------------------------------------------------------------------------
+        else if( callbackName.startsWith( COND_NOT ) )
+        {
+            String exclude = callbackName.substring( 1 );
+            for( String key : callbacks.keySet() )
+            {
+                if( !callbacks.containsKey( exclude ) )
+                {
+                    dest.put( key, callbacks.get( key ) );
+                }
+            }
+        }
+        //--------------------------------------------------------------------------
+        // 単体のコールバック指定
+        //--------------------------------------------------------------------------
+        else
+        {
+            if( callbacks.containsKey( callbackName ) )
+            {
+                dest.put( callbackName, callbacks.get( callbackName ) );
+            }
+        }
     }
 
     /**

@@ -8,6 +8,7 @@
 package net.rkoubou.kspparser.analyzer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
@@ -27,13 +28,13 @@ public class Command extends SymbolDefinition implements KSPParserTreeConstants
     public boolean hasParenthesis;
 
     /** 戻り値型 */
-    public int returnType = TYPE_NONE;
+    public final ReturnType returnType = new ReturnType();
 
     /**
      * 使用可能なコマンドのコールバック（外部低ファイルから読み込むビルトインコマンド用）
      * <p>詳細： https://github.com/r-koubou/KSPSyntaxParser/wiki/External-symbol-definition-file-format#command</p>
      */
-    public String availableCallbackScope = "*";
+    public final HashMap<String,Callback> availableCallbackList = new HashMap<String,Callback>( 32 );
 
     /**
      * Ctor.

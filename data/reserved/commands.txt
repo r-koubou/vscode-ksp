@@ -76,14 +76,14 @@ V	add_text_line	*	ui_label	@S
 V	attach_level_meter	*	@I	@I	@I	@I	@I
 V	attach_zone	*	ui_waveform	@I	@I
 V	hide_part	*	ui_*	@I
-V	fs_get_filename	*
-V	fs_navigate	*
-V	get_control_par	*
-V	get_menu_item_str	*
-V	get_menu_item_value	*
-V	get_menu_item_visibility	*
-V	get_ui_id	*
-V	get_ui_wf_property	*
+S	fs_get_filename	ui_control	@I	@I
+V	fs_navigate	ui_control	@I	@I
+I||S	get_control_par	*
+S	get_menu_item_str	*	@I	@I
+I||S	get_menu_item_value	*	@I	@I
+I	get_menu_item_visibility	*	@I	@I
+I||S	get_ui_id	*	ui_*
+I||S	get_ui_wf_property	*	ui_waveform	@I	@I
 V	make_perfview	*
 V	move_control	*
 V	move_control_px	*
