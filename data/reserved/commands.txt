@@ -85,28 +85,28 @@ I	get_menu_item_visibility	*	@I	@I
 I||S	get_ui_id	*	ui_*
 I||S	get_ui_wf_property	*	ui_waveform	@I	@I
 V	make_perfview	*
-V	move_control	*
-V	move_control_px	*
-V	set_control_help	*
-V	set_control_par	*
-V	set_control_par_str	*
-V	set_control_par_arr	*
-V	set_control_par_str_arr	*
-V	set_knob_defval	*
-V	set_knob_label	*
-V	set_knob_unit	*
-V	set_menu_item_str	*
-V	set_menu_item_value	*
-V	set_menu_item_visibility	*
-V	set_table_steps_shown	*
-V	set_script_title	*
-V	set_skin_offset	*
-V	set_text	*
-V	set_ui_color	*
-V	set_ui_height	*
-V	set_ui_height_px	*
-V	set_ui_width_px	*
-V	set_ui_wf_property	*
+V	move_control	*	ui_*	@I	@I
+V	move_control_px	*	ui_*	@I	@I
+V	set_control_help	init	ui_*	@S
+V	set_control_par	*	@I	@I	@I
+V	set_control_par_str	*	@I	@I	@S
+V	set_control_par_arr	*	@I	@I	@I	@I
+V	set_control_par_str_arr	*	@I	@I	@S	@I
+V	set_knob_defval	*	ui_knob||ui_slider	@I
+V	set_knob_label	*	ui_knob	@S
+V	set_knob_unit	*	ui_knob	@I
+V	set_menu_item_str	*	@I	@I	@S
+V	set_menu_item_value	*	@I	@I	@I
+V	set_menu_item_visibility	*	@I	@I	@I
+V	set_table_steps_shown	*	ui_table	@I
+V	set_script_title	init	@S
+V	set_skin_offset	*	@I
+V	set_text	*	ui_button||ui_knob||ui_label||ui_switch||ui_value_edit	@S
+V	set_ui_color	*	@I
+V	set_ui_height	*	@I
+V	set_ui_height_px	*	@I
+V	set_ui_width_px	*	@I
+V	set_ui_wf_property	*	ui_waveform	@I	@I	@I
 V	# Keyboard Commands	*
 V	get_key_color	*
 V	get_key_name	*
