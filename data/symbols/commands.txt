@@ -1,0 +1,173 @@
+# Arithmetic Commands
+V	inc	*	I
+V	dec	*	I
+R||S	exp	*	@R
+R||S	log	*	@R
+R||S	pow	*	@R	@R
+R||S	sqrt	*	@R
+R||S	ceil	*	@R
+R||S	floor	*	@R
+R||S	round	*	@R
+R||S	cos	*	@R
+R||S	sin	*	@R
+R||S	tan	*	@R
+R||S	acos	*	@R
+R||S	asin	*	@R
+R||S	atan	*	@R
+I||S	sh_left	*	@I	@I
+I||S	sh_right	*	@I	@I
+I||S	random	*	@I	@I
+I||S	int_to_real	*	@I
+R||S	real_to_int	*	@R
+I||S	msb	*	@I
+I||S	lsb	*	@I
+# General Commands
+V	exit	*
+V	ignore_controller	*
+V	message	*	@S
+V	note_off	!init	@I
+V	play_note	!init	@I	@I	@I	@I
+V	set_controller	*	@I	@I
+V	set_rpn	*	@I	@I
+V	set_nrpn	*	@I	@I
+V	set_snapshot_type	*	@I
+# Event Commands
+I||S	by_marks	*	@I
+V	change_note	note	@I	@I
+V	change_pan	!init	@I	@I	@I
+V	change_tune	!init	@I	@I	@I
+V	change_velo	note	@I	@I
+V	change_vol	!init	@I	@I	@I
+V	delete_event_mark	*	@I	@I
+I||S	event_status	*	@I
+V	fade_in	*	@I	@I
+V	fade_out	*	@I	@I	@I
+V	get_event_ids	!init	I[]
+I||S	get_event_par	*	@I	@I
+I||S	get_event_par_arr	*	@I	@I	@I
+V	ignore_event	note&&release	@I
+V	set_event_mark	*	@I	@I
+V	set_event_par	*	@I	@I	@I
+V	set_event_par_arr	*	@I	@I	@I	@I
+# Array Commands
+B	array_equal	*	I[]	I[]
+I||S	num_elements	*	*[]
+I||S	search	*	I[]
+V	sort	*	I[]||R[]	@I
+# Group Commands
+V	allow_group	note&&release	@I
+V	disallow_group	note&&release	@I
+I||S	find_group	*	@S
+I||S	get_purge_state	*	@I
+V	group_name	*	@I
+V	purge_group	ui_control&&persistence_changed	@I	@I
+# Time-Related Commands
+V	change_listener_par	*	@I	@I
+I||S	ms_to_ticks	*	@I
+V	set_listener	init	@I	@I
+V	stop_wait	!init	@I	@I
+V	reset_ksp_timer	*
+I||S	ticks_to_ms	*	@I
+V	wait	!init	@I
+V	wait_ticks	!init	@I
+# User Interface Commands
+V	add_menu_item	init	ui_menu	@S	@I
+V	add_text_line	*	ui_label	@S
+V	attach_level_meter	*	@I	@I	@I	@I	@I
+V	attach_zone	*	ui_waveform	@I	@I
+V	hide_part	*	ui_*	@I
+S	fs_get_filename	ui_control	@I	@I
+V	fs_navigate	ui_control	@I	@I
+I||S	get_control_par	*
+S	get_menu_item_str	*	@I	@I
+I||S	get_menu_item_value	*	@I	@I
+I||S	get_menu_item_visibility	*	@I	@I
+I||S	get_ui_id	*	ui_*
+I||S	get_ui_wf_property	*	ui_waveform	@I	@I
+V	make_perfview	*
+V	move_control	*	ui_*	@I	@I
+V	move_control_px	*	ui_*	@I	@I
+V	set_control_help	init	ui_*	@S
+V	set_control_par	*	@I	@I	@I
+V	set_control_par_str	*	@I	@I	@S
+V	set_control_par_arr	*	@I	@I	@I	@I
+V	set_control_par_str_arr	*	@I	@I	@S	@I
+V	set_knob_defval	*	ui_knob||ui_slider	@I
+V	set_knob_label	*	ui_knob	@S
+V	set_knob_unit	*	ui_knob	@I
+V	set_menu_item_str	*	@I	@I	@S
+V	set_menu_item_value	*	@I	@I	@I
+V	set_menu_item_visibility	*	@I	@I	@I
+V	set_table_steps_shown	*	ui_table	@I
+V	set_script_title	init	@S
+V	set_skin_offset	*	@I
+V	set_text	*	ui_button||ui_knob||ui_label||ui_switch||ui_value_edit	@S
+V	set_ui_color	*	@I
+V	set_ui_height	*	@I
+V	set_ui_height_px	*	@I
+V	set_ui_width_px	*	@I
+V	set_ui_wf_property	*	ui_waveform	@I	@I	@I
+V	# Keyboard Commands	*
+I||S	get_key_color	*	@I
+S	get_key_name	*	@I
+I||S	get_key_triggerstate	*	@I
+I||S	get_key_type	*	@I
+I||S	get_keyrange_min_note	*	@I
+I||S	get_keyrange_max_note	*	@I
+S	get_keyrange_name	*	@I
+V	set_key_color	*	@I	@I
+V	set_key_name	*	@I	@S
+V	set_key_pressed	*	@I	@I
+V	set_key_pressed_support	*	@I
+V	set_key_type	*	@I	@I
+V	set_keyrange	*	@I	@I	@S
+V	remove_keyrange	*	@I
+# Engine Parameter Commands
+I||S	find_mod	*	@I	@S
+I||S	find_target	*	@I	@I	@S
+I||S	get_engine_par	*	@I	@I	@I	@I
+S	get_engine_par_disp	*	@I	@I	@I	@I
+I||S	get_voice_limit	*	@I
+S	output_channel_name	*	@I
+V	set_engine_par	*	@I	@I	@I	@I	@I
+I||S	set_voice_limit	*	@I	@I
+# Load/Save Commands
+S	get_folder	*	@I
+V	load_array	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
+V	load_array_str	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@S
+I||S	load_ir_sample	*	@S	@I	@I
+I||S	load_midi_file	*	@S
+V	save_array	persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
+I||S	save_array_str	persistence_changed||pgs_changed||ui_control	I[]||S[]	@S
+I||S	save_midi_file	*	@S
+# MIDI Object Commands
+I||S	mf_insert_file	*	@S	@I	@I	@I
+V	mf_set_export_area	*	@S	@I	@I	@I	@I
+V	mf_set_buffer_size	*	@I
+I||S	mf_get_buffer_size	*	V
+V	mf_reset	*	V
+V	mf_insert_event	*	@I	@I	@I	@I	@I
+V	mf_remove_event	*	@I
+V	mf_set_event_par	*	@I	@I	@I
+I||S	mf_get_event_par	*	@I	@I
+I||S	mf_get_id	*	V
+V	mf_set_mark	*	@I	@I	@I
+I||S	mf_get_mark	*	@I	@I
+I||S	by_track	*	@I
+V	mf_get_first	*	@I
+V	mf_get_last	*	@I
+V	mf_get_next	*	@I
+V	mf_get_next_at	*	@I	@I
+V	mf_get_prev	*	@I
+V	mf_get_prev_at	*	@I	@I
+I||S	mf_get_num_tracks	*	V
+V	mf_set_pos	*	@I
+# Undocumented
+V	mf_set_command	*	@I
+I||S	mf_get_command	*	V
+V	mf_set_byte_one	*	@I
+I||S	mf_get_byte_one	*	V
+V	mf_set_byte_two	*	@I
+I||S	mf_get_byte_two	*	V
+I||S	mf_get_channel	*	V
+V	mf_set_channel	*	@I

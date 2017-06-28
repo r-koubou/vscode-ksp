@@ -7,11 +7,10 @@
 
 # Test statement here.
 COMMAND_STATEMENT = """
-set_ui_wf_property( $waveform, 0, 0, 0 )
+
 """
 
 TEMPLATE = """
-
 {{ Paste to Kontakt Script Editor }}
 
 on init

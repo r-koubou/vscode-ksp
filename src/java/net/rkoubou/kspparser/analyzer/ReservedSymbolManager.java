@@ -74,11 +74,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
         if( dir == null )
         {
-            dir = "data/reserved";
+            dir = "data/symbols";
         }
         else
         {
-            dir += "/reserved";
+            dir += "/symbols";
         }
         BASE_DIR = dir;
     }
