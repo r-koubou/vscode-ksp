@@ -115,6 +115,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
         if( !c.reserved )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARN_CALLBACK_UNKNOWN, c );
+            AnalyzeErrorCounter.w();
         }
 
         return true;
@@ -199,6 +200,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
             if( !c.reserved )
             {
                 MessageManager.printlnW( MessageManager.PROPERTY_WARN_CALLBACK_UNKNOWN, c );
+                AnalyzeErrorCounter.w();
             }
 
             return true;

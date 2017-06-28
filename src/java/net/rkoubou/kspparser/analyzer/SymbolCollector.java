@@ -1,16 +1,17 @@
 /* =========================================================================
 
-    SymbolCollection.java
+    SymbolCollector.java
     Copyright (c) R-Koubou
 
    ======================================================================== */
 
 package net.rkoubou.kspparser.analyzer;
 
-import net.rkoubou.kspparser.javacc.generated.KSPParserDefaultVisitor;
-import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
+
+import java.io.IOException;
+
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
@@ -22,9 +23,8 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
 /**
  * シンボルテーブル構築クラス
  */
-public class SymbolCollector extends KSPParserDefaultVisitor implements AnalyzerConstants, KSPParserTreeConstants
+public class SymbolCollector extends AbstractAnalyzer
 {
-    public final ASTRootNode rootNode;
     public final UITypeTable uiTypeTable               = new UITypeTable();
     public final VariableTable variableTable           = new VariableTable();
     public final CallbackTable callbackTable           = new CallbackTable();
@@ -49,35 +49,29 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
      */
     public SymbolCollector( ASTRootNode node )
     {
-        this.rootNode = node;
+        super( node );
     }
 
     /**
      * 予約済み変数を定義ファイルから収集する
      */
-    private void collectReservedariable()
+    private void collectReservedariable() throws IOException
     {
         ReservedSymbolManager mgr = ReservedSymbolManager.getManager();
-        try
-        {
-            mgr.load();
-            mgr.apply( uiTypeTable );
-            mgr.apply( variableTable );
-            mgr.apply( callbackTable );
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
-        }
+        mgr.load();
+        mgr.apply( uiTypeTable );
+        mgr.apply( variableTable );
+        mgr.apply( callbackTable );
     }
 
     /**
      * ユーザースクリプトからシンボルを収集
      */
-    public void collect()
+    @Override
+    public void analyze() throws Exception
     {
         collectReservedariable();
-        this.rootNode.jjtAccept( this, null );
+        astRootNode.jjtAccept( this, null );
     }
 
     /**
@@ -112,6 +106,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
                 {
                     // NI が定義していないUIの可能性
                     MessageManager.printlnW( MessageManager.PROPERTY_WARN_UI_VARIABLE_UNKNOWN, v );
+                    AnalyzeErrorCounter.w();
                 }
                 else
                 {
@@ -166,6 +161,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
                     if( d.name.startsWith( n ) )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED, d );
+                        AnalyzeErrorCounter.e();
                         break;
                     }
                 }
@@ -176,6 +172,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
             if( !currentCallBack.symbol.name.equals( "init" ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_ONINIT, d );
+                AnalyzeErrorCounter.e();
             }
             //--------------------------------------------------------------------------
             // 定義済みの検査
@@ -186,12 +183,14 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
                 if( v != null && v.reserved )
                 {
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_RESERVED, d );
+                    AnalyzeErrorCounter.e();
                     return false;
                 }
                 // ユーザー変数との重複
                 else if( v != null )
                 {
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_DECLARED, d );
+                    AnalyzeErrorCounter.e();
                     return false;
                 }
                 // 未定義：新規追加可能
@@ -234,6 +233,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         if( variableTable.searchVariable( node.symbol.name ) == null )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
+            AnalyzeErrorCounter.w();
         }
         return ret;
     }
@@ -249,6 +249,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         if( !callbackTable.add( node ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_CALLBACK_DECLARED, node.symbol );
+            AnalyzeErrorCounter.e();
         }
 
         return ret;
@@ -265,6 +266,7 @@ public class SymbolCollector extends KSPParserDefaultVisitor implements Analyzer
         if( !userFunctionTable.add( node ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_FUNCTION_DECLARED, node.symbol );
+            AnalyzeErrorCounter.e();
         }
 
         return ret;

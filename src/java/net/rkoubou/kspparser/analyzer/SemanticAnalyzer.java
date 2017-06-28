@@ -7,30 +7,47 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
-import net.rkoubou.kspparser.javacc.generated.KSPParserDefaultVisitor;
-import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
+import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
 /**
  * 意味解析実行クラス
  */
-public class SemanticAnalyzer extends KSPParserDefaultVisitor implements AnalyzerConstants, KSPParserTreeConstants
+public class SemanticAnalyzer extends AbstractAnalyzer
 {
-    public final ASTRootNode rootNode;
-    public final UITypeTable uiTypeTable;
-    public final VariableTable variableTable;
-    public final CallbackTable callbackTable;
-    public final UserFunctionTable userFunctionTable;
+
+    /** シンボルテーブル保持インスタンス */
+    public final SymbolCollector symbolCollector;
 
     /**
      * ctor
      */
-     public SemanticAnalyzer( ASTRootNode node, UITypeTable uiTypeTable, VariableTable variableTable, CallbackTable callbackTable, UserFunctionTable userFunctionTable )
-     {
-         this.rootNode          = node;
-         this.uiTypeTable       = uiTypeTable;
-         this.variableTable     = variableTable;
-         this.callbackTable     = callbackTable;
-         this.userFunctionTable = userFunctionTable;
-     }
+    public SemanticAnalyzer( SymbolCollector symbolCollector )
+    {
+        super( symbolCollector.astRootNode );
+        this.symbolCollector = symbolCollector;
+    }
+
+    /**
+     * 意味解析の実行
+     */
+    @Override
+    public void analyze() throws Exception
+    {
+        astRootNode.jjtAccept( this, null );
+    }
+
+    /**
+     * 変数宣言
+     */
+    @Override
+    public Object visit( ASTVariableDeclaration node, Object data)
+    {
+        final Object ret = defaultVisit( node, data );
+        final VariableTable variableTable = symbolCollector.variableTable;
+        final UITypeTable uiTypeTable     = symbolCollector.uiTypeTable;
+        final Variable variable           = variableTable.searchVariable( node.symbol.name );
+        System.out.println( variable.name );
+        return ret;
+    }
+
 }

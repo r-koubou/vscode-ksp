@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
@@ -68,6 +69,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,Analyz
     void errorSkipTo( ParseException e )
     {
         MessageManager.println( e );
+        AnalyzeErrorCounter.e();
         //e.printStackTrace();
         Token t = null;
         do
@@ -2979,6 +2981,12 @@ if (jjtc000) {
     return false;
   }
 
+  private boolean jj_3_2()
+ {
+    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
+    return false;
+  }
+
   private boolean jj_3R_110()
  {
     if (jj_scan_token(PREPROCESSOR_SET_COND)) return true;
@@ -2994,12 +3002,6 @@ if (jjtc000) {
   private boolean jj_3R_71()
  {
     if (jj_3R_78()) return true;
-    return false;
-  }
-
-  private boolean jj_3_2()
- {
-    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
     return false;
   }
 
