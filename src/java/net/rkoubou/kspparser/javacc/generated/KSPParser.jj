@@ -2051,19 +2051,15 @@ void CallCommand()             :
     try {
 /*@egen*/
     (
-        symbol = <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]
+        symbol = <IDENTIFIER>
+        {
+            jjtn000.symbol.name       = symbol.image;
+            jjtn000.symbol.line       = symbol.beginLine;
+            jjtn000.symbol.colmn      = symbol.beginColumn;
+            jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
+        }
+        [ LOOKAHEAD(2) CommandArguments( jjtn000 ) ]
     )/*@bgen(jjtree)*/
-    {
-      jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-    }
-/*@egen*/
-    {
-        jjtn000.symbol.name       = symbol.image;
-        jjtn000.symbol.line       = symbol.beginLine;
-        jjtn000.symbol.colmn      = symbol.beginColumn;
-        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
-    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -2089,11 +2085,11 @@ void CallCommand()             :
 //
 // \u30b3\u30de\u30f3\u30c9\u547c\u3073\u51fa\u3057\u6642\u306e\u5f15\u6570
 //
-void CommandArguments() :
+void CommandArguments( ASTCallCommand cmd ) :
 {}
 {
     <LPAREN>
-        [ LOOKAHEAD(2) CommandArgumentList() ]
+        [ LOOKAHEAD(2) CommandArgumentList( cmd ) ]
         ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
     <RPAREN>
 }
@@ -2101,7 +2097,7 @@ void CommandArguments() :
 //
 // \u30b3\u30de\u30f3\u30c9\u5f15\u6570\u30ea\u30b9\u30c8
 //
-void CommandArgumentList()                     :
+void CommandArgumentList( ASTCallCommand cmd )                     :
 {/*@bgen(jjtree) CommandArgumentList */
   ASTCommandArgumentList jjtn000 = new ASTCommandArgumentList(this, JJTCOMMANDARGUMENTLIST);
   boolean jjtc000 = true;
@@ -2116,6 +2112,14 @@ void CommandArgumentList()                     :
             LOOKAHEAD(2)( <MULTI_LINE_DELIMITER> )*
             <COMMA> Expression()
     )*/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        SymbolDefinition.copy( cmd.symbol, jjtn000.symbol );
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

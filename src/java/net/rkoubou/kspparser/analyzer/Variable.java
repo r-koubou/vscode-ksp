@@ -370,4 +370,12 @@ public class Variable extends SymbolDefinition
                 throw new IllegalArgumentException( "type is " + type );
         }
     }
+
+    /**
+     * 変数の型データからKSPの定める型式別の記号に変換する
+     */
+    static public String toKSPTypeName( int type )
+    {
+        return getTypeName( toKSPTypeCharacter( type ) );
+    }
 }

@@ -1021,24 +1021,25 @@ void CallCommand() #CallCommand:
 }
 {
     (
-        symbol = <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]
+        symbol = <IDENTIFIER>
+        {
+            jjtThis.symbol.name       = symbol.image;
+            jjtThis.symbol.line       = symbol.beginLine;
+            jjtThis.symbol.colmn      = symbol.beginColumn;
+            jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
+        }
+        [ LOOKAHEAD(2) CommandArguments( jjtThis ) ]
     )
-    {
-        jjtThis.symbol.name       = symbol.image;
-        jjtThis.symbol.line       = symbol.beginLine;
-        jjtThis.symbol.colmn      = symbol.beginColumn;
-        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
-    }
 }
 
 //
 // コマンド呼び出し時の引数
 //
-void CommandArguments() :
+void CommandArguments( ASTCallCommand cmd ) :
 {}
 {
     <LPAREN>
-        [ LOOKAHEAD(2) CommandArgumentList() ]
+        [ LOOKAHEAD(2) CommandArgumentList( cmd ) ]
         ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
     <RPAREN>
 }
@@ -1046,7 +1047,7 @@ void CommandArguments() :
 //
 // コマンド引数リスト
 //
-void CommandArgumentList() #CommandArgumentList:
+void CommandArgumentList( ASTCallCommand cmd ) #CommandArgumentList:
 {}
 {
     ( LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
@@ -1055,6 +1056,9 @@ void CommandArgumentList() #CommandArgumentList:
             LOOKAHEAD(2)( <MULTI_LINE_DELIMITER> )*
             <COMMA> Expression()
     )*
+    {
+        SymbolDefinition.copy( cmd.symbol, jjtThis.symbol );
+    }
 }
 
 

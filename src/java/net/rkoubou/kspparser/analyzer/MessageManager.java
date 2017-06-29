@@ -59,6 +59,15 @@ public class MessageManager implements AnalyzerConstants
     //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_FUNCTION_DECLARED         = "error.userfunction.already.declared";
 
+    //--------------------------------------------------------------------------
+    // Semantic Analyzer
+    //--------------------------------------------------------------------------
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED    = "error.semantic.variable.not.declared";
+    static public final String PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED      = "error.semantic.command.not.allowed";
+    static public final String PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN        = "warning.semantic.command.unknown";
+    static public final String PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT         = "error.semantic.command.argcount";
+    static public final String PROPERTY_ERROR_SEMANTIC_INCOMPATIBLE_ARG         = "error.semantic.incompatible.arg";
+
     public enum Level
     {
         ERROR,
@@ -206,42 +215,67 @@ public class MessageManager implements AnalyzerConstants
     /**
      * 標準出力に出力する
      */
-    static public void println( String propertyKey, Level level, SymbolDefinition symbol )
+    static public void println( String propertyKey, Level level, SymbolDefinition symbol, String... ext )
     {
+        int extIndex = 1;
         String message = expand( propertyKey, level, symbol.line, symbol.colmn, symbol.name.length() );
         message = message.replace( "${symbolname}", symbol.name );
+        for( String s : ext )
+        {
+            message = message.replace( "${ext" + extIndex + "}", s );
+            extIndex++;
+        }
         System.out.println( message );
     }
+
+    // /**
+    //  * 標準出力に出力する
+    //  */
+    // static public void println( String propertyKey, Level level, Variable symbol )
+    // {
+    //     String message = expand( propertyKey, level, symbol.line, symbol.colmn, symbol.name.length() );
+    //     message = message.replace( "${symbolname}", symbol.name );
+
+    //     if( symbol.uiTypeName != null && symbol.uiTypeName.length() > 0 )
+    //     {
+    //         message = message.replace( "${vartype}", symbol.uiTypeName );
+    //     }
+    //     else
+    //     {
+    //         message = message.replace( "${vartype}", symbol.getTypeName() );
+    //     }
+    //     System.out.println( message );
+    // }
 
     /**
      * 標準出力に出力する(レベル：ERROR)
      */
-    static public void printlnE( String propertyKey, SymbolDefinition symbol )
+    static public void printlnE( String propertyKey, SymbolDefinition symbol, String... ext )
     {
-        println( propertyKey, Level.ERROR, symbol );
+        println( propertyKey, Level.ERROR, symbol, ext );
     }
 
     /**
      * 標準出力に出力する(レベル：WARN)
      */
-    static public void printlnW( String propertyKey, SymbolDefinition symbol )
+    static public void printlnW( String propertyKey, SymbolDefinition symbol, String... ext )
     {
-        println( propertyKey, Level.WARNING, symbol );
+        println( propertyKey, Level.WARNING, symbol, ext );
     }
 
     /**
      * 標準出力に出力する(レベル：INFO)
      */
-    static public void printlnI( String propertyKey, SymbolDefinition symbol )
+    static public void printlnI( String propertyKey, SymbolDefinition symbol, String... ext )
     {
-        println( propertyKey, Level.INFO, symbol );
+        println( propertyKey, Level.INFO, symbol, ext );
     }
 
     /**
      * 標準出力に出力する(レベル：DEBUG)
      */
-    static public void printlnD( String propertyKey, SymbolDefinition symbol )
+    static public void printlnD( String propertyKey, SymbolDefinition symbol, String... ext )
     {
-        println( propertyKey, Level.DEBUG, symbol );
+        println( propertyKey, Level.DEBUG, symbol, ext );
     }
 }

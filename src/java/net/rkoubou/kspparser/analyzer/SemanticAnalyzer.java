@@ -9,13 +9,18 @@ package net.rkoubou.kspparser.analyzer;
 
 import java.util.ArrayList;
 
+import net.rkoubou.kspparser.analyzer.MessageManager.Level;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
+import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTLiteral;
+import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
+import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRefVariable;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
+import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
 /**
@@ -24,8 +29,13 @@ import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 public class SemanticAnalyzer extends AbstractAnalyzer
 {
 
-    /** シンボルテーブル保持インスタンス */
-    public final SymbolCollector symbolCollector;
+    // シンボルテーブル保持インスタンス
+    public final UITypeTable uiTypeTable;
+    public final VariableTable variableTable;
+    public final CallbackTable callbackTable;
+    public final CommandTable commandTable;
+    public final UserFunctionTable userFunctionTable;
+    public final PreProcessorSymbolTable preProcessorSymbolTable;
 
     /**
      * ctor
@@ -33,7 +43,12 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     public SemanticAnalyzer( SymbolCollector symbolCollector )
     {
         super( symbolCollector.astRootNode );
-        this.symbolCollector = symbolCollector;
+        this.uiTypeTable                = symbolCollector.uiTypeTable;
+        this.variableTable              = symbolCollector.variableTable;
+        this.callbackTable              = symbolCollector.callbackTable;
+        this.commandTable               = symbolCollector.commandTable;
+        this.userFunctionTable          = symbolCollector.userFunctionTable;
+        this.preProcessorSymbolTable    = symbolCollector.preProcessorSymbolTable;
     }
 
     /**
@@ -45,18 +60,51 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         astRootNode.jjtAccept( this, null );
     }
 
+//--------------------------------------------------------------------------
+// ユーティリティ
+//--------------------------------------------------------------------------
+
+    /**
+     * 現在のパース中のコールバックを取得する
+     */
+    protected ASTCallbackDeclaration getCurrentCallBack( Node child )
+    {
+        ASTCallbackDeclaration ret = null;
+        while( true )
+        {
+            Node p = child.jjtGetParent();
+            if( p == null )
+            {
+                return null;
+            }
+            if( p.getId() == JJTCALLBACKDECLARATION )
+            {
+                ret = (ASTCallbackDeclaration)p;
+                break;
+            }
+            child = p;
+        }
+        return ret;
+    }
+
+//--------------------------------------------------------------------------
+// 変数宣言
+//--------------------------------------------------------------------------
+
     /**
      * 変数宣言
      */
     @Override
     public Object visit( ASTVariableDeclaration node, Object data)
     {
-        final Object ret = defaultVisit( node, data );
-        final VariableTable variableTable = symbolCollector.variableTable;
-        final UITypeTable uiTypeTable     = symbolCollector.uiTypeTable;
-        final Variable variable           = variableTable.search( node.symbol.name );
+        final Object ret        = defaultVisit( node, data );
+        final Variable variable = variableTable.search( node.symbol.name );
         return ret;
     }
+
+//--------------------------------------------------------------------------
+// 式
+//--------------------------------------------------------------------------
 
     /**
      * 代入式
@@ -64,11 +112,51 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTAssignment node, Object data)
     {
-        final Object ret = defaultVisit( node, data );
-        final VariableTable variableTable = symbolCollector.variableTable;
-        final Variable variable           = variableTable.search( node.symbol.name );
+        final Object ret        = defaultVisit( node, data );
+        final Variable variable = variableTable.search( node.symbol.name );
         return ret;
     }
+
+
+    /**
+     * リテラル定数参照
+     * @return node自身
+     */
+    @Override
+    public Object visit( ASTLiteral node, Object data )
+    {
+        return node;
+    }
+
+    /**
+     * 変数参照
+     * @return node自身
+     */
+    @Override
+    public Object visit( ASTRefVariable node, Object data )
+    {
+        //--------------------------------------------------------------------------
+        // 宣言済みかどうか
+        //--------------------------------------------------------------------------
+        Variable v = variableTable.search( node.symbol.name );
+        if( v == null )
+        {
+            // 宣言されていない変数
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, node.symbol );
+            AnalyzeErrorCounter.e();
+            return node;
+        }
+        // 初期化（１度も値が格納されていない）
+        if( v.status == VariableState.UNLOADED )
+        {
+            System.out.println( "not init : " + v.name );
+        }
+        return node;
+    }
+
+//--------------------------------------------------------------------------
+// コマンドコール
+//--------------------------------------------------------------------------
 
     /**
      * コマンド呼び出し
@@ -77,15 +165,42 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTCallCommand node, Object data)
     {
-        final CommandTable cmdTable = symbolCollector.commandTable;
-        final Command cmd           = cmdTable.search( node.symbol.name );
+        final Command cmd = commandTable.search( node.symbol.name );
 
         if( cmd == null )
         {
             // ドキュメントに記載のない隠しコマンドの可能性
             // エラーにせず、警告に留める
-            System.out.println( "Warn unknown command : " + node.symbol.name );
+            MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, node.symbol );
+            AnalyzeErrorCounter.w();
             return node;
+        }
+
+        ASTCallbackDeclaration callback = getCurrentCallBack( node );
+
+        //--------------------------------------------------------------------------
+        // 実行が許可されているコールバック内での呼び出しかどうか
+        //--------------------------------------------------------------------------
+        {
+            if( !cmd.availableCallbackList.containsKey( callback.symbol.name ) )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED, node.symbol );
+                AnalyzeErrorCounter.e();
+                return node;
+            }
+        }
+
+        //--------------------------------------------------------------------------
+        // 引数の数チェック
+        //--------------------------------------------------------------------------
+        if( node.jjtGetNumChildren() > 0 )
+        {
+            if( node.jjtGetChild( 0 ).jjtGetNumChildren() != cmd.argList.size() )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
+                AnalyzeErrorCounter.e();
+                return node;
+            }
         }
 
         // 引数の解析
@@ -102,9 +217,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTCommandArgumentList node, Object data )
     {
-        final int childrenNum               = node.jjtGetNumChildren();
-        final VariableTable variableTable   = symbolCollector.variableTable;
-        final CommandTable commandTable     = symbolCollector.commandTable;
+        final int childrenNum = node.jjtGetNumChildren();
 
         Object ret    = null;
         Command cmd   = null;
@@ -118,14 +231,6 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         cmd = (Command)data;
         ArrayList<CommandArgument> argList = cmd.argList;
 
-        //--------------------------------------------------------------------------
-        // 引数の数チェック
-        //--------------------------------------------------------------------------
-        if( node.jjtGetNumChildren() != cmd.argList.size() )
-        {
-            System.out.println( "Error invalid argc : " + node.jjtGetNumChildren() );
-            return null;
-        }
         //--------------------------------------------------------------------------
         // 引数の型チェック
         //--------------------------------------------------------------------------
@@ -207,7 +312,8 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                         {
                             // 未知のコマンドなので正しいかどうかの判定が不可能
                             // エラーにせずに警告に留める
-                            System.out.println( "Warn: Unknown command. argument check ignored - " + callCmd.symbol.name );
+                            MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, callCmd.symbol );
+                            AnalyzeErrorCounter.w();
                             valid = true;
                             break;
                         }
@@ -227,7 +333,11 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 
                 if( !valid )
                 {
-                    System.out.println( "Error NOT MATCH" );
+                    MessageManager.printlnE(
+                        MessageManager.PROPERTY_ERROR_SEMANTIC_INCOMPATIBLE_ARG,
+                        node.symbol
+                    );
+                    AnalyzeErrorCounter.e();
                 }
 
             } //~for( int i = 0; i < childrenNum; i++ )
@@ -235,33 +345,44 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         return null;
     }
 
+//--------------------------------------------------------------------------
+// プリプロセッサ
+//--------------------------------------------------------------------------
+
     /**
-     * リテラル定数参照
-     * @return node自身
+     * プリプロセッサシンボル定義
      */
     @Override
-    public Object visit( ASTLiteral node, Object data )
+    public Object visit( ASTPreProcessorDefine node, Object data )
     {
-        return node;
+        Object ret = defaultVisit( node, data );
+        // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
+        // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
+        {
+            ASTPreProcessorDefine decl = new ASTPreProcessorDefine( JJTPREPROCESSORDEFINE );
+            SymbolDefinition.copy( node.symbol,  decl.symbol );
+            decl.symbol.symbolType = SymbolType.PreprocessorSymbol;
+
+            PreProcessorSymbol v = new PreProcessorSymbol( decl );
+            preProcessorSymbolTable.add( v );
+        }
+        return ret;
     }
 
     /**
-     * 変数参照
-     * @return node自身
+     * プリプロセッサシンボル破棄
      */
     @Override
-    public Object visit( ASTRefVariable node, Object data )
+    public Object visit( ASTPreProcessorUnDefine node, Object data )
     {
-        //--------------------------------------------------------------------------
-        // 宣言済みかどうか
-        //--------------------------------------------------------------------------
-        Variable v = symbolCollector.variableTable.search( node.symbol.name );
-        if( v == null )
+        Object ret = defaultVisit( node, data );
+        // 宣言されていないシンボルを undef しようとした場合
+        if( preProcessorSymbolTable.search( node.symbol.name ) == null )
         {
-            // 宣言されていない変数
-            System.out.println( "Error NOT declared : " + node.symbol.name );
-            return node;
+            MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
+            AnalyzeErrorCounter.w();
         }
-        return node;
+        return ret;
     }
+
 }

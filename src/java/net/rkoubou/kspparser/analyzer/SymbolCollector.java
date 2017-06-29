@@ -12,10 +12,7 @@ import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
 import java.io.IOException;
 
-import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
-import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
-import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
@@ -25,11 +22,12 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
  */
 public class SymbolCollector extends AbstractAnalyzer
 {
-    public final UITypeTable uiTypeTable               = new UITypeTable();
-    public final VariableTable variableTable           = new VariableTable();
-    public final CallbackTable callbackTable           = new CallbackTable();
-    public final CommandTable commandTable             = new CommandTable();
-    public final UserFunctionTable userFunctionTable   = new UserFunctionTable();
+    public final UITypeTable uiTypeTable                            = new UITypeTable();
+    public final VariableTable variableTable                        = new VariableTable();
+    public final CallbackTable callbackTable                        = new CallbackTable();
+    public final CommandTable commandTable                          = new CommandTable();
+    public final UserFunctionTable userFunctionTable                = new UserFunctionTable();
+    public final PreProcessorSymbolTable preProcessorSymbolTable    = new PreProcessorSymbolTable();
 
     /**
      * NI が使用を禁止している変数名の接頭文字
@@ -208,42 +206,6 @@ public class SymbolCollector extends AbstractAnalyzer
                 }
             }
         }
-    }
-
-    /**
-     * プリプロセッサシンボル定義
-     */
-    @Override
-    public Object visit( ASTPreProcessorDefine node, Object data )
-    {
-        Object ret = defaultVisit( node, data );
-        // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
-        // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
-        {
-            ASTVariableDeclaration decl = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
-            SymbolDefinition.copy( node.symbol,  decl.symbol );
-            decl.symbol.symbolType = SymbolType.PreprocessorSymbol;
-
-            Variable v = new Variable( decl );
-            variableTable.add( v );
-        }
-        return ret;
-    }
-
-    /**
-     * プリプロセッサシンボル破棄
-     */
-    @Override
-    public Object visit( ASTPreProcessorUnDefine node, Object data )
-    {
-        Object ret = defaultVisit( node, data );
-        // 宣言されていないシンボルを undef しようとした場合
-        if( variableTable.search( node.symbol.name ) == null )
-        {
-            MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
-            AnalyzeErrorCounter.w();
-        }
-        return ret;
     }
 
     /**

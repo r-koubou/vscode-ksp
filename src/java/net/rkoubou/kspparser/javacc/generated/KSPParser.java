@@ -2644,17 +2644,15 @@ if (jjtc000) {
     jjtree.openNodeScope(jjtn000);Token symbol;
     try {
       symbol = jj_consume_token(IDENTIFIER);
+jjtn000.symbol.name       = symbol.image;
+            jjtn000.symbol.line       = symbol.beginLine;
+            jjtn000.symbol.colmn      = symbol.beginColumn;
+            jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
       if (jj_2_19(2)) {
-        CommandArguments();
+        CommandArguments(jjtn000);
       } else {
         ;
       }
-jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-jjtn000.symbol.name       = symbol.image;
-        jjtn000.symbol.line       = symbol.beginLine;
-        jjtn000.symbol.colmn      = symbol.beginColumn;
-        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -2679,10 +2677,10 @@ if (jjtc000) {
 //
 // コマンド呼び出し時の引数
 //
-  final public void CommandArguments() throws ParseException {
+  final public void CommandArguments(ASTCallCommand cmd) throws ParseException {
     jj_consume_token(LPAREN);
     if (jj_2_20(2)) {
-      CommandArgumentList();
+      CommandArgumentList(cmd);
     } else {
       ;
     }
@@ -2701,7 +2699,7 @@ if (jjtc000) {
 //
 // コマンド引数リスト
 //
-  final public void CommandArgumentList() throws ParseException {/*@bgen(jjtree) CommandArgumentList */
+  final public void CommandArgumentList(ASTCallCommand cmd) throws ParseException {/*@bgen(jjtree) CommandArgumentList */
   ASTCommandArgumentList jjtn000 = new ASTCommandArgumentList(this, JJTCOMMANDARGUMENTLIST);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
@@ -2739,6 +2737,9 @@ if (jjtc000) {
         jj_consume_token(COMMA);
         Expression();
       }
+jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+SymbolDefinition.copy( cmd.symbol, jjtn000.symbol );
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -3465,21 +3466,36 @@ if (jjtc000) {
     return false;
   }
 
-  private boolean jj_3R_141()
- {
-    if (jj_scan_token(STRING_ADD)) return true;
-    return false;
-  }
-
   private boolean jj_3_22()
  {
     if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
     return false;
   }
 
+  private boolean jj_3R_141()
+ {
+    if (jj_scan_token(STRING_ADD)) return true;
+    return false;
+  }
+
   private boolean jj_3R_140()
  {
     if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_70()
+ {
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_22()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_3R_71()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_23()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -3500,27 +3516,6 @@ if (jjtc000) {
     if (jj_3R_141()) return true;
     }
     }
-    return false;
-  }
-
-  private boolean jj_3R_70()
- {
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_22()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_3R_71()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_23()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3_19()
- {
-    if (jj_3R_69()) return true;
     return false;
   }
 
@@ -3609,6 +3604,12 @@ if (jjtc000) {
   private boolean jj_3R_131()
  {
     if (jj_scan_token(BOOL_GT)) return true;
+    return false;
+  }
+
+  private boolean jj_3_19()
+ {
+    if (jj_3R_69()) return true;
     return false;
   }
 

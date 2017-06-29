@@ -71,7 +71,7 @@ public class KSPSyntaxParser
         }
         finally
         {
-            AnalyzeErrorCounter.dump( System.out );
+            //AnalyzeErrorCounter.dump( System.out );
             if( stdout != null ){ try{ stdout.close(); } catch( Throwable e ){} }
             if( stderr != null ){ try{ stdout.close(); } catch( Throwable e ){} }
         }
