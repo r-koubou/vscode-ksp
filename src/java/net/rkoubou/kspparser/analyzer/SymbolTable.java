@@ -99,7 +99,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合は有効なインスタンス、無い場合は null
      */
-    public SYMBOL searchVariable( String name, boolean enableSearchParent )
+    public SYMBOL search( String name, boolean enableSearchParent )
     {
         SYMBOL v = table.get( name );
         if( v == null && enableSearchParent )
@@ -123,18 +123,18 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合は有効なインスタンス、無い場合は null
      */
-    public SYMBOL searchVariable( String name )
+    public SYMBOL search( String name )
     {
-        return searchVariable( name, true );
+        return search( name, true );
     }
 
     /**
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合はインデックス番号、無い場合は -1
      */
-    public int searchVariableID( String name, boolean enableSearchParent )
+    public int searchID( String name, boolean enableSearchParent )
     {
-        SYMBOL v = searchVariable( name, enableSearchParent );
+        SYMBOL v = search( name, enableSearchParent );
         if( v == null )
         {
             SymbolTable<NODE, SYMBOL> p = parent;
@@ -156,9 +156,9 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合はインデックス番号、無い場合は -1
      */
-    public int searchVariableID( String name )
+    public int searchID( String name )
     {
-        return searchVariableID( name, true );
+        return searchID( name, true );
     }
 
     /**

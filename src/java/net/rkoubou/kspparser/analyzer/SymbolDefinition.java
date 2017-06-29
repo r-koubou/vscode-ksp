@@ -34,9 +34,9 @@ public class SymbolDefinition implements AnalyzerConstants
     /** 実行環境で予約済みのシンボルかどうか） */
     public boolean reserved = false;
     /** 識別子名 */
-    public String name = null;
+    public String name = "";
     /** accessFlagにACCESS_ATTR_UIが含まれている場合のUIタイプの識別子名 */
-    public String uiTypeName = null;
+    public String uiTypeName = "";
     /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */
     public Object value = null;
     /** 定義した行番号 */

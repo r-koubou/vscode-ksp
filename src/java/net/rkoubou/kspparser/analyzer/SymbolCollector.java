@@ -28,6 +28,7 @@ public class SymbolCollector extends AbstractAnalyzer
     public final UITypeTable uiTypeTable               = new UITypeTable();
     public final VariableTable variableTable           = new VariableTable();
     public final CallbackTable callbackTable           = new CallbackTable();
+    public final CommandTable commandTable             = new CommandTable();
     public final UserFunctionTable userFunctionTable   = new UserFunctionTable();
 
     /**
@@ -62,6 +63,7 @@ public class SymbolCollector extends AbstractAnalyzer
         mgr.apply( uiTypeTable );
         mgr.apply( variableTable );
         mgr.apply( callbackTable );
+        mgr.apply( commandTable );
     }
 
     /**
@@ -94,7 +96,7 @@ public class SymbolCollector extends AbstractAnalyzer
         if( validateVariableImpl( node ) )
         {
             variableTable.add( node );
-            Variable v = variableTable.searchVariable( node.symbol.name );
+            Variable v = variableTable.search( node.symbol.name );
             //--------------------------------------------------------------------------
             // UI変数チェック / 外部定義とのマージ
             //--------------------------------------------------------------------------
@@ -120,6 +122,12 @@ public class SymbolCollector extends AbstractAnalyzer
                     // 意味解析フェーズで詳細を参照するため保持
                     v.uiTypeInfo = uiType;
                 }
+            }
+            // プリミティブ型
+            else
+            {
+                // const、poly修飾子は構文解析フェーズで代入済み
+                v.type = Variable.getKSPTypeFromVariableName( v.name );
             }
         }
 
@@ -178,7 +186,7 @@ public class SymbolCollector extends AbstractAnalyzer
             // 定義済みの検査
             //--------------------------------------------------------------------------
             {
-                Variable v = variableTable.searchVariable( d.name );
+                Variable v = variableTable.search( d.name );
                 // NI の予約変数との重複
                 if( v != null && v.reserved )
                 {
@@ -230,7 +238,7 @@ public class SymbolCollector extends AbstractAnalyzer
     {
         Object ret = defaultVisit( node, data );
         // 宣言されていないシンボルを undef しようとした場合
-        if( variableTable.searchVariable( node.symbol.name ) == null )
+        if( variableTable.search( node.symbol.name ) == null )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
             AnalyzeErrorCounter.w();
