@@ -63,10 +63,12 @@ public class MessageManager implements AnalyzerConstants
     // Semantic Analyzer
     //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED    = "error.semantic.variable.not.declared";
+    static public final String PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT          = "warning.semantic.variable.init";
     static public final String PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED      = "error.semantic.command.not.allowed";
     static public final String PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN        = "warning.semantic.command.unknown";
     static public final String PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT         = "error.semantic.command.argcount";
     static public final String PROPERTY_ERROR_SEMANTIC_INCOMPATIBLE_ARG         = "error.semantic.incompatible.arg";
+    static public final String PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN             = "error.semantic.cond.boolean";
 
     public enum Level
     {

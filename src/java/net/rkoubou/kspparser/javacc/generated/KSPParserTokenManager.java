@@ -10,6 +10,8 @@ import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
+import net.rkoubou.kspparser.analyzer.Variable;
 
 /** Token Manager. */
 @SuppressWarnings("unused")public class KSPParserTokenManager implements KSPParserConstants {

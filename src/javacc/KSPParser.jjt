@@ -26,6 +26,8 @@ import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
+import net.rkoubou.kspparser.analyzer.Variable;
 
 public class KSPParser implements AnalyzerConstants
 {
@@ -76,6 +78,21 @@ public class KSPParser implements AnalyzerConstants
 
         return rootNode;
 
+    }
+
+    /**
+     * 指定された値をシンボル情報に設定
+     */
+    void applyToSymbol( Token token, SimpleNode dest, int type, SymbolDefinition.SymbolType symbolType )
+    {
+        if( token.image != null )
+        {
+            dest.symbol.name = token.image;
+        }
+        dest.symbol.line        = token.beginLine;
+        dest.symbol.colmn       = token.beginColumn;
+        dest.symbol.type        = type;
+        dest.symbol.symbolType  = symbolType;
     }
 
     /**
@@ -379,6 +396,7 @@ void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
     )
     {
         decl.symbol.name = name.image;
+        decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
     }
 }
 
@@ -771,32 +789,55 @@ void Assignment() #Assignment:
 // 条件式OR
 //
 void ConditionalOrExpression():
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    ConditionalAndExpression() ( <BOOL_OR> ConditionalAndExpression() #ConditionalOr(2) )*
+    ConditionalAndExpression()
+    (
+        token = <BOOL_OR> ConditionalAndExpression()
+        {
+            jjtThis.symbol.line  = token.beginLine;
+            jjtThis.symbol.colmn = token.beginColumn;
+            jjtThis.symbol.type  = TYPE_BOOL;
+        } #ConditionalOr(2)
+    )*
 }
 
 //
 // 条件式AND
 //
 void ConditionalAndExpression():
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression() ( <BOOL_AND> InclusiveOrExpression() #ConditionalAnd(2) )*
+    InclusiveOrExpression()
+    (
+        token = <BOOL_AND> InclusiveOrExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #ConditionalAnd(2)
+    )*
 }
 
 //
 // 論理積
 //
 void InclusiveOrExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AndExpression()
     (
-        <BIT_OR> AndExpression() #InclusiveOr(2)
+        token = <BIT_OR> AndExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #InclusiveOr(2)
     )*
 }
 
@@ -804,12 +845,17 @@ void InclusiveOrExpression() :
 // 論理和
 //
 void AndExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
-        <BIT_AND> EqualityExpression() #And(2)
+        token = <BIT_AND> EqualityExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #And(2)
     )*
 }
 
@@ -817,13 +863,22 @@ void AndExpression() :
 // 比較
 //
 void EqualityExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     RelationalExpression()
     (
-          <BOOL_EQ> RelationalExpression() #Equal( 2 )
-        | <BOOL_NE> RelationalExpression() #NotEqual( 2 )
+        token = <BOOL_EQ> RelationalExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #Equal( 2 )
+|
+        token = <BOOL_NE> RelationalExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #NotEqual( 2 )
     )*
 }
 
@@ -831,15 +886,32 @@ void EqualityExpression() :
 // 比較（不等号）
 //
 void RelationalExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AdditiveExpression()
     (
-          <BOOL_LT> AdditiveExpression() #LT(2)
-        | <BOOL_GT> AdditiveExpression() #GT(2)
-        | <BOOL_LE> AdditiveExpression() #LE(2)
-        | <BOOL_GE> AdditiveExpression() #GE(2)
+        token = <BOOL_LT> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #LT(2)
+|
+       token = <BOOL_GT> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #GT(2)
+|
+       token = <BOOL_LE> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #LE(2)
+|
+       token = <BOOL_GE> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #GE(2)
     )*
 }
 
@@ -852,9 +924,20 @@ void AdditiveExpression() :
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     MultiplicativeExpression()
     (
-          <PLUS>        MultiplicativeExpression() #Add(2)
-        | <MINUS>       MultiplicativeExpression() #Sub(2)
-        | <STRING_ADD>  MultiplicativeExpression() #StrAdd(2)
+        <PLUS> MultiplicativeExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Add(2)
+|
+        <MINUS> MultiplicativeExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Sub(2)
+|
+        <STRING_ADD> MultiplicativeExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
+        } #StrAdd(2)
     )*
 }
 
@@ -867,9 +950,20 @@ void MultiplicativeExpression() :
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     UnaryExpression()
     (
-          <MUL> UnaryExpression() #Mul(2)
-        | <DIV> UnaryExpression() #Div(2)
-        | <MOD> UnaryExpression() #Mod(2)
+        <MUL> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Mul(2)
+|
+        <DIV> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Div(2)
+|
+        <MOD> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Mod(2)
     )*
 }
 
@@ -881,8 +975,12 @@ void UnaryExpression() :
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     (
-          <MULTI_LINE_DELIMITER>  UnaryExpression()
-        | <MINUS>                 UnaryExpression() #Neg(1)
+        <MULTI_LINE_DELIMITER>  UnaryExpression()
+|
+        <MINUS>                 UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT | TYPE_REAL, SymbolType.Expression );
+        } #Neg(1)
     )
 |
     UnaryExpressionNot()
@@ -996,6 +1094,7 @@ void RefVariable() #RefVariable :
     )
     {
         jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
         jjtThis.symbol.line       = symbol.beginLine;
         jjtThis.symbol.colmn      = symbol.beginColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;

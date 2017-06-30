@@ -213,7 +213,15 @@ public class Variable extends SymbolDefinition
      */
     public boolean isInt()
     {
-        return ( getType() & TYPE_INT ) != 0;
+        return isInt( getType() );
+    }
+
+    /**
+     * 与えられた型識別値がIntegerかどうかを判別する
+     */
+    static public boolean isInt( int type )
+    {
+        return ( type & TYPE_INT ) != 0;
     }
 
     /**
@@ -221,7 +229,15 @@ public class Variable extends SymbolDefinition
      */
     public boolean isReal()
     {
-        return ( getType() & TYPE_REAL ) != 0;
+        return isReal( getType() );
+    }
+
+    /**
+     * 与えられた型識別値がRealかどうかを判別する
+     */
+    static public boolean isReal( int type )
+    {
+        return ( type & TYPE_REAL ) != 0;
     }
 
     /**
@@ -229,7 +245,15 @@ public class Variable extends SymbolDefinition
      */
     public boolean isString()
     {
-        return ( getType() & TYPE_STRING ) != 0;
+        return isString( getType() );
+    }
+
+    /**
+     * 与えられた型識別値がIntegerかどうかを判別する
+     */
+    static public boolean isString( int type )
+    {
+        return ( type & TYPE_STRING ) != 0;
     }
 
     /**
@@ -237,13 +261,29 @@ public class Variable extends SymbolDefinition
      */
     public boolean isBoolean()
     {
-        return ( getType() & TYPE_BOOL ) != 0;
+        return isBoolean( getType() );
+    }
+
+    /**
+     * 与えられた型識別値がbooleanかどうかを判別する
+     */
+    static public boolean isBoolean( int type )
+    {
+        return ( type & TYPE_BOOL ) != 0;
     }
 
     /**
      * この変数の型が配列属性が付いているかどうかを判別する
      */
     public boolean isArray()
+    {
+        return isArray( type );
+    }
+
+    /**
+     * 与えられた型識別値が配列属性を含むかどうかを判別する
+     */
+    static public boolean isArray( int type )
     {
         return ( type & TYPE_ATTR_ARRAY ) != 0;
     }
@@ -253,7 +293,46 @@ public class Variable extends SymbolDefinition
      */
     public boolean isVoid()
     {
+        return isVoid( type );
+    }
+
+    /**
+     * 与えられた型識別値がVoidかどうかを判別する
+     */
+    static public boolean isVoid( int type )
+    {
         return ( type & TYPE_VOID ) != 0;
+    }
+
+    /**
+     * 数値型かどうかを判定する
+     */
+    public boolean isNumeral()
+    {
+        return isNumeral( type );
+    }
+
+    /**
+     * 与えられた型識別値から数値型かどうかを判定する
+     */
+    static public boolean isNumeral( int t )
+    {
+        switch( t & TYPE_MASK )
+        {
+            case TYPE_INT:
+            case TYPE_REAL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * 与えられた変数名から数値型かどうかを判定する
+     */
+    static public boolean isNumeralFromVariableName( String variableName )
+    {
+        return isNumeral( getKSPTypeFromVariableName( variableName ) );
     }
 
     /**
@@ -290,11 +369,6 @@ public class Variable extends SymbolDefinition
             return "Unknown";
         }
 
-        if( REGEX_PREPROCESSOR_PREFIX.matcher( name ).find() )
-        {
-            return "Preprocessor Symbol";
-        }
-
         char t = name.charAt( 0 );
         switch( t )
         {
@@ -304,7 +378,18 @@ public class Variable extends SymbolDefinition
             case '?': return "Real Array";
             case '@': return "String";
             case '!': return "String Array";
+            //--------------------------------------------------------------------------
+            // 内部処理用
+            //--------------------------------------------------------------------------
+            case 'B': return "bool";
+            case 'V': return "void";
+            case 'P': return "preprocessor";
+            case '*': return "any";
             default:
+                if( REGEX_PREPROCESSOR_PREFIX.matcher( name ).find() )
+                {
+                    return "Preprocessor Symbol";
+                }
                 return "Unknown";
         }
     }
@@ -333,6 +418,14 @@ public class Variable extends SymbolDefinition
             case '?': return TYPE_REAL | TYPE_ATTR_ARRAY;
             case '@': return TYPE_STRING;
             case '!': return TYPE_STRING | TYPE_ATTR_ARRAY;
+            //--------------------------------------------------------------------------
+            // 内部処理用
+            //--------------------------------------------------------------------------
+            case 'B': return TYPE_BOOL;
+            case 'V': return TYPE_VOID;
+            case 'P': return TYPE_PREPROCESSOR_SYMBOL;
+            case '*': return TYPE_ANY;
+
             default:
                 throw new IllegalArgumentException( "unknown ksp type : " + String.valueOf( t ) + ":" + variableName );
         }
@@ -362,10 +455,10 @@ public class Variable extends SymbolDefinition
             //--------------------------------------------------------------------------
             // 内部処理用
             //--------------------------------------------------------------------------
-            case TYPE_BOOL:                     return "bool";
-            case TYPE_VOID:                     return "void";
-            case TYPE_PREPROCESSOR_SYMBOL:      return "preprocessor";
-            case TYPE_ANY:                      return "any";
+            case TYPE_BOOL:                     return "B";
+            case TYPE_VOID:                     return "V";
+            case TYPE_PREPROCESSOR_SYMBOL:      return "P";
+            case TYPE_ANY:                      return "*";
             default:
                 throw new IllegalArgumentException( "type is " + type );
         }

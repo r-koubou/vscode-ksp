@@ -20,6 +20,7 @@ public class SymbolDefinition implements AnalyzerConstants
         UserFunction,
         Variable,
         Literal,
+        Expression,
         PreprocessorSymbol,
     };
 
