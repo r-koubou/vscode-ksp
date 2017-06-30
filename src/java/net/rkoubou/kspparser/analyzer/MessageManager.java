@@ -69,6 +69,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT         = "error.semantic.command.argcount";
     static public final String PROPERTY_ERROR_SEMANTIC_INCOMPATIBLE_ARG         = "error.semantic.incompatible.arg";
     static public final String PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN             = "error.semantic.cond.boolean";
+    static public final String PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT         = "error.semantic.binopr.different";
 
     public enum Level
     {

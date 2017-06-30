@@ -9,8 +9,8 @@ package net.rkoubou.kspparser.analyzer;
 
 import java.util.ArrayList;
 
-import net.rkoubou.kspparser.analyzer.MessageManager.Level;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
+import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
@@ -18,12 +18,22 @@ import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalOr;
+import net.rkoubou.kspparser.javacc.generated.ASTDiv;
 import net.rkoubou.kspparser.javacc.generated.ASTEqual;
+import net.rkoubou.kspparser.javacc.generated.ASTGE;
+import net.rkoubou.kspparser.javacc.generated.ASTGT;
 import net.rkoubou.kspparser.javacc.generated.ASTInclusiveOr;
+import net.rkoubou.kspparser.javacc.generated.ASTLE;
+import net.rkoubou.kspparser.javacc.generated.ASTLT;
 import net.rkoubou.kspparser.javacc.generated.ASTLiteral;
+import net.rkoubou.kspparser.javacc.generated.ASTMod;
+import net.rkoubou.kspparser.javacc.generated.ASTMul;
+import net.rkoubou.kspparser.javacc.generated.ASTNotEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRefVariable;
+import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
+import net.rkoubou.kspparser.javacc.generated.ASTSub;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
@@ -123,6 +133,54 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     }
 
     /**
+     * 二項演算子の評価
+     * @param node 演算子ノード
+     * @param intOnly 評価可能なのは整数型のみかどうか（falseの場合は浮動小数も対象）
+     * @param booleanOp 演算子はブール演算子かどうか
+     * @param jjtAcceptData jjtAcceptメソッドのdata引数
+     * @return データ型を格納した評価結果。エラー時は TYPE_VOID が格納される
+     */
+    public SimpleNode evalbinaryOperator( SimpleNode node, boolean intOnly, boolean booleanOp, Object jjtAcceptData )
+    {
+/*
+             <operator>
+                 +
+                 |
+            +----+----+
+            |         |
+        0: <expr>   1:<expr>
+*/
+
+        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, jjtAcceptData );
+        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, jjtAcceptData );
+        final SymbolDefinition symL = exprL.symbol;
+        final SymbolDefinition symR = exprR.symbol;
+        int typeL = intOnly ? TYPE_INT : symL.type;
+        int typeR = intOnly ? TYPE_INT : symR.type;
+
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
+
+        // 数値型かつ左辺と右辺の型が一致している必要がある
+        if( ( !Variable.isNumeral( typeL ) || !Variable.isNumeral( typeR ) ) || typeL != typeR )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
+            AnalyzeErrorCounter.e();
+            ret.symbol.type = TYPE_VOID;
+            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+        }
+        else
+        {
+            int t = booleanOp ? TYPE_BOOL : typeL;
+            ret.symbol.name = Variable.toKSPTypeCharacter( t );
+            ret.symbol.type = t;
+        }
+
+        return ret;
+    }
+
+    /**
      * 条件式 OR
      */
     @Override
@@ -137,17 +195,27 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         0: <expr>   1:<expr>
 */
         final SimpleNode cond0      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode cond1      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );;
+        final SimpleNode cond1      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
         final SymbolDefinition sym0 = cond0.symbol;
         final SymbolDefinition sym1 = cond1.symbol;
+
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
 
         if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN, node.symbol );
             AnalyzeErrorCounter.e();
+            ret.symbol.type = TYPE_VOID;
+            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
         }
-
-        return node;
+        else
+        {
+            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_BOOL );
+            ret.symbol.type = TYPE_BOOL;
+        }
+        return ret;
     }
 
     /**
@@ -165,107 +233,17 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         0: <expr>   1:<expr>
 */
         final SimpleNode cond0      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode cond1      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );;
+        final SimpleNode cond1      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
         final SymbolDefinition sym0 = cond0.symbol;
         final SymbolDefinition sym1 = cond1.symbol;
-
-        if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN, node.symbol );
-            AnalyzeErrorCounter.e();
-        }
-
-        return node;
-    }
-
-    /**
-     * 論理積
-     */
-    @Override
-    public Object visit( ASTInclusiveOr node, Object data )
-    {
-/*
-                .or.
-                 +
-                 |
-            +----+----+
-            |         |
-        0: <expr>   1:<expr>
-*/
-        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-        final SymbolDefinition symL = exprL.symbol;
-        final SymbolDefinition symR = exprR.symbol;
-
-        if( symL.type != TYPE_INT || symR.type != TYPE_INT )
-        {
-            System.out.println( "| not match type. " + Variable.getTypeName( symL.name ) + ", " + Variable.getTypeName( symL.name ) );
-            AnalyzeErrorCounter.e();
-        }
-
-        System.out.println( exprL );
-        System.out.println( exprR );
-
-        return node;
-    }
-
-    /**
-     * 論理和
-     */
-    @Override
-    public Object visit( ASTAnd node, Object data )
-    {
-/*
-               .and.
-                 +
-                 |
-            +----+----+
-            |         |
-        0: <expr>   1:<expr>
-*/
-        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-        final SymbolDefinition symL = exprL.symbol;
-        final SymbolDefinition symR = exprR.symbol;
-
-        if( symL.type != TYPE_INT || symR.type != TYPE_INT )
-        {
-            System.out.println( "| not match type. " + Variable.getTypeName( symL.name ) + ", " + Variable.getTypeName( symL.name ) );
-            AnalyzeErrorCounter.e();
-        }
-
-        System.out.println( exprL );
-        System.out.println( exprR );
-
-        return exprL;
-    }
-
-    /**
-     * 比較 (=)
-     */
-    @Override
-    public Object visit( ASTEqual node, Object data )
-    {
-/*
-                 =
-                 +
-                 |
-            +----+----+
-            |         |
-        0: <expr>   1:<expr>
-*/
-        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-        final SymbolDefinition symL = exprL.symbol;
-        final SymbolDefinition symR = exprR.symbol;
 
         // 上位ノードの型評価式用
         SimpleNode ret = new SimpleNode( JJTLITERAL );
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
-        if( !Variable.isNumeral( symL.type ) || !Variable.isNumeral( symR.type ) )
+        if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
         {
-            System.out.println( "= not match type. " + symL.type + ", " + symR.type );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN, node.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = TYPE_VOID;
             ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
@@ -278,6 +256,174 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         return ret;
     }
 
+    /**
+     * 論理積
+     */
+    @Override
+    public Object visit( ASTInclusiveOr node, Object data )
+    {
+        return evalbinaryOperator( node, true, false, data );
+    }
+
+    /**
+     * 論理和
+     */
+    @Override
+    public Object visit( ASTAnd node, Object data )
+    {
+        return evalbinaryOperator( node, true, false, data );
+    }
+
+    /**
+     * 比較 (=)
+     */
+    @Override
+    public Object visit( ASTEqual node, Object data )
+    {
+        return evalbinaryOperator( node, false, true, data );
+    }
+
+    /**
+     * 比較 (#)
+     */
+    @Override
+    public Object visit( ASTNotEqual node, Object data )
+    {
+        return evalbinaryOperator( node, false, true, data );
+    }
+
+    /**
+     * 不等号(<)
+     */
+    @Override
+    public Object visit( ASTLT node, Object data )
+    {
+        return evalbinaryOperator( node, false, true, data );
+    }
+
+    /**
+     * 不等号(>)
+     */
+    @Override
+    public Object visit( ASTGT node, Object data )
+    {
+        return evalbinaryOperator( node, false, true, data );
+    }
+
+    /**
+     * 不等号(<=)
+     */
+    @Override
+    public Object visit( ASTLE node, Object data )
+    {
+        return evalbinaryOperator( node, false, true, data );
+    }
+
+    /**
+     * 不等号(>=)
+     */
+    @Override
+    public Object visit( ASTGE node, Object data )
+    {
+        return evalbinaryOperator( node, false, true, data );
+    }
+
+    /**
+     * 加算(+)
+     */
+    @Override
+    public Object visit( ASTAdd node, Object data )
+    {
+        return evalbinaryOperator( node, false, false, data );
+    }
+
+    /**
+     * 減算(-)
+     */
+    @Override
+    public Object visit( ASTSub node, Object data )
+    {
+        return evalbinaryOperator( node, false, false, data );
+    }
+
+    /**
+     * 文字列連結
+     */
+    @Override
+    public Object visit( ASTStrAdd node, Object data )
+    {
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
+
+        //--------------------------------------------------------------------------
+        // ＊初期値代入式では使用できない
+        //--------------------------------------------------------------------------
+        {
+            Node p = node.jjtGetParent();
+            while( p != null )
+            {
+                if( p.getId() == JJTVARIABLEDECLARATOR )
+                {
+                    System.out.println( "&: Cannot use on variable initilizer" );
+                    AnalyzeErrorCounter.e();
+                    ret.symbol.type = TYPE_VOID;
+                    ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+                    return ret;
+                }
+                p = p.jjtGetParent();
+            }
+        }
+
+        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
+        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
+        final SymbolDefinition symL = exprL.symbol;
+        final SymbolDefinition symR = exprR.symbol;
+        int typeL = symL.type;
+        int typeR = symR.type;
+
+        // 数値型かつ左辺と右辺の型が一致している必要がある
+        if( ( !Variable.isString( typeL ) || !Variable.isString( typeR ) ) || typeL != typeR )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
+            AnalyzeErrorCounter.e();
+            ret.symbol.type = TYPE_VOID;
+            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+        }
+        else
+        {
+            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_STRING );
+            ret.symbol.type = TYPE_STRING;
+        }
+        return ret;
+    }
+
+    /**
+     * 乗算(*)
+     */
+    @Override
+    public Object visit( ASTMul node, Object data )
+    {
+        return evalbinaryOperator( node, false, false, data );
+    }
+
+    /**
+     * 除算(/)
+     */
+    @Override
+    public Object visit( ASTDiv node, Object data )
+    {
+        return evalbinaryOperator( node, false, false, data );
+    }
+
+    /**
+     * 余算(mod)
+     */
+    @Override
+    public Object visit( ASTMod node, Object data )
+    {
+        return evalbinaryOperator( node, false, false, data );
+    }
 
     /**
      * リテラル定数参照

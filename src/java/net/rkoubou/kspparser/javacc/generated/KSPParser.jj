@@ -1218,14 +1218,24 @@ void Expression():
 //
 void Assignment()            :
 {/*@bgen(jjtree) Assignment */
-  ASTAssignment jjtn000 = new ASTAssignment(this, JJTASSIGNMENT);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTAssignment jjtn000 = new ASTAssignment(this, JJTASSIGNMENT);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token token;
+}
 {/*@bgen(jjtree) Assignment */
     try {
 /*@egen*/
-    Variable() [ ArrayIndex() ] <ASSIGN> Expression()/*@bgen(jjtree)*/
+    Variable() [ ArrayIndex() ] token = <ASSIGN> Expression()/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        applyToSymbol( token, jjtn000, TYPE_VOID, SymbolType.Expression );
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1562,12 +1572,14 @@ void RelationalExpression() :
 // \u52a0\u7b97
 //
 void AdditiveExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     MultiplicativeExpression()
     (
-        <PLUS> MultiplicativeExpression()/*@bgen(jjtree) #Add( 2) */
+        token = <PLUS> MultiplicativeExpression()/*@bgen(jjtree) #Add( 2) */
         {
           ASTAdd jjtn001 = new ASTAdd(this, JJTADD);
           boolean jjtc001 = true;
@@ -1590,7 +1602,7 @@ void AdditiveExpression() :
         }
 /*@egen*/        
 |
-        <MINUS> MultiplicativeExpression()/*@bgen(jjtree) #Sub( 2) */
+        token = <MINUS> MultiplicativeExpression()/*@bgen(jjtree) #Sub( 2) */
         {
           ASTSub jjtn002 = new ASTSub(this, JJTSUB);
           boolean jjtc002 = true;
@@ -1613,7 +1625,7 @@ void AdditiveExpression() :
         }
 /*@egen*/        
 |
-        <STRING_ADD> MultiplicativeExpression()/*@bgen(jjtree) #StrAdd( 2) */
+        token = <STRING_ADD> MultiplicativeExpression()/*@bgen(jjtree) #StrAdd( 2) */
         {
           ASTStrAdd jjtn003 = new ASTStrAdd(this, JJTSTRADD);
           boolean jjtc003 = true;
@@ -1642,12 +1654,14 @@ void AdditiveExpression() :
 // \u4e57\u7b97
 //
 void MultiplicativeExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     UnaryExpression()
     (
-        <MUL> UnaryExpression()/*@bgen(jjtree) #Mul( 2) */
+        token = <MUL> UnaryExpression()/*@bgen(jjtree) #Mul( 2) */
         {
           ASTMul jjtn001 = new ASTMul(this, JJTMUL);
           boolean jjtc001 = true;
@@ -1670,7 +1684,7 @@ void MultiplicativeExpression() :
         }
 /*@egen*/        
 |
-        <DIV> UnaryExpression()/*@bgen(jjtree) #Div( 2) */
+        token = <DIV> UnaryExpression()/*@bgen(jjtree) #Div( 2) */
         {
           ASTDiv jjtn002 = new ASTDiv(this, JJTDIV);
           boolean jjtc002 = true;
@@ -1693,7 +1707,7 @@ void MultiplicativeExpression() :
         }
 /*@egen*/        
 |
-        <MOD> UnaryExpression()/*@bgen(jjtree) #Mod( 2) */
+        token = <MOD> UnaryExpression()/*@bgen(jjtree) #Mod( 2) */
         {
           ASTMod jjtn003 = new ASTMod(this, JJTMOD);
           boolean jjtc003 = true;
@@ -1722,13 +1736,15 @@ void MultiplicativeExpression() :
 // \u5358\u9805
 //
 void UnaryExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     (
         <MULTI_LINE_DELIMITER>  UnaryExpression()
 |
-        <MINUS>                 UnaryExpression()/*@bgen(jjtree) #Neg( 1) */
+        token = <MINUS>         UnaryExpression()/*@bgen(jjtree) #Neg( 1) */
         {
           ASTNeg jjtn001 = new ASTNeg(this, JJTNEG);
           boolean jjtc001 = true;
@@ -1761,64 +1777,55 @@ void UnaryExpression() :
 // \u5358\u9805NOT
 //
 void UnaryExpressionNot() :
-{}
+{
+    Token token;
+}
 {
     (
-          <BIT_NOT>/*@bgen(jjtree) #Not( 1) */
-                     {
-                       ASTNot jjtn001 = new ASTNot(this, JJTNOT);
-                       boolean jjtc001 = true;
-                       jjtree.openNodeScope(jjtn001);
-                     }
-                     try {
-/*@egen*/  UnaryExpression()/*@bgen(jjtree)*/
-                     } catch (Throwable jjte001) {
-                       if (jjtc001) {
-                         jjtree.clearNodeScope(jjtn001);
-                         jjtc001 = false;
-                       } else {
-                         jjtree.popNode();
-                       }
-                       if (jjte001 instanceof RuntimeException) {
-                         throw (RuntimeException)jjte001;
-                       }
-                       if (jjte001 instanceof ParseException) {
-                         throw (ParseException)jjte001;
-                       }
-                       throw (Error)jjte001;
-                     } finally {
-                       if (jjtc001) {
-                         jjtree.closeNodeScope(jjtn001,  1);
-                       }
-                     }
+        token = <BIT_NOT> UnaryExpression()/*@bgen(jjtree) #Not( 1) */
+        {
+          ASTNot jjtn001 = new ASTNot(this, JJTNOT);
+          boolean jjtc001 = true;
+          jjtree.openNodeScope(jjtn001);
+        }
+        try {
+/*@egen*//*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn001,  1);
+          jjtc001 = false;
+        }
+/*@egen*/
+        {
+            applyToSymbol( token, jjtn001, TYPE_INT, SymbolType.Expression );
+        }/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc001) {
+            jjtree.closeNodeScope(jjtn001,  1);
+          }
+        }
 /*@egen*/        
-        | <BOOL_NOT>/*@bgen(jjtree) #LogicalNot( 1) */
-                     {
-                       ASTLogicalNot jjtn002 = new ASTLogicalNot(this, JJTLOGICALNOT);
-                       boolean jjtc002 = true;
-                       jjtree.openNodeScope(jjtn002);
-                     }
-                     try {
-/*@egen*/ UnaryExpression()/*@bgen(jjtree)*/
-                     } catch (Throwable jjte002) {
-                       if (jjtc002) {
-                         jjtree.clearNodeScope(jjtn002);
-                         jjtc002 = false;
-                       } else {
-                         jjtree.popNode();
-                       }
-                       if (jjte002 instanceof RuntimeException) {
-                         throw (RuntimeException)jjte002;
-                       }
-                       if (jjte002 instanceof ParseException) {
-                         throw (ParseException)jjte002;
-                       }
-                       throw (Error)jjte002;
-                     } finally {
-                       if (jjtc002) {
-                         jjtree.closeNodeScope(jjtn002,  1);
-                       }
-                     }
+|
+        token = <BOOL_NOT> UnaryExpression()/*@bgen(jjtree) #LogicalNot( 1) */
+        {
+          ASTLogicalNot jjtn002 = new ASTLogicalNot(this, JJTLOGICALNOT);
+          boolean jjtc002 = true;
+          jjtree.openNodeScope(jjtn002);
+        }
+        try {
+/*@egen*//*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn002,  1);
+          jjtc002 = false;
+        }
+/*@egen*/
+        {
+            applyToSymbol( token, jjtn002, TYPE_INT, SymbolType.Expression );
+        }/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc002) {
+            jjtree.closeNodeScope(jjtn002,  1);
+          }
+        }
 /*@egen*/               
     )
 }

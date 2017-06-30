@@ -780,9 +780,14 @@ void Expression():
 // 代入式
 //
 void Assignment() #Assignment:
-{}
 {
-    Variable() [ ArrayIndex() ] <ASSIGN> Expression()
+    Token token;
+}
+{
+    Variable() [ ArrayIndex() ] token = <ASSIGN> Expression()
+    {
+        applyToSymbol( token, jjtThis, TYPE_VOID, SymbolType.Expression );
+    }
 }
 
 //
@@ -919,22 +924,24 @@ void RelationalExpression() :
 // 加算
 //
 void AdditiveExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     MultiplicativeExpression()
     (
-        <PLUS> MultiplicativeExpression()
+        token = <PLUS> MultiplicativeExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Add(2)
 |
-        <MINUS> MultiplicativeExpression()
+        token = <MINUS> MultiplicativeExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Sub(2)
 |
-        <STRING_ADD> MultiplicativeExpression()
+        token = <STRING_ADD> MultiplicativeExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
         } #StrAdd(2)
@@ -945,22 +952,24 @@ void AdditiveExpression() :
 // 乗算
 //
 void MultiplicativeExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     UnaryExpression()
     (
-        <MUL> UnaryExpression()
+        token = <MUL> UnaryExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Mul(2)
 |
-        <DIV> UnaryExpression()
+        token = <DIV> UnaryExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Div(2)
 |
-        <MOD> UnaryExpression()
+        token = <MOD> UnaryExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Mod(2)
@@ -971,13 +980,15 @@ void MultiplicativeExpression() :
 // 単項
 //
 void UnaryExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     (
         <MULTI_LINE_DELIMITER>  UnaryExpression()
 |
-        <MINUS>                 UnaryExpression()
+        token = <MINUS>         UnaryExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT | TYPE_REAL, SymbolType.Expression );
         } #Neg(1)
@@ -992,11 +1003,20 @@ void UnaryExpression() :
 // 単項NOT
 //
 void UnaryExpressionNot() :
-{}
+{
+    Token token;
+}
 {
     (
-          <BIT_NOT>  UnaryExpression() #Not(1)
-        | <BOOL_NOT> UnaryExpression() #LogicalNot(1)
+        token = <BIT_NOT> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Not(1)
+|
+        token = <BOOL_NOT> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #LogicalNot(1)
     )
 }
 

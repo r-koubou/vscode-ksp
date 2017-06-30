@@ -7,7 +7,7 @@
 
 # Property Names here
 PROPERTIES = [
-    "error.semantic.cond.boolean"
+    "error.semantic.binopr.different"
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"
