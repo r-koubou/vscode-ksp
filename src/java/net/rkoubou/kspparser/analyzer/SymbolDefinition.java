@@ -44,8 +44,6 @@ public class SymbolDefinition implements AnalyzerConstants
     public int line = 0;
     /** 定義した行中の列 */
     public int colmn = 0;
-    /** 代入式ノードで使用する */
-    public AssignOprator oprator = AssignOprator.NULL;
 
     /**
      * Ctor.
@@ -75,6 +73,5 @@ public class SymbolDefinition implements AnalyzerConstants
         dest.value          = src.value;
         dest.line           = src.line;
         dest.colmn          = src.colmn;
-        dest.oprator        = src.oprator;
     }
 }

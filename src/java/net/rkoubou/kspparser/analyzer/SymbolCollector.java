@@ -86,7 +86,7 @@ public class SymbolCollector extends AbstractAnalyzer
     変数
         [node]
         VariableDeclaration
-            -> VariableDeclarator
+            -> VariableDeclarator [arrayindex]
                 -> [VariableInitializer]
                     -> Expression
 */
@@ -112,7 +112,7 @@ public class SymbolCollector extends AbstractAnalyzer
                 {
                     // UI変数に適したデータ型へマージ
                     v.accessFlag = ACCESS_ATTR_UI;
-                    v.type       = uiType.uiValueType;
+                    // v.type       = uiType.uiValueType; 型は意味解析フェーズでチェック
                     if( uiType.constant )
                     {
                         v.accessFlag |= ACCESS_ATTR_CONST;

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
+import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
+import net.rkoubou.kspparser.javacc.generated.ASTArrayInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
@@ -26,15 +28,21 @@ import net.rkoubou.kspparser.javacc.generated.ASTInclusiveOr;
 import net.rkoubou.kspparser.javacc.generated.ASTLE;
 import net.rkoubou.kspparser.javacc.generated.ASTLT;
 import net.rkoubou.kspparser.javacc.generated.ASTLiteral;
+import net.rkoubou.kspparser.javacc.generated.ASTLogicalNot;
 import net.rkoubou.kspparser.javacc.generated.ASTMod;
 import net.rkoubou.kspparser.javacc.generated.ASTMul;
+import net.rkoubou.kspparser.javacc.generated.ASTNeg;
+import net.rkoubou.kspparser.javacc.generated.ASTNot;
 import net.rkoubou.kspparser.javacc.generated.ASTNotEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRefVariable;
+import net.rkoubou.kspparser.javacc.generated.ASTSelectStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTSub;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
+import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclarator;
+import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
@@ -80,6 +88,31 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 //--------------------------------------------------------------------------
 
     /**
+     * 与えられた式が条件ステートメント(if,while等)内で実行されているかどうかを判定する
+     * BOOL演算子はこの状況下でしか使用出来ないKSP仕様
+     */
+    protected boolean isInConditionalStatement( Node expr )
+    {
+        Node p = expr.jjtGetParent();
+        while( p != null )
+        {
+            if( p == null )
+            {
+                return false;
+            }
+            switch( p.getId() )
+            {
+                case JJTIFSTATEMENT:
+                case JJTWHILESTATEMENT:
+                case JJTSELECTSTATEMENT:
+                    return true;
+            }
+            p = p.jjtGetParent();
+        }
+        return false;
+    }
+
+    /**
      * 現在のパース中のコールバックを取得する
      */
     protected ASTCallbackDeclaration getCurrentCallBack( Node child )
@@ -102,6 +135,189 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         return ret;
     }
 
+    /**
+     * 与えられた式ノードから定数値を算出する（畳み込み）
+     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
+     * @param calc 低数値カウント時の再帰処理用。最初のノード時のみ 0 を渡す
+     */
+    protected Integer evalConstantIntValue( SimpleNode expr, int calc )
+    {
+        int ret = 0;
+
+        //--------------------------------------------------------------------------
+        // リテラル・変数
+        //--------------------------------------------------------------------------
+        if( expr.jjtGetNumChildren() == 0 )
+        {
+            switch( expr.getId() )
+            {
+                case JJTLITERAL:
+                {
+                    return (Integer)expr.jjtGetValue();
+                }
+                case JJTREFVARIABLE:
+                {
+                    Variable v = variableTable.search( expr.symbol.name );
+                    if( v == null )
+                    {
+                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
+                        AnalyzeErrorCounter.e();
+                        return null;
+                    }
+                    else if( !v.isConstant() || !v.isInt() )
+                    {
+                        System.out.println( "Integer Constant value only this expression" );
+                        AnalyzeErrorCounter.e();
+                        return null;
+                    }
+                    return (Integer)v.value;
+                }
+            }
+        }
+        //--------------------------------------------------------------------------
+        // ２項演算子
+        //--------------------------------------------------------------------------
+        else if( expr.jjtGetNumChildren() == 2 )
+        {
+            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
+            SimpleNode exprR = (SimpleNode)expr.jjtGetChild( 1 );
+            Integer numL = evalConstantIntValue( exprL, calc );
+            if( numL == null )
+            {
+                return null;
+            }
+            Integer numR = evalConstantIntValue( exprR, numL );
+            if( numR == null )
+            {
+                return null;
+            }
+            switch( expr.getId() )
+            {
+                case JJTADD:            return numL + numR;
+                case JJTSUB:            return numL - numR;
+                case JJTMUL:            return numL * numR;
+                case JJTDIV:            return numL / numR;
+                case JJTMOD:            return numL % numR;
+                case JJTINCLUSIVEOR:    return numL | numR;
+                case JJTAND:            return numL & numR;
+                default:
+                    return null;
+            }
+        }
+        //--------------------------------------------------------------------------
+        // 単項演算子
+        //--------------------------------------------------------------------------
+        else if( expr.jjtGetNumChildren() == 1 )
+        {
+            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
+            Integer numL = evalConstantIntValue( exprL, calc );
+            if( numL == null )
+            {
+                return null;
+            }
+            switch( expr.getId() )
+            {
+                case JJTNEG:            return -numL;
+                case JJTNOT:            return ~numL;
+                case JJTLOGICALNOT:     return numL != 0 ? 0 : 1; // 0=false, 1=true としている
+                default:
+                    return null;
+            }
+
+        }
+
+        return ret;
+    }
+
+    /**
+     * 与えられた式ノードから定数値を算出する（畳み込み）
+     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
+     * @param calc 低数値カウント時の再帰処理用。最初のノード時のみ 0 を渡す
+     */
+    protected Double evalConstantRealValue( SimpleNode expr, double calc )
+    {
+        double ret = 0;
+
+        //--------------------------------------------------------------------------
+        // リテラル・変数
+        //--------------------------------------------------------------------------
+        if( expr.jjtGetNumChildren() == 0 )
+        {
+            switch( expr.getId() )
+            {
+                case JJTLITERAL:
+                {
+                    return (Double)expr.jjtGetValue();
+                }
+                case JJTREFVARIABLE:
+                {
+                    Variable v = variableTable.search( expr.symbol.name );
+                    if( v == null )
+                    {
+                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
+                        AnalyzeErrorCounter.e();
+                        return null;
+                    }
+                    else if( !v.isConstant() || !v.isReal() )
+                    {
+                        System.out.println( "Real Constant value only this expression" );
+                        AnalyzeErrorCounter.e();
+                        return null;
+                    }
+                    return (Double)v.value;
+                }
+            }
+        }
+        //--------------------------------------------------------------------------
+        // ２項演算子
+        //--------------------------------------------------------------------------
+        else if( expr.jjtGetNumChildren() == 2 )
+        {
+            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
+            SimpleNode exprR = (SimpleNode)expr.jjtGetChild( 1 );
+            Double numL = evalConstantRealValue( exprL, calc );
+            if( numL == null )
+            {
+                return null;
+            }
+            Double numR = evalConstantRealValue( exprR, numL );
+            if( numR == null )
+            {
+                return null;
+            }
+            switch( expr.getId() )
+            {
+                case JJTADD:            return numL + numR;
+                case JJTSUB:            return numL - numR;
+                case JJTMUL:            return numL * numR;
+                case JJTDIV:            return numL / numR;
+                case JJTMOD:            return numL % numR;
+                default:
+                    return null;
+            }
+        }
+        //--------------------------------------------------------------------------
+        // 単項演算子
+        //--------------------------------------------------------------------------
+        else if( expr.jjtGetNumChildren() == 1 )
+        {
+            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
+            Double numL = evalConstantRealValue( exprL, calc );
+            if( numL == null )
+            {
+                return null;
+            }
+            switch( expr.getId() )
+            {
+                case JJTNEG:            return -numL;
+                default:
+                    return null;
+            }
+        }
+
+        return ret;
+    }
+
 //--------------------------------------------------------------------------
 // 変数宣言
 //--------------------------------------------------------------------------
@@ -112,9 +328,300 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTVariableDeclaration node, Object data)
     {
-        final Object ret        = defaultVisit( node, data );
-        final Variable variable = variableTable.search( node.symbol.name );
+/*
+        VariableDeclaration
+            -> VariableDeclarator [arrayindex] -> <expr>
+                -> [###Initializer]
+                    -> (expr)+
+*/
+        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol.name ) );
+    }
+
+    /**
+     * 変数宣言(変数名、初期値代入)
+     * @param data Variableインスタンス
+     */
+    @Override
+    public Object visit( ASTVariableDeclarator node, Object data )
+    {
+/*
+        VariableDeclarator [arrayindex] -> <expr>
+            -> [###Initializer]
+                -> (expr)+
+*/
+        final Object ret    = defaultVisit( node, data );
+        final Variable v    = (Variable)data;
+
+        if( v.isUIVariable() )
+        {
+            declareUIVariableImpl( node, v, data );
+        }
+        else if( v.isArray() )
+        {
+            declareArrayVariableImpl( node, v, data, false );
+        }
+        else if( node.jjtGetNumChildren() > 0 )
+        {
+            declarePrimitiveVariableImpl( node, v, data );
+        }
+
         return ret;
+    }
+
+    /**
+     * 配列型宣言の実装
+     */
+    protected boolean declareArrayVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData, boolean forceSkipInitializer )
+    {
+/*
+            -> VariableDeclarator <arrayindex> -> <expr> : [0]
+                -> [ := VariableInitializer ] : [1]
+                    -> := ArrayInitializer : [1][0]
+                        -> ( <expr> (, <expr>)* ) : [1][1]
+*/
+
+        //--------------------------------------------------------------------------
+        // 型チェック(UI変数チェック経由でこのメソッドも呼び出される)
+        //--------------------------------------------------------------------------
+        if( !v.isArray() )
+        {
+            System.out.println( "Array: " + v.name + " is not array" );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        //--------------------------------------------------------------------------
+        // 要素数宣言
+        //--------------------------------------------------------------------------
+        if( node.jjtGetNumChildren() == 0 || node.jjtGetChild( 0 ).getId() != JJTARRAYINDEX )
+        {
+            // 配列要素数の式がない
+            System.out.println( "Array: not defined array size [n]" );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        final SimpleNode arraySizeNode = (SimpleNode)node.jjtGetChild( 0 );
+        Integer size;
+
+        for( int i = 0; i < arraySizeNode.jjtGetNumChildren(); i++ )
+        {
+            SimpleNode n = ((SimpleNode)arraySizeNode.jjtGetChild( i ));
+            SymbolDefinition eval;
+
+            size = evalConstantIntValue( n, 0 );
+
+            if( size == null || size <= 0 )
+            {
+                // 要素数が不明、または 0 以下
+                System.out.println( "Array: illegal array size" );
+                AnalyzeErrorCounter.e();
+                return false;
+            }
+
+            v.arraySize = size;
+
+        }
+
+        //--------------------------------------------------------------------------
+        // 初期値代入
+        //--------------------------------------------------------------------------
+        if( forceSkipInitializer || node.jjtGetChild( 0 ).jjtGetNumChildren() == 1 )
+        {
+            // 初期値代入なし
+            // int なら 0 フィルなど初期値で埋まるので初期化したものとみなす
+            v.status = VariableState.INITIALIZED;
+            return false;
+        }
+
+        final ASTArrayInitializer initializer    = (ASTArrayInitializer)node.jjtGetChild( 1 ).jjtGetChild( 0 );
+
+        for( int i = 0; i < initializer.jjtGetNumChildren(); i++ )
+        {
+            final SimpleNode expr       = (SimpleNode)initializer.jjtGetChild( i );
+            final SymbolDefinition eval = (SymbolDefinition) expr.symbol;
+            if( ( v.type & TYPE_MASK ) != ( eval.type & TYPE_MASK ) )
+            {
+                System.out.println( "Array initializer : [" + i + "] is not compatible type" );
+                AnalyzeErrorCounter.e();
+            }
+        }
+        v.status = VariableState.INITIALIZED;
+        return true;
+    }
+
+    /**
+     * UI型宣言の実装
+     */
+    protected boolean declareUIVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
+    {
+/*
+            -> VariableDeclarator
+                -> [ := UIInitializer ]
+                    -> (expr)+
+*/
+        UIType uiType = uiTypeTable.search( v.uiTypeName );
+        if( uiType == null )
+        {
+            // KSP（data/symbol/uitypes.txt）で未定義のUIタイプ
+            // シンボル収集フェーズで警告出力済みなので何もしない
+            v.status = VariableState.INITIALIZED;
+            return false;
+        }
+
+        //--------------------------------------------------------------------------
+        // ui_#### が求める型と変数の型のチェック
+        //--------------------------------------------------------------------------
+        if( v.type != uiType.uiValueType )
+        {
+            System.out.println( "UI : " + uiType.name + " require " + Variable.getTypeName( uiType.uiValueType ) );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        //--------------------------------------------------------------------------
+        // ui_#### が配列型の場合、要素数宣言のチェック
+        //--------------------------------------------------------------------------
+        if( Variable.isArray( uiType.uiValueType ) )
+        {
+            if( !declareArrayVariableImpl( node, v, jjtVisitorData, true ) )
+            {
+                return false;
+            }
+        }
+
+        //--------------------------------------------------------------------------
+        // 初期値代入式チェック
+        //--------------------------------------------------------------------------
+        if( !uiType.initializerRequired )
+        {
+            // 初期化不要
+            v.status = VariableState.INITIALIZED;
+            return false;
+        }
+        if( node.jjtGetNumChildren() == 0 )
+        {
+            System.out.println( "UI: require initializer" );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        Node uiInitializer = node.jjtGetChild( 0 ).jjtGetChild( 0 );
+        if( uiInitializer.jjtGetNumChildren() != uiType.initilzerTypeList.length )
+        {
+            // 引数の数が一致していない
+            System.out.println( "UI: not compatible arguments for initializer : " + uiInitializer.jjtGetNumChildren() + " / " + uiType.initilzerTypeList.length + " : " + uiType.name );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        for( int i = 0; i < uiInitializer.jjtGetNumChildren(); i++ )
+        {
+            boolean found = false;
+            SimpleNode n  = (SimpleNode)uiInitializer.jjtGetChild( i );
+            SymbolDefinition param = n.symbol;
+SEARCH:
+            for( int t : uiType.initilzerTypeList )
+            {
+                switch( n.getId() )
+                {
+                    //--------------------------------------------------------------------------
+                    // リテラル
+                    //--------------------------------------------------------------------------
+                    case JJTLITERAL:
+                    {
+                        if( n.symbol.type == t )
+                        {
+                            found = true;
+                            break SEARCH;
+                        }
+                    }
+                    break;
+                    //--------------------------------------------------------------------------
+                    // const 指定ありの変数
+                    //--------------------------------------------------------------------------
+                    case JJTREFVARIABLE:
+                    {
+                        Variable var = variableTable.search( n.symbol.name );
+                        if( var == null )
+                        {
+                            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, n.symbol );
+                            AnalyzeErrorCounter.e();
+                            break;
+                        }
+                        if( !var.isConstant() )
+                        {
+                            System.out.println( "Constant value only this expression" );
+                            AnalyzeErrorCounter.e();
+                        }
+                        if( var.type == t )
+                        {
+                            found = true;
+                            break SEARCH;
+                        }
+                        break;
+                    }
+                    //--------------------------------------------------------------------------
+                    // 上記以外の式は無効
+                    //--------------------------------------------------------------------------
+                    default:
+                    {
+                        System.out.println( "Invalid Expression" );
+                        AnalyzeErrorCounter.e();
+                    }
+                    break;
+                }
+                if( !Variable.isConstant( param.accessFlag ) )
+                {
+                    System.out.println( "UI : Constant value only in ui initializer " );
+                    AnalyzeErrorCounter.e();
+                }
+            } //~for( int t : uiType.initilzerTypeList )
+
+            if( !found )
+            {
+                // イニシャライザ: 型の不一致
+                System.out.println( "not compatible for initializer" );
+                AnalyzeErrorCounter.e();
+                break;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * プリミティブ型宣言の実装
+     */
+    protected boolean declarePrimitiveVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
+    {
+/*
+            -> VariableDeclarator
+                -> [ := <VariableInitializer> ]
+                    -> <expr>
+*/
+        if( node.jjtGetNumChildren() == 0 )
+        {
+            // 初期値代入なし
+            return true;
+        }
+
+        final ASTVariableInitializer initializer = (ASTVariableInitializer)node.jjtGetChild( 0 );
+        final SimpleNode expr                    = (SimpleNode)initializer.jjtGetChild( 0 );
+        final SymbolDefinition eval              = (SymbolDefinition) expr.symbol;
+
+        // 型の不一致
+        if( v.type != eval.type )
+        {
+            System.out.println( "Primitive variable : incompatible type" );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        // 定数宣言している場合は有効な値が格納される
+        v.setValue( expr.jjtGetValue() );
+        v.status = VariableState.INITIALIZED;
+        return true;
+
     }
 
 //--------------------------------------------------------------------------
@@ -127,9 +634,52 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTAssignment node, Object data )
     {
-        final Object ret        = defaultVisit( node, data );
-        final Variable variable = variableTable.search( node.symbol.name );
-        return ret;
+/*
+                 :=
+                 +
+                 |
+            +----+----+
+            |         |
+   0: <variable>   1:<expr>
+*/
+
+        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
+        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
+        final SymbolDefinition symL = exprL.symbol;
+        final SymbolDefinition symR = exprR.symbol;
+        Variable variable;
+
+        if( exprL.getId() != JJTREFVARIABLE )
+        {
+            System.out.println( "NOT Variable : " + symL.name + " - " + exprL );
+            AnalyzeErrorCounter.e();
+            return exprL;
+        }
+
+        variable = variableTable.search( symL.name );
+        if( variable == null )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, symL );
+            AnalyzeErrorCounter.e();
+            return exprL;
+        }
+
+        if( variable.isConstant( ) )
+        {
+            System.out.println( "Constant : " + variable.name );
+            AnalyzeErrorCounter.e();
+            return exprL;
+        }
+        // 配列要素への格納もあるので配列ビットをマスクさせている
+        if( ( variable.type & TYPE_MASK ) != ( symR.type & TYPE_MASK ) )
+        {
+            System.out.println( ":= not compatible type : " + symL.name + ":=" + Variable.toKSPTypeName( symR.type ) );
+            AnalyzeErrorCounter.e();
+            return exprL;
+        }
+
+        variable.status = VariableState.INITIALIZED;
+        return exprL;
     }
 
     /**
@@ -138,9 +688,9 @@ public class SemanticAnalyzer extends AbstractAnalyzer
      * @param intOnly 評価可能なのは整数型のみかどうか（falseの場合は浮動小数も対象）
      * @param booleanOp 演算子はブール演算子かどうか
      * @param jjtAcceptData jjtAcceptメソッドのdata引数
-     * @return データ型を格納した評価結果。エラー時は TYPE_VOID が格納される
+     * @return SimpleNodeインスタンス（データ型を格納した評価結果。エラー時は TYPE_VOID が格納される）
      */
-    public SimpleNode evalbinaryOperator( SimpleNode node, boolean intOnly, boolean booleanOp, Object jjtAcceptData )
+    public SimpleNode evalBinaryOperator( SimpleNode node, boolean intOnly, boolean booleanOp, Object jjtAcceptData )
     {
 /*
              <operator>
@@ -159,7 +709,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         int typeR = intOnly ? TYPE_INT : symR.type;
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SimpleNode ret = new SimpleNode( node.getId() );
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
         // 数値型かつ左辺と右辺の型が一致している必要がある
@@ -173,6 +723,50 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         else
         {
             int t = booleanOp ? TYPE_BOOL : typeL;
+            ret.symbol.name = Variable.toKSPTypeCharacter( t );
+            ret.symbol.type = t;
+        }
+
+        return ret;
+    }
+
+    /**
+     * 単項演算子の評価
+     * @param node 演算子ノード
+     * @param intOnly 評価可能なのは整数型のみかどうか（falseの場合は浮動小数も対象）
+     * @param booleanOp 演算子はブール演算子かどうか
+     * @param jjtAcceptData jjtAcceptメソッドのdata引数
+     * @return データ型を格納した評価結果。エラー時は TYPE_VOID が格納される
+     */
+    public SimpleNode evalSingleOperator( SimpleNode node, boolean intOnly, boolean booleanOp, Object jjtAcceptData )
+    {
+/*
+             <operator>
+                 +
+                 |
+                 +
+              <expr>
+*/
+
+        final SimpleNode expr       = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, jjtAcceptData );
+        final SymbolDefinition symL = expr.symbol;
+        int type                    = intOnly ? TYPE_INT : symL.type;
+
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( node.getId() );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
+
+        // 式が数値型と一致している必要がある
+        if( !Variable.isNumeral( type ) )
+        {
+            System.out.println( "Single operator: Cannot apply to not number type" );
+            AnalyzeErrorCounter.e();
+            ret.symbol.type = TYPE_VOID;
+            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+        }
+        else
+        {
+            int t = booleanOp ? TYPE_BOOL : type;
             ret.symbol.name = Variable.toKSPTypeCharacter( t );
             ret.symbol.type = t;
         }
@@ -200,7 +794,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         final SymbolDefinition sym1 = cond1.symbol;
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SimpleNode ret = new SimpleNode( node.getId() );
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
         if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
@@ -238,7 +832,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         final SymbolDefinition sym1 = cond1.symbol;
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SimpleNode ret = new SimpleNode( node.getId() );
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
         if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
@@ -262,7 +856,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTInclusiveOr node, Object data )
     {
-        return evalbinaryOperator( node, true, false, data );
+        return evalBinaryOperator( node, true, false, data );
     }
 
     /**
@@ -271,7 +865,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTAnd node, Object data )
     {
-        return evalbinaryOperator( node, true, false, data );
+        return evalBinaryOperator( node, true, false, data );
     }
 
     /**
@@ -280,7 +874,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTEqual node, Object data )
     {
-        return evalbinaryOperator( node, false, true, data );
+        return evalBinaryOperator( node, false, true, data );
     }
 
     /**
@@ -289,7 +883,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTNotEqual node, Object data )
     {
-        return evalbinaryOperator( node, false, true, data );
+        return evalBinaryOperator( node, false, true, data );
     }
 
     /**
@@ -298,7 +892,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTLT node, Object data )
     {
-        return evalbinaryOperator( node, false, true, data );
+        return evalBinaryOperator( node, false, true, data );
     }
 
     /**
@@ -307,7 +901,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTGT node, Object data )
     {
-        return evalbinaryOperator( node, false, true, data );
+        return evalBinaryOperator( node, false, true, data );
     }
 
     /**
@@ -316,7 +910,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTLE node, Object data )
     {
-        return evalbinaryOperator( node, false, true, data );
+        return evalBinaryOperator( node, false, true, data );
     }
 
     /**
@@ -325,7 +919,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTGE node, Object data )
     {
-        return evalbinaryOperator( node, false, true, data );
+        return evalBinaryOperator( node, false, true, data );
     }
 
     /**
@@ -334,7 +928,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTAdd node, Object data )
     {
-        return evalbinaryOperator( node, false, false, data );
+        return evalBinaryOperator( node, false, false, data );
     }
 
     /**
@@ -343,7 +937,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTSub node, Object data )
     {
-        return evalbinaryOperator( node, false, false, data );
+        return evalBinaryOperator( node, false, false, data );
     }
 
     /**
@@ -353,7 +947,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     public Object visit( ASTStrAdd node, Object data )
     {
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTLITERAL );
+        SimpleNode ret = new SimpleNode( node.getId() );
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
         //--------------------------------------------------------------------------
@@ -382,8 +976,8 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         int typeL = symL.type;
         int typeR = symR.type;
 
-        // 数値型かつ左辺と右辺の型が一致している必要がある
-        if( ( !Variable.isString( typeL ) || !Variable.isString( typeR ) ) || typeL != typeR )
+        // 左辺、右辺どちらか一方が文字列である必要がある（KONTAKT内で暗黙の型変換が作動する）
+        if( !Variable.isString( typeL ) && !Variable.isString( typeR ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
@@ -404,7 +998,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTMul node, Object data )
     {
-        return evalbinaryOperator( node, false, false, data );
+        return evalBinaryOperator( node, false, false, data );
     }
 
     /**
@@ -413,7 +1007,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTDiv node, Object data )
     {
-        return evalbinaryOperator( node, false, false, data );
+        return evalBinaryOperator( node, false, false, data );
     }
 
     /**
@@ -422,7 +1016,42 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTMod node, Object data )
     {
-        return evalbinaryOperator( node, false, false, data );
+        return evalBinaryOperator( node, false, false, data );
+    }
+
+    /**
+     * 単項マイナス(-)
+     */
+    @Override
+    public Object visit( ASTNeg node, Object data )
+    {
+        return evalSingleOperator( node, false, false, data );
+    }
+
+    /**
+     * 単項NOT(not)
+     */
+    @Override
+    public Object visit( ASTNot node, Object data )
+    {
+        return evalSingleOperator( node, false, false, data );
+    }
+
+    /**
+     * 単項論理否定(not)
+     */
+    @Override
+    public Object visit( ASTLogicalNot node, Object data )
+    {
+        //--------------------------------------------------------------------------
+        // 条件評価ステートメントでしか使えない
+        //--------------------------------------------------------------------------
+        if( !isInConditionalStatement( node ) )
+        {
+            System.out.println( "LNOT: Cannot assign in Conditional Statement" );
+            AnalyzeErrorCounter.e();
+        }
+        return evalSingleOperator( node, false, true, data );
     }
 
     /**
@@ -442,6 +1071,9 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     @Override
     public Object visit( ASTRefVariable node, Object data )
     {
+/*
+        <variable> [ 0:<arrayindex> ]
+*/
         //--------------------------------------------------------------------------
         // 宣言済みかどうか
         //--------------------------------------------------------------------------
@@ -459,7 +1091,52 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, node.symbol );
             AnalyzeErrorCounter.w();
         }
+        // 配列型なら添字チェック
+        if( v.isArray() )
+        {
+            node.jjtGetChild( 0 ).jjtAccept( this, node );
+            return node;
+        }
+        // 配列型じゃないのに添え字がある
+        else if( node.jjtGetNumChildren() > 0 )
+        {
+            System.out.println( v.name + " is not array" );
+            AnalyzeErrorCounter.e();
+        }
+
         return node;
+    }
+
+    /**
+     * 配列の添え字([])
+     * @param data 親ノード
+     */
+    @Override
+    public Object visit( ASTArrayIndex node, Object data )
+    {
+/*
+            parent:<variable>
+                    +
+                    |
+                    +
+              [ 0:<expr> ]
+*/
+
+        final SimpleNode parent    = (SimpleNode)node.jjtGetParent();
+        final SimpleNode expr      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
+        final SymbolDefinition sym = expr.symbol;
+
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
+        SymbolDefinition.copy( parent.symbol, ret.symbol );
+
+        // 添え字の型はintのみ
+        if( !Variable.isInt( sym.type ) )
+        {
+            System.out.println( "Array index access : invalid type - " + Variable.toKSPTypeName( sym.type ) );
+            AnalyzeErrorCounter.e();
+        }
+        return ret;
     }
 
 //--------------------------------------------------------------------------
@@ -501,7 +1178,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         // 引数の数チェック
         //--------------------------------------------------------------------------
-        if( node.jjtGetNumChildren() > 0 )
+        if( node.jjtGetNumChildren() == 0 && cmd.argList.size() > 0 )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
+            AnalyzeErrorCounter.e();
+            return node;
+        }
+        else if( node.jjtGetNumChildren() > 0 )
         {
             if( node.jjtGetChild( 0 ).jjtGetNumChildren() != cmd.argList.size() )
             {
@@ -651,6 +1334,94 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             } //~for( int i = 0; i < childrenNum; i++ )
         }
         return null;
+    }
+
+//--------------------------------------------------------------------------
+// ステートメント
+//--------------------------------------------------------------------------
+
+    /**
+     * select~case の case内の評価
+     */
+    @Override
+    public Object visit( ASTSelectStatement node, Object data )
+    {
+/*
+
+        select
+            -> <expr>
+            -> <case>
+                -> <casecond>
+                -> [ to [<expr>] ]
+                -> <block>
+            -> <case>
+                -> <casecond>
+                -> [ to [<expr>] ]
+                -> <block>
+            :
+            :
+            expr は評価済みなのでここではスルー
+*/
+        //--------------------------------------------------------------------------
+        // case: 整数の定数または定数宣言した変数が有効
+        //--------------------------------------------------------------------------
+        for( int i = 1; i < node.jjtGetNumChildren(); i++ )
+        {
+            SimpleNode caseNode  = (SimpleNode)node.jjtGetChild( i );
+            SimpleNode caseCond1 = (SimpleNode)caseNode.jjtGetChild( 0 );
+            SimpleNode caseCond2 = null;
+            Integer caseValue1   = checkCaseConditionImpl( caseCond1 );
+            Integer caseValue2   = null;
+            SimpleNode blockNode = (SimpleNode)caseNode.jjtGetChild( caseNode.jjtGetNumChildren() - 1 );
+
+            if( caseValue1 == null )
+            {
+                blockNode.childrenAccept( this , data );
+                return node;
+            }
+            // to <expr>
+            if( caseNode.jjtGetNumChildren() >= 2 )
+            {
+                caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 );
+                caseValue2 = checkCaseConditionImpl( caseCond2 );
+            }
+
+            if( caseCond1 != null && caseCond2 != null )
+            {
+                // A to B のチェック
+                // 例
+                // case 1000 to 1000 { range の from to が同じ}
+                if( caseValue1 == caseValue2 )
+                {
+                    System.out.println( "case: same value" );
+                    AnalyzeErrorCounter.w();
+                }
+            }
+            blockNode.childrenAccept( this , data );
+        }
+        return node;
+    }
+
+    /**
+     * casecond のチェック
+     */
+    protected Integer checkCaseConditionImpl( SimpleNode caseCond )
+    {
+        Variable v = variableTable.search( caseCond.symbol.name );
+        if( v != null && v.isInt() && v.isConstant() )
+        {
+            return (Integer)v.value;
+        }
+        else if( v != null )
+        {
+            System.out.println( "case: Constant value only this expression" );
+            AnalyzeErrorCounter.e();
+            return null;
+        }
+        else
+        {
+            return (Integer)caseCond.symbol.value;
+        }
     }
 
 //--------------------------------------------------------------------------

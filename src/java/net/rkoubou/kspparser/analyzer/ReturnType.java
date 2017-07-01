@@ -36,6 +36,14 @@ public class ReturnType implements AnalyzerConstants
     }
 
     /**
+     * 戻り値を保有していない場合は true を返す
+     */
+    public boolean empty()
+    {
+        return typeList.isEmpty();
+    }
+
+    /**
      * 指定されたタイプ値を保有しているかどうか
      * @see AnalyzerConstants
      */

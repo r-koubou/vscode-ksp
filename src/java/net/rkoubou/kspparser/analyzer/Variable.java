@@ -60,36 +60,20 @@ public class Variable extends SymbolDefinition
     }
 
     /**
-     * 定数かどうかを判定する
-     */
-    public boolean isConstant()
-    {
-        return ( accessFlag & ACCESS_ATTR_CONST ) != 0;
-    }
-
-    /**
-     * UI変数かどうかを判定する
-     */
-    public boolean isUIVariable()
-    {
-        return ( accessFlag & ACCESS_ATTR_UI ) != 0;
-    }
-
-    /**
-     * ポリフォニック変数かどうかを判定する
-     */
-    public boolean isPolyphonicVariable()
-    {
-        return ( accessFlag & ACCESS_ATTR_POLY ) != 0;
-    }
-
-    /**
      * 変数名の1文字目の記号から型情報を算出する
      */
     public boolean setTypeFromVariableName()
     {
         this.type = getKSPTypeFromVariableName( this.name );
         return this.type != TYPE_NONE;
+    }
+
+    /**
+     * valueに指定された値を割り当てる
+     */
+    public void setValue( Object v )
+    {
+        this.value = v;
     }
 
     /**
@@ -193,6 +177,22 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * 定数かどうかを判定する
+     */
+    public boolean isConstant()
+    {
+        return isConstant( accessFlag );
+    }
+
+    /**
+     * 与えられた属性フラグ情報から定数かどうかを判定する
+     */
+    static public boolean isConstant( int accessFlag )
+    {
+        return ( accessFlag & ACCESS_ATTR_CONST ) != 0;
+    }
+
+    /**
      * 数値型かどうかを判定する
      */
     public boolean isNumeric()
@@ -213,7 +213,7 @@ public class Variable extends SymbolDefinition
      */
     public boolean isInt()
     {
-        return isInt( getType() );
+        return isInt( getPrimitiveType() );
     }
 
     /**
@@ -229,7 +229,7 @@ public class Variable extends SymbolDefinition
      */
     public boolean isReal()
     {
-        return isReal( getType() );
+        return isReal( getPrimitiveType() );
     }
 
     /**
@@ -245,7 +245,7 @@ public class Variable extends SymbolDefinition
      */
     public boolean isString()
     {
-        return isString( getType() );
+        return isString( getPrimitiveType() );
     }
 
     /**
@@ -261,7 +261,7 @@ public class Variable extends SymbolDefinition
      */
     public boolean isBoolean()
     {
-        return isBoolean( getType() );
+        return isBoolean( getPrimitiveType() );
     }
 
     /**
@@ -286,6 +286,38 @@ public class Variable extends SymbolDefinition
     static public boolean isArray( int type )
     {
         return ( type & TYPE_ATTR_ARRAY ) != 0;
+    }
+
+    /**
+     * UI変数かどうかを判定する
+     */
+    public boolean isUIVariable()
+    {
+        return isUIVariable( accessFlag );
+    }
+
+    /**
+     * 与えられた属性フラグ情報からUI変数かどうかを判定する
+     */
+    static public boolean isUIVariable( int accessFlag )
+    {
+        return ( accessFlag & ACCESS_ATTR_UI ) != 0;
+    }
+
+    /**
+     * ポリフォニック変数かどうかを判定する
+     */
+    public boolean isPolyphonicVariable()
+    {
+        return isPolyphonicVariable( accessFlag );
+    }
+
+    /**
+     * 与えられた属性フラグ情報からポリフォニック変数かどうかを判定する
+     */
+    static public boolean isPolyphonicVariable( int accessFlag )
+    {
+        return ( accessFlag & ACCESS_ATTR_POLY ) != 0;
     }
 
     /**
@@ -336,9 +368,10 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * 配列情報フラグ等を含まない、純粋なプリミティブ型の識別値を取得する。
      * 型の識別値のビットフラグを返す個別の判定は isInt()、isReal()、isString() 等を使用すること。
      */
-    public int getType()
+    public int getPrimitiveType()
     {
         return type & TYPE_MASK;
     }
@@ -357,6 +390,14 @@ public class Variable extends SymbolDefinition
     public String getTypeName()
     {
         return getTypeName( name );
+    }
+
+    /**
+     * KSPの変数名を元に文字列表現された型情報を返す
+     */
+    static public String getTypeName( int type )
+    {
+        return getTypeName( toKSPTypeCharacter( type ) );
     }
 
     /**

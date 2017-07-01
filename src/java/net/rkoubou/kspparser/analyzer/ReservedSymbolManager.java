@@ -186,7 +186,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 boolean constant            = "Y".equals( data[ 1 ] );
                 boolean initializerRequired = "Y".equals( data[ 2 ] );
                 int type                    = toVariableType( data[ 3 ] ).type;
-                int[] typeList = null;
+                int[] typeList = UIType.EMPTY_INITIALIZER_TYPE_LIST;
 
                 //--------------------------------------------------------------------------
                 // 初期値代入式が必須の場合
@@ -199,7 +199,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                         typeList[ x ] = toVariableType( data[ i ] ).type;
                     }
                 }
-
                 UIType ui = new UIType( name, true, type, constant, initializerRequired, typeList );
                 uiTypes.put( name, ui );
             }
@@ -237,7 +236,8 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 boolean availableOnInit     = "Y".equals( data[ 2 ] );
 
                 v.name              = name;
-                v.availableOnInit   = availableOnInit;    // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
+                v.accessFlag        = ACCESS_ATTR_CONST;      // ビルトイン変数に代入を許可させない
+                v.availableOnInit   = availableOnInit;        // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
                 v.reserved          = true;                   // 予約変数
                 v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
                 v.status            = VariableState.LOADED;   // 予約変数につき、値代入済みマーク

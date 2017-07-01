@@ -39,6 +39,9 @@ public class UIType implements AnalyzerConstants
     /** 初期値代入が必要な場合の初期値の型リスト */
     public int[] initilzerTypeList = new int[ 0 ];
 
+    /** 初期値代入が不要な場合の大体リスト */
+    static public final int[] EMPTY_INITIALIZER_TYPE_LIST = new int[ 0 ];
+
     /** シンボルテーブルインデックス値 */
     public int index = -1;
 
@@ -60,7 +63,7 @@ public class UIType implements AnalyzerConstants
         this.constant               = constant;
         if( initializerRequired && typeList != null && typeList.length > 0 )
         {
-            this.initilzerTypeList = Arrays.copyOf( initilzerTypeList, initilzerTypeList.length );
+            this.initilzerTypeList = Arrays.copyOf( typeList, typeList.length );
         }
         this.initializerRequired    = initializerRequired;
     }

@@ -96,6 +96,61 @@ public class KSPParser implements AnalyzerConstants
     }
 
     /**
+     * リテラルをシンボル情報に設定
+     */
+    void applyIntLiteral( Token token, SimpleNode dest )
+    {
+        String v = token.image.toLowerCase();
+        if( v.startsWith( "9" ) && v.endsWith( "h" ) )
+        {
+            // KSP 16進数 → Java 16進数
+            // 0x80000000以上の値の扱いが特殊なので一時64bitで扱い回避。
+            // http://qiita.com/oboenikui/items/cfd396b08f20798f0b3e
+            dest.symbol.value = Integer.valueOf( (int)Long.parseLong( v.substring( 1, v.length() - 1 ), 16 ) );
+        }
+        else
+        {
+            // 10進数
+            dest.symbol.value = Integer.valueOf( v );
+        }
+        dest.symbol.type      = TYPE_INT;
+        applyAllLiteral( token, dest );
+    }
+
+    /**
+     * リテラルをシンボル情報に設定
+     */
+    void applyRealLiteral( Token token, SimpleNode dest )
+    {
+        dest.symbol.value = Double.valueOf( token.image );
+        dest.symbol.type  = TYPE_REAL;
+        applyAllLiteral( token, dest );
+    }
+
+    /**
+     * リテラルをシンボル情報に設定
+     */
+    void applyStringLiteral( Token token, SimpleNode dest )
+    {
+        dest.symbol.value = token.image;
+        dest.symbol.type  = TYPE_STRING;
+        applyAllLiteral( token, dest );
+    }
+
+    /**
+     * リテラルをシンボル情報に設定(型共通)
+     */
+    void applyAllLiteral( Token token, SimpleNode dest )
+    {
+        dest.jjtSetValue( dest.symbol.value );
+        dest.symbol.name         = "";
+        dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
+        dest.symbol.line         = token.beginLine;
+        dest.symbol.colmn        = token.beginColumn;
+        dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
+    }
+
+    /**
      * 構文解析中にエラーが出た場合の復帰先までトークンを読み飛ばす
      */
     void errorSkipTo( ParseException e )
@@ -388,7 +443,7 @@ void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
         name = Variable()
         (
             (
-                [ <LBRACKET> Expression() <RBRACKET> ]
+                [ ArrayIndex() ]
             )
 
             [ LOOKAHEAD(2) VariableInitializer() ]
@@ -403,7 +458,7 @@ void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
 //
 // 初期値代入
 //
-void VariableInitializer() :
+void VariableInitializer() #VariableInitializer:
 {}
 {
       LOOKAHEAD(3) <ASSIGN> ArrayInitializer()
@@ -414,7 +469,7 @@ void VariableInitializer() :
 //
 // 配列変数初期値代入
 //
-void ArrayInitializer() :
+void ArrayInitializer() #ArrayInitializer:
 {}
 {
     <LPAREN>
@@ -425,7 +480,7 @@ void ArrayInitializer() :
 //
 // UI変数初期値代入
 //
-void UIInitializer() :
+void UIInitializer() #UIInitializer:
 {}
 {
     <LPAREN>
@@ -741,9 +796,26 @@ void CaseStatement() #CaseStatement:
 }
 
 void CaseCondition() #CaseCondition:
-{}
 {
-    ( [ <MINUS> ] <INTEGER_LITERAL> | Variable() )
+    Token minus = null;
+    Token token;
+}
+{
+    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> )
+    {
+        applyIntLiteral( token, jjtThis );
+        if( minus != null )
+        {
+            int v = (Integer)jjtThis.jjtGetValue();
+            v = -v;
+            jjtThis.jjtSetValue( v );
+        }
+    }
+|
+    ( token = Variable() )
+    {
+        applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Variable );
+    }
 }
 
 //
@@ -784,7 +856,7 @@ void Assignment() #Assignment:
     Token token;
 }
 {
-    Variable() [ ArrayIndex() ] token = <ASSIGN> Expression()
+    RefVariable() token = <ASSIGN> Expression()
     {
         applyToSymbol( token, jjtThis, TYPE_VOID, SymbolType.Expression );
     }
@@ -1067,38 +1139,18 @@ void Literal() #Literal :
     (
         token = <INTEGER_LITERAL>
         {
-            String v = token.image.toLowerCase();
-            if( v.startsWith( "9" ) && v.endsWith( "h" ) )
-            {
-                // KSP 16進数 → Java 16進数
-                // 0x80000000以上の値の扱いが特殊なので一時64bitで扱い回避。
-                // http://qiita.com/oboenikui/items/cfd396b08f20798f0b3e
-                jjtThis.symbol.value = Integer.valueOf( (int)Long.parseLong( v.substring( 1, v.length() - 1 ), 16 ) );
-            }
-            else
-            {
-                // 10進数
-                jjtThis.symbol.value = Integer.valueOf( v );
-            }
-            jjtThis.symbol.type  = TYPE_INT;
+            applyIntLiteral( token, jjtThis );
         }
-|       token = <REAL_LITERAL>
+|
+        token = <REAL_LITERAL>
         {
-            jjtThis.symbol.value = Double.valueOf( token.image );
-            jjtThis.symbol.type  = TYPE_REAL;
+            applyRealLiteral( token, jjtThis );
         }
 |       token = <STRING_LITERAL>
         {
-            jjtThis.symbol.value = token.image;
-            jjtThis.symbol.type  = TYPE_STRING;
+            applyStringLiteral( token, jjtThis );
         }
     )
-    {
-        jjtThis.symbol.accessFlag   = ACCESS_ATTR_CONST;
-        jjtThis.symbol.line         = token.beginLine;
-        jjtThis.symbol.colmn        = token.beginColumn;
-        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
-    }
 }
 
 //
@@ -1124,7 +1176,7 @@ void RefVariable() #RefVariable :
 //
 // 配列の添字
 //
-void ArrayIndex() :
+void ArrayIndex() #ArrayIndex:
 {}
 {
     <LBRACKET> Expression() <RBRACKET>

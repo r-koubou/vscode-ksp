@@ -7,6 +7,9 @@ public interface KSPParserVisitor
   public Object visit(ASTRootNode node, Object data);
   public Object visit(ASTVariableDeclaration node, Object data);
   public Object visit(ASTVariableDeclarator node, Object data);
+  public Object visit(ASTVariableInitializer node, Object data);
+  public Object visit(ASTArrayInitializer node, Object data);
+  public Object visit(ASTUIInitializer node, Object data);
   public Object visit(ASTCallbackDeclaration node, Object data);
   public Object visit(ASTCallbackArgumentList node, Object data);
   public Object visit(ASTUserFunctionDeclaration node, Object data);
@@ -42,7 +45,8 @@ public interface KSPParserVisitor
   public Object visit(ASTLogicalNot node, Object data);
   public Object visit(ASTLiteral node, Object data);
   public Object visit(ASTRefVariable node, Object data);
+  public Object visit(ASTArrayIndex node, Object data);
   public Object visit(ASTCallCommand node, Object data);
   public Object visit(ASTCommandArgumentList node, Object data);
 }
-/* JavaCC - OriginalChecksum=fbef2603b5cc69d17b8c36d233d7de80 (do not edit this line) */
+/* JavaCC - OriginalChecksum=9d89e9a4b33770843b51a6e9da06003d (do not edit this line) */
