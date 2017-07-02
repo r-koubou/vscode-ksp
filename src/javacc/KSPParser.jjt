@@ -276,6 +276,7 @@ TOKEN:
     | <CASE: "case" >
     | <TO: "to" >
     | <WHILE: "while" >
+    | <CALL: "call" >
 }
 
 //--------------------------------------------------------------------------
@@ -608,6 +609,7 @@ void Statement() :
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
+        | CallUserFunctionStatement()
         | <MULTI_LINE_DELIMITER>
         | <EOL>
     }
@@ -834,9 +836,22 @@ void WhileStatement() #WhileStatement:
     <END> (<MULTI_LINE_DELIMITER>)* <WHILE>
 }
 
-
-
-
+//
+// ユーザー定義関数呼び出し
+//
+void CallUserFunctionStatement() #CallUserFunctionStatement:
+{
+    Token symbol;
+}
+{
+    <CALL> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+    }
+}
 
 
 //------------------------------------------------------------------------------
@@ -1231,7 +1246,6 @@ void CommandArgumentList( ASTCallCommand cmd ) #CommandArgumentList:
         SymbolDefinition.copy( cmd.symbol, jjtThis.symbol );
     }
 }
-
 
 //------------------------------------------------------------------------------
 // Identifier

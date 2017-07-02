@@ -36,17 +36,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     /** 行コメント文字 */
     static public final String LINE_COMMENT = "#";
 
-    /** split処理で使用する、条件式ANDの文字列表現 */
-    static public final String SPLIT_COND_AND = "&&";
-
     /** split処理で使用する、条件式ORの文字列表現 */
     static public final String SPLIT_COND_OR = "||";
 
     /** split処理で使用する、条件式NOTの文字列表現 */
-    static public final String COND_NOT = "NOT";
-
-    /** split処理で使用する、条件式ANDの正規表現 */
-    static public final String REGEX_SPLIT_COND_AND = "&&";
+    static public final String COND_NOT = "!";
 
     /** split処理で使用する、条件式ORの正規表現 */
     static public final String REGEX_SPLIT_COND_OR = "\\|\\|";
@@ -519,29 +513,15 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     {
         t = t.intern();
 
-        String[] andCond = t.split( REGEX_SPLIT_COND_AND );
         String[] orCond  = t.split( REGEX_SPLIT_COND_OR );
 
         //--------------------------------------------------------------------------
-        // A かつ B かつ .... n の場合
-        // 理論上、戻り値の型が複合した条件は発生し得ない
-        // int かつ real っていうような戻り値を代入する術はなく、矛盾しているため
-        //--------------------------------------------------------------------------
-        if( andCond.length >= 2 )
-        {
-            throw new IllegalArgumentException( "Cannot use '&&'' for command argument : " + t );
-        }
-        //--------------------------------------------------------------------------
         // A または B または .... n の場合
         //--------------------------------------------------------------------------
-        else if( orCond.length >= 2 )
+        if( orCond.length >= 2 )
         {
             for( String i : orCond )
             {
-                if( i.indexOf( SPLIT_COND_AND ) >= 0 )
-                {
-                    continue;
-                }
                 dest.typeList.add( toVariableType( i ).type );
             }
         }
@@ -560,29 +540,15 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         CommandArgument ret;
         ArrayList<Variable> args          = new ArrayList<Variable>();
 
-        String[] andCond = t.split( REGEX_SPLIT_COND_AND );
         String[] orCond  = t.split( REGEX_SPLIT_COND_OR );
 
         //--------------------------------------------------------------------------
-        // A かつ B かつ .... n の場合
-        // 理論上、引数の型が複合した条件は発生し得ない
-        // int かつ real っていうような記述をする術はなく、矛盾しているため
-        //--------------------------------------------------------------------------
-        if( andCond.length >= 2 )
-        {
-            throw new IllegalArgumentException( "Cannot use '&&'' for command argument : " + t );
-        }
-        //--------------------------------------------------------------------------
         // A または B または .... n の場合
         //--------------------------------------------------------------------------
-        else if( orCond.length >= 2 )
+        if( orCond.length >= 2 )
         {
             for( String i : orCond )
             {
-                if( i.indexOf( SPLIT_COND_AND ) >= 0 )
-                {
-                    continue;
-                }
                 Variable v = toVariableType( i );
                 args.add( v );
             }
@@ -619,7 +585,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
     {
         callbackName            = callbackName.intern();
 
-        String[] andCond  = callbackName.split( REGEX_SPLIT_COND_AND );
         String[] orCond   = callbackName.split( REGEX_SPLIT_COND_OR );
 
         //--------------------------------------------------------------------------
@@ -631,34 +596,12 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             return;
         }
         //--------------------------------------------------------------------------
-        // A かつ B かつ .... n の場合
-        //--------------------------------------------------------------------------
-        if( andCond.length >= 2 )
-        {
-            for( String i : andCond )
-            {
-                if( i.indexOf( SPLIT_COND_OR ) >= 0 )
-                {
-                    continue;
-                }
-                if( callbacks.containsKey( i ) )
-                {
-                    dest.put( i, callbacks.get( i ) );
-                    break;
-                }
-            }
-        }
-        //--------------------------------------------------------------------------
         // A または B または .... n の場合
         //--------------------------------------------------------------------------
-        else if( orCond.length >= 2 )
+        if( orCond.length >= 2 )
         {
             for( String i : orCond )
             {
-                if( i.indexOf( SPLIT_COND_AND ) >= 0 )
-                {
-                    continue;
-                }
                 if( callbacks.containsKey( i ) )
                 {
                     dest.put( i, callbacks.get( i ) );
@@ -674,7 +617,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             String exclude = callbackName.substring( 1 );
             for( String key : callbacks.keySet() )
             {
-                if( !callbacks.containsKey( exclude ) )
+                if( !key.equals( exclude ) )
                 {
                     dest.put( key, callbacks.get( key ) );
                 }

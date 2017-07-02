@@ -280,6 +280,7 @@ TOKEN:
     | <CASE: "case" >
     | <TO: "to" >
     | <WHILE: "while" >
+    | <CALL: "call" >
 }
 
 //--------------------------------------------------------------------------
@@ -897,6 +898,7 @@ void Statement() :
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
+        | CallUserFunctionStatement()
         | <MULTI_LINE_DELIMITER>
         | <EOL>
     }
@@ -1359,9 +1361,39 @@ void WhileStatement()                :
 /*@egen*/
 }
 
-
-
-
+//
+// \u30e6\u30fc\u30b6\u30fc\u5b9a\u7fa9\u95a2\u6570\u547c\u3073\u51fa\u3057
+//
+void CallUserFunctionStatement()                           :
+{/*@bgen(jjtree) CallUserFunctionStatement */
+    ASTCallUserFunctionStatement jjtn000 = new ASTCallUserFunctionStatement(this, JJTCALLUSERFUNCTIONSTATEMENT);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token symbol;
+}
+{/*@bgen(jjtree) CallUserFunctionStatement */
+    try {
+/*@egen*/
+    <CALL> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.line       = symbol.beginLine;
+        jjtn000.symbol.colmn      = symbol.beginColumn;
+        jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+    }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
 
 
 //------------------------------------------------------------------------------
@@ -2270,7 +2302,6 @@ void CommandArgumentList( ASTCallCommand cmd )                     :
     }
 /*@egen*/
 }
-
 
 //------------------------------------------------------------------------------
 // Identifier

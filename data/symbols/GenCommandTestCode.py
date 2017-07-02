@@ -48,7 +48,7 @@ $button
 $knob
 $selector
 $label
-$level
+$level_meter
 $menu
 $slider
 $switch
@@ -56,7 +56,7 @@ $switch
 @text_edit
 $value_edit
 $waveform
-?xy
+?xy[4]
 }}
 
 {testcode}

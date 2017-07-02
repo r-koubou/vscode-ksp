@@ -16,6 +16,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
+import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalAnd;
@@ -40,6 +41,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTRefVariable;
 import net.rkoubou.kspparser.javacc.generated.ASTSelectStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTSub;
+import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclarator;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
@@ -128,6 +130,29 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             if( p.getId() == JJTCALLBACKDECLARATION )
             {
                 ret = (ASTCallbackDeclaration)p;
+                break;
+            }
+            child = p;
+        }
+        return ret;
+    }
+
+    /**
+     * 現在のパース中のユーザー定義関数を取得する
+     */
+    protected ASTUserFunctionDeclaration getCurrentUserFunction( Node child )
+    {
+        ASTUserFunctionDeclaration ret = null;
+        while( true )
+        {
+            Node p = child.jjtGetParent();
+            if( p == null )
+            {
+                return null;
+            }
+            if( p.getId() == JJTUSERFUNCTIONDECLARATION )
+            {
+                ret = (ASTUserFunctionDeclaration)p;
                 break;
             }
             child = p;
@@ -351,18 +376,29 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 */
         final Object ret    = defaultVisit( node, data );
         final Variable v    = (Variable)data;
+        boolean result      = false;
 
         if( v.isUIVariable() )
         {
-            declareUIVariableImpl( node, v, data );
+            result = declareUIVariableImpl( node, v, data );
         }
         else if( v.isArray() )
         {
-            declareArrayVariableImpl( node, v, data, false );
+            result = declareArrayVariableImpl( node, v, data, false );
         }
         else if( node.jjtGetNumChildren() > 0 )
         {
-            declarePrimitiveVariableImpl( node, v, data );
+            result = declarePrimitiveVariableImpl( node, v, data );
+        }
+        else
+        {
+            // 宣言のみ
+            result = true;
+        }
+
+        if( result )
+        {
+            v.status = VariableState.INITIALIZED;
         }
 
         return ret;
@@ -474,7 +510,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         if( v.type != uiType.uiValueType )
         {
-            System.out.println( "UI : " + uiType.name + " require " + Variable.getTypeName( uiType.uiValueType ) );
+            System.out.println( "UI : " + v.name + "@" + uiType.name + " require " + Variable.getTypeName( uiType.uiValueType ) );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -520,10 +556,18 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             boolean found = false;
             SimpleNode n  = (SimpleNode)uiInitializer.jjtGetChild( i );
             SymbolDefinition param = n.symbol;
+            int nid = n.getId();
+
+            // 四則演算等は文法解析時でクリアしているので値だけに絞る
+            if( nid != JJTLITERAL && nid != JJTREFVARIABLE )
+            {
+                continue;
+            }
+
 SEARCH:
             for( int t : uiType.initilzerTypeList )
             {
-                switch( n.getId() )
+                switch( nid )
                 {
                     //--------------------------------------------------------------------------
                     // リテラル
@@ -566,14 +610,14 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     default:
                     {
-                        System.out.println( "Invalid Expression" );
+                        System.out.println( "Invalid Expression : " + n );
                         AnalyzeErrorCounter.e();
                     }
                     break;
                 }
                 if( !Variable.isConstant( param.accessFlag ) )
                 {
-                    System.out.println( "UI : Constant value only in ui initializer " );
+                    System.out.println( "UI : Constant value only in ui initializer : " + v.name + " @ " + n );
                     AnalyzeErrorCounter.e();
                 }
             } //~for( int t : uiType.initilzerTypeList )
@@ -659,8 +703,7 @@ SEARCH:
         variable = variableTable.search( symL.name );
         if( variable == null )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, symL );
-            AnalyzeErrorCounter.e();
+            // exprL 評価内で変数が見つけられなかった
             return exprL;
         }
 
@@ -673,7 +716,7 @@ SEARCH:
         // 配列要素への格納もあるので配列ビットをマスクさせている
         if( ( variable.type & TYPE_MASK ) != ( symR.type & TYPE_MASK ) )
         {
-            System.out.println( ":= not compatible type : " + symL.name + ":=" + Variable.toKSPTypeName( symR.type ) );
+            System.out.println( ":= not compatible type : " + symL.name + ":=" + symR.type );
             AnalyzeErrorCounter.e();
             return exprL;
         }
@@ -1074,6 +1117,10 @@ SEARCH:
 /*
         <variable> [ 0:<arrayindex> ]
 */
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
+
         //--------------------------------------------------------------------------
         // 宣言済みかどうか
         //--------------------------------------------------------------------------
@@ -1083,19 +1130,26 @@ SEARCH:
             // 宣言されていない変数
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();
-            return node;
+            return ret;
         }
+/*
         // 初期化（１度も値が格納されていない）
         if( v.status == VariableState.UNLOADED )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, node.symbol );
             AnalyzeErrorCounter.w();
         }
+*/
         // 配列型なら添字チェック
         if( v.isArray() )
         {
             node.jjtGetChild( 0 ).jjtAccept( this, node );
-            return node;
+            // 上位ノードの型評価式用
+            ret.symbol.type = v.getPrimitiveType();
+            ret.symbol.reserved = v.reserved;
+            v.referenced = true;
+            v.status = VariableState.LOADED;
+            return ret;
         }
         // 配列型じゃないのに添え字がある
         else if( node.jjtGetNumChildren() > 0 )
@@ -1104,7 +1158,13 @@ SEARCH:
             AnalyzeErrorCounter.e();
         }
 
-        return node;
+        // 上位ノードの型評価式用
+        ret.symbol.type = v.getPrimitiveType();
+        ret.symbol.reserved = v.reserved;
+        v.referenced = true;
+        v.status = VariableState.LOADED;
+
+        return ret;
     }
 
     /**
@@ -1145,7 +1205,6 @@ SEARCH:
 
     /**
      * コマンド呼び出し
-     * @return node 自身
      */
     @Override
     public Object visit( ASTCallCommand node, Object data )
@@ -1163,15 +1222,25 @@ SEARCH:
 
         ASTCallbackDeclaration callback = getCurrentCallBack( node );
 
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
+        for( int t : cmd.returnType.typeList )
+        {
+            ret.symbol.type |= t;
+        }
+
         //--------------------------------------------------------------------------
         // 実行が許可されているコールバック内での呼び出しかどうか
+        // ユーザー定義関数内からのコールはチェックしない
         //--------------------------------------------------------------------------
+        if( callback != null )
         {
             if( !cmd.availableCallbackList.containsKey( callback.symbol.name ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED, node.symbol );
                 AnalyzeErrorCounter.e();
-                return node;
+                return ret;
             }
         }
 
@@ -1182,7 +1251,7 @@ SEARCH:
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
             AnalyzeErrorCounter.e();
-            return node;
+            return ret;
         }
         else if( node.jjtGetNumChildren() > 0 )
         {
@@ -1190,14 +1259,14 @@ SEARCH:
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
                 AnalyzeErrorCounter.e();
-                return node;
+                return ret;
             }
         }
 
         // 引数の解析
         node.childrenAccept( this, cmd );
 
-        return node;
+        return ret;
     }
 
     /**
@@ -1242,25 +1311,28 @@ SEARCH:
                 Variable userVar        = variableTable.search( symbol.name );
 
                 // 引数毎に複数のデータ型が許容される仕様のため照合
-                //System.out.println("-------- : " + argList.size() + "/" + childrenNum );
-                for( Argument arg : argList.get( i ).arguments )
+               for( Argument arg : argList.get( i ).arguments )
                 {
-                    //System.out.println( "#ARG: " + arg.type );
+                    //--------------------------------------------------------------------------
+                    // 型指定なし（全ての型を許容する）
+                    //--------------------------------------------------------------------------
+                    if( arg.type == TYPE_ANY )
+                    {
+                        valid = true;
+                    }
                     //--------------------------------------------------------------------------
                     // コマンドがUI属性付き変数を要求
                     //--------------------------------------------------------------------------
-                    if( userVar != null && ( arg.accessFlag & ACCESS_ATTR_UI ) != 0 )
+                    else if( userVar != null && ( arg.accessFlag & ACCESS_ATTR_UI ) != 0 )
                     {
                         if( userVar.uiTypeInfo == null )
                         {
                             // ui_##### 修飾子が無い変数
-                            //System.out.println( "Not UI type" + userVar.name );
                             break;
                         }
-                        if( arg.uiTypeName.equals( userVar.uiTypeInfo.name ) )
+                        if( arg.uiTypeName.equals( "ui_*") || arg.uiTypeName.equals( userVar.uiTypeInfo.name ) )
                         {
                             // 要求されている ui_#### と変数宣言時の ui_#### 修飾子が一致
-                            //System.out.println( "UI OK" );
                             valid = true;
                             break;
                         }
@@ -1270,7 +1342,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     else if( userVar != null )
                     {
-                        if( arg.type == userVar.type )
+                        if( arg.type == userVar.getPrimitiveType() )
                         {
                             valid = true;
                             break;
@@ -1292,11 +1364,12 @@ SEARCH:
                             {
                                 // 呼び出したコマンドの戻り値と
                                 // このコマンドの求められている引数の型チェック
-                                if( t == arg.type )
+                                if( ( t & arg.type ) != 0 )
                                 {
                                     valid = true;
                                     break;
                                 }
+                                System.out.println( Integer.toHexString( t ) + " / " + Integer.toHexString( arg.type ) );
                             }
                         }
                         else
@@ -1314,7 +1387,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     else
                     {
-                        if( arg.type == type )
+                        if( ( arg.type & type ) != 0 )
                         {
                             valid = true;
                             break;
@@ -1334,6 +1407,25 @@ SEARCH:
             } //~for( int i = 0; i < childrenNum; i++ )
         }
         return null;
+    }
+
+//--------------------------------------------------------------------------
+// ユーザー定義関数呼び出し
+//--------------------------------------------------------------------------
+
+    /**
+     * コマンド呼び出し
+     */
+    @Override
+    public Object visit( ASTCallUserFunctionStatement node, Object data )
+    {
+        UserFunction f = userFunctionTable.search( node.symbol.name );
+        if( f == null )
+        {
+            System.out.println( "User func tion not declared : " + node.symbol.name );
+            AnalyzeErrorCounter.e();
+        }
+        return node;
     }
 
 //--------------------------------------------------------------------------
