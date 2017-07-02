@@ -7,7 +7,7 @@
 
 # Property Names here
 PROPERTIES = [
-    "error.semantic.binopr.different"
+    "error.semantic.variable.invalid.arrayinitilizer"
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"

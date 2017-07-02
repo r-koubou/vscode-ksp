@@ -191,8 +191,6 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                     }
                     else if( !v.isConstant() || !v.isInt() )
                     {
-                        System.out.println( "Integer Constant value only this expression" );
-                        AnalyzeErrorCounter.e();
                         return null;
                     }
                     return (Integer)v.value;
@@ -285,8 +283,6 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                     }
                     else if( !v.isConstant() || !v.isReal() )
                     {
-                        System.out.println( "Real Constant value only this expression" );
-                        AnalyzeErrorCounter.e();
                         return null;
                     }
                     return (Double)v.value;
@@ -410,10 +406,11 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     protected boolean declareArrayVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData, boolean forceSkipInitializer )
     {
 /*
-            -> VariableDeclarator <arrayindex> -> <expr> : [0]
-                -> [ := VariableInitializer ] : [1]
-                    -> := ArrayInitializer : [1][0]
-                        -> ( <expr> (, <expr>)* ) : [1][1]
+            -> VariableDeclarator
+                -> <arrayindex> -> <expr> : [0]
+                    -> [ := VariableInitializer ] : [1]
+                        -> ArrayInitializer : [1][0]
+                            -> ( <expr> (, <expr>)* ) : [1][1]
 */
 
         //--------------------------------------------------------------------------
@@ -421,7 +418,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         if( !v.isArray() )
         {
-            System.out.println( "Array: " + v.name + " is not array" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY, v );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -432,7 +429,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         if( node.jjtGetNumChildren() == 0 || node.jjtGetChild( 0 ).getId() != JJTARRAYINDEX )
         {
             // 配列要素数の式がない
-            System.out.println( "Array: not defined array size [n]" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_ARRAYSIZE, v );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -443,14 +440,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         for( int i = 0; i < arraySizeNode.jjtGetNumChildren(); i++ )
         {
             SimpleNode n = ((SimpleNode)arraySizeNode.jjtGetChild( i ));
-            SymbolDefinition eval;
 
             size = evalConstantIntValue( n, 0 );
 
             if( size == null || size <= 0 )
             {
                 // 要素数が不明、または 0 以下
-                System.out.println( "Array: illegal array size" );
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE, v );
                 AnalyzeErrorCounter.e();
                 return false;
             }
@@ -462,7 +458,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         // 初期値代入
         //--------------------------------------------------------------------------
-        if( forceSkipInitializer || node.jjtGetChild( 0 ).jjtGetNumChildren() == 1 )
+        if( forceSkipInitializer || node.jjtGetChild( 0 ).jjtGetNumChildren() == 0 )
         {
             // 初期値代入なし
             // int なら 0 フィルなど初期値で埋まるので初期化したものとみなす
@@ -471,14 +467,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         }
 
         final ASTArrayInitializer initializer    = (ASTArrayInitializer)node.jjtGetChild( 1 ).jjtGetChild( 0 );
-
         for( int i = 0; i < initializer.jjtGetNumChildren(); i++ )
         {
             final SimpleNode expr       = (SimpleNode)initializer.jjtGetChild( i );
             final SymbolDefinition eval = (SymbolDefinition) expr.symbol;
             if( ( v.type & TYPE_MASK ) != ( eval.type & TYPE_MASK ) )
             {
-                System.out.println( "Array initializer : [" + i + "] is not compatible type" );
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, ""+i );
                 AnalyzeErrorCounter.e();
             }
         }
@@ -543,6 +538,11 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         }
 
         Node uiInitializer = node.jjtGetChild( 0 ).jjtGetChild( 0 );
+        if( uiInitializer.getId() != JJTUIINITIALIZER )
+        {
+            System.out.println( v.name + " : Invalid Expression " + uiInitializer );
+            return false;
+        }
         if( uiInitializer.jjtGetNumChildren() != uiType.initilzerTypeList.length )
         {
             // 引数の数が一致していない
@@ -647,6 +647,12 @@ SEARCH:
         {
             // 初期値代入なし
             return true;
+        }
+
+        if( node.jjtGetChild( 0 ).getId() != JJTVARIABLEINITIALIZER )
+        {
+            System.out.println( "invalid expression" );
+            return false;
         }
 
         final ASTVariableInitializer initializer = (ASTVariableInitializer)node.jjtGetChild( 0 );
@@ -1154,7 +1160,7 @@ SEARCH:
         // 配列型じゃないのに添え字がある
         else if( node.jjtGetNumChildren() > 0 )
         {
-            System.out.println( v.name + " is not array" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY, v );
             AnalyzeErrorCounter.e();
         }
 

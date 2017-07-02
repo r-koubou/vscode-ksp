@@ -70,14 +70,16 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_INCOMPATIBLE_ARG         = "error.semantic.incompatible.arg";
     static public final String PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN             = "error.semantic.cond.boolean";
     static public final String PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT         = "error.semantic.binopr.different";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY        = "error.semantic.variable.notarray";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_ARRAYSIZE   = "error.semantic.variable.not.arraysize";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE = "error.semantic.variable.invalid.arraysize";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER = "error.semantic.variable.invalid.arrayinitilizer";
 
     public enum Level
     {
         ERROR,
         WARNING,         // KONTAKT上のコンパイルでエラーになるかもしれないレベルの警告
         IGNORE_WARNING,  // シュリンクの提示や無視しても動作には支障がないと想定される警告
-        IGNORE_COMMAND,  // 定義ファイルに登録されていないコマンドが出現した場合の警告
-        IGNORE_VARIABLE, // 定義ファイルに登録されていないビルトイン変数が出現した場合の警告
         INFO,
         DEBUG
     }
