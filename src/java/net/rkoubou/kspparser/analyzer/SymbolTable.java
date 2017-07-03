@@ -164,6 +164,14 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     /**
      * 登録されているシンボルを配列形式で返す
      */
+    public SymbolDefinition[] toArray()
+    {
+        return table.values().toArray( new SymbolDefinition[ 0 ] );
+    }
+
+    /**
+     * 登録されているシンボルを配列形式で返す
+     */
     public SymbolDefinition[] toArray( SortType sortType )
     {
         Comparator<SymbolDefinition> c = null;
@@ -176,7 +184,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
                 throw new IllegalArgumentException();
         }
 
-        SymbolDefinition[] array = table.values().toArray( new Variable[ 0 ] );
+        SymbolDefinition[] array = table.values().toArray( new SymbolDefinition[ 0 ] );
         if( array.length > 0 )
         {
             Arrays.sort( array, c );

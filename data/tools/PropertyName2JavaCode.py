@@ -5,9 +5,11 @@
 # Copyright (c) R-Koubou
 #
 
+
 # Property Names here
 PROPERTIES = [
-    "error.semantic.assign.notvariable",
+    "warning.semantic.unuse.variable",
+    "warning.semantic.unuse.function",
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"

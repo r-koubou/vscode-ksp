@@ -36,6 +36,8 @@ public class SymbolDefinition implements AnalyzerConstants
     public boolean reserved = false;
     /** 識別子名 */
     public String name = "";
+    /** 意味解析フェーズ中に走査し参照されたかを記録する */
+    public boolean referenced = false;
     /** accessFlagにACCESS_ATTR_UIが含まれている場合のUIタイプの識別子名 */
     public String uiTypeName = "";
     /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */

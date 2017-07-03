@@ -13,7 +13,6 @@ import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
-import net.rkoubou.kspparser.javacc.generated.ASTArrayInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
@@ -83,6 +82,25 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     public void analyze() throws Exception
     {
         astRootNode.jjtAccept( this, null );
+        if( AnalyzerOption.unused )
+        {
+            for( SymbolDefinition v : variableTable.toArray() )
+            {
+                if( !v.referenced )
+                {
+                    MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_UNUSE_VARIABLE, v );
+                    AnalyzeErrorCounter.w();
+                }
+            }
+            for( SymbolDefinition v : userFunctionTable.toArray() )
+            {
+                if( !v.referenced )
+                {
+                    MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_UNUSE_FUNCTION, v );
+                    AnalyzeErrorCounter.w();
+                }
+            }
+        }
     }
 
 //--------------------------------------------------------------------------
@@ -390,6 +408,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         {
             // 宣言のみ
             result = true;
+            if( v.isConstant() )
+            {
+                // 定数宣言している場合は初期値代入が必須
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v ) ;
+                AnalyzeErrorCounter.e();
+                result = false;
+            }
         }
 
         if( result )
@@ -424,6 +449,17 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         }
 
         //--------------------------------------------------------------------------
+        // const 指定のチェック
+        //--------------------------------------------------------------------------
+        if( v.isConstant() )
+        {
+            // 配列は const 修飾子を付与できない
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_DECLARE_CONST, v );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        //--------------------------------------------------------------------------
         // 要素数宣言
         //--------------------------------------------------------------------------
         if( node.jjtGetNumChildren() == 0 || node.jjtGetChild( 0 ).getId() != JJTARRAYINDEX )
@@ -447,6 +483,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             {
                 // 要素数が不明、または 0 以下
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE, v );
+                AnalyzeErrorCounter.e();
+                return false;
+            }
+            else if( size >= MAX_KSP_ARRAY_SIZE )
+            {
+                // 要素数が上限を超えた
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE, v, String.valueOf( MAX_KSP_ARRAY_SIZE ) );
                 AnalyzeErrorCounter.e();
                 return false;
             }
@@ -511,6 +554,17 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         if( v.type != uiType.uiValueType )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE, v, Variable.getTypeName( uiType.uiValueType ), uiType.name );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        //--------------------------------------------------------------------------
+        // const 指定のチェック
+        //--------------------------------------------------------------------------
+        if( v.isConstant() )
+        {
+            // ui_#### const 修飾子を付与できない
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_DECLARE_CONST, v );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -662,6 +716,13 @@ SEARCH:
 */
         if( node.jjtGetNumChildren() == 0 )
         {
+            if( v.isConstant() )
+            {
+                // 定数宣言している場合は初期値代入が必須
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v ) ;
+                AnalyzeErrorCounter.e();
+                return false;
+            }
             // 初期値代入なし
             return true;
         }
@@ -732,14 +793,16 @@ SEARCH:
 
         if( variable.isConstant( ) )
         {
-            System.out.println( "Constant : " + variable.name );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_CONSTVARIABLE, variable );
             AnalyzeErrorCounter.e();
             return exprL;
         }
         // 配列要素への格納もあるので配列ビットをマスクさせている
         if( ( variable.type & TYPE_MASK ) != ( symR.type & TYPE_MASK ) )
         {
-            System.out.println( ":= not compatible type : " + symL.name + ":=" + symR.type );
+            String vType = Variable.getTypeName( variable.getPrimitiveType() );
+            String aType = Variable.getTypeName( exprR.symbol.type );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE, variable, vType, aType );
             AnalyzeErrorCounter.e();
             return exprL;
         }
@@ -804,7 +867,7 @@ SEARCH:
      * @param jjtAcceptData jjtAcceptメソッドのdata引数
      * @return データ型を格納した評価結果。エラー時は TYPE_VOID が格納される
      */
-    public SimpleNode evalSingleOperator( SimpleNode node, boolean intOnly, boolean booleanOp, Object jjtAcceptData )
+    public SimpleNode evalSingleOperator( SimpleNode node, boolean numOnly, boolean booleanOp, Object jjtAcceptData )
     {
 /*
              <operator>
@@ -816,7 +879,7 @@ SEARCH:
 
         final SimpleNode expr       = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, jjtAcceptData );
         final SymbolDefinition symL = expr.symbol;
-        int type                    = intOnly ? TYPE_INT : symL.type;
+        int type                    = numOnly ? TYPE_NUMERICAL : symL.type;
 
         // 上位ノードの型評価式用
         SimpleNode ret = new SimpleNode( node.getId() );
@@ -825,10 +888,10 @@ SEARCH:
         // 式が数値型と一致している必要がある
         if( !Variable.isNumeral( type ) )
         {
-            System.out.println( "Single operator: Cannot apply to not number type" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_NUMONLY, expr.symbol );
             AnalyzeErrorCounter.e();
-            ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+            ret.symbol.type = type;
+            ret.symbol.name = Variable.toKSPTypeCharacter( type );
         }
         else
         {
@@ -1025,7 +1088,7 @@ SEARCH:
             {
                 if( p.getId() == JJTVARIABLEDECLARATOR )
                 {
-                    System.out.println( "&: Cannot use on variable initilizer" );
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD, node.symbol );
                     AnalyzeErrorCounter.e();
                     ret.symbol.type = TYPE_VOID;
                     ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
@@ -1114,7 +1177,7 @@ SEARCH:
         //--------------------------------------------------------------------------
         if( !isInConditionalStatement( node ) )
         {
-            System.out.println( "LNOT: Cannot assign in Conditional Statement" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_LNOT, node.symbol );
             AnalyzeErrorCounter.e();
         }
         return evalSingleOperator( node, false, true, data );
@@ -1155,14 +1218,14 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return ret;
         }
-/*
+
         // 初期化（１度も値が格納されていない）
-        if( v.status == VariableState.UNLOADED )
+        if( AnalyzerOption.strict && v.status == VariableState.UNLOADED )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, node.symbol );
             AnalyzeErrorCounter.w();
         }
-*/
+
         // 配列型なら添字チェック
         if( v.isArray() )
         {
@@ -1216,7 +1279,7 @@ SEARCH:
         // 添え字の型はintのみ
         if( !Variable.isInt( sym.type ) )
         {
-            System.out.println( "Array index access : invalid type - " + Variable.toKSPTypeName( sym.type ) );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ARRAY_ELEMENT_INTONLY, expr.symbol );
             AnalyzeErrorCounter.e();
         }
         return ret;
@@ -1392,7 +1455,6 @@ SEARCH:
                                     valid = true;
                                     break;
                                 }
-                                System.out.println( Integer.toHexString( t ) + " / " + Integer.toHexString( arg.type ) );
                             }
                         }
                         else
@@ -1445,9 +1507,11 @@ SEARCH:
         UserFunction f = userFunctionTable.search( node.symbol.name );
         if( f == null )
         {
-            System.out.println( "User func tion not declared : " + node.symbol.name );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_USERFUNCTION_NOT_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();
+            return node;
         }
+        f.called = true;
         return node;
     }
 
@@ -1501,14 +1565,14 @@ SEARCH:
                 caseValue2 = checkCaseConditionImpl( caseCond2 );
             }
 
-            if( caseCond1 != null && caseCond2 != null )
+            if( caseValue1 != null && caseValue2 != null )
             {
                 // A to B のチェック
                 // 例
                 // case 1000 to 1000 { range の from to が同じ}
-                if( caseValue1 == caseValue2 )
+                if( caseValue1.intValue() == caseValue2.intValue() )
                 {
-                    System.out.println( "case: same value" );
+                    MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_CASEVALUE, caseCond1.symbol, caseValue1.toString(), caseValue2.toString() );
                     AnalyzeErrorCounter.w();
                 }
             }
@@ -1529,7 +1593,7 @@ SEARCH:
         }
         else if( v != null )
         {
-            System.out.println( "case: Constant value only this expression" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond.symbol );
             AnalyzeErrorCounter.e();
             return null;
         }

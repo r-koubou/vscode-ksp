@@ -1272,7 +1272,7 @@ void CaseCondition()               :
 {/*@bgen(jjtree) CaseCondition */
     try {
 /*@egen*/
-    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> )/*@bgen(jjtree)*/
+    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> ) (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;

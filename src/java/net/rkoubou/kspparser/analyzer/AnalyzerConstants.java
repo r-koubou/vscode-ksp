@@ -65,6 +65,8 @@ public interface AnalyzerConstants
     int TYPE_BOOL    = 0x2000;
     int TYPE_VOID    = 0x4000;
     int TYPE_PREPROCESSOR_SYMBOL = 0x8000;
+
+    int TYPE_NUMERICAL = TYPE_INT | TYPE_REAL;
     int TYPE_ANY     = 0xffff; // 全ビット ON
 
     //--------------------------------------------------------------------------
@@ -79,6 +81,24 @@ public interface AnalyzerConstants
     // {
     //     // type is int[]
     // }
+
+    //--------------------------------------------------------------------------
+    // 上限・下限
+    // 32bit signed
+    //--------------------------------------------------------------------------
+
+    /** 整数値の下限 */
+    int KSP_INT_MIN = Integer.MIN_VALUE;
+    /** 整数値の上限 */
+    int KSP_INT_MAX = Integer.MAX_VALUE;
+
+    /** 浮動小数値の下限 */
+    float KSP_REAL_MIN = Float.MIN_VALUE;
+    /** 浮動小数値の上限 */
+    float KSP_REAL_MAX = Float.MAX_VALUE;
+
+    /** 配列変数宣言時の要素数の上限 */
+    int MAX_KSP_ARRAY_SIZE = 32768;
 
     /*
      * 変数の状態を示す識別子。

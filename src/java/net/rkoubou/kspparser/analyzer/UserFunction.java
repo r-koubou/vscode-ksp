@@ -18,6 +18,9 @@ public class UserFunction extends SymbolDefinition
     /** 元となるASTノード */
     public final ASTUserFunctionDeclaration astNode;
 
+    /** 1回以上コールされたかどうか */
+    public boolean called = false;
+
     /**
      * Ctor.
      */

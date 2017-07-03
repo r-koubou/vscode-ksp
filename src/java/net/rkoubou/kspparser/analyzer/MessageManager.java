@@ -58,6 +58,7 @@ public class MessageManager implements AnalyzerConstants
     // User Function
     //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_FUNCTION_DECLARED         = "error.userfunction.already.declared";
+    static public final String PROPERTY_ERROR_USERFUNCTION_NOT_DECLARED = "error.userfunction.not.declared";
 
     //--------------------------------------------------------------------------
     // Semantic Analyzer
@@ -75,14 +76,31 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER = "error.semantic.variable.required.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER = "error.semantic.variable.invalid.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE = "error.semantic.variable.invalid.initializer.type";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD = "error.semantic.variable.invalid.initializer.stringadd";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY        = "error.semantic.variable.notarray";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_DECLARE_CONST = "error.semantic.variable.declare.const";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_ARRAYSIZE   = "error.semantic.variable.not.arraysize";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE = "error.semantic.variable.invalid.arraysize";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE = "error.semantic.variable.invalid.maxarraysize";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER = "error.semantic.variable.invalid.arrayinitilizer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE  = "error.semantic.variable.invalid.uitype";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_COUNT = "error.semantic.variable.invalid.uiinitializer.count";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_TYPE = "error.semantic.variable.invalid.uiinitializer.type";
     static public final String PROPERTY_ERROR_SEMANTIC_ASSIGN_NOTVARIABLE       = "error.semantic.assign.notvariable";
+    static public final String PROPERTY_ERROR_SEMANTIC_ASSIGN_CONSTVARIABLE     = "error.semantic.assign.constvariable";
+    static public final String PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE = "error.semantic.assign.type.notcompatible";
+    static public final String PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_NUMONLY  = "error.semantic.single.operator.numonly";
+    static public final String PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_LNOT     = "error.semantic.single.operator.lnot";
+    static public final String PROPERTY_ERROR_SEMANTIC_ARRAY_ELEMENT_INTONLY    = "error.semantic.array.element.intonly";
+    static public final String PROPERTY_WARNING_SEMANTIC_CASEVALUE              = "warning.semantic.casevalue";
+    static public final String PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY      = "error.semantic.casevalue.constonly";
+
+    //--------------------------------------------------------------------------
+    // サジェスト
+    //--------------------------------------------------------------------------
+    static public final String PROPERTY_WARNING_SEMANTIC_UNUSE_VARIABLE         = "warning.semantic.unuse.variable";
+    static public final String PROPERTY_WARNING_SEMANTIC_UNUSE_FUNCTION         = "warning.semantic.unuse.function";
+
 
     public enum Level
     {

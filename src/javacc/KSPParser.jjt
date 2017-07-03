@@ -803,7 +803,7 @@ void CaseCondition() #CaseCondition:
     Token token;
 }
 {
-    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> )
+    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> ) (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     {
         applyIntLiteral( token, jjtThis );
         if( minus != null )

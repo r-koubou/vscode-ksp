@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
+import net.rkoubou.kspparser.analyzer.AnalyzerOption;
 import net.rkoubou.kspparser.analyzer.SemanticAnalyzer;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
@@ -61,12 +62,16 @@ public class KSPSyntaxParser
             }
 
             // 意味解析フェーズ
-            SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer( symbolCollector );
-            AnalyzeErrorCounter.reset();
-            semanticAnalyzer.analyze();
-            if( AnalyzeErrorCounter.hasError() )
+            if( !AnalyzerOption.parseonly )
             {
-                return;
+                SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer( symbolCollector );
+                AnalyzeErrorCounter.reset();
+                semanticAnalyzer.analyze();
+                if( AnalyzeErrorCounter.hasError() )
+                {
+                    return;
+                }
+
             }
         }
         finally
