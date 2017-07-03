@@ -61,6 +61,9 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     public final UserFunctionTable userFunctionTable;
     public final PreProcessorSymbolTable preProcessorSymbolTable;
 
+    // 局所的にのみ使用することを前提としたワークエリア
+    private final SymbolDefinition tempSymbol = new SymbolDefinition();
+
     /**
      * ctor
      */
@@ -793,7 +796,9 @@ SEARCH:
 
         if( variable.isConstant( ) )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_CONSTVARIABLE, variable );
+            SymbolDefinition.copy( exprR.symbol, tempSymbol );
+            tempSymbol.name = variable.name;
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_CONSTVARIABLE, tempSymbol );
             AnalyzeErrorCounter.e();
             return exprL;
         }
@@ -802,7 +807,10 @@ SEARCH:
         {
             String vType = Variable.getTypeName( variable.getPrimitiveType() );
             String aType = Variable.getTypeName( exprR.symbol.type );
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE, variable, vType, aType );
+            SymbolDefinition.copy( symR, tempSymbol );
+            tempSymbol.name = variable.name;
+
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE, tempSymbol, vType, aType );
             AnalyzeErrorCounter.e();
             return exprL;
         }
@@ -1240,7 +1248,10 @@ SEARCH:
         // 配列型じゃないのに添え字がある
         else if( node.jjtGetNumChildren() > 0 )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY, v );
+            SymbolDefinition.copy( node.symbol, tempSymbol );
+            tempSymbol.name = v.name;
+
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY, tempSymbol );
             AnalyzeErrorCounter.e();
         }
 
