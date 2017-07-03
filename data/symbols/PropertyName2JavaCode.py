@@ -7,7 +7,7 @@
 
 # Property Names here
 PROPERTIES = [
-    "error.semantic.variable.invalid.arrayinitilizer"
+    "error.semantic.assign.notvariable",
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"

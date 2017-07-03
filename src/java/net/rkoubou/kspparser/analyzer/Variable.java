@@ -422,9 +422,9 @@ public class Variable extends SymbolDefinition
             //--------------------------------------------------------------------------
             // 内部処理用
             //--------------------------------------------------------------------------
-            case 'B': return "bool";
-            case 'V': return "void";
-            case 'P': return "preprocessor";
+            case 'B': return "Boolean";
+            case 'V': return "Void";
+            case 'P': return "Preprocessor";
             case '*': return "any";
             default:
                 if( REGEX_PREPROCESSOR_PREFIX.matcher( name ).find() )

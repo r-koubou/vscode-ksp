@@ -458,7 +458,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         // 初期値代入
         //--------------------------------------------------------------------------
-        if( forceSkipInitializer || node.jjtGetChild( 0 ).jjtGetNumChildren() == 0 )
+        if( forceSkipInitializer || node.jjtGetNumChildren() != 2 )
         {
             // 初期値代入なし
             // int なら 0 フィルなど初期値で埋まるので初期化したものとみなす
@@ -466,14 +466,19 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             return false;
         }
 
-        final ASTArrayInitializer initializer    = (ASTArrayInitializer)node.jjtGetChild( 1 ).jjtGetChild( 0 );
+        final SimpleNode initializer    = (SimpleNode)node.jjtGetChild( 1 ).jjtGetChild( 0 );
         for( int i = 0; i < initializer.jjtGetNumChildren(); i++ )
         {
             final SimpleNode expr       = (SimpleNode)initializer.jjtGetChild( i );
             final SymbolDefinition eval = (SymbolDefinition) expr.symbol;
             if( ( v.type & TYPE_MASK ) != ( eval.type & TYPE_MASK ) )
             {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, ""+i );
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i ) );
+                AnalyzeErrorCounter.e();
+            }
+            else if( !Variable.isConstant( eval.accessFlag ) )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, eval );
                 AnalyzeErrorCounter.e();
             }
         }
@@ -505,7 +510,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         if( v.type != uiType.uiValueType )
         {
-            System.out.println( "UI : " + v.name + "@" + uiType.name + " require " + Variable.getTypeName( uiType.uiValueType ) );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE, v, Variable.getTypeName( uiType.uiValueType ), uiType.name );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -532,7 +537,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         }
         if( node.jjtGetNumChildren() == 0 )
         {
-            System.out.println( "UI: require initializer" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -540,13 +545,15 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         Node uiInitializer = node.jjtGetChild( 0 ).jjtGetChild( 0 );
         if( uiInitializer.getId() != JJTUIINITIALIZER )
         {
-            System.out.println( v.name + " : Invalid Expression " + uiInitializer );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER, v );
             return false;
         }
         if( uiInitializer.jjtGetNumChildren() != uiType.initilzerTypeList.length )
         {
             // 引数の数が一致していない
-            System.out.println( "UI: not compatible arguments for initializer : " + uiInitializer.jjtGetNumChildren() + " / " + uiType.initilzerTypeList.length + " : " + uiType.name );
+            String cnt = String.valueOf( uiInitializer.jjtGetNumChildren() );
+            String req = String.valueOf( uiType.initilzerTypeList.length );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_COUNT, v, uiType.name, cnt, req );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -557,6 +564,15 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             SimpleNode n  = (SimpleNode)uiInitializer.jjtGetChild( i );
             SymbolDefinition param = n.symbol;
             int nid = n.getId();
+            int argT = 0;
+
+            // 条件式BOOLはエラー対象
+            if( nid == JJTCONDITIONALOR || nid == JJTCONDITIONALAND )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, n.symbol );
+                AnalyzeErrorCounter.e();
+                continue;
+            }
 
             // 四則演算等は文法解析時でクリアしているので値だけに絞る
             if( nid != JJTLITERAL && nid != JJTREFVARIABLE )
@@ -567,6 +583,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 SEARCH:
             for( int t : uiType.initilzerTypeList )
             {
+                argT = t;
                 switch( nid )
                 {
                     //--------------------------------------------------------------------------
@@ -574,7 +591,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     case JJTLITERAL:
                     {
-                        if( n.symbol.type == t )
+                        if( param.type == t )
                         {
                             found = true;
                             break SEARCH;
@@ -595,7 +612,7 @@ SEARCH:
                         }
                         if( !var.isConstant() )
                         {
-                            System.out.println( "Constant value only this expression" );
+                            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, n.symbol );
                             AnalyzeErrorCounter.e();
                         }
                         if( var.type == t )
@@ -610,14 +627,14 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     default:
                     {
-                        System.out.println( "Invalid Expression : " + n );
+                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, n.symbol );
                         AnalyzeErrorCounter.e();
                     }
                     break;
                 }
                 if( !Variable.isConstant( param.accessFlag ) )
                 {
-                    System.out.println( "UI : Constant value only in ui initializer : " + v.name + " @ " + n );
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, n.symbol );
                     AnalyzeErrorCounter.e();
                 }
             } //~for( int t : uiType.initilzerTypeList )
@@ -625,7 +642,7 @@ SEARCH:
             if( !found )
             {
                 // イニシャライザ: 型の不一致
-                System.out.println( "not compatible for initializer" );
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_TYPE, v, String.valueOf( i ), Variable.getTypeName( argT ) );
                 AnalyzeErrorCounter.e();
                 break;
             }
@@ -649,20 +666,20 @@ SEARCH:
             return true;
         }
 
-        if( node.jjtGetChild( 0 ).getId() != JJTVARIABLEINITIALIZER )
+        final SimpleNode initializer = (SimpleNode)node.jjtGetChild( 0 );
+        final SimpleNode expr        = (SimpleNode)initializer.jjtGetChild( 0 );
+        final SymbolDefinition eval  = (SymbolDefinition) expr.symbol;
+
+        if( initializer.getId() != JJTVARIABLEINITIALIZER )
         {
-            System.out.println( "invalid expression" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, initializer.symbol );
             return false;
         }
-
-        final ASTVariableInitializer initializer = (ASTVariableInitializer)node.jjtGetChild( 0 );
-        final SimpleNode expr                    = (SimpleNode)initializer.jjtGetChild( 0 );
-        final SymbolDefinition eval              = (SymbolDefinition) expr.symbol;
 
         // 型の不一致
         if( v.type != eval.type )
         {
-            System.out.println( "Primitive variable : incompatible type" );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE, v, Variable.getTypeName( eval.type ), Variable.getTypeName( v.type ) ) ;
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -701,7 +718,7 @@ SEARCH:
 
         if( exprL.getId() != JJTREFVARIABLE )
         {
-            System.out.println( "NOT Variable : " + symL.name + " - " + exprL );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_NOTVARIABLE, exprL.symbol );
             AnalyzeErrorCounter.e();
             return exprL;
         }
