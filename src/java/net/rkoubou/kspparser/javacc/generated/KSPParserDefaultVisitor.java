@@ -12,16 +12,22 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTRootNode node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTVariable node, Object data){
-    return defaultVisit(node, data);
-  }
   public Object visit(ASTVariableDeclaration node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTCallbackDeclaration node, Object data){
+  public Object visit(ASTVariableDeclarator node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTCallbackArgument node, Object data){
+  public Object visit(ASTVariableInitializer node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTArrayInitializer node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTUIInitializer node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTCallbackDeclaration node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTCallbackArgumentList node, Object data){
@@ -33,7 +39,16 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTBlock node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTPreProcessorStatement node, Object data){
+  public Object visit(ASTPreProcessorDefine node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTPreProcessorUnDefine node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTPreProcessorIfDefined node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTPreProcessorIfUnDefined node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTIfStatement node, Object data){
@@ -49,6 +64,9 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
   public Object visit(ASTWhileStatement node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTCallUserFunctionStatement node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTAssignment node, Object data){
@@ -117,8 +135,14 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTRefVariable node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTArrayIndex node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTCallCommand node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTCommandArgumentList node, Object data){
+    return defaultVisit(node, data);
+  }
 }
-/* JavaCC - OriginalChecksum=2fc671ebacbf2425a2a31d4643a0c8bd (do not edit this line) */
+/* JavaCC - OriginalChecksum=a967275fa4dec06686a91e74209ccb6d (do not edit this line) */

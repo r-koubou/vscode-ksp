@@ -1,0 +1,13 @@
+async_complete	N
+controller	N
+init	N
+listener	N
+note	N
+persistence_changed	N
+pgs_changed	N
+poly_at	N
+release	N
+rpn	N
+nrpn	N
+ui_control	Y	&*
+ui_update	N

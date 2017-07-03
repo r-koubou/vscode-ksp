@@ -22,9 +22,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import net.rkoubou.kspparser.javacc.MessageManager;
+import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
+import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.MessageManager;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition;
+import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
+import net.rkoubou.kspparser.analyzer.Variable;
 
-public class KSPParser
+public class KSPParser implements AnalyzerConstants
 {
     /** ルートの構文木 */
     ASTRootNode rootNode;
@@ -59,12 +64,6 @@ public class KSPParser
         {
             rootNode = KSPScript();
         }
-/*
-        catch( ParseException pe )
-        {
-            System.out.println( MessageManager.expand( pe ) );
-        }
-*/
         catch( Throwable e )
         {
             e.printStackTrace();
@@ -82,11 +81,73 @@ public class KSPParser
     }
 
     /**
-     * 意味解析
+     * 指定された値をシンボル情報に設定
      */
-    public boolean analyzeSemantic() throws Exception
+    void applyToSymbol( Token token, SimpleNode dest, int type, SymbolDefinition.SymbolType symbolType )
     {
-        return true;
+        if( token.image != null )
+        {
+            dest.symbol.name = token.image;
+        }
+        dest.symbol.line        = token.beginLine;
+        dest.symbol.colmn       = token.beginColumn;
+        dest.symbol.type        = type;
+        dest.symbol.symbolType  = symbolType;
+    }
+
+    /**
+     * リテラルをシンボル情報に設定
+     */
+    void applyIntLiteral( Token token, SimpleNode dest )
+    {
+        String v = token.image.toLowerCase();
+        if( v.startsWith( "9" ) && v.endsWith( "h" ) )
+        {
+            // KSP 16進数 → Java 16進数
+            // 0x80000000以上の値の扱いが特殊なので一時64bitで扱い回避。
+            // http://qiita.com/oboenikui/items/cfd396b08f20798f0b3e
+            dest.symbol.value = Integer.valueOf( (int)Long.parseLong( v.substring( 1, v.length() - 1 ), 16 ) );
+        }
+        else
+        {
+            // 10進数
+            dest.symbol.value = Integer.valueOf( v );
+        }
+        dest.symbol.type      = TYPE_INT;
+        applyAllLiteral( token, dest );
+    }
+
+    /**
+     * リテラルをシンボル情報に設定
+     */
+    void applyRealLiteral( Token token, SimpleNode dest )
+    {
+        dest.symbol.value = Double.valueOf( token.image );
+        dest.symbol.type  = TYPE_REAL;
+        applyAllLiteral( token, dest );
+    }
+
+    /**
+     * リテラルをシンボル情報に設定
+     */
+    void applyStringLiteral( Token token, SimpleNode dest )
+    {
+        dest.symbol.value = token.image;
+        dest.symbol.type  = TYPE_STRING;
+        applyAllLiteral( token, dest );
+    }
+
+    /**
+     * リテラルをシンボル情報に設定(型共通)
+     */
+    void applyAllLiteral( Token token, SimpleNode dest )
+    {
+        dest.jjtSetValue( dest.symbol.value );
+        dest.symbol.name         = "";
+        dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
+        dest.symbol.line         = token.beginLine;
+        dest.symbol.colmn        = token.beginColumn;
+        dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
     }
 
     /**
@@ -94,13 +155,15 @@ public class KSPParser
      */
     void errorSkipTo( ParseException e )
     {
-        System.out.println( MessageManager.expand( e ) );
+        MessageManager.println( e );
+        AnalyzeErrorCounter.e();
         //e.printStackTrace();
         Token t = null;
         do
         {
             try
             {
+                t = null; // getNextTokenコール時、例外発生時の無限ループ対策
                 t = getNextToken();
             }
             catch( Throwable ee )
@@ -158,7 +221,7 @@ TOKEN :
 |
   <#DECIMAL_LITERAL: ( "0" ) | ( ["1"-"9"] (["0"-"9"])* ) >
 |
-  <#HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+  <#HEX_LITERAL: "9" (["0"-"9","a"-"f","A"-"F"])+ ["h","H"] >
 }
 
 TOKEN:
@@ -213,6 +276,7 @@ TOKEN:
     | <CASE: "case" >
     | <TO: "to" >
     | <WHILE: "while" >
+    | <CALL: "call" >
 }
 
 //--------------------------------------------------------------------------
@@ -225,9 +289,6 @@ TOKEN:
     | <PREPROCESSOR_CODE_IF: "USE_CODE_IF" >
     | <PREPROCESSOR_CODE_IF_NOT: "USE_CODE_IF_NOT" >
     | <PREPROCESSOR_CODE_END_IF: "END_USE_CODE" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_GROUP_START: "NO_SYS_SCRIPT_GROUP_START" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_PEDAL: "NO_SYS_SCRIPT_PEDAL" >
-    | <PREPROCESSOR_NO_SYS_SCRIPT_RLS_TRIG: "NO_SYS_SCRIPT_RLS_TRIG" >
 }
 
 //------------------------------------------------------------------------------
@@ -323,53 +384,82 @@ ASTRootNode KSPScript() #RootNode:
 //
 // 変数の定義
 //
-void Variable() #Variable:
-{}
+Token Variable() :
 {
-      <VARIABLE_INT>
-    | <VARIABLE_INT_ARRAY>
-    | <VARIABLE_REAL>
-    | <VARIABLE_REAL_ARRAY>
-    | <VARIABLE_STRING>
-    | <VARIABLE_STRING_ARRAY>
+    Token var;
+}
+{
+    (
+          var = <VARIABLE_INT>
+        | var = <VARIABLE_INT_ARRAY>
+        | var = <VARIABLE_REAL>
+        | var = <VARIABLE_REAL_ARRAY>
+        | var = <VARIABLE_STRING>
+        | var = <VARIABLE_STRING_ARRAY>
+    )
+    {
+        return var;
+    }
 }
 
 //
 // 変数宣言
 //
-void VariableDeclaration() :
-{}
+void VariableDeclaration() #VariableDeclaration:
 {
-    <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+    Token symbol;
+    Token uiType = null;
+}
+{
     (
-          <CONST>
-        | <POLYPHONIC>
-        | <IDENTIFIER> // ui_****
-    )?
-    VariableDeclarator()
+        symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
+        (
+              <CONST>                { jjtThis.symbol.accessFlag = ACCESS_ATTR_CONST; }
+            | <POLYPHONIC>           { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
+            | uiType = <IDENTIFIER>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
+        )?
+        VariableDeclarator( jjtThis )
+    )
+    {
+        if( uiType != null )
+        {
+            jjtThis.symbol.uiTypeName = uiType.image;
+        }
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+    }
 }
 
 //
 // 変数宣言(詳細)
 //
-void VariableDeclarator() #VariableDeclaration :
-{}
+void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
 {
-    ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
-    Variable()
+    Token name;
+}
+{
     (
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+        name = Variable()
         (
-            [ <LBRACKET> Expression() <RBRACKET> ]
-        )
+            (
+                [ ArrayIndex() ]
+            )
 
-        [ LOOKAHEAD(2) VariableInitializer() ]
+            [ LOOKAHEAD(2) VariableInitializer() ]
+        )
     )
+    {
+        decl.symbol.name = name.image;
+        decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
+    }
 }
 
 //
 // 初期値代入
 //
-void VariableInitializer() :
+void VariableInitializer() #VariableInitializer:
 {}
 {
       LOOKAHEAD(3) <ASSIGN> ArrayInitializer()
@@ -380,7 +470,7 @@ void VariableInitializer() :
 //
 // 配列変数初期値代入
 //
-void ArrayInitializer() :
+void ArrayInitializer() #ArrayInitializer:
 {}
 {
     <LPAREN>
@@ -391,7 +481,7 @@ void ArrayInitializer() :
 //
 // UI変数初期値代入
 //
-void UIInitializer() :
+void UIInitializer() #UIInitializer:
 {}
 {
     <LPAREN>
@@ -403,19 +493,29 @@ void UIInitializer() :
 // コールバック本体
 //
 void CallbackDeclaration() #CallbackDeclaration:
-{}
 {
-    <ON> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
-    [ CallbackArgument() ]
-    <EOL>
-    Block()
-    <END> (<MULTI_LINE_DELIMITER>)* <ON>
+    Token symbol;
+}
+{
+    (
+        <ON> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
+        [ CallbackArgument() ]
+        <EOL>
+        Block()
+        <END> (<MULTI_LINE_DELIMITER>)* <ON>
+    )
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
+    }
 }
 
 //
 // コールバック・引数宣言
 //
-void CallbackArgument() #CallbackArgument:
+void CallbackArgument() :
 {}
 {
     <LPAREN> (<MULTI_LINE_DELIMITER>)*
@@ -427,9 +527,20 @@ void CallbackArgument() #CallbackArgument:
 // コールバック・引数リスト
 //
 void CallbackArgumentList() #CallbackArgumentList:
-{}
 {
-    ( Variable() ) ( <COMMA> Variable() )*
+    Token arg1, argN ;
+}
+{
+    ( arg1 = Variable() )
+    {
+        jjtThis.args.add( arg1.image );
+    }
+    (
+        ( <COMMA> argN = Variable() )
+        {
+            jjtThis.args.add( argN.image );
+        }
+    )*
 }
 
 
@@ -437,12 +548,22 @@ void CallbackArgumentList() #CallbackArgumentList:
 // ユーザー定義関数本体
 //
 void UserFunctionDeclaration() #UserFunctionDeclaration:
-{}
 {
-    <FUNCTION> (<MULTI_LINE_DELIMITER>)* <IDENTIFIER>
-    <EOL>
-    Block()
-    <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
+    Token symbol;
+}
+{
+    (
+        <FUNCTION> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
+        <EOL>
+        Block()
+        <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
+    )
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+    }
 }
 
 //
@@ -488,6 +609,7 @@ void Statement() :
         | IfStatement()
         | SelectStatement()
         | WhileStatement()
+        | CallUserFunctionStatement()
         | <MULTI_LINE_DELIMITER>
         | <EOL>
     }
@@ -500,52 +622,117 @@ void Statement() :
 //
 // プリプロセッサ
 //
-void PreProcessorStatement() #PreProcessorStatement :
+void PreProcessorStatement() :
 {}
+{
+      PreProcessorDefine()        // SET_CONDITION(<condition-symbol>)
+    | PreProcessorUnDefine()      // RESET_CONDITION(<condition-symbol>)
+    | PreProcessorIfDefined()     // USE_CODE_IF(<condition-symbol>)
+    | PreProcessorIfUnDefined()   // USE_CODE_IF_NOT(<condition-symbol>)
+}
+
+//
+// プリプロセッサ：シンボル定義
+//
+void PreProcessorDefine() #PreProcessorDefine:
+{
+    Token symbol;
+}
 {
     // SET_CONDITION(<condition-symbol>)
     (
         <PREPROCESSOR_SET_COND> (<MULTI_LINE_DELIMITER>)*           // SET_CONDITION
         <LPAREN>                                                    // (
         (<MULTI_LINE_DELIMITER>)*
-        <IDENTIFIER>                                                // SYMBOL
+        symbol = <IDENTIFIER>                                       // SYMBOL
         (<MULTI_LINE_DELIMITER>)*
         <RPAREN>                                                    // )
     )
-|
+    {
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
+    }
+}
+
+//
+// プリプロセッサ：シンボル破棄
+//
+void PreProcessorUnDefine() #PreProcessorUnDefine:
+{
+    Token symbol;
+}
+{
     // RESET_CONDITION(<condition-symbol>)
     (
         <PREPROCESSOR_RESET_COND> (<MULTI_LINE_DELIMITER>)*         // RESET_CONDITION
         <LPAREN>                                                    // (
         (<MULTI_LINE_DELIMITER>)*
-        <IDENTIFIER>                                                // SYMBOL
+        symbol = <IDENTIFIER>                                       // SYMBOL
         (<MULTI_LINE_DELIMITER>)*
         <RPAREN>                                                    // )
     )
-|
+    {
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
+    }
+}
+
+//
+// プリプロセッサ：シンボル定義分岐(=ifdef)
+//
+void PreProcessorIfDefined() #PreProcessorIfDefined:
+{
+    Token symbol;
+}
+{
     // USE_CODE_IF(<condition-symbol>)
     (
         <PREPROCESSOR_CODE_IF> (<MULTI_LINE_DELIMITER>)*            // USE_CODE_IF
         <LPAREN>                                                    // (
         (<MULTI_LINE_DELIMITER>)*
-        <IDENTIFIER>                                                // SYMBOL
+        symbol = <IDENTIFIER>                                       // SYMBOL
         (<MULTI_LINE_DELIMITER>)*
         <RPAREN>                                                    // )
         Block()                                                     // code
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
-|
+    {
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
+    }
+}
+
+//
+// プリプロセッサ：シンボル定義分岐(=ifndef)
+//
+void PreProcessorIfUnDefined() #PreProcessorIfUnDefined:
+{
+    Token symbol;
+}
+{
     // USE_CODE_IF_NOT(<condition-symbol>)
     (
         <PREPROCESSOR_CODE_IF_NOT> (<MULTI_LINE_DELIMITER>)*        // USE_CODE_IF_NOT
         <LPAREN>                                                    // (
         (<MULTI_LINE_DELIMITER>)*
-        <IDENTIFIER>                                                // SYMBOL
+        symbol = <IDENTIFIER>                                       // SYMBOL
         (<MULTI_LINE_DELIMITER>)*
         <RPAREN>                                                    // )
         Block()                                                     // code
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
+    {
+        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.line         = symbol.beginLine;
+        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
+    }
 }
 
 void StatementExpression() :
@@ -611,9 +798,26 @@ void CaseStatement() #CaseStatement:
 }
 
 void CaseCondition() #CaseCondition:
-{}
 {
-    ( [ <MINUS> ] <INTEGER_LITERAL> | Variable() )
+    Token minus = null;
+    Token token;
+}
+{
+    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> ) (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+    {
+        applyIntLiteral( token, jjtThis );
+        if( minus != null )
+        {
+            int v = (Integer)jjtThis.jjtGetValue();
+            v = -v;
+            jjtThis.jjtSetValue( v );
+        }
+    }
+|
+    ( token = Variable() )
+    {
+        applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Variable );
+    }
 }
 
 //
@@ -632,9 +836,22 @@ void WhileStatement() #WhileStatement:
     <END> (<MULTI_LINE_DELIMITER>)* <WHILE>
 }
 
-
-
-
+//
+// ユーザー定義関数呼び出し
+//
+void CallUserFunctionStatement() #CallUserFunctionStatement:
+{
+    Token symbol;
+}
+{
+    <CALL> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+    }
+}
 
 
 //------------------------------------------------------------------------------
@@ -649,42 +866,70 @@ void Expression():
 //
 // 代入式
 //
-void Assignment() #Assignment(2):
-{}
+void Assignment() #Assignment:
 {
-    Variable() [ ArrayIndex() ] <ASSIGN> Expression()
+    Token token;
+}
+{
+    RefVariable() token = <ASSIGN> Expression()
+    {
+        applyToSymbol( token, jjtThis, TYPE_VOID, SymbolType.Expression );
+    }
 }
 
 //
 // 条件式OR
 //
 void ConditionalOrExpression():
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    ConditionalAndExpression() ( <BOOL_OR> ConditionalAndExpression() #ConditionalOr(2) )*
+    ConditionalAndExpression()
+    (
+        token = <BOOL_OR> ConditionalAndExpression()
+        {
+            jjtThis.symbol.line  = token.beginLine;
+            jjtThis.symbol.colmn = token.beginColumn;
+            jjtThis.symbol.type  = TYPE_BOOL;
+        } #ConditionalOr(2)
+    )*
 }
 
 //
 // 条件式AND
 //
 void ConditionalAndExpression():
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression() ( <BOOL_AND> InclusiveOrExpression() #ConditionalAnd(2) )*
+    InclusiveOrExpression()
+    (
+        token = <BOOL_AND> InclusiveOrExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #ConditionalAnd(2)
+    )*
 }
 
 //
 // 論理積
 //
 void InclusiveOrExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AndExpression()
     (
-        <BIT_OR> AndExpression() #InclusiveOr(2)
+        token = <BIT_OR> AndExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #InclusiveOr(2)
     )*
 }
 
@@ -692,12 +937,17 @@ void InclusiveOrExpression() :
 // 論理和
 //
 void AndExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
-        <BIT_AND> EqualityExpression() #And(2)
+        token = <BIT_AND> EqualityExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #And(2)
     )*
 }
 
@@ -705,13 +955,22 @@ void AndExpression() :
 // 比較
 //
 void EqualityExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     RelationalExpression()
     (
-          <BOOL_EQ> RelationalExpression() #Equal( 2 )
-        | <BOOL_NE> RelationalExpression() #NotEqual( 2 )
+        token = <BOOL_EQ> RelationalExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #Equal( 2 )
+|
+        token = <BOOL_NE> RelationalExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #NotEqual( 2 )
     )*
 }
 
@@ -719,15 +978,32 @@ void EqualityExpression() :
 // 比較（不等号）
 //
 void RelationalExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     AdditiveExpression()
     (
-          <BOOL_LT> AdditiveExpression() #LT(2)
-        | <BOOL_GT> AdditiveExpression() #GT(2)
-        | <BOOL_LE> AdditiveExpression() #LE(2)
-        | <BOOL_GE> AdditiveExpression() #GE(2)
+        token = <BOOL_LT> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #LT(2)
+|
+       token = <BOOL_GT> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #GT(2)
+|
+       token = <BOOL_LE> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #LE(2)
+|
+       token = <BOOL_GE> AdditiveExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
+        } #GE(2)
     )*
 }
 
@@ -735,14 +1011,27 @@ void RelationalExpression() :
 // 加算
 //
 void AdditiveExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     MultiplicativeExpression()
     (
-          <PLUS>        MultiplicativeExpression() #Add(2)
-        | <MINUS>       MultiplicativeExpression() #Sub(2)
-        | <STRING_ADD>  MultiplicativeExpression() #StrAdd(2)
+        token = <PLUS> MultiplicativeExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Add(2)
+|
+        token = <MINUS> MultiplicativeExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Sub(2)
+|
+        token = <STRING_ADD> MultiplicativeExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
+        } #StrAdd(2)
     )*
 }
 
@@ -750,14 +1039,27 @@ void AdditiveExpression() :
 // 乗算
 //
 void MultiplicativeExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     UnaryExpression()
     (
-          <MUL> UnaryExpression() #Mul(2)
-        | <DIV> UnaryExpression() #Div(2)
-        | <MOD> UnaryExpression() #Mod(2)
+        token = <MUL> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Mul(2)
+|
+        token = <DIV> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Div(2)
+|
+        token = <MOD> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Mod(2)
     )*
 }
 
@@ -765,12 +1067,18 @@ void MultiplicativeExpression() :
 // 単項
 //
 void UnaryExpression() :
-{}
+{
+    Token token;
+}
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     (
-          <MULTI_LINE_DELIMITER>  UnaryExpression()
-        | <MINUS>                 UnaryExpression() #Neg(1)
+        <MULTI_LINE_DELIMITER>  UnaryExpression()
+|
+        token = <MINUS>         UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT | TYPE_REAL, SymbolType.Expression );
+        } #Neg(1)
     )
 |
     UnaryExpressionNot()
@@ -782,11 +1090,20 @@ void UnaryExpression() :
 // 単項NOT
 //
 void UnaryExpressionNot() :
-{}
+{
+    Token token;
+}
 {
     (
-          <BIT_NOT>  UnaryExpression() #Not(1)
-        | <BOOL_NOT> UnaryExpression() #LogicalNot(1)
+        token = <BIT_NOT> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #Not(1)
+|
+        token = <BOOL_NOT> UnaryExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #LogicalNot(1)
     )
 }
 
@@ -830,26 +1147,51 @@ void PrimaryPrefix() :
 // リテラル
 //
 void Literal() #Literal :
-{}
 {
-      <INTEGER_LITERAL>
-    | <REAL_LITERAL>
-    | <STRING_LITERAL>
+    Token token;
+}
+{
+    (
+        token = <INTEGER_LITERAL>
+        {
+            applyIntLiteral( token, jjtThis );
+        }
+|
+        token = <REAL_LITERAL>
+        {
+            applyRealLiteral( token, jjtThis );
+        }
+|       token = <STRING_LITERAL>
+        {
+            applyStringLiteral( token, jjtThis );
+        }
+    )
 }
 
 //
 // 変数参照
 //
 void RefVariable() #RefVariable :
-{}
 {
-    Variable() [ ArrayIndex() ]
+    Token symbol;
+}
+{
+    (
+        symbol = Variable() [ ArrayIndex() ]
+    )
+    {
+        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
+        jjtThis.symbol.line       = symbol.beginLine;
+        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
+    }
 }
 
 //
 // 配列の添字
 //
-void ArrayIndex() :
+void ArrayIndex() #ArrayIndex:
 {}
 {
     <LBRACKET> Expression() <RBRACKET>
@@ -860,19 +1202,30 @@ void ArrayIndex() :
 // コマンド呼び出し
 //
 void CallCommand() #CallCommand:
-{}
 {
-    <IDENTIFIER> [ LOOKAHEAD(2) CommandArguments() ]
+    Token symbol;
+}
+{
+    (
+        symbol = <IDENTIFIER>
+        {
+            jjtThis.symbol.name       = symbol.image;
+            jjtThis.symbol.line       = symbol.beginLine;
+            jjtThis.symbol.colmn      = symbol.beginColumn;
+            jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
+        }
+        [ LOOKAHEAD(2) CommandArguments( jjtThis ) ]
+    )
 }
 
 //
 // コマンド呼び出し時の引数
 //
-void CommandArguments() :
+void CommandArguments( ASTCallCommand cmd ) :
 {}
 {
     <LPAREN>
-        [ LOOKAHEAD(2) CommandArgumentList() ]
+        [ LOOKAHEAD(2) CommandArgumentList( cmd ) ]
         ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
     <RPAREN>
 }
@@ -880,7 +1233,7 @@ void CommandArguments() :
 //
 // コマンド引数リスト
 //
-void CommandArgumentList() :
+void CommandArgumentList( ASTCallCommand cmd ) #CommandArgumentList:
 {}
 {
     ( LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
@@ -889,8 +1242,10 @@ void CommandArgumentList() :
             LOOKAHEAD(2)( <MULTI_LINE_DELIMITER> )*
             <COMMA> Expression()
     )*
+    {
+        SymbolDefinition.copy( cmd.symbol, jjtThis.symbol );
+    }
 }
-
 
 //------------------------------------------------------------------------------
 // Identifier

@@ -10,6 +10,11 @@ package net.rkoubou.kspparser;
 import java.io.File;
 import java.io.PrintStream;
 
+import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
+import net.rkoubou.kspparser.analyzer.AnalyzerOption;
+import net.rkoubou.kspparser.analyzer.SemanticAnalyzer;
+import net.rkoubou.kspparser.analyzer.SymbolCollector;
+import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
 
 /**
@@ -36,12 +41,42 @@ public class KSPSyntaxParser
                 System.setOut( stdout );
                 System.setErr( stderr );
             }
-            File file   = new File( args[ 0 ] );
-            KSPParser p = new KSPParser( file );
-            p.analyzeSyntax();
+            File file            = new File( args[ 0 ] );
+            KSPParser p          = new KSPParser( file );
+
+            // 構文解析フェーズ
+            ASTRootNode rootNode = p.analyzeSyntax();
+            if( rootNode == null || AnalyzeErrorCounter.hasError() )
+            {
+                return;
+            }
+
+
+            // シンボル収集フェーズ
+            SymbolCollector symbolCollector = new SymbolCollector( rootNode );
+            AnalyzeErrorCounter.reset();
+            symbolCollector.analyze();
+            if( AnalyzeErrorCounter.hasError() )
+            {
+                return;
+            }
+
+            // 意味解析フェーズ
+            if( !AnalyzerOption.parseonly )
+            {
+                SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer( symbolCollector );
+                AnalyzeErrorCounter.reset();
+                semanticAnalyzer.analyze();
+                if( AnalyzeErrorCounter.hasError() )
+                {
+                    return;
+                }
+
+            }
         }
         finally
         {
+            //AnalyzeErrorCounter.dump( System.out );
             if( stdout != null ){ try{ stdout.close(); } catch( Throwable e ){} }
             if( stderr != null ){ try{ stdout.close(); } catch( Throwable e ){} }
         }

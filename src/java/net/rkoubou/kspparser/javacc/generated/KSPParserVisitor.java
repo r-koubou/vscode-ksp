@@ -5,19 +5,25 @@ public interface KSPParserVisitor
 {
   public Object visit(SimpleNode node, Object data);
   public Object visit(ASTRootNode node, Object data);
-  public Object visit(ASTVariable node, Object data);
   public Object visit(ASTVariableDeclaration node, Object data);
+  public Object visit(ASTVariableDeclarator node, Object data);
+  public Object visit(ASTVariableInitializer node, Object data);
+  public Object visit(ASTArrayInitializer node, Object data);
+  public Object visit(ASTUIInitializer node, Object data);
   public Object visit(ASTCallbackDeclaration node, Object data);
-  public Object visit(ASTCallbackArgument node, Object data);
   public Object visit(ASTCallbackArgumentList node, Object data);
   public Object visit(ASTUserFunctionDeclaration node, Object data);
   public Object visit(ASTBlock node, Object data);
-  public Object visit(ASTPreProcessorStatement node, Object data);
+  public Object visit(ASTPreProcessorDefine node, Object data);
+  public Object visit(ASTPreProcessorUnDefine node, Object data);
+  public Object visit(ASTPreProcessorIfDefined node, Object data);
+  public Object visit(ASTPreProcessorIfUnDefined node, Object data);
   public Object visit(ASTIfStatement node, Object data);
   public Object visit(ASTSelectStatement node, Object data);
   public Object visit(ASTCaseStatement node, Object data);
   public Object visit(ASTCaseCondition node, Object data);
   public Object visit(ASTWhileStatement node, Object data);
+  public Object visit(ASTCallUserFunctionStatement node, Object data);
   public Object visit(ASTAssignment node, Object data);
   public Object visit(ASTConditionalOr node, Object data);
   public Object visit(ASTConditionalAnd node, Object data);
@@ -40,6 +46,8 @@ public interface KSPParserVisitor
   public Object visit(ASTLogicalNot node, Object data);
   public Object visit(ASTLiteral node, Object data);
   public Object visit(ASTRefVariable node, Object data);
+  public Object visit(ASTArrayIndex node, Object data);
   public Object visit(ASTCallCommand node, Object data);
+  public Object visit(ASTCommandArgumentList node, Object data);
 }
-/* JavaCC - OriginalChecksum=5afa02473d6979a35a399f5005e10eed (do not edit this line) */
+/* JavaCC - OriginalChecksum=96784fba793967fcdb720b464d6dc645 (do not edit this line) */
