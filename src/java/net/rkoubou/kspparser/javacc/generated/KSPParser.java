@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
@@ -89,14 +90,17 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,Analyz
         if( v.startsWith( "9" ) && v.endsWith( "h" ) )
         {
             // KSP 16進数 → Java 16進数
-            // 0x80000000以上の値の扱いが特殊なので一時64bitで扱い回避。
+            // 0x80000000以上の値の扱いが特殊なので一迂回。
             // http://qiita.com/oboenikui/items/cfd396b08f20798f0b3e
-            dest.symbol.value = Integer.valueOf( (int)Long.parseLong( v.substring( 1, v.length() - 1 ), 16 ) );
+            BigInteger bi = new BigInteger( v.substring( 1, v.length() - 1 ), 16 );
+            dest.symbol.value = bi.intValue();
         }
         else
         {
             // 10進数
-            dest.symbol.value = Integer.valueOf( v );
+            // KSPは signed 32bit int
+            BigInteger bi = new BigInteger( v );    // KONTAKTと同様に、何桁になっても最後は下位32bitに切り詰める
+            dest.symbol.value = bi.intValue();
         }
         dest.symbol.type      = TYPE_INT;
         applyAllLiteral( token, dest );
@@ -2952,26 +2956,6 @@ if (jjtc000) {
     finally { jj_save(23, xla); }
   }
 
-  private boolean jj_3R_131()
- {
-    if (jj_3R_78()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_126()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_131()) {
-    jj_scanpos = xsp;
-    if (jj_3R_132()) {
-    jj_scanpos = xsp;
-    if (jj_3R_133()) return true;
-    }
-    }
-    return false;
-  }
-
   private boolean jj_3_11()
  {
     if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
@@ -3987,6 +3971,26 @@ if (jjtc000) {
   private boolean jj_3R_132()
  {
     if (jj_3R_140()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_131()
+ {
+    if (jj_3R_78()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_126()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_131()) {
+    jj_scanpos = xsp;
+    if (jj_3R_132()) {
+    jj_scanpos = xsp;
+    if (jj_3R_133()) return true;
+    }
+    }
     return false;
   }
 

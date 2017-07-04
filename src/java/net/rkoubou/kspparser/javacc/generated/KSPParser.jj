@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
@@ -108,14 +109,17 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
         if( v.startsWith( "9" ) && v.endsWith( "h" ) )
         {
             // KSP 16\u9032\u6570 \u2192 Java 16\u9032\u6570
-            // 0x80000000\u4ee5\u4e0a\u306e\u5024\u306e\u6271\u3044\u304c\u7279\u6b8a\u306a\u306e\u3067\u4e00\u664264bit\u3067\u6271\u3044\u56de\u907f\u3002
+            // 0x80000000\u4ee5\u4e0a\u306e\u5024\u306e\u6271\u3044\u304c\u7279\u6b8a\u306a\u306e\u3067\u4e00\u8fc2\u56de\u3002
             // http://qiita.com/oboenikui/items/cfd396b08f20798f0b3e
-            dest.symbol.value = Integer.valueOf( (int)Long.parseLong( v.substring( 1, v.length() - 1 ), 16 ) );
+            BigInteger bi = new BigInteger( v.substring( 1, v.length() - 1 ), 16 );
+            dest.symbol.value = bi.intValue();
         }
         else
         {
             // 10\u9032\u6570
-            dest.symbol.value = Integer.valueOf( v );
+            // KSP\u306f signed 32bit int
+            BigInteger bi = new BigInteger( v );    // KONTAKT\u3068\u540c\u69d8\u306b\u3001\u4f55\u6841\u306b\u306a\u3063\u3066\u3082\u6700\u5f8c\u306f\u4e0b\u4f4d32bit\u306b\u5207\u308a\u8a70\u3081\u308b
+            dest.symbol.value = bi.intValue();
         }
         dest.symbol.type      = TYPE_INT;
         applyAllLiteral( token, dest );

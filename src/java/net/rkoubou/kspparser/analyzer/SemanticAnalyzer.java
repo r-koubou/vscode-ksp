@@ -24,6 +24,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTDiv;
 import net.rkoubou.kspparser.javacc.generated.ASTEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTGE;
 import net.rkoubou.kspparser.javacc.generated.ASTGT;
+import net.rkoubou.kspparser.javacc.generated.ASTIfStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTInclusiveOr;
 import net.rkoubou.kspparser.javacc.generated.ASTLE;
 import net.rkoubou.kspparser.javacc.generated.ASTLT;
@@ -43,7 +44,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTSub;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclarator;
-import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
+import net.rkoubou.kspparser.javacc.generated.ASTWhileStatement;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
@@ -1403,7 +1404,6 @@ SEARCH:
     {
         final int childrenNum = node.jjtGetNumChildren();
 
-        Object ret    = null;
         Command cmd   = null;
 
         if( !( data instanceof Command ) )
@@ -1558,6 +1558,31 @@ SEARCH:
 //--------------------------------------------------------------------------
 
     /**
+     * if 条件式の評価
+     */
+    @Override
+    public Object visit( ASTIfStatement node, Object data )
+    {
+        //--------------------------------------------------------------------------
+        // 条件式がBOOL型でない場合
+        //--------------------------------------------------------------------------
+        {
+            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
+            if( !Variable.isBoolean( cond.symbol.type ) )
+            {
+                MessageManager.printlnE(
+                    MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
+                    cond.symbol,
+                    Variable.getTypeName( cond.symbol.type ),
+                    Variable.getTypeName( TYPE_BOOL )
+                );
+                AnalyzeErrorCounter.e();
+            }
+        }
+        return node.childrenAccept( this, data );
+    }
+
+    /**
      * select~case の case内の評価
      */
     @Override
@@ -1577,8 +1602,26 @@ SEARCH:
                 -> <block>
             :
             :
-            expr は評価済みなのでここではスルー
 */
+
+        //--------------------------------------------------------------------------
+        // 条件式が整数型でない場合
+        //--------------------------------------------------------------------------
+        {
+            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
+            if( !Variable.isInt( cond.symbol.type ) || Variable.isArray( cond.symbol.type )  )
+            {
+                MessageManager.printlnE(
+                    MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
+                    cond.symbol,
+                    Variable.getTypeName( cond.symbol.type ),
+                    Variable.getTypeName( TYPE_INT )
+                );
+                AnalyzeErrorCounter.e();
+                return node;
+            }
+        }
+
         //--------------------------------------------------------------------------
         // case: 整数の定数または定数宣言した変数が有効
         //--------------------------------------------------------------------------
@@ -1639,6 +1682,31 @@ SEARCH:
         {
             return (Integer)caseCond.symbol.value;
         }
+    }
+
+    /**
+     * while 条件式の評価
+     */
+    @Override
+    public Object visit( ASTWhileStatement node, Object data )
+    {
+        //--------------------------------------------------------------------------
+        // 条件式がBOOL型でない場合
+        //--------------------------------------------------------------------------
+        {
+            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
+            if( !Variable.isBoolean( cond.symbol.type ) )
+            {
+                MessageManager.printlnE(
+                    MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
+                    cond.symbol,
+                    Variable.getTypeName( cond.symbol.type ),
+                    Variable.getTypeName( TYPE_BOOL )
+                );
+                AnalyzeErrorCounter.e();
+            }
+        }
+        return node.childrenAccept( this, data );
     }
 
 //--------------------------------------------------------------------------

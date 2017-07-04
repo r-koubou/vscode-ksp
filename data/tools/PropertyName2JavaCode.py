@@ -8,8 +8,7 @@
 
 # Property Names here
 PROPERTIES = [
-    "warning.semantic.unuse.variable",
-    "warning.semantic.unuse.function",
+    "error.semantic.condition.invalid"
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"
