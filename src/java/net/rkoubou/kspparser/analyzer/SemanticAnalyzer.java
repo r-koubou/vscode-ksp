@@ -480,6 +480,14 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         {
             SimpleNode n = ((SimpleNode)arraySizeNode.jjtGetChild( i ));
 
+            if( !Variable.isInt( n.symbol.type ) )
+            {
+                // 要素数の型が整数以外
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE, v );
+                AnalyzeErrorCounter.e();
+                return false;
+            }
+
             size = evalConstantIntValue( n, 0 );
 
             if( size == null || size <= 0 )
@@ -513,10 +521,24 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         }
 
         final SimpleNode initializer    = (SimpleNode)node.jjtGetChild( 1 ).jjtGetChild( 0 );
+        if( initializer.getId() != JJTARRAYINITIALIZER )
+        {
+            // 配列初期化式 ( 0, 1, 2, ...) ではない
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, initializer.symbol );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
         for( int i = 0; i < initializer.jjtGetNumChildren(); i++ )
         {
-            final SimpleNode expr       = (SimpleNode)initializer.jjtGetChild( i );
-            final SymbolDefinition eval = (SymbolDefinition) expr.symbol;
+            final SimpleNode expr = (SimpleNode)initializer.jjtGetChild( i );
+            SymbolDefinition eval = (SymbolDefinition) expr.symbol;
+
+            if( expr.getId() == JJTNEG )
+            {
+                eval = ( (SimpleNode)expr.jjtGetChild( 0 ) ).symbol;
+            }
+
             if( ( v.type & TYPE_MASK ) != ( eval.type & TYPE_MASK ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i ) );
@@ -732,12 +754,17 @@ SEARCH:
 
         final SimpleNode initializer = (SimpleNode)node.jjtGetChild( 0 );
         final SimpleNode expr        = (SimpleNode)initializer.jjtGetChild( 0 );
-        final SymbolDefinition eval  = (SymbolDefinition) expr.symbol;
+        SymbolDefinition eval        = (SymbolDefinition) expr.symbol;
 
         if( initializer.getId() != JJTVARIABLEINITIALIZER )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, initializer.symbol );
             return false;
+        }
+
+        if( expr.getId() == JJTNEG )
+        {
+            eval = ( (SimpleNode)expr.jjtGetChild( 0 ) ).symbol;
         }
 
         // 型の不一致
