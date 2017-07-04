@@ -17,8 +17,9 @@ import * as fs              from 'fs';
 import { ThrottledDelayer } from './libs/async';
 import * as config          from './KSPConfigurationConstants';
 
-const CHECKED_EXECUTABLE_PATH = 'ksp.validate.checkedExecutablePath';
-const PARSER_MESSAGE_DELIMITER: string = "\t";
+const CHECKED_EXECUTABLE_PATH               = 'ksp.validate.checkedExecutablePath';
+const PARSER_MESSAGE_DELIMITER: string      = "\t";
+const REGEX_PARSER_MESSAGE_NEWLINE: RegExp  = /[\r]?\n/;
 const COMMAND_UNTRUST_VALIDATION_EXECUTABLE = 'ksp.untrustValidationExecutable'
 
 export class KSPValidationProvider
@@ -335,13 +336,17 @@ export class KSPValidationProvider
                     childProcess.stdout.on( 'data', (data: Buffer) =>
                     {
                         //console.log( data.toString() );
-                        processLine( data.toString() );
+                        data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
+                            processLine( x );
+                        });
                     });
                     // handling stderr
                     childProcess.stderr.on( 'data', (data: Buffer) =>
                     {
                         //console.log( data.toString() );
-                        processLineStdErr( data.toString() );
+                        data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
+                            processLineStdErr( x );
+                        });
                     });
                     // process finished
                     childProcess.stdout.on( 'end', () =>
