@@ -304,7 +304,7 @@
     {
         "prefix": "ui_button",
         "body":[
-            "declare ui_button $${1:<variable-name>}"
+            "declare ui_button $${1:variable-name}"
         ],
         "description": "create a user interface button"
     },
@@ -312,7 +312,7 @@
     {
         "prefix": "ui_knob",
         "body":[
-            "declare ui_knob $${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:<display-ratio>} )"
+            "declare ui_knob $${1:variable-name}( ${2:min}, ${3:max}, ${4:display-ratio} )"
         ],
         "description": "create a user interface button"
     },
@@ -320,7 +320,7 @@
     {
         "prefix": "ui_file_selector",
         "body":[
-            "declare ui_file_selector $${1:<variable-name>}"
+            "declare ui_file_selector $${1:variable-name}"
         ],
         "description": "create a user interface button"
     },
@@ -328,7 +328,7 @@
     {
         "prefix": "ui_label",
         "body":[
-            "declare ui_label $${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
+            "declare ui_label $${1:variable-name}( ${2:width}, ${3:height} )"
         ],
         "description": "create a user interface text label"
     },
@@ -336,7 +336,7 @@
     {
         "prefix": "ui_level_meter",
         "body":[
-            "declare ui_level_meter $${1:<variable-name>}"
+            "declare ui_level_meter $${1:variable-name}"
         ],
         "description": "create a level meter"
     },
@@ -344,7 +344,7 @@
     {
         "prefix": "ui_menu",
         "body":[
-            "declare ui_menu $${1:<variable-name>}"
+            "declare ui_menu $${1:variable-name}"
         ],
         "description": "create a user interface drop-down menu"
     },
@@ -352,7 +352,7 @@
     {
         "prefix": "ui_slider",
         "body":[
-            "declare ui_slider $${1:<variable-name>}( ${2:<min>}, ${3:<max>} )"
+            "declare ui_slider $${1:variable-name}( ${2:min}, ${3:max} )"
         ],
         "description": "create a user interface slider"
     },
@@ -360,7 +360,7 @@
     {
         "prefix": "ui_switch",
         "body":[
-            "declare ui_switch $${1:<variable-name>}"
+            "declare ui_switch $${1:variable-name}"
         ],
         "description": "create a user interface switch"
     },
@@ -368,7 +368,7 @@
     {
         "prefix": "ui_table",
         "body":[
-            "declare ui_table %${1:<array>}[${2:colmns}]( ${3:<width(unit=grid)>}, ${4:<height(unit=grid)>}, ${5:<range>} )"
+            "declare ui_table %${1:array}[${2:colmns}]( ${3:width}, ${4:height}, ${5:range} )"
         ],
         "description": "create a user interface switch"
     },
@@ -376,7 +376,7 @@
     {
         "prefix": "ui_text_edit",
         "body":[
-            "declare ui_text_edit @${1:<variable-name>}"
+            "declare ui_text_edit @${1:variable-name}"
         ],
         "description": "create a text edit field"
     },
@@ -384,7 +384,7 @@
     {
         "prefix": "ui_value_edit",
         "body":[
-            "declare ui_value_edit $${1:<variable-name>}( ${2:<min>}, ${3:<max>}, ${4:display-ratio} )"
+            "declare ui_value_edit $${1:variable-name}( ${2:min}, ${3:max}, ${4:display-ratio} )"
         ],
         "description": "create a user interface number box"
     },
@@ -392,7 +392,7 @@
     {
         "prefix": "ui_waveform",
         "body":[
-            "declare ui_waveform $${1:<variable-name>}( ${2:<width(unit=grid)>}, ${3:<height(unit=grid)>} )"
+            "declare ui_waveform $${1:variable-name}( ${2:width}, ${3:height} )"
         ],
         "description": "create a waveform control to display zones and slices. Can also be used to control specific parameters per slice and for MIDI drag & drop functionality."
     },
@@ -400,7 +400,7 @@
     {
         "prefix": "ui_xy",
         "body":[
-            "declare ui_xy ?$${1:<variable-name>}[ ${2:num-of-elements} ]"
+            "declare ui_xy ?$${1:variable-name}[ ${2:num-of-elements} ]"
         ],
         "description": "create an XY pad"
     },
@@ -408,7 +408,7 @@
     {
         "prefix": "if",
         "body":[
-            "if( ${1:<condition>} )",
+            "if( ${1:condition} )",
             "    ${2:{your code here\\}}",
             "end if"
         ],
@@ -418,7 +418,7 @@
     {
         "prefix": "ifelse",
         "body":[
-            "if( ${1:<condition>} )",
+            "if( ${1:condition} )",
             "    ${2:{your code here\\}}",
             "else",
             "    ${3:{your code here\\}}",
@@ -430,7 +430,7 @@
     {
         "prefix": "select",
         "body":[
-            "select( ${1:<variable>} )",
+            "select( ${1:variable} )",
             "    case ${2:case}:",
             "        ${3:{your code here\\}}",
             "end select"
@@ -441,7 +441,7 @@
     {
         "prefix": "while",
         "body":[
-            "while( ${1:<condition>} )",
+            "while( ${1:condition} )",
             "    ${2:{your code here\\}}",
             "end while"
         ],
@@ -667,7 +667,7 @@
     {
         "prefix": "sh_left",
         "body":[
-            "sh_left( ${1:<expression>}, ${2:<shift-bits>} )"
+            "sh_left( ${1:expression}, ${2:shift-bits} )"
         ],
         "description": "shifts the bits in <expression> by the amount of <shift-bits> to the left"
     },
@@ -675,7 +675,7 @@
     {
         "prefix": "sh_right",
         "body":[
-            "sh_right( ${1:<expression>}, ${2:<shift-bits>} )"
+            "sh_right( ${1:expression}, ${2:shift-bits} )"
         ],
         "description": "shifts the bits in <expression> by the amount of <shift-bits> to the right"
     },
@@ -683,7 +683,7 @@
     {
         "prefix": "random",
         "body":[
-            "random( ${1:<min>}, ${2:<max>} )"
+            "random( ${1:min}, ${2:max} )"
         ],
         "description": "generate a random integer in the range <min> to <max>"
     },
@@ -691,7 +691,7 @@
     {
         "prefix": "int_to_real",
         "body":[
-            "int_to_real( ${1:<integer value>} )"
+            "int_to_real( ${1:integer value} )"
         ],
         "description": "converts an integer value into a real number"
     },
@@ -699,7 +699,7 @@
     {
         "prefix": "real_to_int",
         "body":[
-            "real_to_int( ${1:<real value>} )"
+            "real_to_int( ${1:real value} )"
         ],
         "description": "converts a real number into an integer"
     },
@@ -707,7 +707,7 @@
     {
         "prefix": "msb",
         "body":[
-            "msb( ${1:<value>} )"
+            "msb( ${1:value} )"
         ],
         "description": "return the MSB portion (most significant byte) of a 14 bit value"
     },
@@ -715,7 +715,7 @@
     {
         "prefix": "lsb",
         "body":[
-            "lsb( ${1:<value>} )"
+            "lsb( ${1:value} )"
         ],
         "description": "return the LSB portion (least significant byte) of a 14 bit value"
     },
@@ -739,7 +739,7 @@
     {
         "prefix": "message",
         "body":[
-            "message( ${1:<variable/text>} )"
+            "message( ${1:variable/text} )"
         ],
         "description": "display text in the status line of KONTAKT"
     },
@@ -747,7 +747,7 @@
     {
         "prefix": "note_off",
         "body":[
-            "note_off( ${1:<ID-number>} )"
+            "note_off( ${1:ID-number} )"
         ],
         "description": "send a note off message to a specific note"
     },
@@ -755,7 +755,7 @@
     {
         "prefix": "play_note",
         "body":[
-            "play_note( ${1:<note-number>}, ${2:<velocity>}, ${3:<sample-offset>}, ${4:<duration>} )"
+            "play_note( ${1:note-number}, ${2:velocity}, ${3:sample-offset}, ${4:duration} )"
         ],
         "description": "generate a MIDI note, i.e. generate a note on message followed by a note off message"
     },
@@ -763,7 +763,7 @@
     {
         "prefix": "set_controller",
         "body":[
-            "set_controller( ${1:<MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO>}, ${2:<value>} )"
+            "set_controller( ${1:MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO}, ${2:value} )"
         ],
         "description": "send a MIDI CC, pitchbend or channel pressure value"
     },
@@ -771,7 +771,7 @@
     {
         "prefix": "set_rpn",
         "body":[
-            "set_rpn( ${1:<address>}, ${2:<value>} )"
+            "set_rpn( ${1:address}, ${2:value} )"
         ],
         "description": "send a rpn message"
     },
@@ -779,7 +779,7 @@
     {
         "prefix": "set_nrpn",
         "body":[
-            "set_nrpn( ${1:<address>}, ${2:<value>} )"
+            "set_nrpn( ${1:address}, ${2:value} )"
         ],
         "description": "send a nrpn message"
     },
@@ -787,7 +787,7 @@
     {
         "prefix": "set_snapshot_type",
         "body":[
-            "set_snapshot_type( ${1:<type>} )"
+            "set_snapshot_type( ${1:type} )"
         ],
         "description": "configures the KSP processor behavior of all five slots when a snapshot is recalled"
     },
@@ -795,7 +795,7 @@
     {
         "prefix": "by_marks",
         "body":[
-            "by_marks( ${1:<bit-mask>} )"
+            "by_marks( ${1:bit-mask} )"
         ],
         "description": "a user defined group of events (or event IDs)"
     },
@@ -803,7 +803,7 @@
     {
         "prefix": "change_note",
         "body":[
-            "change_note( ${1:<ID-number>}, ${2:note-number} )"
+            "change_note( ${1:ID-number}, ${2:note-number} )"
         ],
         "description": "change the note number of a specific note event"
     },
@@ -811,7 +811,7 @@
     {
         "prefix": "change_pan",
         "body":[
-            "change_pan( ${1:<ID-number>}, ${2:<panorama(-1000~1000)>}, ${3:<relative-bit(0 or 1)>} )"
+            "change_pan( ${1:ID-number}, ${2:panorama}, ${3:relative-bit} )"
         ],
         "description": "change the pan position of a specific note event"
     },
@@ -819,7 +819,7 @@
     {
         "prefix": "change_tune",
         "body":[
-            "change_tune( ${1:<ID-number>}, ${2:<tune-amount(millicents)>}, ${3:<relative-bit(0 or 1)>} )"
+            "change_tune( ${1:ID-number}, ${2:tune-amount}, ${3:relative-bit} )"
         ],
         "description": "change the tuning of a specific note event in millicent"
     },
@@ -827,7 +827,7 @@
     {
         "prefix": "change_velo",
         "body":[
-            "change_velo( ${1:<ID-number>}, ${2:<velocity>} )"
+            "change_velo( ${1:ID-number}, ${2:velocity} )"
         ],
         "description": "change the velocity of a specific note event"
     },
@@ -835,7 +835,7 @@
     {
         "prefix": "change_vol",
         "body":[
-            "change_vol( ${1:<ID-number>}, ${2:<volume>}, ${3:<relative-bit(0 or 1)>} )"
+            "change_vol( ${1:ID-number}, ${2:volume}, ${3:relative-bit} )"
         ],
         "description": "change the volume of a specific note event in millidecibel"
     },
@@ -843,7 +843,7 @@
     {
         "prefix": "delete_event_mark",
         "body":[
-            "delete_event_mark( ${1:<ID-number>}, ${2:<bit-mark($MARK_1 ... $MARK_28)>} )"
+            "delete_event_mark( ${1:ID-number}, ${2:bit-mark} )"
         ],
         "description": "delete an event mark, i.e. ungroup the specified event from an event group"
     },
@@ -851,7 +851,7 @@
     {
         "prefix": "event_status",
         "body":[
-            "event_status( ${1:<ID-number>} )"
+            "event_status( ${1:ID-number} )"
         ],
         "description": "retrieve the status of a particular note event (or MIDI event in the multi script)"
     },
@@ -859,7 +859,7 @@
     {
         "prefix": "fade_in",
         "body":[
-            "fade_in( ${1:<ID-number>}, ${2:<fade-time>(microseconds)} )"
+            "fade_in( ${1:ID-number}, ${2:fade-time} )"
         ],
         "description": "perform a fade-in for a specific note event"
     },
@@ -867,7 +867,7 @@
     {
         "prefix": "fade_out",
         "body":[
-            "fade_out( ${1:<ID-number>}, ${2:<fade-time>(microseconds)} )"
+            "fade_out( ${1:ID-number}, ${2:fade-time} )"
         ],
         "description": "perform a fade-out for a specific note event"
     },
@@ -875,7 +875,7 @@
     {
         "prefix": "get_event_ids",
         "body":[
-            "get_event_ids( ${1:<array-name>} )"
+            "get_event_ids( ${1:array-name} )"
         ],
         "description": "fills the specified array with all active event IDs."
     },
@@ -883,7 +883,7 @@
     {
         "prefix": "get_event_par",
         "body":[
-            "get_event_par( ${1:<ID-number>}, ${2:<parameter>} )"
+            "get_event_par( ${1:ID-number}, ${2:parameter} )"
         ],
         "description": "return the value of a specific event parameter of the specified event"
     },
@@ -891,7 +891,7 @@
     {
         "prefix": "get_event_par_arr",
         "body":[
-            "get_event_par_arr( ${1:<ID-number>}, ${2:<parameter>}, ${3:<group-index>} )"
+            "get_event_par_arr( ${1:ID-number}, ${2:parameter}, ${3:group-index} )"
         ],
         "description": "special form of get_event_par(), used to retrieve the group allow state of the specified event"
     },
@@ -899,7 +899,7 @@
     {
         "prefix": "ignore_event",
         "body":[
-            "ignore_event( ${1:<ID-number>} )"
+            "ignore_event( ${1:ID-number} )"
         ],
         "description": "ignore a note event in a note on or note off callback"
     },
@@ -907,7 +907,7 @@
     {
         "prefix": "set_event_mark",
         "body":[
-            "set_event_mark( ${1:<ID-number>} ${2:<bit-mark($MARK_1 ... $MARK_28)>} )"
+            "set_event_mark( ${1:ID-number}, ${2:bit-mark} )"
         ],
         "description": "ignore a note event in a note on or note off callback"
     },
@@ -915,7 +915,7 @@
     {
         "prefix": "set_event_par",
         "body":[
-            "set_event_par( ${1:<ID-number>}, ${2:<parameter>}, ${3:<value>} )"
+            "set_event_par( ${1:ID-number}, ${2:parameter}, ${3:value} )"
         ],
         "description": "assign a parameter to a specific event"
     },
@@ -923,7 +923,7 @@
     {
         "prefix": "set_event_par_arr",
         "body":[
-            "set_event_par_arr( ${1:<ID-number>}, ${2:<parameter>}, ${3:<value>}, ${4:group-index} )"
+            "set_event_par_arr( ${1:ID-number}, ${2:parameter}, ${3:value}, ${4:group-index} )"
         ],
         "description": "special form of set_event_par(), used to set the group allow state of the specified event"
     },
@@ -931,7 +931,7 @@
     {
         "prefix": "array_equal",
         "body":[
-            "array_equal( ${1:<array-variable>}, ${2:<array-variable>} )"
+            "array_equal( ${1:array-variable}, ${2:array-variable} )"
         ],
         "description": "checks the values of two arrays, true if all values are equal, false if not"
     },
@@ -939,7 +939,7 @@
     {
         "prefix": "num_elements",
         "body":[
-            "num_elements( ${1:<array-variable>} )"
+            "num_elements( ${1:array-variable} )"
         ],
         "description": "returns the number of elements in an array"
     },
@@ -947,7 +947,7 @@
     {
         "prefix": "search",
         "body":[
-            "search( ${1:<array-variable>}, ${2:<value>} )"
+            "search( ${1:array-variable}, ${2:value} )"
         ],
         "description": "searches the specified array for the specified value and returns the index of its first position."
     },
@@ -955,7 +955,7 @@
     {
         "prefix": "sort",
         "body":[
-            "sort( ${1:<array-variable>}, ${2:<direction(0=ascending/not 0=descending>} )"
+            "sort( ${1:array-variable}, ${2:direction} )"
         ],
         "description": "searches the specified array for the specified value and returns the index of its first position."
     },
@@ -963,7 +963,7 @@
     {
         "prefix": "allow_group",
         "body":[
-            "allow_group( ${1:<group-index>} )"
+            "allow_group( ${1:group-index} )"
         ],
         "description": "allows the specified group, i.e. makes it available for playback"
     },
@@ -971,7 +971,7 @@
     {
         "prefix": "disallow_group",
         "body":[
-            "disallow_group( ${1:<group-index>} )"
+            "disallow_group( ${1:group-index} )"
         ],
         "description": "disallows the specified group, i.e. makes it unavailable for playback"
     },
@@ -979,7 +979,7 @@
     {
         "prefix": "find_group",
         "body":[
-            "find_group( ${1:<group-name} )"
+            "find_group( ${1:group-name} )"
         ],
         "description": "returns the group index for the specified group name"
     },
@@ -987,7 +987,7 @@
     {
         "prefix": "get_purge_state",
         "body":[
-            "get_purge_state( ${1:<group-index} )"
+            "get_purge_state( ${1:group-index} )"
         ],
         "description": "returns the purge state of the specified group. 0=purged, 1=not purged"
     },
@@ -995,7 +995,7 @@
     {
         "prefix": "group_name",
         "body":[
-            "group_name( ${1:<group-index} )"
+            "group_name( ${1:group-index} )"
         ],
         "description": "returns the group name for the specified group"
     },
@@ -1003,7 +1003,7 @@
     {
         "prefix": "purge_group",
         "body":[
-            "purge_group( ${1:<group-index}, ${2:<mode(0 or 1)>} )"
+            "purge_group( ${1:group-index}, ${2:mode} )"
         ],
         "description": "purges (i.e. unloads from RAM) the samples of the specified group"
     },
@@ -1011,7 +1011,7 @@
     {
         "prefix": "change_listener_par",
         "body":[
-            "change_listener_par( ${1:<signal-type($NI_SIGNAL_TIMER_MS or $NI_SIGNAL_TIMER_BEAT)>}, ${2:<parameter>} )"
+            "change_listener_par( ${1:signal-type}, ${2:parameter} )"
         ],
         "description": "changes the parameters of the on listener callback. Can be used in every callback."
     },
@@ -1019,7 +1019,7 @@
     {
         "prefix": "ms_to_ticks",
         "body":[
-            "ms_to_ticks( ${1:<microseconds>} )"
+            "ms_to_ticks( ${1:microseconds} )"
         ],
         "description": "converts a microseconds value into a tempo dependent ticks value"
     },
@@ -1027,7 +1027,7 @@
     {
         "prefix": "set_listener",
         "body":[
-            "set_listener( ${1:<signal-type>}, ${2:<parameter>} )"
+            "set_listener( ${1:signal-type}, ${2:parameter} )"
         ],
         "description": "Sets the signals on which the listener callback should react to. Can only be used in the init callback."
     },
@@ -1035,7 +1035,7 @@
     {
         "prefix": "stop_wait",
         "body":[
-            "stop_wait( ${1:<callback-ID>}, ${2:<parameter(0 or 1)>} )"
+            "stop_wait( ${1:callback-ID}, ${2:parameter} )"
         ],
         "description": "stops wait commands in the specified callback"
     },
@@ -1051,7 +1051,7 @@
     {
         "prefix": "ticks_to_ms",
         "body":[
-            "ticks_to_ms( ${1:<ticks>} )"
+            "ticks_to_ms( ${1:ticks} )"
         ],
         "description": "converts a tempo dependent ticks value into a microseconds value"
     },
@@ -1059,7 +1059,7 @@
     {
         "prefix": "wait",
         "body":[
-            "wait( ${1:<wait-time(microseconds)>} )"
+            "wait( ${1:wait-time} )"
         ],
         "description": "pauses the callback for the specified time in microseconds"
     },
@@ -1067,7 +1067,7 @@
     {
         "prefix": "wait_ticks",
         "body":[
-            "wait_ticks( ${1:<wait-time(ticks)>} )"
+            "wait_ticks( ${1:wait-time} )"
         ],
         "description": "pauses the callback for the specified time in ticks"
     },
@@ -1075,7 +1075,7 @@
     {
         "prefix": "add_menu_item",
         "body":[
-            "add_menu_item( ${1:<variable>}, ${2:<text>}, ${3:<value>} )"
+            "add_menu_item( ${1:variable}, ${2:text}, ${3:value} )"
         ],
         "description": "create a menu entry"
     },
@@ -1083,7 +1083,7 @@
     {
         "prefix": "add_text_line",
         "body":[
-            "add_text_line( ${1:<variable>}, ${2:<text>} )"
+            "add_text_line( ${1:variable}, ${2:text} )"
         ],
         "description": "add a new text line in the specified label without erasing existing text"
     },
@@ -1091,7 +1091,7 @@
     {
         "prefix": "attach_level_meter",
         "body":[
-            "attach_level_meter( ${1:<ui-ID>}, ${2:<group>}, ${3:<slot>}, ${4:<channel(0=left/1=right)>}, ${5:<bus>} )"
+            "attach_level_meter( ${1:ui-ID}, ${2:group}, ${3:slot}, ${4:channel}, ${5:bus} )"
         ],
         "description": "attach a level meter to a certain position within the instrument to read volume data"
     },
@@ -1099,7 +1099,7 @@
     {
         "prefix": "attach_zone",
         "body":[
-            "attach_zone( ${1:<variable>}, ${2:<zone-id>}, ${3:<flags>} )"
+            "attach_zone( ${1:variable}, ${2:zone-id}, ${3:flags} )"
         ],
         "description": "connects the corresponding zone to the waveform so that it shows up within the display"
     },
@@ -1107,7 +1107,7 @@
     {
         "prefix": "hide_part",
         "body":[
-            "hide_part( ${1:<variable>}, ${2:<hide-mask>} )"
+            "hide_part( ${1:variable}, ${2:hide-mask} )"
         ],
         "description": "hide specific parts of user interface controls"
     },
@@ -1115,7 +1115,7 @@
     {
         "prefix": "fs_get_filename",
         "body":[
-            "fs_get_filename( ${1:<ui-ID>}, ${2:<return-parameter(0 or 1 or 2)>} )"
+            "fs_get_filename( ${1:ui-ID}, ${2:return-parameter} )"
         ],
         "description": "return the filename of the last selected file in the UI file browser."
     },
@@ -1123,7 +1123,7 @@
     {
         "prefix": "fs_navigate",
         "body":[
-            "fs_navigate( ${1:<ui-ID>}, ${2:<direction(0 or 1)>} )"
+            "fs_navigate( ${1:ui-ID}, ${2:direction} )"
         ],
         "description": "jump to the next/previous file in an ui file selector and trigger its callback."
     },
@@ -1131,7 +1131,7 @@
     {
         "prefix": "get_control_par",
         "body":[
-            "get_control_par( ${1:<ui-ID>}, ${2:<control-parameter>} )"
+            "get_control_par( ${1:ui-ID}, ${2:control-parameter} )"
         ],
         "description": "retrieve various parameters of the specified gui control"
     },
@@ -1139,7 +1139,7 @@
     {
         "prefix": "get_menu_item_str",
         "body":[
-            "get_menu_item_str( ${1:<menu-ID>}, ${2:<index>} )"
+            "get_menu_item_str( ${1:menu-ID}, ${2:index} )"
         ],
         "description": "returns the string value of the menu's entry."
     },
@@ -1147,7 +1147,7 @@
     {
         "prefix": "get_menu_item_value",
         "body":[
-            "get_menu_item_value( ${1:<menu-ID>}, ${2:<index>} )"
+            "get_menu_item_value( ${1:menu-ID}, ${2:index} )"
         ],
         "description": "returns the value of the menu's entry."
     },
@@ -1155,7 +1155,7 @@
     {
         "prefix": "get_menu_item_visibility",
         "body":[
-            "get_menu_item_visibility( ${1:<menu-ID>}, ${2:<index>} )"
+            "get_menu_item_visibility( ${1:menu-ID}, ${2:index} )"
         ],
         "description": "returns 1 if the menu entry is visible, otherwise 0."
     },
@@ -1163,7 +1163,7 @@
     {
         "prefix": "get_ui_id",
         "body":[
-            "get_ui_id( ${1:<variable>} )"
+            "get_ui_id( ${1:variable} )"
         ],
         "description": "retrieve the ID number of an ui control"
     },
@@ -1171,7 +1171,7 @@
     {
         "prefix": "get_ui_wf_property",
         "body":[
-            "get_ui_wf_property( ${1:<variable>}, ${2:<property}>}, ${3:<index>} )"
+            "get_ui_wf_property( ${1:variable}, ${2:property}}, ${3:index} )"
         ],
         "description": "returns the value of the waveform’s different properties."
     },
@@ -1187,7 +1187,7 @@
     {
         "prefix": "move_control",
         "body":[
-            "move_control( ${1:<variable>}, ${2:<x-position(0 to 6)>}, ${3:<y-position(0 to 16)>} )"
+            "move_control( ${1:variable}, ${2:x-position}, ${3:y-position} )"
         ],
         "description": "position ui elements in the standard KONTAKT grid"
     },
@@ -1195,7 +1195,7 @@
     {
         "prefix": "move_control_px",
         "body":[
-            "move_control_px( ${1:<variable>}, ${2:<x-position(px)>}, ${3:<y-position(px)>} )"
+            "move_control_px( ${1:variable}, ${2:x-position}, ${3:y-position} )"
         ],
         "description": "position ui elements in pixels"
     },
@@ -1203,7 +1203,7 @@
     {
         "prefix": "set_control_help",
         "body":[
-            "set_control_help( ${1:<variable>}, ${2:<text>} )"
+            "set_control_help( ${1:variable}, ${2:text} )"
         ],
         "description": "assigns a text string to be displayed when hovering the ui control. The text will appear in KONTAKT's info pane."
     },
@@ -1211,7 +1211,7 @@
     {
         "prefix": "set_control_par",
         "body":[
-            "set_control_par( ${1:<ui-ID>}, ${2:<control-parameter>}, ${3:<value>} )"
+            "set_control_par( ${1:ui-ID}, ${2:control-parameter}, ${3:value} )"
         ],
         "description": "change various parameters of the specified gui control"
     },
@@ -1219,7 +1219,7 @@
     {
         "prefix": "set_control_par_str",
         "body":[
-            "set_control_par_str_arr( ${1:<ui-ID>}, ${2:<CONTROL_PAR_xxx>}, ${3:<value>} )"
+            "set_control_par_str_arr( ${1:ui-ID}, ${2:CONTROL_PAR_xxx}, ${3:value} )"
         ],
         "description": "A variation of the command for usage with text strings. ( see: set_control_par() Remarks)"
     },
@@ -1227,7 +1227,7 @@
     {
         "prefix": "set_control_par_arr",
         "body":[
-            "set_control_par_arr( ${1:<ui-ID>}, ${2:<control-parameter>}, ${3:<value>}, ${4:<index>} )"
+            "set_control_par_arr( ${1:ui-ID}, ${2:control-parameter}, ${3:value}, ${4:index} )"
         ],
         "description": "change various parameters of an element within an array based gui control (for example: cursors in the XY pad)"
     },
@@ -1235,7 +1235,7 @@
     {
         "prefix": "set_control_par_str_arr",
         "body":[
-            "set_control_par_str_arr( ${1:<ui-ID>}, ${2:<control-parameter>}, ${3:<value>}, ${4:<index>} )"
+            "set_control_par_str_arr( ${1:ui-ID}, ${2:control-parameter}, ${3:value}, ${4:index} )"
         ],
         "description": "A variation of the command for usage with text strings. ( see: set_control_par_arr() Remarks)"
     },
@@ -1243,7 +1243,7 @@
     {
         "prefix": "set_knob_defval",
         "body":[
-            "set_knob_defval( ${1:<variable>}, ${2:<value>} )"
+            "set_knob_defval( ${1:variable}, ${2:value} )"
         ],
         "description": "assign a default value to a knob to which the knob is reset when Cmd-clicking (mac) or Ctrl-clicking (PC) the knob."
     },
@@ -1251,7 +1251,7 @@
     {
         "prefix": "set_knob_label",
         "body":[
-            "set_knob_label( ${1:<variable>}, ${2:<text>} )"
+            "set_knob_label( ${1:variable}, ${2:text} )"
         ],
         "description": "assign a text string to a knob"
     },
@@ -1259,7 +1259,7 @@
     {
         "prefix": "set_knob_unit",
         "body":[
-            "set_knob_unit( ${1:<variable>}, ${2:<knob-unit-constant>} )"
+            "set_knob_unit( ${1:variable}, ${2:knob-unit-constant} )"
         ],
         "description": "assign a unit mark to a knob."
     },
@@ -1267,7 +1267,7 @@
     {
         "prefix": "set_menu_item_str",
         "body":[
-            "set_menu_item_str( ${1:<menu-id>}, ${2:<index>}, ${3:<string>} )"
+            "set_menu_item_str( ${1:menu-id}, ${2:index}, ${3:string} )"
         ],
         "description": "sets the value of a menu entry."
     },
@@ -1275,7 +1275,7 @@
     {
         "prefix": "set_menu_item_value",
         "body":[
-            "set_menu_item_value( ${1:<menu-id>}, ${2:<index>}, ${3:<value>} )"
+            "set_menu_item_value( ${1:menu-id}, ${2:index}, ${3:value} )"
         ],
         "description": "sets the value of a menu entry."
     },
@@ -1283,7 +1283,7 @@
     {
         "prefix": "set_menu_item_visibility",
         "body":[
-            "set_menu_item_visibility( ${1:<menu-id>}, ${2:<index>}, ${3:<visibility(0=invisible/1=visible)>} )"
+            "set_menu_item_visibility( ${1:menu-id}, ${2:index}, ${3:visibility} )"
         ],
         "description": "sets the visibility of a menu entry."
     },
@@ -1291,7 +1291,7 @@
     {
         "prefix": "set_table_steps_shown",
         "body":[
-            "set_table_steps_shown( ${1:<variable>}, ${2:<num-of-steps>} )"
+            "set_table_steps_shown( ${1:variable}, ${2:num-of-steps} )"
         ],
         "description": "changes the number of displayed columns in an ui table"
     },
@@ -1299,7 +1299,7 @@
     {
         "prefix": "set_script_title",
         "body":[
-            "set_script_title( ${1:<text>} )"
+            "set_script_title( ${1:text} )"
         ],
         "description": "set the script title"
     },
@@ -1307,7 +1307,7 @@
     {
         "prefix": "set_skin_offset",
         "body":[
-            "set_skin_offset( ${1:<offset-in-pixel>} )"
+            "set_skin_offset( ${1:offset-in-pixel} )"
         ],
         "description": "offsets the chosen background picture file by the specified number of pixels"
     },
@@ -1315,7 +1315,7 @@
     {
         "prefix": "set_text",
         "body":[
-            "set_text( ${1:<variable>}, ${2:<text>} )"
+            "set_text( ${1:variable}, ${2:text} )"
         ],
         "description": "when applied to a label: delete the text currently visible in the specified label and add new text.\nwhen applied to knobs, buttons, switches and value edits: set the display name of the ui element.\n"
     },
@@ -1323,7 +1323,7 @@
     {
         "prefix": "set_ui_color",
         "body":[
-            "set_ui_color( ${1:<hex values(9RRGGBBh) )>}, ${2:<text>} )"
+            "set_ui_color( ${1:hex-values}, ${2:text} )"
         ],
         "description": "set the main background color of the performance view"
     },
@@ -1331,7 +1331,7 @@
     {
         "prefix": "set_ui_height",
         "body":[
-            "set_ui_height( ${1:<height(1 to 8)>} )"
+            "set_ui_height( ${1:height} )"
         ],
         "description": "set the height of a script performance view in grid units"
     },
@@ -1339,7 +1339,7 @@
     {
         "prefix": "set_ui_height_px",
         "body":[
-            "set_ui_height_px( ${1:<height(50px to 750px)>} )"
+            "set_ui_height_px( ${1:height} )"
         ],
         "description": "set the height of a script performance view in pixels"
     },
@@ -1347,7 +1347,7 @@
     {
         "prefix": "set_ui_width_px",
         "body":[
-            "set_ui_width_px( ${1:<width(633px to 1000px)>} )"
+            "set_ui_width_px( ${1:width} )"
         ],
         "description": "set the width of a script performance view in pixels"
     },
@@ -1355,7 +1355,7 @@
     {
         "prefix": "set_ui_wf_property",
         "body":[
-            "set_ui_wf_property( ${1:<variable>}, ${2:<property>}, ${3:<index>}, ${4:<value>} )"
+            "set_ui_wf_property( ${1:variable}, ${2:property}, ${3:index}, ${4:value} )"
         ],
         "description": "sets different properties for the waveform control"
     },
@@ -1363,7 +1363,7 @@
     {
         "prefix": "get_key_color",
         "body":[
-            "get_key_color( ${1:<note-nr>} )"
+            "get_key_color( ${1:note-nr} )"
         ],
         "description": "returns the color constant of the specified note number"
     },
@@ -1371,7 +1371,7 @@
     {
         "prefix": "get_key_name",
         "body":[
-            "get_key_name( ${1:<note-nr>} )"
+            "get_key_name( ${1:note-nr} )"
         ],
         "description": "returns the name of the specified key"
     },
@@ -1379,7 +1379,7 @@
     {
         "prefix": "get_key_triggerstate",
         "body":[
-            "get_key_triggerstate( ${1:<note-nr>} )"
+            "get_key_triggerstate( ${1:note-nr} )"
         ],
         "description": "returns the pressed state of the specified note number (i.e. key) on the KONTAKT keyboard, can be either 1 (key pressed) or 0 (key released)"
     },
@@ -1387,7 +1387,7 @@
     {
         "prefix": "get_key_type",
         "body":[
-            "get_key_type( ${1:<note-nr>} )"
+            "get_key_type( ${1:note-nr} )"
         ],
         "description": "returns the key type constant of the specified key."
     },
@@ -1395,7 +1395,7 @@
     {
         "prefix": "get_keyrange_min_note",
         "body":[
-            "get_keyrange_min_note( ${1:<note-nr>} )"
+            "get_keyrange_min_note( ${1:note-nr} )"
         ],
         "description": "returns the lowest note of the specified key range"
     },
@@ -1403,7 +1403,7 @@
     {
         "prefix": "get_keyrange_max_note",
         "body":[
-            "get_keyrange_max_note( ${1:<note-nr>} )"
+            "get_keyrange_max_note( ${1:note-nr} )"
         ],
         "description": "returns the highest note of the specified key range"
     },
@@ -1411,7 +1411,7 @@
     {
         "prefix": "get_keyrange_name",
         "body":[
-            "get_keyrange_name( ${1:<note-nr>} )"
+            "get_keyrange_name( ${1:note-nr} )"
         ],
         "description": "returns the name of the specified key range"
     },
@@ -1419,7 +1419,7 @@
     {
         "prefix": "set_key_color",
         "body":[
-            "set_key_color( ${1:<note-nr>}, ${2:<key-color-constant>} )"
+            "set_key_color( ${1:note-nr}, ${2:key-color-constant} )"
         ],
         "description": "sets the color of the specified key (i.e. MIDI note) on the KONTAKT keyboard. use $KEY_COLOR_****"
     },
@@ -1427,7 +1427,7 @@
     {
         "prefix": "set_key_name",
         "body":[
-            "set_key_name( ${1:<note-nr>}, ${2:<name>} )"
+            "set_key_name( ${1:note-nr}, ${2:name} )"
         ],
         "description": "assigns a text string to the specified key"
     },
@@ -1435,7 +1435,7 @@
     {
         "prefix": "set_key_pressed",
         "body":[
-            "set_key_pressed( ${1:<note-nr>}, ${2:<value>} )"
+            "set_key_pressed( ${1:note-nr}, ${2:value} )"
         ],
         "description": "sets the trigger state of the specified key on KONTAKT's keyboard either to pressed/on (1) or released/off (0)"
     },
@@ -1443,7 +1443,7 @@
     {
         "prefix": "set_key_pressed_support",
         "body":[
-            "set_key_pressed_support( ${1:<mode>} )"
+            "set_key_pressed_support( ${1:mode} )"
         ],
         "description": "sets the pressed state support mode for KONTAKT'S keyboard. The available modes are:\n0: KONTAKT handles all pressed states, set_key_pressed() commands are ignored (default mode)\n1: KONTAKT's keyboard is only affected by set_key_pressed() commands\n"
     },
@@ -1451,7 +1451,7 @@
     {
         "prefix": "set_key_type",
         "body":[
-            "set_key_type( ${1:<note-nr>}, ${2:<key-type-constant>} )"
+            "set_key_type( ${1:note-nr}, ${2:key-type-constant} )"
         ],
         "description": "assigns a key type to the specified key.\nThe following key types are available:\n$NI_KEY_TYPE_DEFAULT (i.e. normal mapped notes that produce sound)\n$NI_KEY_TYPE_CONTROL (i.e. key switches or other notes that do not produce sound)\n$NI_KEY_TYPE_NONE (resets the key to its normal KONTAKT behaviour)\n"
     },
@@ -1459,7 +1459,7 @@
     {
         "prefix": "set_keyrange",
         "body":[
-            "set_keyrange( ${1:<min-note>}, ${2:<max-note>}, ${3:<name>} )"
+            "set_keyrange( ${1:min-note}, ${2:max-note}, ${3:name} )"
         ],
         "description": "assigns a text string to the specified range of keys."
     },
@@ -1467,7 +1467,7 @@
     {
         "prefix": "remove_keyrange",
         "body":[
-            "remove_keyrange( ${1:<note-nr>} )"
+            "remove_keyrange( ${1:note-nr} )"
         ],
         "description": "assigns a text string to the specified range of keys"
     },
@@ -1475,7 +1475,7 @@
     {
         "prefix": "find_mod",
         "body":[
-            "find_mod( ${1:<group-index>}, ${2:<mod-name>} )"
+            "find_mod( ${1:group-index}, ${2:mod-name} )"
         ],
         "description": "returns the slot index of an internal modulator or external modulation slot"
     },
@@ -1483,7 +1483,7 @@
     {
         "prefix": "find_target",
         "body":[
-            "find_target( ${1:<group-index>}, ${2:<mod-index>}, ${3:<target-name>} )"
+            "find_target( ${1:group-index}, ${2:mod-index}, ${3:target-name} )"
         ],
         "description": "returns the slot index of a modulation slot of an internal modulator"
     },
@@ -1491,7 +1491,7 @@
     {
         "prefix": "get_engine_par",
         "body":[
-            "get_engine_par( ${1:<parameter>}, ${2:<group>}, ${3:<slot>}, ${4:<generic>} )"
+            "get_engine_par( ${1:parameter}, ${2:group}, ${3:slot}, ${4:generic} )"
         ],
         "description": "returns the value of a specific engine parameter"
     },
@@ -1499,7 +1499,7 @@
     {
         "prefix": "get_engine_par_disp",
         "body":[
-            "get_engine_par_disp( ${1:<parameter>}, ${2:<group>}, ${3:<slot>}, ${4:<generic>} )"
+            "get_engine_par_disp( ${1:parameter}, ${2:group}, ${3:slot}, ${4:generic} )"
         ],
         "description": "returns the displayed string of a specific engine parameter"
     },
@@ -1507,7 +1507,7 @@
     {
         "prefix": "get_voice_limit",
         "body":[
-            "get_voice_limit( ${1:<voice-type>} )"
+            "get_voice_limit( ${1:voice-type} )"
         ],
         "description": "retunrs the voice limit for the Time Machine Pro mode of the source module"
     },
@@ -1515,7 +1515,7 @@
     {
         "prefix": "output_channel_name",
         "body":[
-            "output_channel_name( ${1:<output-number>} )"
+            "output_channel_name( ${1:output-number} )"
         ],
         "description": "returns the channel name for the specified output"
     },
@@ -1523,7 +1523,7 @@
     {
         "prefix": "set_engine_par",
         "body":[
-            "set_engine_par( ${1:<parameter>}, ${2:<value>}, ${3:<group>}, ${4:<slot>}, ${5:<generic>} )"
+            "set_engine_par( ${1:parameter}, ${2:value}, ${3:group}, ${4:slot}, ${5:generic} )"
         ],
         "description": "control automatable KONTAKT parameters and bypass buttons"
     },
@@ -1531,7 +1531,7 @@
     {
         "prefix": "set_voice_limit",
         "body":[
-            "set_voice_limit( ${1:<voice-type>}, ${2:<value>} )"
+            "set_voice_limit( ${1:voice-type}, ${2:value} )"
         ],
         "description": "sets the voice limit for the Time Machine Pro mode of the source module"
     },
@@ -1539,7 +1539,7 @@
     {
         "prefix": "get_folder",
         "body":[
-            "get_folder( ${1:<path-variable>} )"
+            "get_folder( ${1:path-variable} )"
         ],
         "description": "returns the path specified with the built-in path variable"
     },
@@ -1547,7 +1547,7 @@
     {
         "prefix": "load_array",
         "body":[
-            "load_array( ${1:<array-variable>}, ${2:<mode>} )"
+            "load_array( ${1:array-variable}, ${2:mode} )"
         ],
         "description": "loads an array from an external file (.nka file)"
     },
@@ -1555,7 +1555,7 @@
     {
         "prefix": "load_array_str",
         "body":[
-            "load_array_str( ${1:<array-variable>}, ${2:<path>} )"
+            "load_array_str( ${1:array-variable}, ${2:path} )"
         ],
         "description": "loads an array from an external file (.nka file) using the file's absolute path"
     },
@@ -1563,7 +1563,7 @@
     {
         "prefix": "load_ir_sample",
         "body":[
-            "load_ir_sample( ${1:<file-path>}, ${2:<slot>}, ${3:<generic>} )"
+            "load_ir_sample( ${1:file-path}, ${2:slot}, ${3:generic} )"
         ],
         "description": "loads an impulse response sample into KONTAKT's convolution effect"
     },
@@ -1579,7 +1579,7 @@
     {
         "prefix": "save_array",
         "body":[
-            "save_array( ${1:<array-variable>}, ${2:<mode>} )"
+            "save_array( ${1:array-variable}, ${2:mode} )"
         ],
         "description": "saves an array to an external file (i.e. an .nka file)"
     },
@@ -1587,7 +1587,7 @@
     {
         "prefix": "save_array_str",
         "body":[
-            "save_array_str( ${1:<array-variable>}, ${2:<path>} )"
+            "save_array_str( ${1:array-variable}, ${2:path} )"
         ],
         "description": "saves an array to an external file (i.e. an .nka file), using the specified absolute path"
     },
@@ -1595,7 +1595,7 @@
     {
         "prefix": "save_midi_file",
         "body":[
-            "save_midi_file( ${1:<path>} )"
+            "save_midi_file( ${1:path} )"
         ],
         "description": "saves a MIDI file with a range specified by the mf_set_export_area() command."
     },
@@ -1603,7 +1603,7 @@
     {
         "prefix": "mf_insert_file",
         "body":[
-            "mf_insert_file( ${1:<path>}, ${2:<track-offset>}, ${3:<position-offset>}, ${4:<mode>} )"
+            "mf_insert_file( ${1:path}, ${2:track-offset}, ${3:position-offset}, ${4:mode} )"
         ],
         "description": "inserts a MIDI file into the MIDI object."
     },
@@ -1611,7 +1611,7 @@
     {
         "prefix": "mf_set_export_area",
         "body":[
-            "mf_set_export_area( ${1:<name>}, ${2:<start-pos>}, ${3:<end-pos>}, ${4:<start-track>}, ${5:<end-track>} )"
+            "mf_set_export_area( ${1:name}, ${2:start-pos}, ${3:end-pos}, ${4:start-track}, ${5:end-track} )"
         ],
         "description": "defines the part of the MIDI object that will be exported when using a drag and drop area, or the save_midi_file() command."
     },
@@ -1619,7 +1619,7 @@
     {
         "prefix": "mf_set_buffer_size",
         "body":[
-            "mf_set_buffer_size( ${1:<size>} )"
+            "mf_set_buffer_size( ${1:size} )"
         ],
         "description": "defines a number of inactive MIDI events, that can be activated and edited"
     },
@@ -1643,7 +1643,7 @@
     {
         "prefix": "mf_insert_event",
         "body":[
-            "mf_insert_event( ${1:<track>}, ${2:<pos>}, ${3:<command>}, ${4:<byte1>}, ${5:<byte2>} )"
+            "mf_insert_event( ${1:track}, ${2:pos}, ${3:command}, ${4:byte1}, ${5:byte2} )"
         ],
         "description": "activates an inactive MIDI event in the MIDI object. However, because the command and position are defined in this command, it can be considered as an insertion."
     },
@@ -1651,7 +1651,7 @@
     {
         "prefix": "mf_remove_event",
         "body":[
-            "mf_remove_event( ${1:<event-id>} )"
+            "mf_remove_event( ${1:event-id} )"
         ],
         "description": "deactivates an event in the MIDI object, effectively removing it"
     },
@@ -1659,7 +1659,7 @@
     {
         "prefix": "mf_set_event_par",
         "body":[
-            "mf_set_event_par( ${1:<event-id>}, ${2:<parameter>}, ${3:<value>} )"
+            "mf_set_event_par( ${1:event-id}, ${2:parameter}, ${3:value} )"
         ],
         "description": "sets an event parameter"
     },
@@ -1667,7 +1667,7 @@
     {
         "prefix": "mf_get_event_par",
         "body":[
-            "mf_get_event_par( ${1:<event-id>}, ${2:<parameter>} )"
+            "mf_get_event_par( ${1:event-id}, ${2:parameter} )"
         ],
         "description": "returns the value of an event parameter"
     },
@@ -1683,7 +1683,7 @@
     {
         "prefix": "mf_set_mark",
         "body":[
-            "mf_set_mark( ${1:<event-id>}, ${2:<mark>}, ${3:<status>} )"
+            "mf_set_mark( ${1:event-id}, ${2:mark}, ${3:status} )"
         ],
         "description": "marks an event, so that you may groups events together and process that group quickly"
     },
@@ -1691,7 +1691,7 @@
     {
         "prefix": "mf_get_mark",
         "body":[
-            "mf_get_mark( ${1:<event-id>}, ${2:<mark>} )"
+            "mf_get_mark( ${1:event-id}, ${2:mark} )"
         ],
         "description": "checks if an event is marked or not. Returns 1 if it is marked, or 0 if it is not."
     },
@@ -1699,7 +1699,7 @@
     {
         "prefix": "by_track",
         "body":[
-            "by_track( ${1:<track>} )"
+            "by_track( ${1:track} )"
         ],
         "description": "can be used to group events by their track number"
     },
@@ -1707,7 +1707,7 @@
     {
         "prefix": "mf_get_first",
         "body":[
-            "mf_get_first( ${1:<track-index>} )"
+            "mf_get_first( ${1:track-index} )"
         ],
         "description": "moves the position marker to the first event in the MIDI track"
     },
@@ -1715,7 +1715,7 @@
     {
         "prefix": "mf_get_last",
         "body":[
-            "mf_get_last( ${1:<track-index>} )"
+            "mf_get_last( ${1:track-index} )"
         ],
         "description": "moves the position marker to the last event in the MIDI track"
     },
@@ -1723,7 +1723,7 @@
     {
         "prefix": "mf_get_next",
         "body":[
-            "mf_get_next( ${1:<track-index>} )"
+            "mf_get_next( ${1:track-index} )"
         ],
         "description": "moves the position marker to the next event in the MIDI track"
     },
@@ -1731,7 +1731,7 @@
     {
         "prefix": "mf_get_next_at",
         "body":[
-            "mf_get_next_at( ${1:<track-index>}, ${2:<pos>} )"
+            "mf_get_next_at( ${1:track-index}, ${2:pos} )"
         ],
         "description": "moves the position marker to the next event in the MIDI track right after the defined position."
     },
@@ -1739,7 +1739,7 @@
     {
         "prefix": "mf_get_prev",
         "body":[
-            "mf_get_prev( ${1:<track-index>} )"
+            "mf_get_prev( ${1:track-index} )"
         ],
         "description": "moves the position marker to the previous event in the MIDI track"
     },
@@ -1747,7 +1747,7 @@
     {
         "prefix": "mf_get_prev_at",
         "body":[
-            "mf_get_prev_at( ${1:<track-index>}, ${2:<pos>} )"
+            "mf_get_prev_at( ${1:track-index}, ${2:pos} )"
         ],
         "description": "moves the position marker to the first event before the defined position"
     },
@@ -1763,7 +1763,7 @@
     {
         "prefix": "mf_set_pos",
         "body":[
-            "mf_set_pos( ${1:<value>} )"
+            "mf_set_pos( ${1:value} )"
         ],
         "description": "Non documented"
     },
@@ -1771,7 +1771,7 @@
     {
         "prefix": "mf_set_command",
         "body":[
-            "mf_set_command( ${1:<value>} )"
+            "mf_set_command( ${1:value} )"
         ],
         "description": "Non documented"
     },
@@ -1779,7 +1779,7 @@
     {
         "prefix": "mf_set_byte_one",
         "body":[
-            "mf_set_byte_one( ${1:<value>} )"
+            "mf_set_byte_one( ${1:value} )"
         ],
         "description": "Non documented"
     },
@@ -1787,7 +1787,7 @@
     {
         "prefix": "mf_set_byte_two",
         "body":[
-            "mf_set_byte_two( ${1:<value>} )"
+            "mf_set_byte_two( ${1:value} )"
         ],
         "description": "Non documented"
     },
@@ -1795,7 +1795,7 @@
     {
         "prefix": "SET_CONDITION",
         "body":[
-            "SET_CONDITION( ${1:<condition-symbol>} )"
+            "SET_CONDITION( ${1:condition-symbol} )"
         ],
         "description": "define a symbol to be used as a condition"
     },
@@ -1803,7 +1803,7 @@
     {
         "prefix": "RESET_CONDITION",
         "body":[
-            "RESET_CONDITION( ${1:<condition-symbol>} )"
+            "RESET_CONDITION( ${1:condition-symbol} )"
         ],
         "description": "delete a definition"
     },
@@ -1811,7 +1811,7 @@
     {
         "prefix": "USE_CODE_IF",
         "body":[
-            "USE_CODE_IF( ${1:<condition-symbol>} )",
+            "USE_CODE_IF( ${1:condition-symbol} )",
             "${2:{your code here\\}}",
             "END_USE_CODE"
         ],
@@ -1821,7 +1821,7 @@
     {
         "prefix": "USE_CODE_IF_NOT",
         "body":[
-            "USE_CODE_IF_NOT( ${1:<condition-symbol>} )",
+            "USE_CODE_IF_NOT( ${1:condition-symbol} )",
             "${2:{your code here\\}}",
             "END_USE_CODE"
         ],
@@ -1863,7 +1863,7 @@
     {
         "prefix": "reset_rls_trig_counter",
         "body":[
-            "reset_rls_trig_counter( ${1:<note>} )"
+            "reset_rls_trig_counter( ${1:note} )"
         ],
         "description": "dresets the release trigger counter (used by the release trigger system script)"
     },
@@ -1871,7 +1871,7 @@
     {
         "prefix": "will_never_terminate",
         "body":[
-            "will_never_terminate( ${1:<event-id>} )"
+            "will_never_terminate( ${1:event-id} )"
         ],
         "description": ""
     },
@@ -1879,7 +1879,7 @@
     {
         "prefix": "pgs_create_key",
         "body":[
-            "pgs_create_key( ${1:<key-id>}, ${2:<size>} )"
+            "pgs_create_key( ${1:key-id}, ${2:size} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1887,7 +1887,7 @@
     {
         "prefix": "pgs_key_exists",
         "body":[
-            "pgs_key_exists( ${1:<key-id>} )"
+            "pgs_key_exists( ${1:key-id} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1895,7 +1895,7 @@
     {
         "prefix": "pgs_set_key_val",
         "body":[
-            "pgs_set_key_val( ${1:<key-id>}, ${2:<index>}, ${3:<value>} )"
+            "pgs_set_key_val( ${1:key-id}, ${2:index}, ${3:value} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1903,7 +1903,7 @@
     {
         "prefix": "pgs_get_key_val",
         "body":[
-            "pgs_get_key_val( ${1:<key-id>}, ${2:<index>} )"
+            "pgs_get_key_val( ${1:key-id}, ${2:index} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1911,7 +1911,7 @@
     {
         "prefix": "pgs_create_str_key",
         "body":[
-            "pgs_create_str_key( ${1:<key-id>} )"
+            "pgs_create_str_key( ${1:key-id} )"
         ],
         "description": ""
     },
@@ -1919,7 +1919,7 @@
     {
         "prefix": "pgs_str_key_exists",
         "body":[
-            "pgs_str_key_exists( ${1:<key-id>} )"
+            "pgs_str_key_exists( ${1:key-id} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1927,7 +1927,7 @@
     {
         "prefix": "pgs_set_str_key_val",
         "body":[
-            "pgs_set_str_key_val( ${1:<key-id>}, ${2:<stringvalue>} )"
+            "pgs_set_str_key_val( ${1:key-id}, ${2:stringvalue} )"
         ],
         "description": ""
     },
@@ -1935,7 +1935,7 @@
     {
         "prefix": "find_zone",
         "body":[
-            "find_zone( ${1:<zone-name>} )"
+            "find_zone( ${1:zone-name} )"
         ],
         "description": "returns the zone ID for the specified zone name. Only availabe in the init callback."
     },
@@ -1943,7 +1943,7 @@
     {
         "prefix": "get_sample_length",
         "body":[
-            "get_sample_length( ${1:<zone-ID>} )"
+            "get_sample_length( ${1:zone-ID} )"
         ],
         "description": "returns the length of the specified zone's sample in microseconds"
     },
@@ -1951,7 +1951,7 @@
     {
         "prefix": "num_slices_zone",
         "body":[
-            "num_slices_zone( ${1:<zone-ID>} )"
+            "num_slices_zone( ${1:zone-ID} )"
         ],
         "description": "returns the number of slices of the specified zone"
     },
@@ -1959,7 +1959,7 @@
     {
         "prefix": "zone_slice_length",
         "body":[
-            "zone_slice_length( ${1:<zone-ID>}, ${2:<slice-index>} )"
+            "zone_slice_length( ${1:zone-ID}, ${2:slice-index} )"
         ],
         "description": "returns the length in microseconds of the specified slice with respect to the current tempo"
     },
@@ -1967,7 +1967,7 @@
     {
         "prefix": "zone_slice_start",
         "body":[
-            "zone_slice_start( ${1:<zone-ID>}, ${2:<slice-index>} )"
+            "zone_slice_start( ${1:zone-ID}, ${2:slice-index} )"
         ],
         "description": "returns the absolute start point of the specified slice in microseconds, independent of the current tempo"
     },
@@ -1975,7 +1975,7 @@
     {
         "prefix": "zone_slice_idx_loop_start",
         "body":[
-            "zone_slice_idx_loop_start( ${1:<zone-ID>}, ${2:<loop-index>} )"
+            "zone_slice_idx_loop_start( ${1:zone-ID}, ${2:loop-index} )"
         ],
         "description": "returns the index number of the slice at the loop start"
     },
@@ -1983,7 +1983,7 @@
     {
         "prefix": "zone_slice_idx_loop_end",
         "body":[
-            "zone_slice_idx_loop_end( ${1:<zone-ID>}, ${2:<loop-index>} )"
+            "zone_slice_idx_loop_end( ${1:zone-ID}, ${2:loop-index} )"
         ],
         "description": "returns the index number of the slice at the loop end"
     },
@@ -1991,7 +1991,7 @@
     {
         "prefix": "zone_slice_loop_count",
         "body":[
-            "zone_slice_loop_count( ${1:<zone-ID>}, ${2:<loop-index>} )"
+            "zone_slice_loop_count( ${1:zone-ID}, ${2:loop-index} )"
         ],
         "description": "returns the loop count of the specified loop"
     },
@@ -1999,7 +1999,7 @@
     {
         "prefix": "dont_use_machine_mode",
         "body":[
-            "dont_use_machine_mode( ${1:<ID-number>} )"
+            "dont_use_machine_mode( ${1:ID-number} )"
         ],
         "description": "play the specified event in sampler mode"
     },
@@ -2010,8 +2010,8 @@
             "{",
             "    ${1:undocumented}",
             "}",
-            "function ${2:functionName>}",
-            "    ${3:{<your code here>}}",
+            "function ${2:functionName}",
+            "    ${3:{your code here}}",
             "end function"
         ],
         "description": "declares a function"
@@ -2049,7 +2049,7 @@
     {
         "prefix": "set_midi",
         "body":[
-            "set_midi( ${1:<channel>}, ${2:<command>}, ${3:<byte-1>}, ${4:<byte-2>} )"
+            "set_midi( ${1:channel}, ${2:command}, ${3:byte-1}, ${4:byte-2} )"
         ],
         "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
     },
@@ -6609,7 +6609,7 @@
     {
         "prefix": "CC",
         "body":[
-            "%CC[ ${1:<controller-number>} ]"
+            "%CC[ ${1:controller-number} ]"
         ],
         "description": "Built-in Variable: CC"
     },
@@ -6617,7 +6617,7 @@
     {
         "prefix": "CC_TOUCHED",
         "body":[
-            "%CC_TOUCHED[ ${1:<controller-number>} ]"
+            "%CC_TOUCHED[ ${1:controller-number} ]"
         ],
         "description": "Built-in Variable: CC_TOUCHED"
     },
@@ -6625,7 +6625,7 @@
     {
         "prefix": "GROUPS_AFFECTED",
         "body":[
-            "%GROUPS_AFFECTED[ ${1:<index>} ]"
+            "%GROUPS_AFFECTED[ ${1:index} ]"
         ],
         "description": "Built-in Variable: GROUPS_AFFECTED"
     },
@@ -6633,7 +6633,7 @@
     {
         "prefix": "GROUPS_SELECTED",
         "body":[
-            "%GROUPS_SELECTED[ ${1:<index>} ]"
+            "%GROUPS_SELECTED[ ${1:index} ]"
         ],
         "description": "Built-in Variable: GROUPS_SELECTED"
     },
@@ -6641,7 +6641,7 @@
     {
         "prefix": "KEY_DOWN",
         "body":[
-            "%KEY_DOWN[ ${1:<note-number>} ]"
+            "%KEY_DOWN[ ${1:note-number} ]"
         ],
         "description": "Built-in Variable: KEY_DOWN"
     },
@@ -6649,7 +6649,7 @@
     {
         "prefix": "KEY_DOWN_OCT",
         "body":[
-            "%KEY_DOWN_OCT[ ${1:<note-number>} ]"
+            "%KEY_DOWN_OCT[ ${1:note-number} ]"
         ],
         "description": "Built-in Variable: KEY_DOWN_OCT"
     },
@@ -6657,7 +6657,7 @@
     {
         "prefix": "NOTE_DURATION",
         "body":[
-            "%NOTE_DURATION[ ${1:<note-number>} ]"
+            "%NOTE_DURATION[ ${1:note-number} ]"
         ],
         "description": "Built-in Variable: NOTE_DURATION"
     },
@@ -6665,7 +6665,7 @@
     {
         "prefix": "POLY_AT",
         "body":[
-            "%POLY_AT[ ${1:<note-number>} ]"
+            "%POLY_AT[ ${1:note-number} ]"
         ],
         "description": "Built-in Variable: POLY_AT"
     },
