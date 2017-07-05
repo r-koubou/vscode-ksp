@@ -86,15 +86,30 @@ public class SemanticAnalyzer extends AbstractAnalyzer
     public void analyze() throws Exception
     {
         astRootNode.jjtAccept( this, null );
+
+        //--------------------------------------------------------------------------
+        // 解析後の未使用・み初期化シンボルの洗い出し
+        //--------------------------------------------------------------------------
+
         if( AnalyzerOption.unused )
         {
-            for( SymbolDefinition v : variableTable.toArray() )
+            for( SymbolDefinition s : variableTable.toArray() )
             {
+                Variable v = (Variable)s;
+                // 参照
                 if( !v.referenced )
                 {
                     MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_UNUSE_VARIABLE, v );
                     AnalyzeErrorCounter.w();
                 }
+                // 初期化（１度も値が格納されていない）
+                // ただし、UI型変数は除外
+                if( AnalyzerOption.strict && v.status == VariableState.UNLOADED && !v.isUIVariable() )
+                {
+                    MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, v );
+                    AnalyzeErrorCounter.w();
+                }
+
             }
             for( SymbolDefinition v : userFunctionTable.toArray() )
             {
@@ -120,10 +135,6 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         Node p = expr.jjtGetParent();
         while( p != null )
         {
-            if( p == null )
-            {
-                return false;
-            }
             switch( p.getId() )
             {
                 case JJTIFSTATEMENT:
@@ -421,11 +432,6 @@ public class SemanticAnalyzer extends AbstractAnalyzer
             }
         }
 
-        if( result )
-        {
-            v.status = VariableState.INITIALIZED;
-        }
-
         return ret;
     }
 
@@ -516,8 +522,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         if( forceSkipInitializer || node.jjtGetNumChildren() != 2 )
         {
             // 初期値代入なし
-            // int なら 0 フィルなど初期値で埋まるので初期化したものとみなす
-            v.status = VariableState.INITIALIZED;
+            v.status = VariableState.UNLOADED;
             return false;
         }
 
@@ -807,6 +812,8 @@ SEARCH:
         final SymbolDefinition symL = exprL.symbol;
         final SymbolDefinition symR = exprR.symbol;
         Variable variable;
+        int exprLType = TYPE_NONE;
+        int exprRType = TYPE_NONE;
 
         if( exprL.getId() != JJTREFVARIABLE )
         {
@@ -822,6 +829,9 @@ SEARCH:
             return exprL;
         }
 
+        exprLType = variable.type;
+        exprRType = exprR.symbol.type;
+
         if( variable.isConstant( ) )
         {
             SymbolDefinition.copy( exprR.symbol, tempSymbol );
@@ -830,11 +840,25 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return exprL;
         }
-        // 配列要素への格納もあるので配列ビットをマスクさせている
-        if( ( variable.type & TYPE_MASK ) != ( symR.type & TYPE_MASK ) )
+        // コマンドコールの戻り値が複数の型を持つなどで暗黙の型変換を要する場合
+        // 代入先の変数に合わせる。暗黙の型変換が不可能な場合は、代替としてVOIDを入れる
+        if( Variable.hasMultipleType( exprRType ) )
         {
-            String vType = Variable.getTypeName( variable.getPrimitiveType() );
-            String aType = Variable.getTypeName( exprR.symbol.type );
+            if( ( exprLType & exprRType ) == 0 )
+            {
+                exprRType = TYPE_VOID;
+            }
+            else
+            {
+                // 暗黙の型変換
+                exprRType = exprLType;
+            }
+        }
+        // 配列要素への格納もあるので配列ビットをマスクさせている
+        if( ( exprLType & TYPE_MASK ) != ( exprRType & TYPE_MASK ) )
+        {
+            String vType = Variable.getTypeName( Variable.getPrimitiveType( exprLType ) );
+            String aType = Variable.getTypeName( exprRType );
             SymbolDefinition.copy( symR, tempSymbol );
             tempSymbol.name = variable.name;
 
@@ -843,7 +867,7 @@ SEARCH:
             return exprL;
         }
 
-        variable.status = VariableState.INITIALIZED;
+        variable.status = VariableState.LOADED;
         return exprL;
     }
 
@@ -922,7 +946,7 @@ SEARCH:
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
         // 式が数値型と一致している必要がある
-        if( !Variable.isNumeral( type ) )
+        if( numOnly && !Variable.isNumeral( type ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_NUMONLY, expr.symbol );
             AnalyzeErrorCounter.e();
@@ -1255,11 +1279,10 @@ SEARCH:
             return ret;
         }
 
-        // 初期化（１度も値が格納されていない）
-        if( AnalyzerOption.strict && v.status == VariableState.UNLOADED )
+        if( node.jjtGetParent() != null && node.jjtGetParent().getId() == JJTASSIGNMENT )
         {
-            MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, node.symbol );
-            AnalyzeErrorCounter.w();
+            // これから代入される予定の変数
+            v.status = VariableState.LOADING;
         }
 
         // 配列型なら添字チェック
@@ -1336,20 +1359,23 @@ SEARCH:
     {
         final Command cmd = commandTable.search( node.symbol.name );
 
+        // 上位ノードの型評価式用
+        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
+        SymbolDefinition.copy( node.symbol, ret.symbol );
+
         if( cmd == null )
         {
             // ドキュメントに記載のない隠しコマンドの可能性
             // エラーにせず、警告に留める
+            // 戻り値不定のため、全てを許可する
+            ret.symbol.type = TYPE_ANY;
             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, node.symbol );
             AnalyzeErrorCounter.w();
-            return node;
+            return ret;
         }
 
         ASTCallbackDeclaration callback = getCurrentCallBack( node );
 
-        // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
         for( int t : cmd.returnType.typeList )
         {
             ret.symbol.type |= t;
@@ -1501,6 +1527,7 @@ SEARCH:
                             // エラーにせずに警告に留める
                             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, callCmd.symbol );
                             AnalyzeErrorCounter.w();
+                            // 戻り値の型チェックが不可能なのでデータ型は一致したものとみなす
                             valid = true;
                             break;
                         }
@@ -1567,7 +1594,7 @@ SEARCH:
         // 条件式がBOOL型でない場合
         //--------------------------------------------------------------------------
         {
-            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
+            SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
             if( !Variable.isBoolean( cond.symbol.type ) )
             {
                 MessageManager.printlnE(

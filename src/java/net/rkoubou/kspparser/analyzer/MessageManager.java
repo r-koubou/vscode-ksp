@@ -261,25 +261,6 @@ public class MessageManager implements AnalyzerConstants
         System.out.println( message );
     }
 
-    // /**
-    //  * 標準出力に出力する
-    //  */
-    // static public void println( String propertyKey, Level level, Variable symbol )
-    // {
-    //     String message = expand( propertyKey, level, symbol.line, symbol.colmn, symbol.name.length() );
-    //     message = message.replace( "${symbolname}", symbol.name );
-
-    //     if( symbol.uiTypeName != null && symbol.uiTypeName.length() > 0 )
-    //     {
-    //         message = message.replace( "${vartype}", symbol.uiTypeName );
-    //     }
-    //     else
-    //     {
-    //         message = message.replace( "${vartype}", symbol.getTypeName() );
-    //     }
-    //     System.out.println( message );
-    // }
-
     /**
      * 標準出力に出力する(レベル：ERROR)
      */

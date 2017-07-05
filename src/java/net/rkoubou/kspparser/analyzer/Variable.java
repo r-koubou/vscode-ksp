@@ -365,10 +365,45 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * この変数が持つ型識別値が複数のデータ型ビットがONになっているかどうかを判定する
+     * 戻り値など、暗黙の型変換の可能性がある式やコマンドで使用する。
+     */
+    public boolean hasMultipleType()
+    {
+        return hasMultipleType( type );
+    }
+
+    /**
+     * 与えられた型識別値から複数のデータ型ビットがONになっているかどうかを判定する
+     * 戻り値など、暗黙の型変換の可能性がある式やコマンドで使用する。
+     */
+    static public boolean hasMultipleType( int type )
+    {
+        int cnt = 0;
+        for( int i = 0; i < TYPE_BIT_SIZE; i++ )
+        {
+            if( ( type & ( 1 << i ) ) != 0 )
+            {
+                cnt++;
+            }
+        }
+        return cnt >= 2;
+    }
+
+    /**
      * 配列情報フラグ等を含まない、純粋なプリミティブ型の識別値を取得する。
      * 型の識別値のビットフラグを返す個別の判定は isInt()、isReal()、isString() 等を使用すること。
      */
     public int getPrimitiveType()
+    {
+        return type & TYPE_MASK;
+    }
+
+    /**
+     * 配列情報フラグ等を含まない、純粋なプリミティブ型の識別値を取得する。
+     * 型の識別値のビットフラグを返す個別の判定は isInt()、isReal()、isString() 等を使用すること。
+     */
+    static public int getPrimitiveType( int type )
     {
         return type & TYPE_MASK;
     }
@@ -498,7 +533,7 @@ public class Variable extends SymbolDefinition
             case TYPE_PREPROCESSOR_SYMBOL:      return "P";
             case TYPE_ANY:                      return "*";
             default:
-                throw new IllegalArgumentException( "type is " + type );
+                return "{UNKNOWN:" + type  + "}";
         }
     }
 

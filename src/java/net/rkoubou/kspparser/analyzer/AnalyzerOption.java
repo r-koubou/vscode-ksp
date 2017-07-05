@@ -42,7 +42,7 @@ public class AnalyzerOption
      */
     static private boolean getBoolean( String key, String defaultValue )
     {
-        String v = System.getProperty( SYSTEM_PROPERTY_STRICT, defaultValue ).toLowerCase();
+        String v = System.getProperty( key, defaultValue ).toLowerCase();
         return v.equals( "true" );
     }
 
