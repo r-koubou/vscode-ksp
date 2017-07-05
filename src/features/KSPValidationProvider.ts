@@ -28,8 +28,11 @@ export class KSPValidationProvider
     private static REGEX_TOKEN_MGR_ERROR: RegExp = /.*?TokenMgrError\: Lexical error at line (\d+)/;
     private static REGEX_PARSE_EXCEPTION: RegExp = /.*?ParseException\:.*?at line (\d+)/;
 
-    private validationEnabled: boolean          = false;
-    private realtimeValidationEnabled: boolean  = false;
+    private validationEnabled: boolean          = config.DEFAULT_ENABLE_VALIDATE;
+    private realtimeValidationEnabled: boolean  = config.DEFAULT_REALTIME_VALIDATE;
+    private validateParseSyntaxOnly:boolean     = config.DEFAULT_PARSE_SYNTAX_ONLY;
+    private validateParseStrict:boolean         = config.DEFAULT_PARSE_STRICT;
+    private validateParseUnused:boolean         = config.DEFAULT_PARSE_UNUSED;
     private realtimeValidationDelay:number      = config.DEFAULT_VALIDATE_DELAY;
 
     private executable: string                  = config.DEFAULT_JAVA_LOCATION;
@@ -107,6 +110,9 @@ export class KSPValidationProvider
             initConfig<boolean>( config.KEY_ENABLE_VALIDATE,            config.DEFAULT_ENABLE_VALIDATE );
             initConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE,   config.DEFAULT_REALTIME_VALIDATE );
             initConfig<number>(  config.KEY_REALTIME_VALIDATE_DELAY,    config.DEFAULT_VALIDATE_DELAY );
+            initConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY,          config.DEFAULT_PARSE_SYNTAX_ONLY );
+            initConfig<boolean>( config.KEY_PARSE_STRICT,               config.DEFAULT_PARSE_STRICT );
+            initConfig<boolean>( config.KEY_PARSE_UNUSED,               config.DEFAULT_PARSE_UNUSED );
         }
     }
 
@@ -140,10 +146,10 @@ export class KSPValidationProvider
                 callback( value, userDefined );
             };
             // Get configurations
-            getConfig<boolean>( config.KEY_ENABLE_VALIDATE, false, (v, user) =>{
+            getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE, (v, user) =>{
                 this.validationEnabled = v;
             });
-            getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, false, (v, user) =>{
+            getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, config.DEFAULT_REALTIME_VALIDATE, (v, user) =>{
                 this.realtimeValidationEnabled = v;
             });
             getConfig<number>( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, (v, user) =>{
@@ -158,8 +164,14 @@ export class KSPValidationProvider
                     this.realtimeValidationDelay = v;
                 }
             });
-            getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION, (v, user) =>{
-                this.executable = v;
+            getConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY, config.DEFAULT_PARSE_SYNTAX_ONLY, (v, user) =>{
+                this.validateParseSyntaxOnly = v;
+            });
+            getConfig<boolean>( config.KEY_PARSE_STRICT, config.DEFAULT_PARSE_STRICT, (v, user) =>{
+                this.validateParseStrict = v;
+            });
+            getConfig<boolean>( config.KEY_PARSE_UNUSED, config.DEFAULT_PARSE_UNUSED, (v, user) =>{
+                this.validateParseUnused = v;
             });
             // ~Get configurations
 
@@ -284,7 +296,7 @@ export class KSPValidationProvider
                 }
             }
 
-            let thisExtention       = vscode.extensions.getExtension( "R-Koubou.kontakt-script-langage" );
+            let thisExtention       = vscode.extensions.getExtension( "R-Koubou.ksp" );
             let thisExtentionDir    = thisExtention.extensionPath;
             let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
             let args: string[]      = [];
@@ -301,6 +313,18 @@ export class KSPValidationProvider
             // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
             args.push( "-Dkspparser.stdout.encoding=UTF-8" )
             args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data" )
+            if( this.validateParseSyntaxOnly )
+            {
+                args.push( "-Dkspparser.parseonly=true" );
+            }
+            if( this.validateParseStrict )
+            {
+                args.push( "-Dkspparser.strict=true" );
+            }
+            if( this.validateParseUnused )
+            {
+                args.push( "-Dkspparser.unused=true" );
+            }
 // launch en-US mode
 //            args.push( "-Duser.language=en" );
 //            args.push( "-Duser.country=US" );
@@ -339,6 +363,7 @@ export class KSPValidationProvider
                         data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
                             processLine( x );
                         });
+                        resolve();
                     });
                     // handling stderr
                     childProcess.stderr.on( 'data', (data: Buffer) =>
@@ -347,6 +372,7 @@ export class KSPValidationProvider
                         data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
                             processLineStdErr( x );
                         });
+                        resolve();
                     });
                     // process finished
                     childProcess.stdout.on( 'end', () =>

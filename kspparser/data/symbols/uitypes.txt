@@ -1,0 +1,13 @@
+ui_button	N	N	I	I
+ui_knob	N	Y	I	I	I	I
+ui_file_selector	N	N	I
+ui_label	N	Y	I	I	I
+ui_level_meter	N	N	I
+ui_menu	N	N	I
+ui_slider	N	Y	I	I	I
+ui_switch	N	N	I
+ui_table	N	Y	I[]	I	I	I
+ui_text_edit	N	N	S
+ui_value_edit	N	Y	I	I	I	I
+ui_waveform	N	Y	I	I	I	I
+ui_xy	N	N	R[]

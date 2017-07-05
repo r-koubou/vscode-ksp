@@ -1,1 +1,0 @@
-See https://github.com/r-koubou/KSPSyntaxParser/wiki/External-symbol-definition-file-format
