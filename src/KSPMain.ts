@@ -54,4 +54,9 @@ export function activate( context:vscode.ExtensionContext ) : any
         wordPattern: /(-?\d*\.\d\w*)|([^\-\`\#\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
     });
 
+    // Notificate a DEPRECATED
+    let message1:string = "This extension no longer updated and will be removed from VScode marketplace on Aug 1st 2017 (JST)";
+    let message2:string = "Please uninstall this extension and re-install the new generations KSP extension.";
+    vscode.window.showWarningMessage( message1 );
+    vscode.window.showWarningMessage( message2 );
 }

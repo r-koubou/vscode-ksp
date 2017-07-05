@@ -1,30 +1,16 @@
 # Changelog
 
-<!-- TOC -->
+## Version 0.2.7
 
-- [Changelog](#changelog)
-    - [Version 0.2.6](#version-026)
-        - [Syntax Parser - Bug fixed](#syntax-parser---bug-fixed)
-    - [Version 0.2.5](#version-025)
-    - [Version 0.2.4](#version-024)
-        - [Improved - Syntax Parser](#improved---syntax-parser)
-    - [Version 0.2.3](#version-023)
-        - [Improved - Syntax Parser](#improved---syntax-parser-1)
-    - [Version 0.2.2](#version-022)
-        - [BUG Fixed Syntax Parser program](#bug-fixed-syntax-parser-program)
-    - [Version 0.2.1](#version-021)
-        - [BUG Fixed Syntax Parser program](#bug-fixed-syntax-parser-program-1)
-    - [Version 0.2.0](#version-020)
-        - [NOTE](#note)
-    - [Version 0.1.0](#version-010)
-    - [Version 0.0.5](#version-005)
-    - [Version 0.0.4](#version-004)
-    - [Version 0.0.3](#version-003)
-    - [Version 0.0.2](#version-002)
-    - [Version 0.0.1](#version-001)
-        - [1st release. ( Based on KONTAKT 5.6 )](#1st-release--based-on-kontakt-56-)
+Small bug fixes release.
 
-<!-- /TOC -->
+## IMPORTANT
+
+`This extension no longer updated and will be removed from VScode marketplace on Aug 1st 2017 (JST)`.
+
+Please uninstall this extension and re-install the new generations KSP extension.
+
+Detail: [https://marketplace.visualstudio.com/items?itemName=R-Koubou.ksp](https://marketplace.visualstudio.com/items?itemName=R-Koubou.ksp)
 
 ## Version 0.2.6
 

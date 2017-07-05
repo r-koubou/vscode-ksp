@@ -1,6 +1,22 @@
 # Native Instruments KONTAKT Script for VS Code
 
-<small>※日本語の説明は英語の後に書いています</small>
+## DEPRECATED
+
+`This extension no longer updated and will be removed from VScode marketplace on Aug 1st 2017 (JST)`.
+
+Please uninstall this extension and re-install the new generations KSP extension.
+
+Detail: [https://marketplace.visualstudio.com/items?itemName=R-Koubou.ksp](https://marketplace.visualstudio.com/items?itemName=R-Koubou.ksp)
+
+
+`この拡張機能は更新が停止され、2017年8月1日（日本時間）にVScodeマーケットプレイスから削除されます。`
+
+お手数ですが、この拡張機能をアンインストールし、新しい世代のKSP拡張機能を再インストールしてください。
+
+詳細：[https://marketplace.visualstudio.com/items?itemName=R-Koubou.ksp](https://marketplace.visualstudio.com/items?itemName=R-Koubou.ksp)
+
+
+----
 
 ## Features
 
