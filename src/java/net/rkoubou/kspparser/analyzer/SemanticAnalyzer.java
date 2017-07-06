@@ -372,6 +372,74 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         return ret;
     }
 
+    /**
+     * 与えられた式ノードから定数値を算出する（畳み込み）
+     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
+     */
+    protected Boolean evalConstantBooleanValue( SimpleNode node )
+    {
+        SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, null );
+        SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, null );
+        SymbolDefinition symL = exprL.symbol;
+        SymbolDefinition symR = exprR.symbol;
+        Boolean ret = null;
+
+        if( ( symL.type != symR.type ) ||
+            ( !Variable.isConstant( symL.accessFlag ) || !Variable.isConstant( symR.accessFlag ) ) )
+        {
+            return null;
+        }
+
+        ret = false;
+        if( Variable.getPrimitiveType( symL.type ) != Variable.getPrimitiveType( symL.type )  )
+        {
+            return null;
+        }
+
+        switch( Variable.getPrimitiveType( symL.type ) )
+        {
+            case TYPE_INT:
+            {
+                Integer intL = evalConstantIntValue( exprL,  0 );
+                Integer intR = evalConstantIntValue( exprR,  0 );
+
+                if( intL != null && intR != null )
+                {
+                    switch( node.getId() )
+                    {
+                        case JJTEQUAL:      ret = intL == intR; break;
+                        case JJTNOTEQUAL:   ret = intL != intR; break;
+                        case JJTGT:         ret = intL > intR;  break;
+                        case JJTLT:         ret = intL < intR;  break;
+                        case JJTGE:         ret = intL >= intR; break;
+                        case JJTLE:         ret = intL <= intR; break;
+                    }
+                }
+            }
+            break;
+            case TYPE_REAL:
+            {
+                Double realL = evalConstantRealValue( exprL,  0 );
+                Double realR = evalConstantRealValue( exprR,  0 );
+                if( realL != null && realR != null )
+                {
+                    switch( node.getId() )
+                    {
+                        case JJTEQUAL:      ret = realL == realR; break;
+                        case JJTNOTEQUAL:   ret = realL != realR; break;
+                        case JJTGT:         ret = realL > realR;  break;
+                        case JJTLT:         ret = realL < realR;  break;
+                        case JJTGE:         ret = realL >= realR; break;
+                        case JJTLE:         ret = realL <= realR; break;
+                    }
+                }
+            }
+            break;
+        }
+
+        return ret;
+    }
+
 //--------------------------------------------------------------------------
 // 変数宣言
 //--------------------------------------------------------------------------
@@ -504,16 +572,17 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                 AnalyzeErrorCounter.e();
                 return false;
             }
-            else if( size >= MAX_KSP_ARRAY_SIZE )
-            {
-                // 要素数が上限を超えた
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE, v, String.valueOf( MAX_KSP_ARRAY_SIZE ) );
-                AnalyzeErrorCounter.e();
-                return false;
-            }
 
-            v.arraySize = size;
+            v.arraySize += size;
 
+        }
+
+        if( v.arraySize > MAX_KSP_ARRAY_SIZE )
+        {
+            // 要素数が上限を超えた or 0
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE, v, String.valueOf( MAX_KSP_ARRAY_SIZE ) );
+            AnalyzeErrorCounter.e();
+            return false;
         }
 
         //--------------------------------------------------------------------------
@@ -531,6 +600,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         {
             // 配列初期化式 ( 0, 1, 2, ...) ではない
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, initializer.symbol );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        if( v.isString() )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER, v );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -781,8 +857,30 @@ SEARCH:
             return false;
         }
 
-        // 定数宣言している場合は有効な値が格納される
-        v.setValue( expr.jjtGetValue() );
+        // 文字列型は初期値代入不可
+        if( v.isString() )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER, v );
+            AnalyzeErrorCounter.e();
+            return false;
+        }
+
+        // 初期値代入。畳み込みで有効な値が格納される
+        Object value = null;
+        if( v.isInt() )
+        {
+            value = evalConstantIntValue( expr, 0 );
+        }
+        else if( v.isReal() )
+        {
+            value = evalConstantRealValue( expr, 0 );
+        }
+        else if( v.isString() )
+        {
+            // 文字列は初期値代入不可
+            value = null;
+        }
+        v.setValue( value );
         v.status = VariableState.INITIALIZED;
         return true;
 
@@ -874,12 +972,13 @@ SEARCH:
     /**
      * 二項演算子の評価
      * @param node 演算子ノード
-     * @param intOnly 評価可能なのは整数型のみかどうか（falseの場合は浮動小数も対象）
+     * @param numberOp 演算子は数値を扱う演算子かどうか
      * @param booleanOp 演算子はブール演算子かどうか
+     * @param stringOp 演算子は文字列連結演算子(&)かどうか
      * @param jjtAcceptData jjtAcceptメソッドのdata引数
      * @return SimpleNodeインスタンス（データ型を格納した評価結果。エラー時は TYPE_VOID が格納される）
      */
-    public SimpleNode evalBinaryOperator( SimpleNode node, boolean intOnly, boolean booleanOp, Object jjtAcceptData )
+    public SimpleNode evalBinaryOperator( SimpleNode node, boolean numberOp, boolean booleanOp, boolean stringOp, Object jjtAcceptData )
     {
 /*
              <operator>
@@ -894,29 +993,75 @@ SEARCH:
         final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, jjtAcceptData );
         final SymbolDefinition symL = exprL.symbol;
         final SymbolDefinition symR = exprR.symbol;
-        int typeL = intOnly ? TYPE_INT : symL.type;
-        int typeR = intOnly ? TYPE_INT : symR.type;
+        int typeL = symL.type;
+        int typeR = symR.type;
+        boolean typeCheckResult = true;
 
         // 上位ノードの型評価式用
         SimpleNode ret = new SimpleNode( node.getId() );
         SymbolDefinition.copy( node.symbol, ret.symbol );
 
-        // 数値型かつ左辺と右辺の型が一致している必要がある
-        if( ( !Variable.isNumeral( typeL ) || !Variable.isNumeral( typeR ) ) || typeL != typeR )
+        // 左辺と右辺の型チェック
+        if( numberOp )
+        {
+            ret.symbol.type = typeL;
+            if( typeL != typeR )
+            {
+                typeCheckResult = false;
+            }
+        }
+        else if( stringOp )
+        {
+            ret.symbol.type = TYPE_STRING;
+            // どちらか一方の辺が文字列型ならOK（&演算子）
+            if( ( !Variable.isString( typeL ) && !Variable.isString( typeR ) ) || node.getId() != JJTSTRADD )
+            {
+                typeCheckResult = false;
+            }
+        }
+        else if( booleanOp )
+        {
+            ret.symbol.type = TYPE_BOOL;
+            if( typeL != typeR )
+            {
+                typeCheckResult = false;
+            }
+        }
+        //--------------------------------------------------------------------------
+        // 型チェック失敗
+        //--------------------------------------------------------------------------
+        if( !typeCheckResult )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = TYPE_VOID;
             ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
         }
-        else
-        {
-            int t = booleanOp ? TYPE_BOOL : typeL;
-            ret.symbol.name = Variable.toKSPTypeCharacter( t );
-            ret.symbol.type = t;
-        }
-
         return ret;
+    }
+
+    /**
+     * evalBinaryOperator のコンビニエンスメソッド
+     */
+    public SimpleNode evalBinaryNumberOperator( SimpleNode node, Object jjtAcceptData )
+    {
+        return evalBinaryOperator( node, true, false, false, jjtAcceptData );
+    }
+
+    /**
+     * evalBinaryOperator のコンビニエンスメソッド
+     */
+    public SimpleNode evalBinaryBooleanOperator( SimpleNode node, Object jjtAcceptData )
+    {
+        return evalBinaryOperator( node, false, true, false, jjtAcceptData );
+    }
+
+    /**
+     * evalBinaryOperator のコンビニエンスメソッド
+     */
+    public SimpleNode evalBinaryStringOperator( SimpleNode node, Object jjtAcceptData )
+    {
+        return evalBinaryOperator( node, false, false, true, jjtAcceptData );
     }
 
     /**
@@ -977,28 +1122,7 @@ SEARCH:
             |         |
         0: <expr>   1:<expr>
 */
-        final SimpleNode cond0      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode cond1      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-        final SymbolDefinition sym0 = cond0.symbol;
-        final SymbolDefinition sym1 = cond1.symbol;
-
-        // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( node.getId() );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
-
-        if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN, node.symbol );
-            AnalyzeErrorCounter.e();
-            ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
-        }
-        else
-        {
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_BOOL );
-            ret.symbol.type = TYPE_BOOL;
-        }
-        return ret;
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1015,28 +1139,7 @@ SEARCH:
             |         |
         0: <expr>   1:<expr>
 */
-        final SimpleNode cond0      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode cond1      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-        final SymbolDefinition sym0 = cond0.symbol;
-        final SymbolDefinition sym1 = cond1.symbol;
-
-        // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( node.getId() );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
-
-        if( !Variable.isBoolean( sym0.type ) || !Variable.isBoolean( sym1.type ) )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN, node.symbol );
-            AnalyzeErrorCounter.e();
-            ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
-        }
-        else
-        {
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_BOOL );
-            ret.symbol.type = TYPE_BOOL;
-        }
-        return ret;
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1045,7 +1148,7 @@ SEARCH:
     @Override
     public Object visit( ASTInclusiveOr node, Object data )
     {
-        return evalBinaryOperator( node, true, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1054,7 +1157,7 @@ SEARCH:
     @Override
     public Object visit( ASTAnd node, Object data )
     {
-        return evalBinaryOperator( node, true, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1063,7 +1166,7 @@ SEARCH:
     @Override
     public Object visit( ASTEqual node, Object data )
     {
-        return evalBinaryOperator( node, false, true, data );
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1072,7 +1175,7 @@ SEARCH:
     @Override
     public Object visit( ASTNotEqual node, Object data )
     {
-        return evalBinaryOperator( node, false, true, data );
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1081,7 +1184,7 @@ SEARCH:
     @Override
     public Object visit( ASTLT node, Object data )
     {
-        return evalBinaryOperator( node, false, true, data );
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1090,7 +1193,7 @@ SEARCH:
     @Override
     public Object visit( ASTGT node, Object data )
     {
-        return evalBinaryOperator( node, false, true, data );
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1099,7 +1202,7 @@ SEARCH:
     @Override
     public Object visit( ASTLE node, Object data )
     {
-        return evalBinaryOperator( node, false, true, data );
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1108,7 +1211,7 @@ SEARCH:
     @Override
     public Object visit( ASTGE node, Object data )
     {
-        return evalBinaryOperator( node, false, true, data );
+        return evalBinaryBooleanOperator( node, data );
     }
 
     /**
@@ -1117,7 +1220,7 @@ SEARCH:
     @Override
     public Object visit( ASTAdd node, Object data )
     {
-        return evalBinaryOperator( node, false, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1126,7 +1229,7 @@ SEARCH:
     @Override
     public Object visit( ASTSub node, Object data )
     {
-        return evalBinaryOperator( node, false, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1187,7 +1290,7 @@ SEARCH:
     @Override
     public Object visit( ASTMul node, Object data )
     {
-        return evalBinaryOperator( node, false, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1196,7 +1299,7 @@ SEARCH:
     @Override
     public Object visit( ASTDiv node, Object data )
     {
-        return evalBinaryOperator( node, false, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1205,7 +1308,7 @@ SEARCH:
     @Override
     public Object visit( ASTMod node, Object data )
     {
-        return evalBinaryOperator( node, false, false, data );
+        return evalBinaryNumberOperator( node, data );
     }
 
     /**
@@ -1278,6 +1381,9 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return ret;
         }
+
+        // 変数へのアクセスが確定したので、戻り値に変数のシンボル情報をコピー
+        SymbolDefinition.copy( v, ret.symbol );
 
         if( node.jjtGetParent() != null && node.jjtGetParent().getId() == JJTASSIGNMENT )
         {
@@ -1590,23 +1696,22 @@ SEARCH:
     @Override
     public Object visit( ASTIfStatement node, Object data )
     {
+        SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
         //--------------------------------------------------------------------------
         // 条件式がBOOL型でない場合
         //--------------------------------------------------------------------------
         {
-            SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
             if( !Variable.isBoolean( cond.symbol.type ) )
             {
                 MessageManager.printlnE(
                     MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
                     cond.symbol,
-                    Variable.getTypeName( cond.symbol.type ),
                     Variable.getTypeName( TYPE_BOOL )
                 );
                 AnalyzeErrorCounter.e();
             }
         }
-        return node.childrenAccept( this, data );
+        return cond;
     }
 
     /**
@@ -1641,7 +1746,6 @@ SEARCH:
                 MessageManager.printlnE(
                     MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
                     cond.symbol,
-                    Variable.getTypeName( cond.symbol.type ),
                     Variable.getTypeName( TYPE_INT )
                 );
                 AnalyzeErrorCounter.e();
@@ -1717,23 +1821,22 @@ SEARCH:
     @Override
     public Object visit( ASTWhileStatement node, Object data )
     {
+        SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
         //--------------------------------------------------------------------------
         // 条件式がBOOL型でない場合
         //--------------------------------------------------------------------------
         {
-            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
             if( !Variable.isBoolean( cond.symbol.type ) )
             {
                 MessageManager.printlnE(
                     MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
                     cond.symbol,
-                    Variable.getTypeName( cond.symbol.type ),
                     Variable.getTypeName( TYPE_BOOL )
                 );
                 AnalyzeErrorCounter.e();
             }
         }
-        return node.childrenAccept( this, data );
+        return cond;
     }
 
 //--------------------------------------------------------------------------

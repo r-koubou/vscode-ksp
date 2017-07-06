@@ -75,6 +75,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY  = "error.semantic.expression.constantonly";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER = "error.semantic.variable.required.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER = "error.semantic.variable.invalid.initializer";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER = "error.semantic.variable.invalid.string.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE = "error.semantic.variable.invalid.initializer.type";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD = "error.semantic.variable.invalid.initializer.stringadd";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY        = "error.semantic.variable.notarray";

@@ -8,7 +8,7 @@
 
 # Property Names here
 PROPERTIES = [
-    "error.semantic.condition.invalid"
+    "error.semantic.variable.invalid.string.initializer"
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"
