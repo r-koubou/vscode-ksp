@@ -84,7 +84,7 @@ V	attach_zone	*	ui_waveform	@I	@I
 V	hide_part	*	ui_*	@I
 S	fs_get_filename	ui_control	@I	@I
 V	fs_navigate	ui_control	@I	@I
-I||S	get_control_par	*
+I||S	get_control_par	*	@I	@I
 S	get_menu_item_str	*	@I	@I
 I||S	get_menu_item_value	*	@I	@I
 I||S	get_menu_item_visibility	*	@I	@I
