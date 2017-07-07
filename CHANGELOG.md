@@ -1,30 +1,22 @@
 # Changelog
 
-<!-- TOC -->
+## Version 0.3.0
 
-- [Changelog](#changelog)
-    - [Version 0.2.6](#version-026)
-        - [Syntax Parser - Bug fixed](#syntax-parser---bug-fixed)
-    - [Version 0.2.5](#version-025)
-    - [Version 0.2.4](#version-024)
-        - [Improved - Syntax Parser](#improved---syntax-parser)
-    - [Version 0.2.3](#version-023)
-        - [Improved - Syntax Parser](#improved---syntax-parser-1)
-    - [Version 0.2.2](#version-022)
-        - [BUG Fixed Syntax Parser program](#bug-fixed-syntax-parser-program)
-    - [Version 0.2.1](#version-021)
-        - [BUG Fixed Syntax Parser program](#bug-fixed-syntax-parser-program-1)
-    - [Version 0.2.0](#version-020)
-        - [NOTE](#note)
-    - [Version 0.1.0](#version-010)
-    - [Version 0.0.5](#version-005)
-    - [Version 0.0.4](#version-004)
-    - [Version 0.0.3](#version-003)
-    - [Version 0.0.2](#version-002)
-    - [Version 0.0.1](#version-001)
-        - [1st release. ( Based on KONTAKT 5.6 )](#1st-release--based-on-kontakt-56-)
+* `Changed Extension ID`
 
-<!-- /TOC -->
+    `Old extension Id no longer updated and will be removed from VScode marketplace on Aug 1st 2017 (JST)`.
+
+    If you have already installed a previous version( `0.2.7 or older` ), please unintall it.
+
+* `UPDATED` Syntax validation ( `"BETA" VERSION` ).
+    * Analysis program has some bugs was FIXED
+    * Analysis precision improved (`Semantic Analysis` is `READY`)
+
+* Small bug fixes release.
+
+## Version 0.2.7
+
+Small bug fixes release.
 
 ## Version 0.2.6
 

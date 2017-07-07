@@ -3,7 +3,18 @@
     "displayName": "KONTAKT Script Language (KSP)",
     "description": "Language support for NI KONTAKT Script (KSP)",
     "version": "0.3.0",
-    "publisher": "R-Koubou",
+    "publisher": "rkoubou",
+    "keywords": [
+        "KONTAKT",
+        "KSP",
+        "Native Instruments",
+        "Computer Music",
+        "DTM"
+    ],
+    "galleryBanner": {
+        "color": "#3A3D40",
+        "theme": "dark"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/r-koubou/vscode-ksp.git"
