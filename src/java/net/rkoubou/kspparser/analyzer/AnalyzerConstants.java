@@ -101,7 +101,7 @@ public interface AnalyzerConstants
     float KSP_REAL_MAX = Float.MAX_VALUE;
 
     /** 配列変数宣言時の要素数の上限 */
-    int MAX_KSP_ARRAY_SIZE = 32767;
+    int MAX_KSP_ARRAY_SIZE = 32768;
 
     /*
      * 変数の状態を示す識別子。
