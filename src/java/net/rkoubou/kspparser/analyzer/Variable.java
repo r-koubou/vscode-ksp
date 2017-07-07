@@ -416,6 +416,38 @@ public class Variable extends SymbolDefinition
         return type & TYPE_ATTR_MASK;
     }
 
+    /** value の初期値のダミー  */
+    static public final Object DEFAULT_VALUE_DUMMY = new Object();
+
+    /**
+     * 変数の型データから初期値を生成し戻り値として返す
+     * @return Integer, Double, String, Boolean インスタンスのいずれか。typeが該当しない場合は DEFAULT_VALUE_DUMMY
+     */
+    public Object getDefaultValue()
+    {
+        return getDefaultValue( type );
+    }
+
+    /**
+     * 変数の型データから初期値を生成し戻り値として返す
+     * @return Integer, Double, String インスタンスのいずれか。
+     */
+    static public Object getDefaultValue( int type )
+    {
+        switch( getPrimitiveType( type ) )
+        {
+            case TYPE_INT:                      return new Integer( 0 );
+            case TYPE_REAL:                     return new Double( 0 );
+            case TYPE_STRING:                   return "";
+            //--------------------------------------------------------------------------
+            // 内部処理用
+            //--------------------------------------------------------------------------
+            case TYPE_BOOL:                     return new Boolean( true );
+            default:
+                return DEFAULT_VALUE_DUMMY;
+        }
+    }
+
     /**
      * 変数名を元に文字列表現された型情報を返す
      */

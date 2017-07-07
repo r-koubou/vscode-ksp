@@ -1038,6 +1038,13 @@ SEARCH:
             }
         }
         //--------------------------------------------------------------------------
+        // 左辺、右辺共にリテラル、定数なら式の結果に定数フラグを反映
+        //--------------------------------------------------------------------------
+        if( Variable.isConstant( symL.type ) && Variable.isConstant( symR.type ) )
+        {
+            ret.symbol.accessFlag |= ACCESS_ATTR_CONST;
+        }
+        //--------------------------------------------------------------------------
         // 型チェック失敗
         //--------------------------------------------------------------------------
         if( !typeCheckResult )
@@ -1511,8 +1518,28 @@ SEARCH:
         //--------------------------------------------------------------------------
         if( node.jjtGetNumChildren() == 0 && cmd.argList.size() > 0 )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
-            AnalyzeErrorCounter.e();
+            boolean valid = false;
+            // void(引数なしの括弧だけ)ならエラーの対象外
+            if( cmd.argList.size() == 1 )
+            {
+SEARCH:
+                for( CommandArgument a1 : cmd.argList )
+                {
+                    for( Argument a2 : a1.arguments )
+                    {
+                        if( a2.type != TYPE_ANY && ( a2.type & TYPE_VOID ) != 0 )
+                        {
+                            valid = true;
+                            break SEARCH;
+                        }
+                    }
+                }
+            }
+            if( !valid )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
+                AnalyzeErrorCounter.e();
+            }
             return ret;
         }
         else if( node.jjtGetNumChildren() > 0 )
@@ -1745,7 +1772,7 @@ SEARCH:
         // 条件式が整数型でない場合
         //--------------------------------------------------------------------------
         {
-            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
+            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
             if( !Variable.isInt( cond.symbol.type ) || Variable.isArray( cond.symbol.type )  )
             {
                 MessageManager.printlnE(
@@ -1782,15 +1809,19 @@ SEARCH:
             // to <expr>
             if( caseNode.jjtGetNumChildren() >= 2 )
             {
-                caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 ).jjtAccept( this, data );
-                caseValue2 = evalConstantIntValue( caseCond2, 0 );
-                if( caseValue2 == null )
+                SimpleNode n = (SimpleNode)caseNode.jjtGetChild( 1 );
+                if( n.getId() == JJTCASECONDITION ) // to ではない場合は Block ノード
                 {
-                    // 定数値ではない
-                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond1.symbol );
-                    AnalyzeErrorCounter.e();
-                    blockNode.childrenAccept( this , data );
-                    return node;
+                    caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 ).jjtAccept( this, data );
+                    caseValue2 = evalConstantIntValue( caseCond2, 0 );
+                    if( caseValue2 == null )
+                    {
+                        // 定数値ではない
+                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond1.symbol );
+                        AnalyzeErrorCounter.e();
+                        blockNode.childrenAccept( this , data );
+                        return node;
+                    }
                 }
             }
             if( caseValue1 != null && caseValue2 != null )
@@ -1828,7 +1859,7 @@ SEARCH:
     @Override
     public Object visit( ASTWhileStatement node, Object data )
     {
-        SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 );
+        SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
         //--------------------------------------------------------------------------
         // 条件式がBOOL型でない場合
         //--------------------------------------------------------------------------

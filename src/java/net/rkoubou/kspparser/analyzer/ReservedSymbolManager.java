@@ -235,6 +235,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 v.reserved          = true;                   // 予約変数
                 v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
                 v.status            = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
+                v.value             = v.getDefaultValue();
                 variables.put( name, v );
             }
         }
