@@ -791,10 +791,10 @@ void CaseStatement() #CaseStatement:
 {}
 {
     (
-        <CASE> (<MULTI_LINE_DELIMITER>)*    // case
-        CaseCondition()       // cond
+        <CASE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*    // case
+        CaseCondition()                                  // cond
         (
-            <TO> (<MULTI_LINE_DELIMITER>)* CaseCondition() // e.g. -1000 to 1000
+            <TO> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)* CaseCondition() // e.g. -1000 to 1000
         )?
         Block()
         (<MULTI_LINE_DELIMITER>)*
@@ -802,26 +802,9 @@ void CaseStatement() #CaseStatement:
 }
 
 void CaseCondition() #CaseCondition:
+{}
 {
-    Token minus = null;
-    Token token;
-}
-{
-    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> ) (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    {
-        applyIntLiteral( token, jjtThis );
-        if( minus != null )
-        {
-            int v = (Integer)jjtThis.jjtGetValue();
-            v = -v;
-            jjtThis.jjtSetValue( v );
-        }
-    }
-|
-    ( token = Variable() )
-    {
-        applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Variable );
-    }
+    Expression()
 }
 
 //

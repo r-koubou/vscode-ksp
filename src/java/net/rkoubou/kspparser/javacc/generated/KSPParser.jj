@@ -1234,10 +1234,10 @@ void CaseStatement()               :
     try {
 /*@egen*/
     (
-        <CASE> (<MULTI_LINE_DELIMITER>)*    // case
-        CaseCondition()       // cond
+        <CASE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*    // case
+        CaseCondition()                                  // cond
         (
-            <TO> (<MULTI_LINE_DELIMITER>)* CaseCondition() // e.g. -1000 to 1000
+            <TO> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)* CaseCondition() // e.g. -1000 to 1000
         )?
         Block()
         (<MULTI_LINE_DELIMITER>)*
@@ -1266,41 +1266,14 @@ void CaseStatement()               :
 
 void CaseCondition()               :
 {/*@bgen(jjtree) CaseCondition */
-    ASTCaseCondition jjtn000 = new ASTCaseCondition(this, JJTCASECONDITION);
-    boolean jjtc000 = true;
-    jjtree.openNodeScope(jjtn000);
-/*@egen*/
-    Token minus = null;
-    Token token;
-}
+  ASTCaseCondition jjtn000 = new ASTCaseCondition(this, JJTCASECONDITION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
 {/*@bgen(jjtree) CaseCondition */
     try {
 /*@egen*/
-    ( [ minus = <MINUS> ] token = <INTEGER_LITERAL> ) (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*/*@bgen(jjtree)*/
-    {
-      jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-    }
-/*@egen*/
-    {
-        applyIntLiteral( token, jjtn000 );
-        if( minus != null )
-        {
-            int v = (Integer)jjtn000.jjtGetValue();
-            v = -v;
-            jjtn000.jjtSetValue( v );
-        }
-    }
-|
-    ( token = Variable() )/*@bgen(jjtree)*/
-    {
-      jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-    }
-/*@egen*/
-    {
-        applyToSymbol( token, jjtn000, TYPE_INT, SymbolType.Variable );
-    }/*@bgen(jjtree)*/
+    Expression()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

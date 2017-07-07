@@ -17,6 +17,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
+import net.rkoubou.kspparser.javacc.generated.ASTCaseCondition;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalOr;
@@ -125,6 +126,16 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 //--------------------------------------------------------------------------
 // ユーティリティ
 //--------------------------------------------------------------------------
+
+    /**
+     * 上位ノードに返す評価式のテンプレを生成する
+     */
+    public SimpleNode createEvalNode( SimpleNode src, int nodeId )
+    {
+        SimpleNode ret = new SimpleNode( nodeId );
+        SymbolDefinition.copy( src.symbol, ret.symbol );
+        return ret;
+    }
 
     /**
      * 与えられた式が条件ステートメント(if,while等)内で実行されているかどうかを判定する
@@ -998,8 +1009,7 @@ SEARCH:
         boolean typeCheckResult = true;
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( node.getId() );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
+        SimpleNode ret = createEvalNode( node, node.getId() );
 
         // 左辺と右辺の型チェック
         if( numberOp )
@@ -1087,8 +1097,7 @@ SEARCH:
         int type                    = numOnly ? TYPE_NUMERICAL : symL.type;
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( node.getId() );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
+        SimpleNode ret = createEvalNode( node, node.getId() );
 
         // 式が数値型と一致している必要がある
         if( numOnly && !Variable.isNumeral( type ) )
@@ -1239,8 +1248,7 @@ SEARCH:
     public Object visit( ASTStrAdd node, Object data )
     {
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( node.getId() );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
+        SimpleNode ret = createEvalNode( node, node.getId() );
 
         //--------------------------------------------------------------------------
         // ＊初期値代入式では使用できない
@@ -1367,8 +1375,7 @@ SEARCH:
         <variable> [ 0:<arrayindex> ]
 */
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
+        SimpleNode ret = createEvalNode( node, JJTREFVARIABLE );
 
         //--------------------------------------------------------------------------
         // 宣言済みかどうか
@@ -1441,8 +1448,7 @@ SEARCH:
         final SymbolDefinition sym = expr.symbol;
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
-        SymbolDefinition.copy( parent.symbol, ret.symbol );
+        SimpleNode ret = createEvalNode( parent, JJTREFVARIABLE );
 
         // 添え字の型はintのみ
         if( !Variable.isInt( sym.type ) )
@@ -1466,8 +1472,7 @@ SEARCH:
         final Command cmd = commandTable.search( node.symbol.name );
 
         // 上位ノードの型評価式用
-        SimpleNode ret = new SimpleNode( JJTREFVARIABLE );
-        SymbolDefinition.copy( node.symbol, ret.symbol );
+        SimpleNode ret = createEvalNode( node, JJTREFVARIABLE );
 
         if( cmd == null )
         {
@@ -1759,24 +1764,35 @@ SEARCH:
         for( int i = 1; i < node.jjtGetNumChildren(); i++ )
         {
             SimpleNode caseNode  = (SimpleNode)node.jjtGetChild( i );
-            SimpleNode caseCond1 = (SimpleNode)caseNode.jjtGetChild( 0 );
+            SimpleNode caseCond1 = (SimpleNode)caseNode.jjtGetChild( 0 ).jjtAccept( this, data );
             SimpleNode caseCond2 = null;
-            Integer caseValue1   = checkCaseConditionImpl( caseCond1 );
+            Integer caseValue1   = evalConstantIntValue( caseCond1, 0 );
             Integer caseValue2   = null;
             SimpleNode blockNode = (SimpleNode)caseNode.jjtGetChild( caseNode.jjtGetNumChildren() - 1 );
 
+            // 定数値ではない
             if( caseValue1 == null )
             {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond1.symbol );
+                AnalyzeErrorCounter.e();
+
                 blockNode.childrenAccept( this , data );
                 return node;
             }
             // to <expr>
             if( caseNode.jjtGetNumChildren() >= 2 )
             {
-                caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 );
-                caseValue2 = checkCaseConditionImpl( caseCond2 );
+                caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 ).jjtAccept( this, data );
+                caseValue2 = evalConstantIntValue( caseCond2, 0 );
+                if( caseValue2 == null )
+                {
+                    // 定数値ではない
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond1.symbol );
+                    AnalyzeErrorCounter.e();
+                    blockNode.childrenAccept( this , data );
+                    return node;
+                }
             }
-
             if( caseValue1 != null && caseValue2 != null )
             {
                 // A to B のチェック
@@ -1794,25 +1810,16 @@ SEARCH:
     }
 
     /**
-     * casecond のチェック
+     * casecondの評価
      */
-    protected Integer checkCaseConditionImpl( SimpleNode caseCond )
+    @Override
+    public Object visit( ASTCaseCondition node, Object data )
     {
-        Variable v = variableTable.search( caseCond.symbol.name );
-        if( v != null && v.isInt() && v.isConstant() )
-        {
-            return (Integer)v.value;
-        }
-        else if( v != null )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond.symbol );
-            AnalyzeErrorCounter.e();
-            return null;
-        }
-        else
-        {
-            return (Integer)caseCond.symbol.value;
-        }
+/*
+    <casecond>
+        -> <expr>
+*/
+        return (SimpleNode)( node.jjtGetChild( 0 ) );
     }
 
     /**
