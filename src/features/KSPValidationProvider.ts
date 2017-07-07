@@ -16,6 +16,7 @@ import * as tmp             from 'tmp';
 import * as fs              from 'fs';
 import { ThrottledDelayer } from './libs/async';
 import * as config          from './KSPConfigurationConstants';
+import * as kspconst        from './KSPExtensionConstants';
 
 const CHECKED_EXECUTABLE_PATH               = 'ksp.validate.checkedExecutablePath';
 const PARSER_MESSAGE_DELIMITER: string      = "\t";
@@ -296,7 +297,7 @@ export class KSPValidationProvider
                 }
             }
 
-            let thisExtention       = vscode.extensions.getExtension( "R-Koubou.ksp" );
+            let thisExtention       = vscode.extensions.getExtension( kspconst.EXTENSION_ID );
             let thisExtentionDir    = thisExtention.extensionPath;
             let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
             let args: string[]      = [];
