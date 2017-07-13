@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Language (KSP)",
     "description": "Language support for NI KONTAKT Script (KSP)",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "publisher": "rkoubou",
     "keywords": [
         "KONTAKT",

@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 0.3.2
+
+Syntax highlighting
+
+* Numeric highlighting bug fixes
+
+## Version 0.3.1
+
+Syntax Parser
+
+* Some bug fixes
+
 ## Version 0.3.0
 
 * `Changed Extension ID`

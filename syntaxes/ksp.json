@@ -77,10 +77,15 @@
         {
             "patterns":[
                 {
-                    "match": "\\\\([0-7]{3}|[abfnrtv\\\\'\"]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})"
+                    "match": "([1-9][0-9]*)\\b",
+                    "name": "constant.numeric.ksp"
                 },
                 {
-                    "match": "(?<![\\d.])\\s0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?",
+                    "match": "(9[0-9|a-f|A-F]+h)\\b",
+                    "name": "constant.numeric.ksp"
+                },
+                {
+                    "match": "(\\.[0-9]*)\\b",
                     "name": "constant.numeric.ksp"
                 }
             ]
