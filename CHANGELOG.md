@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.3
+
+Syntax highlighting
+
+* Numeric highlighting bug fixes
+
 ## Version 0.3.2
 
 Syntax highlighting

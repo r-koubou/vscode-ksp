@@ -77,7 +77,7 @@
         {
             "patterns":[
                 {
-                    "match": "([1-9][0-9]*)\\b",
+                    "match": "(0|[1-9][0-9]*)\\b",
                     "name": "constant.numeric.ksp"
                 },
                 {
