@@ -14,6 +14,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
+import net.rkoubou.kspparser.javacc.generated.ASTBlock;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
@@ -1723,11 +1724,28 @@ SEARCH:
 //--------------------------------------------------------------------------
 
     /**
+     * スコープ（コールバック・ユーザー定義関数のルート）
+     */
+    @Override
+    public Object visit( ASTBlock node, Object data )
+    {
+        return node.childrenAccept( this, data );
+    }
+
+    /**
      * if 条件式の評価
      */
     @Override
     public Object visit( ASTIfStatement node, Object data )
     {
+/*
+         if
+            -> <expr>
+            -> <block>
+            :
+        | else
+            -> <block>
+*/
         SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
         //--------------------------------------------------------------------------
         // 条件式がBOOL型でない場合
@@ -1742,6 +1760,11 @@ SEARCH:
                 );
                 AnalyzeErrorCounter.e();
             }
+        }
+        // <block>
+        if( node.jjtGetNumChildren() >= 2 )
+        {
+            node.jjtGetChild( 1 ).jjtAccept( this, data );
         }
         return cond;
     }
@@ -1859,6 +1882,12 @@ SEARCH:
     @Override
     public Object visit( ASTWhileStatement node, Object data )
     {
+/*
+         while
+            -> <expr>
+            -> <block>
+*/
+
         SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
         //--------------------------------------------------------------------------
         // 条件式がBOOL型でない場合
@@ -1873,6 +1902,11 @@ SEARCH:
                 );
                 AnalyzeErrorCounter.e();
             }
+        }
+        // <block>
+        if( node.jjtGetNumChildren() >= 2 )
+        {
+            node.jjtGetChild( 1 ).jjtAccept( this, data );
         }
         return cond;
     }
