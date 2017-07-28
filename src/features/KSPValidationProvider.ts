@@ -330,7 +330,7 @@ export class KSPValidationProvider
 //            args.push( "-Duser.language=en" );
 //            args.push( "-Duser.country=US" );
             args.push( "-jar" );
-            args.push( thisExtentionDir + "/kspparser/kspsyntaxparser.jar" );
+            args.push( thisExtentionDir + "/kspparser/KSPSyntaxParser.jar" );
             args.push( src );
 
             try

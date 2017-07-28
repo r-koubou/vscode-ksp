@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.3.4
+
+* Syntax Parser bug fixes
+
 ## Version 0.3.3
 
 Syntax highlighting
