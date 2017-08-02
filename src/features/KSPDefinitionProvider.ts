@@ -46,7 +46,7 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
                 result.push( x.location );
             }
             // Variable?
-            else if( KSPSymbol.toVariableNameFormat( x.KspSymbol ) == symbol )
+            else if( x.KspSymbol.toVariableNameFormat() == symbol )
             {
                 if( !declaredLine )
                 {
@@ -58,7 +58,7 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
                 {
                     symbols.forEach( y=>{
                         if( y.KspSymbol.isUI && y.KspSymbol.kspSymbolType == KSPSymbolType.CALLBACK &&
-                            KSPSymbol.toVariableNameFormat( y.KspSymbol, true ) == symbol )
+                            y.KspSymbol.toVariableNameFormat( true ) == symbol )
                         {
                             result.push( y.location );
                         }

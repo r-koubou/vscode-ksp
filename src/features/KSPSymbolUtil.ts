@@ -38,15 +38,15 @@ export class KSPSymbol
     public lineNumber           : number  = -1;
     public colmn                : number  = -1;
 
-    static toVariableNameFormat( symbol : KSPSymbol, isUI : boolean = false ) : string
+    public toVariableNameFormat( isUI : boolean = false ) : string
     {
-        var ret = symbol.name;
+        var ret = this.name;
         if( isUI )
         {
-            ret = symbol.uiVariableName;
+            ret = this.uiVariableName;
         }
 
-        switch( symbol.kspSymbolType )
+        switch( this.kspSymbolType )
         {
             case KSPSymbolType.VARIABLE_INTEGR:         return '$' + ret;
             case KSPSymbolType.VARIABLE_REAL:           return '~' + ret;
@@ -86,6 +86,23 @@ export class KSPSymbol
             default:  return "Unkown";
         }
     }
+
+    static isVariable( name : string ) : boolean
+    {
+        const type : KSPSymbolType = KSPSymbol.variableTypeChar2Type( name.charAt( 0 ) );
+        switch( type )
+        {
+            case KSPSymbolType.VARIABLE_INTEGR:
+            case KSPSymbolType.VARIABLE_REAL:
+            case KSPSymbolType.VARIABLE_STRING:
+            case KSPSymbolType.VARIABLE_INTEGR_ARRAY:
+            case KSPSymbolType.VARIABLE_REAL_ARRAY:
+            case KSPSymbolType.VARIABLE_STRING_ARRAY:
+                return true;
+            default:
+                return false;
+        }
+    }
 }
 
 /**
@@ -116,21 +133,81 @@ export class KSPSymbolInformation extends vscode.SymbolInformation
         this.KspSymbol.kspSymbolType = type;
     }
 
+    public isVariable() : boolean
+    {
+        switch( this.kspSymbol.kspSymbolType )
+        {
+            case KSPSymbolType.VARIABLE_INTEGR:
+            case KSPSymbolType.VARIABLE_REAL:
+            case KSPSymbolType.VARIABLE_STRING:
+            case KSPSymbolType.VARIABLE_INTEGR_ARRAY:
+            case KSPSymbolType.VARIABLE_REAL_ARRAY:
+            case KSPSymbolType.VARIABLE_STRING_ARRAY:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public isUserFunction() : boolean
+    {
+        switch( this.kspSymbol.kspSymbolType )
+        {
+            case KSPSymbolType.USER_FUNCTION:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     get KspSymbol() : KSPSymbol { return this.kspSymbol; }
 
 }
 
 export class KSPSymbolUtil
 {
+    public static readonly REGEX_SYMBOL_BOUNDARY : RegExp     = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^|"]+/g
+    public static readonly REGEX_SYMBOL_BOUNDARY_STR : string = "[\\s|\\(|\\)|\\{|\\}|:|\\[|\\]|,|\\+|-|\\/|\\*|<|>|\\^|\\\"]+";
+
+    static startAt( lineText:string, position:vscode.Position ) : number
+    {
+        for( var i = position.character - 1; i >= 0; i-- )
+        {
+            var regex : RegExp = new RegExp( KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY );
+            var char  = lineText.charAt( i );
+            var match = regex.exec( char );
+            if( match )
+            {
+                return i + 1;
+            }
+        }
+        return position.character;
+    }
+
+    static endAt( lineText:string, position:vscode.Position ) : number
+    {
+        for( var i = position.character + 1; i < lineText.length; i++ )
+        {
+            var regex : RegExp = new RegExp( KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY );
+            var char  = lineText.charAt( i );
+            var match = regex.exec( char );
+            if( match )
+            {
+                return i - 1;
+            }
+        }
+        return position.character;
+    }
+
     static parseSymbolAt( document: vscode.TextDocument, position: vscode.Position ) : string
     {
         var textLine : vscode.TextLine = document.lineAt( position.line );
         var line   : string = textLine.text;
         var eolPos : number = line.length;
-        var symbol : string = line.charAt( position.character );
-        for( var i = position.character + 1; i < eolPos; i++ )
+        var symbol : string = "";
+        for( var i = position.character; i < eolPos; i++ )
         {
-            var regex : RegExp = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^]+/g;
+            var regex : RegExp = KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY;
             var char  = line.charAt( i );
             var match = regex.exec( char );
             if( match )
@@ -141,7 +218,7 @@ export class KSPSymbolUtil
         }
         for( var i = position.character - 1; i >= 0; i-- )
         {
-            var regex : RegExp = /[\s|\(|\)|\{|\}|:|\[|\]|,|\+|-|\/|\*|<|>|\^]+/g;
+            var regex : RegExp = KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY;
             var char  = line.charAt( i );
             var match = regex.exec( char );
             if( match )
@@ -150,7 +227,7 @@ export class KSPSymbolUtil
             }
             symbol = char + symbol;
         }
-        return symbol;
+        return symbol.trim();
     }
 
     static collect( document: vscode.TextDocument, token: vscode.CancellationToken, endLineNumber: number = -1 ) : KSPSymbolInformation[]
@@ -168,7 +245,7 @@ export class KSPSymbolUtil
             // check declare variables
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*declare\s+(ui_[a-z|A-Z]+|const)?\s*([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
+                var DECLARE_REGEX = /^\s*declare\s+(ui_[a-zA-Z0-9_]+|const)?\s*([\$%~\?@!][a-zA-Z_][a-zA-Z0-9_]*)/g;
 
                 var text  = document.lineAt( i ).text;
                 var match = DECLARE_REGEX.exec( text );
@@ -211,7 +288,7 @@ export class KSPSymbolUtil
             // check callback ( on #### )
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*(on\s+)([a-z|A-Z|_]+)(\s*\(\s*[^\)]+\s*\))?/g;
+                var DECLARE_REGEX = /^\s*(on\s+)([a-zA-Z0-9_]+)(\s*\(\s*[^\)]+\s*\))?/g;
 
                 var text  = document.lineAt( i ).text;
                 var match = DECLARE_REGEX.exec( text );
@@ -256,7 +333,7 @@ export class KSPSymbolUtil
             // check user function ( function #### )
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*(function\s+)([a-z|A-Z|_]+)/g;
+                var DECLARE_REGEX = /^\s*(function\s+)([a-zA-Z0-9_]+)/g;
 
                 var text  = document.lineAt( i ).text;
                 var match = DECLARE_REGEX.exec( text );

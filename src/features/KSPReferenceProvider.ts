@@ -106,7 +106,7 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
                     });
                 }
                 // Variable?
-                else if( KSPSymbol.toVariableNameFormat( x.KspSymbol ) == symbol )
+                else if( x.KspSymbol.toVariableNameFormat() == symbol )
                 {
                     words.forEach( w=>{
                         if( w == symbol )

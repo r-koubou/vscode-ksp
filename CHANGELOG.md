@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.3.5
+
+* Go to Definition bug fixes
+
 ## Version 0.3.4
 
 * Syntax Parser bug fixes
