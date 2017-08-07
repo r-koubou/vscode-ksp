@@ -19,6 +19,7 @@ import { KSPDocumentSymbolProvider }    from './features/KSPDocumentSymbolProvid
 import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
+import { KSPRenameProvider }            from './features/KSPRenameProvider';
 
 export function activate( context:vscode.ExtensionContext ) : any
 {
@@ -48,6 +49,10 @@ export function activate( context:vscode.ExtensionContext ) : any
 
     context.subscriptions.push(
         vscode.languages.registerReferenceProvider( 'ksp', new KSPReferenceProvider() )
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerRenameProvider( 'ksp', new KSPRenameProvider() )
     );
 
     vscode.languages.setLanguageConfiguration( 'ksp', {

@@ -212,6 +212,11 @@ export class KSPSymbolUtil
             var match = regex.exec( char );
             if( match )
             {
+                if( char == '"' )
+                {
+                    // Literal String
+                    symbol += '"';
+                }
                 break;
             }
             symbol += char;
@@ -223,6 +228,11 @@ export class KSPSymbolUtil
             var match = regex.exec( char );
             if( match )
             {
+                if( char == '"' )
+                {
+                    // Literal String
+                    symbol = '"' + symbol;
+                }
                 break;
             }
             symbol = char + symbol;
