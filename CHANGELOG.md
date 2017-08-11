@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.3.6
+
+* Added rename identifiers feature
+
 ## Version 0.3.5
 
 * Go to Definition bug fixes

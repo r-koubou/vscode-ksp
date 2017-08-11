@@ -35,7 +35,6 @@ export class KSPRenameProvider implements vscode.RenameProvider
                                newName:string,
                                token:CancellationToken ) : ProviderResult<WorkspaceEdit>
     {
-        console.log( "target: " + document.fileName );
         return new Promise<vscode.WorkspaceEdit>( (ressolve, reject) => {
 
             if( !newName )

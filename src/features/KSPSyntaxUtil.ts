@@ -44,31 +44,26 @@ export default class KSPSyntaxUtil
 
     static matchKeyword( text: string ) : boolean
     {
-        console.log( "matchKeyword: " + ( BASIC_KEYWORDS.indexOf( text ) != -1 ) );
         return BASIC_KEYWORDS.indexOf( text ) != -1;
     }
 
     static matchDecimal( text: string ) : boolean
     {
-        console.log( "matchDecimal: " + ( text.match( REGEXP_DECIMAL ) != null ) );
         return text.match( REGEXP_DECIMAL ) != null;
     }
 
     static matchHexadecimal( text: string ) : boolean
     {
-        console.log( "matchHexadecimal: " + ( text.match( REGEXP_HEXADECIMAL ) != null ) );
         return text.match( REGEXP_HEXADECIMAL ) != null;
     }
 
     static matchReal( text: string ) : boolean
     {
-        console.log( "matchReal: " + ( text.match( REGEXP_REAL ) != null ) );
         return text.match( REGEXP_REAL ) != null;
     }
 
     static matchString( text: string ) : boolean
     {
-        console.log( "matchString: " + ( text.match( REGEXP_STRING ) != null ) );
         return text.match( REGEXP_STRING ) != null;
     }
 

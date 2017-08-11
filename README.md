@@ -17,8 +17,11 @@
     - Shift+F12
 
 * Syntax validation
+* Rename Identifiers
+    - Context menu
+    - F2
 
-## UPDATED! - Syntax validation ( `"BETA" VERSION` ).
+## Syntax validation ( `"BETA" VERSION` ).
 
 * Analysis program has some bugs was FIXED
 * Analysis precision improved (`Semantic Analysis` is `READY`)
@@ -114,17 +117,17 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * Hover
 * 宣言箇所へのジャンプ
     - Ctrl(Command)+Shift+O
-    - F2
+    - F12
     - Ctrl(Command)+クリック
 * スクリプト内のシンボル参照箇所の検索（*簡易版）
     - シンボルを右クリック後、コンテキストメニューから選択
     - Shift+F12
 * 文法解析機能
+* リネーム機能
+    - シンボルを右クリック後、コンテキストメニューから選択
+    - F2
 
-    `初期設定ではこの機能はオフになっています。`
-    使用する際は、設定画面で設定を変えて下さい。（Preferences->Settings内、KSP NI KONTAKT Script ）
-
-## 更新しました! - 文法解析機能 ( `ベータバージョン` ).
+## 文法解析機能 ( `ベータバージョン` ).
 
 * 解析プログラムのバグを修正しました
 * 解析精度が向上しました(`意味解析を組み込みました`)
@@ -133,6 +136,10 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
     - 未使用の変数、ユーザー定義関数の検出
 
     など
+
+    `初期設定ではこの機能はオフになっています。`
+    使用する際は、設定画面で設定を変えて下さい。
+    (Preferences->Settings内、KSP NI KONTAKT Script )
 
 ### 文法解析機能について
 
