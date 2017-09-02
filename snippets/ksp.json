@@ -5237,6 +5237,14 @@
         ],
         "description": "Built-in Variable: HIDE_PART_BG"
     },
+    "HIDE_PART_CURSOR":
+    {
+        "prefix": "HIDE_PART_CURSOR",
+        "body":[
+            "$HIDE_PART_CURSOR"
+        ],
+        "description": "Built-in Variable: HIDE_PART_CURSOR"
+    },
     "HIDE_PART_MOD_LIGHT":
     {
         "prefix": "HIDE_PART_MOD_LIGHT",
@@ -6084,6 +6092,14 @@
             "$NI_CB_TYPE_UI_UPDATE"
         ],
         "description": "Built-in Variable: NI_CB_TYPE_UI_UPDATE"
+    },
+    "NI_CONTROL_PAR_IDX":
+    {
+        "prefix": "NI_CONTROL_PAR_IDX",
+        "body":[
+            "$NI_CONTROL_PAR_IDX"
+        ],
+        "description": "Built-in Variable: NI_CONTROL_PAR_IDX"
     },
     "NI_FILE_TYPE_ARRAY":
     {

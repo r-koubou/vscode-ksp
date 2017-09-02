@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.7
+
+* Support 5.6.8 Built-in Variables
+    * $NI_CONTROL_PAR_IDX
+    * $HIDE_PART_CURSOR
+
 ## Version 0.3.6
 
 * Added rename identifiers feature

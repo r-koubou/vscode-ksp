@@ -44,7 +44,7 @@
 
 ## KSP Compatibility
 
-- KONTAKT 5.6.5's KSP syntax
+- KONTAKT 5.6.8's KSP syntax
 
 ## TODO
 
@@ -151,7 +151,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ## KSP互換
 
-- KONTAKT 5.6.5 のKSPに対応しています
+- KONTAKT 5.6.8 のKSPに対応しています
 
 ## TODO
 

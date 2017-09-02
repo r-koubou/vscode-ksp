@@ -1594,6 +1594,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: HIDE_PART_BG"
     },
+    "$HIDE_PART_CURSOR":
+    {
+        "description": "Built-in Variable: HIDE_PART_CURSOR"
+    },
     "$HIDE_PART_MOD_LIGHT":
     {
         "description": "Built-in Variable: HIDE_PART_MOD_LIGHT"
@@ -2017,6 +2021,10 @@ export var builtinVariables = {
     "$NI_CB_TYPE_UI_UPDATE":
     {
         "description": "Built-in Variable: NI_CB_TYPE_UI_UPDATE"
+    },
+    "$NI_CONTROL_PAR_IDX":
+    {
+        "description": "Built-in Variable: NI_CONTROL_PAR_IDX"
     },
     "$NI_FILE_TYPE_ARRAY":
     {
