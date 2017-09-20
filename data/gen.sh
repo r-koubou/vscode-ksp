@@ -1,13 +1,13 @@
 #!/bin/bash
 
-python Excel2CompleteCommands.py KSP.xlsx
-python Excel2CompleteVariables.py KSP.xlsx
-python Excel2Snippet.py KSP.xlsx
+python3 Excel2CompleteCommands.py KSP.xlsx
+python3 Excel2CompleteVariables.py KSP.xlsx
+python3 Excel2Snippet.py KSP.xlsx
 
 ./extract.sh
 echo  "# Generate Command Name Array : ../src/features/generated/KSPCommandNames.ts"
-python VerifyExtractedManualData.py extract_command.ksp > /dev/null
-python Text2TSArray.py  __mergeed__.txt \
+python3 VerifyExtractedManualData.py extract_command.ksp > /dev/null
+python3 Text2TSArray.py  __mergeed__.txt \
                         ../src/features/generated/KSPCommandNames.ts \
                         commandNameList \
                         ui_knob \
@@ -18,8 +18,8 @@ python Text2TSArray.py  __mergeed__.txt \
                         ui_waveform
 
 echo  "# Generate Builtin Variable Name Array : ../src/features/generated/KSPBuiltinVariableNames.ts"
-python VerifyExtractedManualData.py extract_variables.ksp -v > /dev/null
-python Text2TSArray.py  __mergeed__.txt \
+python3 VerifyExtractedManualData.py extract_variables.ksp -v > /dev/null
+python3 Text2TSArray.py  __mergeed__.txt \
                         ../src/features/generated/KSPBuiltinVariableNames.ts \
                         builtinVariableNameList
 

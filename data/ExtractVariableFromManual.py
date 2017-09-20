@@ -1,8 +1,9 @@
-# encode: utf-8
+# coding: utf-8
 
 import re
+import ExtractManualNameConfig
 
-INPUT    = "KSP Reference Manual.txt"
+INPUT = ExtractManualNameConfig.name
 
 # NOTE:
 # KSP Reference Manual.txt created by Acrobat DC (Windows version & locale cp932) and re-save on vscode as utf-8 encoding.

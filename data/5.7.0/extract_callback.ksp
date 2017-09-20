@@ -1,0 +1,13 @@
+on note
+on controller
+on async_complete
+on init
+on ui_control
+on persistence_changed
+on listener
+on release
+on pgs_changed
+on poly_at
+on rpn
+on ui_update
+on midi_in
