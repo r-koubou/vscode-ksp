@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 0.3.8
+
+* Support 5.7 Built-in Variables
+
+    In 5.7, many NI variable has added.
+
+    See also : [http://twitdoc.com/upload/rz_devel/winmerge-file-compare-report.pdf](http://twitdoc.com/upload/rz_devel/winmerge-file-compare-report.pdf)
+
+    \* Usually, my extraction from KSP Reference program. This time i created a diff from 5.6.8. It may be incomplete.
+
+* Syntax Parser
+    * Bug fixes
+        * Assignment operator "**:=**" Incorrect detection
+
 ## Version 0.3.7
 
 * Support 5.6.8 Built-in Variables

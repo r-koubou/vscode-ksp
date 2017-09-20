@@ -14,6 +14,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: CC_NUM"
     },
+    "$CONTROL_PAR_ACTIVE_INDEX":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_ACTIVE_INDEX"
+    },
     "$CONTROL_PAR_ALLOW_AUTOMATION":
     {
         "description": "Built-in Variable: CONTROL_PAR_ALLOW_AUTOMATION"
@@ -34,6 +38,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: CONTROL_PAR_BASEPATH"
     },
+    "$CONTROL_PAR_BG_ALPHA":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_BG_ALPHA"
+    },
     "$CONTROL_PAR_BG_COLOR":
     {
         "description": "Built-in Variable: CONTROL_PAR_BG_COLOR"
@@ -41,6 +49,10 @@ export var builtinVariables = {
     "$CONTROL_PAR_COLUMN_WIDTH":
     {
         "description": "Built-in Variable: CONTROL_PAR_COLUMN_WIDTH"
+    },
+    "$CONTROL_PAR_CURSOR_PICTURE":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_CURSOR_PICTURE"
     },
     "$CONTROL_PAR_DEFAULT_VALUE":
     {
@@ -118,6 +130,18 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR"
     },
+    "$CONTROL_PAR_MOUSE_BEHAVIOUR_X":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_X"
+    },
+    "$CONTROL_PAR_MOUSE_BEHAVIOUR_Y":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
+    },
+    "$CONTROL_PAR_MOUSE_MODE":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_MOUSE_MODE"
+    },
     "$CONTROL_PAR_NONE":
     {
         "description": "Built-in Variable: CONTROL_PAR_NONE"
@@ -166,6 +190,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: CONTROL_PAR_SHOW_ARROWS"
     },
+    "$CONTROL_PAR_SLICEMARKERS_COLOR":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_SLICEMARKERS_COLOR"
+    },
     "$CONTROL_PAR_TEXT":
     {
         "description": "Built-in Variable: CONTROL_PAR_TEXT"
@@ -194,33 +222,25 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: CONTROL_PAR_VERTICAL"
     },
+    "$CONTROL_PAR_WAVE_COLOR":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_WAVE_COLOR"
+    },
+    "$CONTROL_PAR_WAVE_CURSOR_COLOR":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_WAVE_CURSOR_COLOR"
+    },
     "$CONTROL_PAR_WIDTH":
     {
         "description": "Built-in Variable: CONTROL_PAR_WIDTH"
     },
-    "$CONTROL_PAR_MOUSE_BEHAVIOUR_X":
-    {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_X"
-    },
-    "$CONTROL_PAR_MOUSE_BEHAVIOUR_Y":
-    {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
-    },
-    "$CONTROL_PAR_MOUSE_MODE":
-    {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_MODE"
-    },
-    "$CONTROL_PAR_ACTIVE_INDEX":
-    {
-        "description": "Built-in Variable: CONTROL_PAR_ACTIVE_INDEX"
-    },
-    "$CONTROL_PAR_CURSOR_PICTURE":
-    {
-        "description": "Built-in Variable: CONTROL_PAR_CURSOR_PICTURE"
-    },
     "$CONTROL_PAR_ZERO_LINE_COLOR":
     {
         "description": "Built-in Variable: CONTROL_PAR_ZERO_LINE_COLOR"
+    },
+    "$CONTROL_PAR_Z_LAYER":
+    {
+        "description": "Built-in Variable: CONTROL_PAR_Z_LAYER"
     },
     "$CURRENT_EVENT":
     {
@@ -262,6 +282,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: DURATION_SIXTEENTH_TRIPLET"
     },
+    "$EFFECT_TYPE_ACBOX":
+    {
+        "description": "Built-in Variable: EFFECT_TYPE_ACBOX"
+    },
     "$EFFECT_TYPE_AET_FILTER":
     {
         "description": "Built-in Variable: EFFECT_TYPE_AET_FILTER"
@@ -273,6 +297,10 @@ export var builtinVariables = {
     "$EFFECT_TYPE_CABINET":
     {
         "description": "Built-in Variable: EFFECT_TYPE_CABINET"
+    },
+    "$EFFECT_TYPE_CAT":
+    {
+        "description": "Built-in Variable: EFFECT_TYPE_CAT"
     },
     "$EFFECT_TYPE_CHORUS":
     {
@@ -290,6 +318,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: EFFECT_TYPE_DISTORTION"
     },
+    "$EFFECT_TYPE_DSTORTION":
+    {
+        "description": "Built-in Variable: EFFECT_TYPE_DSTORTION"
+    },
     "$EFFECT_TYPE_FB_COMP":
     {
         "description": "Built-in Variable: EFFECT_TYPE_FB_COMP"
@@ -305,6 +337,10 @@ export var builtinVariables = {
     "$EFFECT_TYPE_GAINER":
     {
         "description": "Built-in Variable: EFFECT_TYPE_GAINER"
+    },
+    "$EFFECT_TYPE_HOTSOLO":
+    {
+        "description": "Built-in Variable: EFFECT_TYPE_HOTSOLO"
     },
     "$EFFECT_TYPE_INVERTER":
     {
@@ -377,6 +413,42 @@ export var builtinVariables = {
     "$EFFECT_TYPE_TWANG":
     {
         "description": "Built-in Variable: EFFECT_TYPE_TWANG"
+    },
+    "$EFFECT_TYPE_VAN51":
+    {
+        "description": "Built-in Variable: EFFECT_TYPE_VAN51"
+    },
+    "$ENGINE_PAR_AC_BASS":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_BASS"
+    },
+    "$ENGINE_PAR_AC_BRILLIANTVOLUME":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_BRILLIANTVOLUME"
+    },
+    "$ENGINE_PAR_AC_MONO":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_MONO"
+    },
+    "$ENGINE_PAR_AC_NORMALVOLUME":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_NORMALVOLUME"
+    },
+    "$ENGINE_PAR_AC_TONECUT":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_TONECUT"
+    },
+    "$ENGINE_PAR_AC_TREBLE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_TREBLE"
+    },
+    "$ENGINE_PAR_AC_TREMOLODEPTH":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_TREMOLODEPTH"
+    },
+    "$ENGINE_PAR_AC_TREMOLOSPEED":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_AC_TREMOLOSPEED"
     },
     "$ENGINE_PAR_ATK_CURVE":
     {
@@ -458,6 +530,38 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_COMP_DECAY"
     },
+    "$ENGINE_PAR_CT_BALLS":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_BALLS"
+    },
+    "$ENGINE_PAR_CT_BASS":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_BASS"
+    },
+    "$ENGINE_PAR_CT_DISTORTION":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_DISTORTION"
+    },
+    "$ENGINE_PAR_CT_FILTER":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_FILTER"
+    },
+    "$ENGINE_PAR_CT_MONO":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_MONO"
+    },
+    "$ENGINE_PAR_CT_TONE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_TONE"
+    },
+    "$ENGINE_PAR_CT_TREBLE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_TREBLE"
+    },
+    "$ENGINE_PAR_CT_VOLUME":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_CT_VOLUME"
+    },
     "$ENGINE_PAR_CUTOFF":
     {
         "description": "Built-in Variable: ENGINE_PAR_CUTOFF"
@@ -490,6 +594,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_DECAY_UNIT"
     },
+    "$ENGINE_PAR_DISTORTION_TYPE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DISTORTION_TYPE"
+    },
     "$ENGINE_PAR_DL_DAMPING":
     {
         "description": "Built-in Variable: ENGINE_PAR_DL_DAMPING"
@@ -513,6 +621,34 @@ export var builtinVariables = {
     "$ENGINE_PAR_DRIVE":
     {
         "description": "Built-in Variable: ENGINE_PAR_DRIVE"
+    },
+    "$ENGINE_PAR_DS_BASS":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_BASS"
+    },
+    "$ENGINE_PAR_DS_DRIVE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_DRIVE"
+    },
+    "$ENGINE_PAR_DS_MID":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_MID"
+    },
+    "$ENGINE_PAR_DS_MONO":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_MONO"
+    },
+    "$ENGINE_PAR_DS_TONE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_TONE"
+    },
+    "$ENGINE_PAR_DS_TREBLE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_TREBLE"
+    },
+    "$ENGINE_PAR_DS_VOLUME":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_DS_VOLUME"
     },
     "$ENGINE_PAR_EFFECT_BYPASS":
     {
@@ -542,9 +678,17 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_FCOMP_ATTACK"
     },
+    "$ENGINE_PAR_FCOMP_HQ_MODE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_FCOMP_HQ_MODE"
+    },
     "$ENGINE_PAR_FCOMP_INPUT":
     {
         "description": "Built-in Variable: ENGINE_PAR_FCOMP_INPUT"
+    },
+    "$ENGINE_PAR_FCOMP_LINK":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_FCOMP_LINK"
     },
     "$ENGINE_PAR_FCOMP_MAKEUP":
     {
@@ -577,6 +721,10 @@ export var builtinVariables = {
     "$ENGINE_PAR_FILTER_GAIN":
     {
         "description": "Built-in Variable: ENGINE_PAR_FILTER_GAIN"
+    },
+    "$ENGINE_PAR_FILTER_LADDER_HQ":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_FILTER_LADDER_HQ"
     },
     "$ENGINE_PAR_FILTER_RESB":
     {
@@ -709,6 +857,46 @@ export var builtinVariables = {
     "$ENGINE_PAR_HP_CUTOFF":
     {
         "description": "Built-in Variable: ENGINE_PAR_HP_CUTOFF"
+    },
+    "$ENGINE_PAR_HS_BASS":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_BASS"
+    },
+    "$ENGINE_PAR_HS_DEPTH":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_DEPTH"
+    },
+    "$ENGINE_PAR_HS_MASTER":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_MASTER"
+    },
+    "$ENGINE_PAR_HS_MID":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_MID"
+    },
+    "$ENGINE_PAR_HS_MONO":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_MONO"
+    },
+    "$ENGINE_PAR_HS_OVERDRIVE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_OVERDRIVE"
+    },
+    "$ENGINE_PAR_HS_PRENORMAL":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_PRENORMAL"
+    },
+    "$ENGINE_PAR_HS_PREOVERDRIVE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_PREOVERDRIVE"
+    },
+    "$ENGINE_PAR_HS_PRESENCE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_PRESENCE"
+    },
+    "$ENGINE_PAR_HS_TREBLE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_HS_TREBLE"
     },
     "$ENGINE_PAR_INSERT_EFFECT_OUTPUT_GAIN":
     {
@@ -1046,6 +1234,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_SHAPE"
     },
+    "$ENGINE_PAR_SHAPE_TYPE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_SHAPE_TYPE"
+    },
     "$ENGINE_PAR_SK_BASS":
     {
         "description": "Built-in Variable: ENGINE_PAR_SK_BASS"
@@ -1182,6 +1374,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_TP_HF_ROLLOFF"
     },
+    "$ENGINE_PAR_TP_QUALITY":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_TP_QUALITY"
+    },
     "$ENGINE_PAR_TP_WARMTH":
     {
         "description": "Built-in Variable: ENGINE_PAR_TP_WARMTH"
@@ -1198,6 +1394,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_TR_INPUT"
     },
+    "$ENGINE_PAR_TR_SMOOTH":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_TR_SMOOTH"
+    },
     "$ENGINE_PAR_TR_SUSTAIN":
     {
         "description": "Built-in Variable: ENGINE_PAR_TR_SUSTAIN"
@@ -1210,9 +1410,17 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: ENGINE_PAR_TW_BASS"
     },
+    "$ENGINE_PAR_TW_BRIGHT":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_TW_BRIGHT"
+    },
     "$ENGINE_PAR_TW_MID":
     {
         "description": "Built-in Variable: ENGINE_PAR_TW_MID"
+    },
+    "$ENGINE_PAR_TW_MONO":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_TW_MONO"
     },
     "$ENGINE_PAR_TW_TREBLE":
     {
@@ -1221,6 +1429,58 @@ export var builtinVariables = {
     "$ENGINE_PAR_TW_VOLUME":
     {
         "description": "Built-in Variable: ENGINE_PAR_TW_VOLUME"
+    },
+    "$ENGINE_PAR_V5_BASS":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_BASS"
+    },
+    "$ENGINE_PAR_V5_BRIGHT":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_BRIGHT"
+    },
+    "$ENGINE_PAR_V5_CRUNCH":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_CRUNCH"
+    },
+    "$ENGINE_PAR_V5_HIGAIN":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_HIGAIN"
+    },
+    "$ENGINE_PAR_V5_LEADCHANNEL":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_LEADCHANNEL"
+    },
+    "$ENGINE_PAR_V5_MID":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_MID"
+    },
+    "$ENGINE_PAR_V5_MONO":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_MONO"
+    },
+    "$ENGINE_PAR_V5_POSTGAIN":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_POSTGAIN"
+    },
+    "$ENGINE_PAR_V5_PREGAINLEAD":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_PREGAINLEAD"
+    },
+    "$ENGINE_PAR_V5_PREGAINRHYTHM":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_PREGAINRHYTHM"
+    },
+    "$ENGINE_PAR_V5_PRESENCE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_PRESENCE"
+    },
+    "$ENGINE_PAR_V5_RESONANCE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_RESONANCE"
+    },
+    "$ENGINE_PAR_V5_TREBLE":
+    {
+        "description": "Built-in Variable: ENGINE_PAR_V5_TREBLE"
     },
     "$ENGINE_PAR_VOLUME":
     {
@@ -1354,37 +1614,37 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: FILTER_TYPE_AR_BP2"
     },
-    "$FILTER_TYPE_AR_BP24":
-    {
-        "description": "Built-in Variable: FILTER_TYPE_AR_BP24"
-    },
     "$FILTER_TYPE_AR_BP4":
     {
         "description": "Built-in Variable: FILTER_TYPE_AR_BP4"
+    },
+    "$FILTER_TYPE_AR_BP24":
+    {
+        "description": "Built-in Variable: FILTER_TYPE_AR_BP24"
     },
     "$FILTER_TYPE_AR_HP2":
     {
         "description": "Built-in Variable: FILTER_TYPE_AR_HP2"
     },
-    "$FILTER_TYPE_AR_HP24":
-    {
-        "description": "Built-in Variable: FILTER_TYPE_AR_HP24"
-    },
     "$FILTER_TYPE_AR_HP4":
     {
         "description": "Built-in Variable: FILTER_TYPE_AR_HP4"
+    },
+    "$FILTER_TYPE_AR_HP24":
+    {
+        "description": "Built-in Variable: FILTER_TYPE_AR_HP24"
     },
     "$FILTER_TYPE_AR_LP2":
     {
         "description": "Built-in Variable: FILTER_TYPE_AR_LP2"
     },
-    "$FILTER_TYPE_AR_LP24":
-    {
-        "description": "Built-in Variable: FILTER_TYPE_AR_LP24"
-    },
     "$FILTER_TYPE_AR_LP4":
     {
         "description": "Built-in Variable: FILTER_TYPE_AR_LP4"
+    },
+    "$FILTER_TYPE_AR_LP24":
+    {
+        "description": "Built-in Variable: FILTER_TYPE_AR_LP24"
     },
     "$FILTER_TYPE_BP2POLE":
     {
@@ -1782,6 +2042,38 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: MARK_1"
     },
+    "$MARK_2":
+    {
+        "description": "Built-in Variable: MARK_2"
+    },
+    "$MARK_3":
+    {
+        "description": "Built-in Variable: MARK_3"
+    },
+    "$MARK_4":
+    {
+        "description": "Built-in Variable: MARK_4"
+    },
+    "$MARK_5":
+    {
+        "description": "Built-in Variable: MARK_5"
+    },
+    "$MARK_6":
+    {
+        "description": "Built-in Variable: MARK_6"
+    },
+    "$MARK_7":
+    {
+        "description": "Built-in Variable: MARK_7"
+    },
+    "$MARK_8":
+    {
+        "description": "Built-in Variable: MARK_8"
+    },
+    "$MARK_9":
+    {
+        "description": "Built-in Variable: MARK_9"
+    },
     "$MARK_10":
     {
         "description": "Built-in Variable: MARK_10"
@@ -1822,10 +2114,6 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: MARK_19"
     },
-    "$MARK_2":
-    {
-        "description": "Built-in Variable: MARK_2"
-    },
     "$MARK_20":
     {
         "description": "Built-in Variable: MARK_20"
@@ -1861,34 +2149,6 @@ export var builtinVariables = {
     "$MARK_28":
     {
         "description": "Built-in Variable: MARK_28"
-    },
-    "$MARK_3":
-    {
-        "description": "Built-in Variable: MARK_3"
-    },
-    "$MARK_4":
-    {
-        "description": "Built-in Variable: MARK_4"
-    },
-    "$MARK_5":
-    {
-        "description": "Built-in Variable: MARK_5"
-    },
-    "$MARK_6":
-    {
-        "description": "Built-in Variable: MARK_6"
-    },
-    "$MARK_7":
-    {
-        "description": "Built-in Variable: MARK_7"
-    },
-    "$MARK_8":
-    {
-        "description": "Built-in Variable: MARK_8"
-    },
-    "$MARK_9":
-    {
-        "description": "Built-in Variable: MARK_9"
     },
     "$MIDI_BYTE_1":
     {
@@ -2026,6 +2286,14 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: NI_CONTROL_PAR_IDX"
     },
+    "$NI_DISTORTION_TYPE_TRANS":
+    {
+        "description": "Built-in Variable: NI_DISTORTION_TYPE_TRANS"
+    },
+    "$NI_DISTORTION_TYPE_TUBE":
+    {
+        "description": "Built-in Variable: NI_DISTORTION_TYPE_TUBE"
+    },
     "$NI_FILE_TYPE_ARRAY":
     {
         "description": "Built-in Variable: NI_FILE_TYPE_ARRAY"
@@ -2049,6 +2317,18 @@ export var builtinVariables = {
     "$NI_KEY_TYPE_NONE":
     {
         "description": "Built-in Variable: NI_KEY_TYPE_NONE"
+    },
+    "$NI_SHAPE_TYPE_CLASSIC":
+    {
+        "description": "Built-in Variable: NI_SHAPE_TYPE_CLASSIC"
+    },
+    "$NI_SHAPE_TYPE_DRUMS":
+    {
+        "description": "Built-in Variable: NI_SHAPE_TYPE_DRUMS"
+    },
+    "$NI_SHAPE_TYPE_ENHANCED":
+    {
+        "description": "Built-in Variable: NI_SHAPE_TYPE_ENHANCED"
     },
     "$NI_SIGNAL_TIMER_BEAT":
     {
@@ -2074,6 +2354,14 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: NI_SONG_POSITION"
     },
+    "$NI_SYNC_UNIT_8TH":
+    {
+        "description": "Built-in Variable: NI_SYNC_UNIT_8TH"
+    },
+    "$NI_SYNC_UNIT_8TH_TRIPLET":
+    {
+        "description": "Built-in Variable: NI_SYNC_UNIT_8TH_TRIPLET"
+    },
     "$NI_SYNC_UNIT_16TH":
     {
         "description": "Built-in Variable: NI_SYNC_UNIT_16TH"
@@ -2081,10 +2369,6 @@ export var builtinVariables = {
     "$NI_SYNC_UNIT_16TH_TRIPLET":
     {
         "description": "Built-in Variable: NI_SYNC_UNIT_16TH_TRIPLET"
-    },
-    "$NI_SYNC_UNIT_256TH":
-    {
-        "description": "Built-in Variable: NI_SYNC_UNIT_256TH"
     },
     "$NI_SYNC_UNIT_32ND":
     {
@@ -2102,13 +2386,9 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: NI_SYNC_UNIT_64TH_TRIPLET"
     },
-    "$NI_SYNC_UNIT_8TH":
+    "$NI_SYNC_UNIT_256TH":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_8TH"
-    },
-    "$NI_SYNC_UNIT_8TH_TRIPLET":
-    {
-        "description": "Built-in Variable: NI_SYNC_UNIT_8TH_TRIPLET"
+        "description": "Built-in Variable: NI_SYNC_UNIT_256TH"
     },
     "$NI_SYNC_UNIT_ABS":
     {

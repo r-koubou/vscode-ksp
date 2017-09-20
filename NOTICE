@@ -20,7 +20,7 @@ https://github.com/r-koubou/KSPSyntaxParser
 
 
 #-------------------------------------------------------------------------------
-# python 2.7.x ( Maybe 3.x supports my script )
+# python 3.x
 #-------------------------------------------------------------------------------
 This software using sofware derived from https://www.python.org/ to generate code.
 
