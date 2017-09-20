@@ -1015,8 +1015,16 @@ SEARCH:
         // 左辺と右辺の型チェック
         if( numberOp )
         {
-            ret.symbol.type = typeL;
-            if( typeL != typeR )
+            // int と real を個別に判定しているのは、KSP が real から int の暗黙の型変換を持っていないため
+            if( Variable.isInt( typeL )  && Variable.isInt( typeR ) )
+            {
+                ret.symbol.type = TYPE_INT;
+            }
+            else if( Variable.isReal( typeL )  && Variable.isReal( typeR ) )
+            {
+                ret.symbol.type = TYPE_REAL;
+            }
+            else
             {
                 typeCheckResult = false;
             }
@@ -1555,7 +1563,6 @@ SEARCH:
 
         // 引数の解析
         node.childrenAccept( this, cmd );
-
         return ret;
     }
 
