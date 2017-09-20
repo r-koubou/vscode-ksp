@@ -1,6 +1,6 @@
 options
 {
-    DEBUG_PARSER        = false;
+    DEBUG_PARSER        = true;
     DEBUG_TOKEN_MANAGER = false;
     STATIC              = false;
     UNICODE_INPUT       = true;
@@ -1071,6 +1071,9 @@ void UnaryExpression() :
     UnaryExpressionNot()
 |
     PrimaryExpression()
+
+|
+    Literal()
 }
 
 //
@@ -1117,14 +1120,13 @@ void PrimaryExpression() :
 }
 
 //
-// コマンド / リテラル
+// コマンド / 変数参照
 //
 void PrimaryPrefix() :
 {}
 {
       RefVariable()
     | CallCommand()
-    | Literal()
 
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
 
