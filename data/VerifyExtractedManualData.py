@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import xlrd
+from natsort import natsorted
 import KspExcelUtil
 import re
 import sys
@@ -85,6 +86,6 @@ if( veriftVariable != True ):
 
 print( "Output merged text > __mergeed__.txt" )
 f = open( "__mergeed__.txt", "w" )
-for i in sorted( merged ):
+for i in natsorted( merged ):
     f.write( i + "\n" )
 f.close()

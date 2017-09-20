@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import re
+from natsort import natsorted
 import ExtractManualNameConfig
 
 INPUT = ExtractManualNameConfig.name
@@ -41,5 +42,5 @@ while( line ):
 
 f.close()
 
-for i in wordList:
+for i in natsorted( wordList ):
     print( i )
