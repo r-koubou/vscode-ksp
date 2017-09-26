@@ -1,6 +1,6 @@
 options
 {
-    DEBUG_PARSER        = true;
+    DEBUG_PARSER        = false;
     DEBUG_TOKEN_MANAGER = false;
     STATIC              = false;
     UNICODE_INPUT       = true;
@@ -29,6 +29,8 @@ import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.Variable;
+import net.rkoubou.kspparser.analyzer.Position;
+
 
 public class KSPParser implements AnalyzerConstants
 {
@@ -38,6 +40,9 @@ public class KSPParser implements AnalyzerConstants
     /** パース対象のファイル */
     File file;
 
+    /** コールバック・ユーザー関数の行数オーバーフローのしきい値 */
+    int lineOverflowLimit = Integer.MAX_VALUE - 1;
+
     /**
      * Ctor.
      */
@@ -45,6 +50,31 @@ public class KSPParser implements AnalyzerConstants
     {
         this( new BufferedReader( new InputStreamReader( new FileInputStream( file ), "UTF-8" ) ) );
         this.file = file.getAbsoluteFile();
+        loadLineOverflowLimit();
+   }
+
+    /**
+     * コールバック・ユーザー関数の行数オーバーフローのしきい値の定義ファイルから数値の読み込み
+     */
+    private void loadLineOverflowLimit() throws IOException
+    {
+        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
+        if( dir == null )
+        {
+            dir = "data";
+        }
+        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( dir + "/overflow.txt" ), "UTF-8" ) );
+        try
+        {
+            lineOverflowLimit = Integer.parseInt( br.readLine() );
+        }
+        finally
+        {
+            if( br != null )
+            {
+                try { br.close(); } catch( Throwable e ){}
+            }
+        }
     }
 
     /**
@@ -90,8 +120,7 @@ public class KSPParser implements AnalyzerConstants
         {
             dest.symbol.name = token.image;
         }
-        dest.symbol.line        = token.beginLine;
-        dest.symbol.colmn       = token.beginColumn;
+        dest.symbol.position.copy( token );
         dest.symbol.type        = type;
         dest.symbol.symbolType  = symbolType;
     }
@@ -149,8 +178,7 @@ public class KSPParser implements AnalyzerConstants
         dest.jjtSetValue( dest.symbol.value );
         dest.symbol.name         = "";
         dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
-        dest.symbol.line         = token.beginLine;
-        dest.symbol.colmn        = token.beginColumn;
+        dest.symbol.position.copy( token );
         dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
     }
 
@@ -429,8 +457,7 @@ void VariableDeclaration() #VariableDeclaration:
         {
             jjtThis.symbol.uiTypeName = uiType.image;
         }
-        jjtThis.symbol.line       = symbol.beginLine;
-        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }
 }
@@ -499,6 +526,7 @@ void UIInitializer() #UIInitializer:
 void CallbackDeclaration() #CallbackDeclaration:
 {
     Token symbol;
+    Token end;
 }
 {
     (
@@ -506,13 +534,23 @@ void CallbackDeclaration() #CallbackDeclaration:
         [ CallbackArgument() ]
         <EOL>
         Block()
-        <END> (<MULTI_LINE_DELIMITER>)* <ON>
+        <END> (<MULTI_LINE_DELIMITER>)* end = <ON>
     )
     {
         jjtThis.symbol.name       = symbol.image;
-        jjtThis.symbol.line       = symbol.beginLine;
-        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
+        jjtThis.symbol.position.endLine   = end.endLine;
+        jjtThis.symbol.position.endColumn = end.endColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
+        if( jjtThis.symbol.position.lineCount() >= lineOverflowLimit )
+        {
+            MessageManager.println(
+                MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
+                MessageManager.Level.WARNING,
+                jjtThis.symbol,
+                String.valueOf( jjtThis.symbol.position.lineCount() )
+            );
+        }
     }
 }
 
@@ -554,19 +592,30 @@ void CallbackArgumentList() #CallbackArgumentList:
 void UserFunctionDeclaration() #UserFunctionDeclaration:
 {
     Token symbol;
+    Token end;
 }
 {
     (
         <FUNCTION> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
         <EOL>
         Block()
-        <END> (<MULTI_LINE_DELIMITER>)* <FUNCTION>
+        <END> (<MULTI_LINE_DELIMITER>)* end = <FUNCTION>
     )
     {
         jjtThis.symbol.name       = symbol.image;
-        jjtThis.symbol.line       = symbol.beginLine;
-        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
+        jjtThis.symbol.position.endLine   = end.endLine;
+        jjtThis.symbol.position.endColumn = end.endColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
+        if( jjtThis.symbol.position.lineCount() >= lineOverflowLimit )
+        {
+            MessageManager.println(
+                MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
+                MessageManager.Level.WARNING,
+                jjtThis.symbol,
+                String.valueOf( jjtThis.symbol.position.lineCount() )
+            );
+        }
     }
 }
 
@@ -654,8 +703,7 @@ void PreProcessorDefine() #PreProcessorDefine:
     )
     {
         jjtThis.symbol.name         = symbol.image;
-        jjtThis.symbol.line         = symbol.beginLine;
-        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
@@ -679,8 +727,7 @@ void PreProcessorUnDefine() #PreProcessorUnDefine:
     )
     {
         jjtThis.symbol.name         = symbol.image;
-        jjtThis.symbol.line         = symbol.beginLine;
-        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
@@ -706,8 +753,7 @@ void PreProcessorIfDefined() #PreProcessorIfDefined:
     )
     {
         jjtThis.symbol.name         = symbol.image;
-        jjtThis.symbol.line         = symbol.beginLine;
-        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
@@ -733,8 +779,7 @@ void PreProcessorIfUnDefined() #PreProcessorIfUnDefined:
     )
     {
         jjtThis.symbol.name         = symbol.image;
-        jjtThis.symbol.line         = symbol.beginLine;
-        jjtThis.symbol.colmn        = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
 }
@@ -834,8 +879,7 @@ void CallUserFunctionStatement() #CallUserFunctionStatement:
     <CALL> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
     {
         jjtThis.symbol.name       = symbol.image;
-        jjtThis.symbol.line       = symbol.beginLine;
-        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }
 }
@@ -877,8 +921,7 @@ void ConditionalOrExpression():
     (
         token = <BOOL_OR> ConditionalAndExpression()
         {
-            jjtThis.symbol.line  = token.beginLine;
-            jjtThis.symbol.colmn = token.beginColumn;
+            jjtThis.symbol.position.copy( token );
             jjtThis.symbol.type  = TYPE_BOOL;
         } #ConditionalOr(2)
     )*
@@ -1171,8 +1214,7 @@ void RefVariable() #RefVariable :
     {
         jjtThis.symbol.name       = symbol.image;
         jjtThis.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
-        jjtThis.symbol.line       = symbol.beginLine;
-        jjtThis.symbol.colmn      = symbol.beginColumn;
+        jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
     }
 }
@@ -1199,8 +1241,7 @@ void CallCommand() #CallCommand:
         symbol = <IDENTIFIER>
         {
             jjtThis.symbol.name       = symbol.image;
-            jjtThis.symbol.line       = symbol.beginLine;
-            jjtThis.symbol.colmn      = symbol.beginColumn;
+            jjtThis.symbol.position.copy( symbol );
             jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
         }
         [ LOOKAHEAD(2) CommandArguments( jjtThis ) ]

@@ -42,10 +42,8 @@ public class SymbolDefinition implements AnalyzerConstants
     public String uiTypeName = "";
     /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */
     public Object value = null;
-    /** 定義した行番号 */
-    public int line = 0;
-    /** 定義した行中の列 */
-    public int colmn = 0;
+    /** 定義した行・列情報 */
+    public final Position position = new Position();
 
     /**
      * Ctor.
@@ -73,7 +71,6 @@ public class SymbolDefinition implements AnalyzerConstants
         dest.name           = src.name;
         dest.uiTypeName     = src.uiTypeName;
         dest.value          = src.value;
-        dest.line           = src.line;
-        dest.colmn          = src.colmn;
+        dest.position.copy( src.position );
     }
 }

@@ -221,7 +221,6 @@ public class SymbolCollector extends AbstractAnalyzer
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_CALLBACK_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();
         }
-
         return ret;
     }
 

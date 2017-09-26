@@ -102,7 +102,7 @@ public class MessageManager implements AnalyzerConstants
     //--------------------------------------------------------------------------
     static public final String PROPERTY_WARNING_SEMANTIC_UNUSE_VARIABLE         = "warning.semantic.unuse.variable";
     static public final String PROPERTY_WARNING_SEMANTIC_UNUSE_FUNCTION         = "warning.semantic.unuse.function";
-
+    static public final String PROPERTY_WARNING_TOOMUCH_LINECOUNT               = "warning.toomuch.linecount";
 
     public enum Level
     {
@@ -252,7 +252,7 @@ public class MessageManager implements AnalyzerConstants
     static public void println( String propertyKey, Level level, SymbolDefinition symbol, String... ext )
     {
         int extIndex = 1;
-        String message = expand( propertyKey, level, symbol.line, symbol.colmn, symbol.name.length() );
+        String message = expand( propertyKey, level, symbol.position.beginLine, symbol.position.beginColumn, symbol.name.length() );
         message = message.replace( "${symbolname}", symbol.name );
         for( String s : ext )
         {

@@ -1417,9 +1417,21 @@ SEARCH:
         // 配列型なら添字チェック
         if( v.isArray() )
         {
-            node.jjtGetChild( 0 ).jjtAccept( this, node );
             // 上位ノードの型評価式用
-            ret.symbol.type = v.getPrimitiveType();
+            if( node.jjtGetNumChildren() > 0 )
+            {
+                // 添え字がある
+                // 要素へのアクセスであるため、配列ビットフラグを外したプリミティブ型として扱う
+                ret.symbol.type = v.getPrimitiveType();
+                node.jjtGetChild( 0 ).jjtAccept( this, node );
+            }
+            else
+            {
+                // 添え字が無い
+                // 配列変数をコマンドの引数に渡すケース
+                // 配列型としてそのまま扱う
+                ret.symbol.type = v.type;
+            }
             ret.symbol.reserved = v.reserved;
             v.referenced = true;
             v.status = VariableState.LOADED;
@@ -1603,11 +1615,11 @@ SEARCH:
                 SymbolDefinition symbol = evalNode.symbol;
                 int type                = symbol.type;
 
-                // 評価式が変数だった場合のための参照
+                // 評価式が変数だった場合のための変数情報への参照
                 Variable userVar        = variableTable.search( symbol.name );
 
                 // 引数毎に複数のデータ型が許容される仕様のため照合
-               for( Argument arg : argList.get( i ).arguments )
+                for( Argument arg : argList.get( i ).arguments )
                 {
                     //--------------------------------------------------------------------------
                     // 型指定なし（全ての型を許容する）
@@ -1638,7 +1650,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     else if( userVar != null )
                     {
-                        if( arg.type == userVar.getPrimitiveType() )
+                        if( arg.type == symbol.type )
                         {
                             valid = true;
                             break;

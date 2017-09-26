@@ -584,8 +584,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void toAvailableCommandOnCallbackList( String callbackName, HashMap<String,Callback> dest )
     {
-        callbackName            = callbackName.intern();
-
+        callbackName      = callbackName.intern();
         String[] orCond   = callbackName.split( REGEX_SPLIT_COND_OR );
 
         //--------------------------------------------------------------------------
@@ -606,7 +605,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 if( callbacks.containsKey( i ) )
                 {
                     dest.put( i, callbacks.get( i ) );
-                    break;
                 }
             }
         }
