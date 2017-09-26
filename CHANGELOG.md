@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 0.3.9
+
+* Syntax parser
+
+    * Bug fixes [https://github.com/r-koubou/KSPSyntaxParser/issues/1](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
+
+    * ADDED: Script line counter.
+    
+        If reached to 5,000 lines per callback / function, KONTAKT KSP parser stack memory will be overflow error.
+
 ## Version 0.3.8
 
 * Support 5.7 Built-in Variables
