@@ -625,24 +625,23 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 
         for( int i = 0; i < initializer.jjtGetNumChildren(); i++ )
         {
-            final SimpleNode expr = (SimpleNode)initializer.jjtGetChild( i );
+            final SimpleNode expr = (SimpleNode)initializer.jjtGetChild( i ).jjtAccept( this, jjtVisitorData);
             SymbolDefinition eval = (SymbolDefinition) expr.symbol;
 
             if( expr.getId() == JJTNEG )
             {
                 eval = ( (SimpleNode)expr.jjtGetChild( 0 ) ).symbol;
             }
-
-            if( ( v.type & TYPE_MASK ) != ( eval.type & TYPE_MASK ) )
+            if( ( v.type & eval.type ) == 0 )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i ) );
                 AnalyzeErrorCounter.e();
             }
-            else if( !Variable.isConstant( eval.accessFlag ) )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, eval );
-                AnalyzeErrorCounter.e();
-            }
+            // else if( !Variable.isConstant( eval.accessFlag ) )
+            // {
+            //     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, eval );
+            //     AnalyzeErrorCounter.e();
+            // }
         }
         v.status = VariableState.INITIALIZED;
         return true;
@@ -847,7 +846,7 @@ SEARCH:
         }
 
         final SimpleNode initializer = (SimpleNode)node.jjtGetChild( 0 );
-        final SimpleNode expr        = (SimpleNode)initializer.jjtGetChild( 0 );
+        final SimpleNode expr        = (SimpleNode)initializer.jjtGetChild( 0 ).jjtAccept( this, jjtVisitorData );
         SymbolDefinition eval        = (SymbolDefinition) expr.symbol;
 
         if( initializer.getId() != JJTVARIABLEINITIALIZER )
@@ -862,7 +861,7 @@ SEARCH:
         }
 
         // 型の不一致
-        if( v.type != eval.type )
+        if( ( v.type & eval.type ) == 0 )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE, v, Variable.getTypeName( eval.type ), Variable.getTypeName( v.type ) ) ;
             AnalyzeErrorCounter.e();
@@ -878,21 +877,24 @@ SEARCH:
         }
 
         // 初期値代入。畳み込みで有効な値が格納される
-        Object value = null;
-        if( v.isInt() )
+        if( expr.symbol.symbolType != SymbolType.Command )
         {
-            value = evalConstantIntValue( expr, 0 );
+            Object value = null;
+            if( v.isInt() )
+            {
+                value = evalConstantIntValue( expr, 0 );
+            }
+            else if( v.isReal() )
+            {
+                value = evalConstantRealValue( expr, 0 );
+            }
+            else if( v.isString() )
+            {
+                // 文字列は初期値代入不可
+                value = null;
+            }
+            v.setValue( value );
         }
-        else if( v.isReal() )
-        {
-            value = evalConstantRealValue( expr, 0 );
-        }
-        else if( v.isString() )
-        {
-            // 文字列は初期値代入不可
-            value = null;
-        }
-        v.setValue( value );
         v.status = VariableState.INITIALIZED;
         return true;
 
@@ -1041,7 +1043,7 @@ SEARCH:
         else if( booleanOp )
         {
             ret.symbol.type = TYPE_BOOL;
-            if( typeL != typeR )
+            if( ( typeL & typeR ) == 0 )
             {
                 typeCheckResult = false;
             }
@@ -1404,7 +1406,6 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return ret;
         }
-
         // 変数へのアクセスが確定したので、戻り値に変数のシンボル情報をコピー
         SymbolDefinition.copy( v, ret.symbol );
 
@@ -1452,7 +1453,6 @@ SEARCH:
         ret.symbol.reserved = v.reserved;
         v.referenced = true;
         v.status = VariableState.LOADED;
-
         return ret;
     }
 
@@ -1501,6 +1501,7 @@ SEARCH:
 
         // 上位ノードの型評価式用
         SimpleNode ret = createEvalNode( node, JJTREFVARIABLE );
+        ret.symbol.symbolType = SymbolType.Command;
 
         if( cmd == null )
         {

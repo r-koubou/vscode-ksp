@@ -58,14 +58,14 @@ V	set_event_par_arr	*	@I	@I	@I	@I
 # Array Commands
 B	array_equal	*	I[]	I[]
 I||S	num_elements	*	*[]
-I||S	search	*	I[]
+I||S	search	*	I[]	@I
 V	sort	*	I[]||R[]	@I
 # Group Commands
 V	allow_group	note||release	@I
 V	disallow_group	note||release	@I
 I||S	find_group	*	@S
 I||S	get_purge_state	*	@I
-V	group_name	*	@I
+S	group_name	*	@I
 V	purge_group	ui_control||persistence_changed	@I	@I
 # Time-Related Commands
 V	change_listener_par	*	@I	@I

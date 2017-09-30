@@ -47,6 +47,9 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     /** \u30b3\u30fc\u30eb\u30d0\u30c3\u30af\u30fb\u30e6\u30fc\u30b6\u30fc\u95a2\u6570\u306e\u884c\u6570\u30aa\u30fc\u30d0\u30fc\u30d5\u30ed\u30fc\u306e\u3057\u304d\u3044\u5024 */
     int lineOverflowLimit = Integer.MAX_VALUE - 1;
 
+    /** \u30d1\u30fc\u30b9\u4e2d\u306e\u30b3\u30fc\u30eb\u30d0\u30c3\u30af\u30fb\u30e6\u30fc\u30b6\u30fc\u95a2\u6570\u306e\u884c\u6570\u30ab\u30a6\u30f3\u30bf */
+    int currentScopeLineCounter = 0;
+
     /**
      * Ctor.
      */
@@ -70,7 +73,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
         BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( dir + "/overflow.txt" ), "UTF-8" ) );
         try
         {
-            lineOverflowLimit = Integer.parseInt( br.readLine() );
+            this.lineOverflowLimit = Integer.parseInt( br.readLine() );
         }
         finally
         {
@@ -706,6 +709,7 @@ void CallbackDeclaration()                     :
 /*@egen*/
     Token symbol;
     Token end;
+    this.currentScopeLineCounter = 0;
 }
 {/*@bgen(jjtree) CallbackDeclaration */
     try {
@@ -713,7 +717,7 @@ void CallbackDeclaration()                     :
     (
         <ON> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER> (<MULTI_LINE_DELIMITER>)*
         [ CallbackArgument() ]
-        <EOL>
+        <EOL> { this.currentScopeLineCounter++; }
         Block()
         <END> (<MULTI_LINE_DELIMITER>)* end = <ON>
     )/*@bgen(jjtree)*/
@@ -728,7 +732,7 @@ void CallbackDeclaration()                     :
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
-        if( jjtn000.symbol.position.lineCount() >= lineOverflowLimit )
+        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
@@ -829,13 +833,14 @@ void UserFunctionDeclaration()                         :
 /*@egen*/
     Token symbol;
     Token end;
+    this.currentScopeLineCounter = 0;
 }
 {/*@bgen(jjtree) UserFunctionDeclaration */
     try {
 /*@egen*/
     (
         <FUNCTION> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
-        <EOL>
+        <EOL> { this.currentScopeLineCounter++; }
         Block()
         <END> (<MULTI_LINE_DELIMITER>)* end = <FUNCTION>
     )/*@bgen(jjtree)*/
@@ -850,7 +855,7 @@ void UserFunctionDeclaration()                         :
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
-        if( jjtn000.symbol.position.lineCount() >= lineOverflowLimit )
+        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
@@ -953,7 +958,7 @@ void Statement() :
         | WhileStatement()
         | CallUserFunctionStatement()
         | <MULTI_LINE_DELIMITER>
-        | <EOL>
+        | <EOL> { this.currentScopeLineCounter++; }
     }
     catch( ParseException e )
     {

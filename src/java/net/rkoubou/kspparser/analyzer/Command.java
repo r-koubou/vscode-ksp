@@ -43,5 +43,6 @@ public class Command extends SymbolDefinition implements KSPParserTreeConstants
     {
         super( node.symbol );
         this.astNode = node;
+        this.astNode.symbol.symbolType = SymbolType.Command;
     }
 }
