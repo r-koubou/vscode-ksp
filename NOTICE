@@ -26,8 +26,7 @@ This software using sofware derived from https://www.python.org/ to generate cod
 
 
 #-------------------------------------------------------------------------------
-# xlrd
+# python modules (to generate code)
 #-------------------------------------------------------------------------------
-This software using sofware derived from https://pypi.python.org/pypi/xlrd to generate code.
-xlrd is Library for developers to extract data from Microsoft Excel (tm) spreadsheet files
-
+xlrd https://pypi.python.org/pypi/xlrd
+natsort https://pypi.python.org/pypi/natsort

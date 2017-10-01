@@ -1910,6 +1910,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: INTMOD_TYPE_STEPMOD"
     },
+    "$KEY_COLOR_BLACK":
+    {
+        "description": "Built-in Variable: KEY_COLOR_BLACK"
+    },
     "$KEY_COLOR_BLUE":
     {
         "description": "Built-in Variable: KEY_COLOR_BLUE"
@@ -1981,6 +1985,10 @@ export var builtinVariables = {
     "$KEY_COLOR_WARM_YELLOW":
     {
         "description": "Built-in Variable: KEY_COLOR_WARM_YELLOW"
+    },
+    "$KEY_COLOR_WHITE":
+    {
+        "description": "Built-in Variable: KEY_COLOR_WHITE"
     },
     "$KEY_COLOR_YELLOW":
     {

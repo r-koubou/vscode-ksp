@@ -5869,6 +5869,14 @@
         ],
         "description": "Built-in Variable: INTMOD_TYPE_STEPMOD"
     },
+    "KEY_COLOR_BLACK":
+    {
+        "prefix": "KEY_COLOR_BLACK",
+        "body":[
+            "$KEY_COLOR_BLACK"
+        ],
+        "description": "Built-in Variable: KEY_COLOR_BLACK"
+    },
     "KEY_COLOR_BLUE":
     {
         "prefix": "KEY_COLOR_BLUE",
@@ -6012,6 +6020,14 @@
             "$KEY_COLOR_WARM_YELLOW"
         ],
         "description": "Built-in Variable: KEY_COLOR_WARM_YELLOW"
+    },
+    "KEY_COLOR_WHITE":
+    {
+        "prefix": "KEY_COLOR_WHITE",
+        "body":[
+            "$KEY_COLOR_WHITE"
+        ],
+        "description": "Built-in Variable: KEY_COLOR_WHITE"
     },
     "KEY_COLOR_YELLOW":
     {

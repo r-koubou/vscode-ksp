@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.10
+
+* Syntax parser
+
+    * Bug fixes [https://github.com/r-koubou/KSPSyntaxParser/issues/2](https://github.com/r-koubou/KSPSyntaxParser/issues/2)
+
 ## Version 0.3.9
 
 * Syntax parser
