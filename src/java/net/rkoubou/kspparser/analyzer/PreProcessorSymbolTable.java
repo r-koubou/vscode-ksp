@@ -84,7 +84,7 @@ public class PreProcessorSymbolTable extends SymbolTable<ASTPreProcessorDefine, 
     public boolean remove( PreProcessorSymbol c )
     {
         final String name = c.name;
-        if( table.containsKey( name ) )
+        if( !table.containsKey( name ) )
         {
             return false;
         }

@@ -38,6 +38,8 @@ import net.rkoubou.kspparser.javacc.generated.ASTNeg;
 import net.rkoubou.kspparser.javacc.generated.ASTNot;
 import net.rkoubou.kspparser.javacc.generated.ASTNotEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
+import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorIfDefined;
+import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorIfUnDefined;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRefVariable;
 import net.rkoubou.kspparser.javacc.generated.ASTSelectStatement;
@@ -1944,6 +1946,7 @@ SEARCH:
         Object ret = defaultVisit( node, data );
         // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
         // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
+        if( preProcessorSymbolTable.search( node.symbol.name ) == null )
         {
             ASTPreProcessorDefine decl = new ASTPreProcessorDefine( JJTPREPROCESSORDEFINE );
             SymbolDefinition.copy( node.symbol,  decl.symbol );
@@ -1963,11 +1966,43 @@ SEARCH:
     {
         Object ret = defaultVisit( node, data );
         // 宣言されていないシンボルを undef しようとした場合
+        // 現状のKONTAKTでは未定義のシンボルでもエラーとならないので
+        // 「意味解析では何もしない」
+        // どのコールバック内でもundef可能なため、動的に呼ばれるコールバックなどは
+        // 実行時に初めて解決するケースがある。
+        // -> 意味解析だとASTの構造上スクリプトの上の行から下に向けてトラバースする。
+        // 判定方法のコードはコメントアウトで以下に残しておく
+/*
         if( preProcessorSymbolTable.search( node.symbol.name ) == null )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
             AnalyzeErrorCounter.w();
         }
+        else
+        {
+            preProcessorSymbolTable.remove( node );
+        }
+*/
+        return ret;
+    }
+
+    /**
+     * ifdef
+     */
+    @Override
+    public Object visit( ASTPreProcessorIfDefined node, Object data )
+    {
+        Object ret = defaultVisit( node, data );
+        return ret;
+    }
+
+    /**
+     * ifndef
+     */
+    @Override
+    public Object visit( ASTPreProcessorIfUnDefined node, Object data )
+    {
+        Object ret = defaultVisit( node, data );
         return ret;
     }
 
