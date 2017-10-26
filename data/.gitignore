@@ -1,4 +1,5 @@
-extract_*.ksp
+venv/
+extract_*.txt
 __mergeed__.txt
 a.txt
 *.bak
