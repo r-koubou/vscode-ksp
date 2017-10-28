@@ -632,7 +632,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
 
             if( expr.getId() == JJTNEG )
             {
-                eval = ( (SimpleNode)expr.jjtGetChild( 0 ) ).symbol;
+                eval = ( (Variable)expr.jjtAccept( this, jjtVisitorData) );
             }
             if( ( v.type & eval.type ) == 0 )
             {
@@ -859,7 +859,7 @@ SEARCH:
 
         if( expr.getId() == JJTNEG )
         {
-            eval = ( (SimpleNode)expr.jjtGetChild( 0 ) ).symbol;
+            eval = ( (Variable)expr.jjtAccept( this, jjtVisitorData) );
         }
 
         // 型の不一致
@@ -1627,7 +1627,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     // 型指定なし（全ての型を許容する）
                     //--------------------------------------------------------------------------
-                    if( arg.type == TYPE_ANY )
+                    if( ( arg.type & (TYPE_ANY | TYPE_ATTR_ANY ) ) != 0 )
                     {
                         valid = true;
                     }

@@ -18,8 +18,8 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 public class Variable extends SymbolDefinition
 {
 
-    /** 変数名：プリプロセッサシンボルの正規表現 */
-    static public final Pattern REGEX_PREPROCESSOR_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
+    /** 変数名：データ型記号がつかないプリプロセッサシンボル等のシンボルの正規表現 */
+    static public final Pattern REGEX_NON_TYPE_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
 
     /** 元となるASTノード */
     public final ASTVariableDeclaration astNode;
@@ -489,11 +489,12 @@ public class Variable extends SymbolDefinition
             case 'B': return "Boolean";
             case 'V': return "Void";
             case 'P': return "Preprocessor";
+            case 'K': return "KeyID";
             case '*': return "any";
             default:
-                if( REGEX_PREPROCESSOR_PREFIX.matcher( name ).find() )
+                if( REGEX_NON_TYPE_PREFIX.matcher( name ).find() )
                 {
-                    return "Preprocessor Symbol";
+                    return "Preprocessor Symbol or Key ID";
                 }
                 return "Unknown";
         }
@@ -510,9 +511,9 @@ public class Variable extends SymbolDefinition
         }
         char t = variableName.charAt( 0 );
 
-        if( REGEX_PREPROCESSOR_PREFIX.matcher( variableName ).find() )
+        if( REGEX_NON_TYPE_PREFIX.matcher( variableName ).find() )
         {
-            return TYPE_PREPROCESSOR_SYMBOL;
+            return TYPE_PREPROCESSOR_SYMBOL | TYPE_KEYID;
         }
 
         switch( t )
@@ -529,6 +530,7 @@ public class Variable extends SymbolDefinition
             case 'B': return TYPE_BOOL;
             case 'V': return TYPE_VOID;
             case 'P': return TYPE_PREPROCESSOR_SYMBOL;
+            case 'K': return TYPE_KEYID;
             case '*': return TYPE_ANY;
 
             default:
@@ -563,6 +565,7 @@ public class Variable extends SymbolDefinition
             case TYPE_BOOL:                     return "B";
             case TYPE_VOID:                     return "V";
             case TYPE_PREPROCESSOR_SYMBOL:      return "P";
+            case TYPE_KEYID:                    return "K";
             case TYPE_ANY:                      return "*";
             default:
                 return "{UNKNOWN:" + type  + "}";

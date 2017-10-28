@@ -46,44 +46,49 @@ public interface AnalyzerConstants
         ASSIGN,
     };
 
-// 型情報は24bitで構成
+// 型情報は32bitで構成
 /*
-    0b 00000000 00000000 00000000
-       ---+---- ---+-------------
-          |        |
-          |        +-- データ型
-          +----------- 配列等の補足情報
+    0b 00000000 00000000 00000000 00000000
+       ----+--- ---------+----------------
+           |             |
+           |             +-- bit 0-23 データ型
+           |
+           +---------------- bit 24-31 配列等の補足情報
 */
-    int TYPE_BIT_SIZE      = 16;
+    int TYPE_BIT_SIZE      = 24;
     int TYPE_ATTR_BIT_SIZE = 8;
 
     //--------------------------------------------------------------------------
-    // 基本型情報 (0x0000-0xffff)
+    // 基本型情報 (0x00000000-0x00ffffff)
     //--------------------------------------------------------------------------
-    int TYPE_MASK    = 0x00ffff;
-    int TYPE_NONE    = 0x00;
-    int TYPE_INT     = 0x01;
-    int TYPE_STRING  = 0x02;
-    int TYPE_REAL    = 0x04;
-    int TYPE_BOOL    = 0x2000;
-    int TYPE_VOID    = 0x4000;
-    int TYPE_PREPROCESSOR_SYMBOL = 0x8000;
+    int TYPE_MASK                   = 0x00ffffff;
+    int TYPE_NONE                   = 0x00;
+    int TYPE_INT                    = 0x01;
+    int TYPE_STRING                 = 0x02;
+    int TYPE_REAL                   = 0x04;
+    int TYPE_BOOL                   = 0x100;
+    int TYPE_VOID                   = 0x200;
+    int TYPE_PREPROCESSOR_SYMBOL    = 0x400;
+    int TYPE_KEYID                  = 0x800; // e.g. PGS <key-id>
 
     int TYPE_NUMERICAL = TYPE_INT | TYPE_REAL;
-    int TYPE_ANY     = 0xffff; // 全ビット ON
+    int TYPE_ANY     = 0xffffff; // 全ビット ON
 
     //--------------------------------------------------------------------------
-    // 配列などの情報フラグ (0x010000~0xff0000)
+    // 配列などの情報フラグ (0x01000000~0xff000000)
     //--------------------------------------------------------------------------
-    int TYPE_ATTR_MASK  = 0xff0000;
+    int TYPE_ATTR_MASK  = 0xff000000;
     // 配列
-    int TYPE_ATTR_ARRAY = 0x010000;
+    int TYPE_ATTR_ARRAY = 0x01000000;
     // e.g. type is int[]
     // type = TYPE_INT | TYPE_ATTR_ARRAY
     // if( ( type & TYPE_ATTR_MASK ) == TYPE_ATTR_ARRAY )
     // {
     //     // type is int[]
     // }
+
+    // 全情報ビットフラグON
+    int TYPE_ATTR_ANY = 0x7F000000;
 
     //--------------------------------------------------------------------------
     // 上限・下限

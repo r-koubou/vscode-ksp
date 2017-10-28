@@ -468,6 +468,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             type = TYPE_PREPROCESSOR_SYMBOL;
         }
+        else if( t == "KEY" )
+        {
+            type = TYPE_KEYID;
+        }
         // 全UIタイプを許容する場合
         else if( t.equals( "ui_*" ) )
         {

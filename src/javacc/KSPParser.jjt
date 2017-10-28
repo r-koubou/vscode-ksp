@@ -1291,7 +1291,8 @@ TOKEN :
 |
   // 頭文字
   < #LETTER:
-      [  // all chars for which Character.isIdentifierStart is true
+      [
+         "0"-"9",   // KSPは0-9も許容するため
          "A"-"Z",
          "_",
          "a"-"z",
@@ -1566,7 +1567,7 @@ TOKEN :
 |
   // 2文字目以降
   < #PART_LETTER:
-      [  // all chars for which Character.isIdentifierPart is true
+      [
          "\u0000"-"\u0008",
          "\u000e"-"\u001b",
          "0"-"9",
