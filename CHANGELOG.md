@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.3.11
+
+* Syntax parser
+
+    * Bug fixes
+    * Improving accuracy
+
 ## Version 0.3.10
 
 * Syntax parser

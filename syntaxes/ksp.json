@@ -144,7 +144,7 @@
             "patterns":[
                 {
                     "name":  "variable.other.ksp",
-                    "match": "(\\$|\\~|\\?|@|!|%)([a-z|A-Z|_]+[a-z|A-Z|_|0-9]*)"
+                    "match": "(\\$|\\~|\\?|@|!|%)([0-9|a-z|A-Z|_]+)"
                 },
                 {
                     "name":  "keyword.declare.ksp",

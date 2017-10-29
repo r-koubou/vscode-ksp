@@ -255,7 +255,7 @@ export class KSPSymbolUtil
             // check declare variables
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*declare\s+(ui_[a-zA-Z0-9_]+|const)?\s*([\$%~\?@!][a-zA-Z_][a-zA-Z0-9_]*)/g;
+                var DECLARE_REGEX = /^\s*declare\s+(ui_[a-zA-Z0-9_]+|const)?\s*([\$%~\?@!][a-zA-Z0-9_]+)/g;
 
                 var text  = document.lineAt( i ).text;
                 var match = DECLARE_REGEX.exec( text );

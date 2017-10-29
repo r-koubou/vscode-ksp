@@ -5,6 +5,7 @@ V	read_persistent_var	*	*
 # Boolean Operators
 B	in_range	*	@I	@I	@I
 # Arithmetic Commands
+I||S	abs	*	@I||@R
 V	inc	*	I
 V	dec	*	I
 R||S	exp	*	@R
@@ -57,7 +58,7 @@ V	set_event_par	*	@I	@I	@I
 V	set_event_par_arr	*	@I	@I	@I	@I
 # Array Commands
 B	array_equal	*	I[]	I[]
-I||S	num_elements	*	*[]
+I||S	num_elements	*	I[]||R[]||S[]
 I||S	search	*	I[]	@I
 V	sort	*	I[]||R[]	@I
 # Group Commands
@@ -95,19 +96,19 @@ V	move_control	*	ui_*	@I	@I
 V	move_control_px	*	ui_*	@I	@I
 V	set_control_help	init	ui_*	@S
 V	set_control_par	*	@I	@I	@I
-V	set_control_par_str	*	@I	@I	@S
+V	set_control_par_str	*	@I	@I	@S||@I
 V	set_control_par_arr	*	@I	@I	@I	@I
-V	set_control_par_str_arr	*	@I	@I	@S	@I
+V	set_control_par_str_arr	*	@I	@I	@S||@I	@I
 V	set_knob_defval	*	ui_knob||ui_slider	@I
 V	set_knob_label	*	ui_knob	@S
 V	set_knob_unit	*	ui_knob	@I
-V	set_menu_item_str	*	@I	@I	@S
+V	set_menu_item_str	*	@I	@I	@S||@I
 V	set_menu_item_value	*	@I	@I	@I
 V	set_menu_item_visibility	*	@I	@I	@I
 V	set_table_steps_shown	*	ui_table	@I
 V	set_script_title	init	@S
 V	set_skin_offset	*	@I
-V	set_text	*	ui_button||ui_knob||ui_label||ui_switch||ui_value_edit	@S
+V	set_text	*	ui_button||ui_knob||ui_label||ui_switch||ui_value_edit	@I||@R||@S
 V	set_ui_color	*	@I
 V	set_ui_height	*	@I
 V	set_ui_height_px	*	@I
@@ -139,12 +140,12 @@ V	set_engine_par	*	@I	@I	@I	@I	@I
 I||S	set_voice_limit	*	@I	@I
 # Load/Save Commands
 S	get_folder	*	@I
-V	load_array	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
-V	load_array_str	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@S
+I||S	load_array	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
+I||S	load_array_str	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@S||@I
 I||S	load_ir_sample	*	@S	@I	@I
 I||S	load_midi_file	*	@S
-V	save_array	persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
-I||S	save_array_str	persistence_changed||pgs_changed||ui_control	I[]||S[]	@S
+I||S	save_array	persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
+I||S	save_array_str	persistence_changed||pgs_changed||ui_control	I[]||S[]	@S||@I
 I||S	save_midi_file	*	@S
 # MIDI Object Commands
 I||S	mf_insert_file	*	@S	@I	@I	@I
@@ -168,6 +169,28 @@ V	mf_get_prev	*	@I
 V	mf_get_prev_at	*	@I	@I
 I||S	mf_get_num_tracks	*	V
 V	mf_set_pos	*	@I
+# Advanced Concepts: Preprocessor & System Scripts
+V	reset_rls_trig_counter	*	@I
+V	will_never_terminate	*	@I
+# Advanced Concepts: PGS
+V	pgs_create_key	*	KEY	@I
+B	pgs_key_exists	*	KEY
+V	pgs_set_key_val	*	KEY	@I	@I||@R||@S
+I||R||S	pgs_get_key_val	*	KEY	@I
+V	pgs_create_str_key	*	KEY
+B	pgs_str_key_exists	*	KEY
+V	pgs_set_str_key_val	*	KEY	@S||@I
+S	pgs_get_str_key_val	*	KEY
+# Advanced Concepts: Zone and Slice Functions
+I	find_zone	init	@S
+I	get_sample_length	*	@I
+I	num_slices_zone	*	@I
+I	zone_slice_length	*	@I	@I
+I	zone_slice_start	*	@I	@I
+I	zone_slice_idx_loop_start	*	@I	@I
+I	zone_slice_idx_loop_end	*	@I	@I
+I	zone_slice_loop_count	*	@I	@I
+V	dont_use_machine_mode	*	@I
 # Undocumented
 V	mf_set_command	*	@I
 I||S	mf_get_command	*	V
@@ -177,3 +200,4 @@ V	mf_set_byte_two	*	@I
 I||S	mf_get_byte_two	*	V
 I||S	mf_get_channel	*	V
 V	mf_set_channel	*	@I
+S	_get_folder	*	@I
