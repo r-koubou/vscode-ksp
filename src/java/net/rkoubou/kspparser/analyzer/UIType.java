@@ -46,7 +46,7 @@ public class UIType implements AnalyzerConstants
     public int index = -1;
 
     /** 全UIタイプを表現するインスタンス。コマンド引数の意味解析時のインスタンス比較用 */
-    static public UIType ANY_UI = new UIType( "ui_*", true, TYPE_ANY, false, false, new int[ 0 ] );
+    static public UIType ANY_UI = new UIType( "ui_*", true, TYPE_MULTIPLE, false, false, new int[ 0 ] );
 
     /**
      * Ctor.

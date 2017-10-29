@@ -8,7 +8,6 @@
 package net.rkoubou.kspparser.analyzer;
 
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 
@@ -17,10 +16,6 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
  */
 public class Variable extends SymbolDefinition
 {
-
-    /** 変数名：データ型記号がつかないプリプロセッサシンボル等のシンボルの正規表現 */
-    static public final Pattern REGEX_NON_TYPE_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
-
     /** 元となるASTノード */
     public final ASTVariableDeclaration astNode;
 
@@ -391,6 +386,42 @@ public class Variable extends SymbolDefinition
     }
 
     /**
+     * プリプロセッサシンボルなど、変数データ型(数値・文字列)に
+     * 当てはまらないデータ型かどうかを判定する
+     */
+    public boolean isNonVariebleType()
+    {
+        return isNonVariebleType( type );
+    }
+
+    /**
+     * プリプロセッサシンボルなど、変数データ型(数値・文字列)に
+     * 当てはまらないデータ型かどうかを判定する
+     */
+    static public boolean isNonVariebleType( int type )
+    {
+        return ( type & TYPE_NON_VARIABLE ) != 0;
+    }
+
+    /**
+     * プリプロセッサシンボルなど、変数データ型(数値・文字列)に
+     * 当てはまらないデータ型の1文字目の検証を行う（[0-9]以外で始まるかどうか）
+     */
+    public boolean validateNonVariablePrefix()
+    {
+        return validateNonVariablePrefix( name );
+    }
+
+    /**
+     * プリプロセッサシンボルなど、変数データ型(数値・文字列)に
+     * 当てはまらないデータ型の1文字目の検証を行う（[0-9]以外で始まるかどうか）
+     */
+    static public boolean validateNonVariablePrefix( String name )
+    {
+        return REGEX_NON_TYPE_PREFIX.matcher( name ).find();
+    }
+
+    /**
      * 配列情報フラグ等を含まない、純粋なプリミティブ型の識別値を取得する。
      * 型の識別値のビットフラグを返す個別の判定は isInt()、isReal()、isString() 等を使用すること。
      */
@@ -492,7 +523,7 @@ public class Variable extends SymbolDefinition
             case 'K': return "KeyID";
             case '*': return "any";
             default:
-                if( REGEX_NON_TYPE_PREFIX.matcher( name ).find() )
+                if( AnalyzerConstants.REGEX_NON_TYPE_PREFIX.matcher( name ).find() )
                 {
                     return "Preprocessor Symbol or Key ID";
                 }
@@ -511,7 +542,7 @@ public class Variable extends SymbolDefinition
         }
         char t = variableName.charAt( 0 );
 
-        if( REGEX_NON_TYPE_PREFIX.matcher( variableName ).find() )
+        if( AnalyzerConstants.REGEX_NON_TYPE_PREFIX.matcher( variableName ).find() )
         {
             return TYPE_PREPROCESSOR_SYMBOL | TYPE_KEYID;
         }
@@ -531,7 +562,7 @@ public class Variable extends SymbolDefinition
             case 'V': return TYPE_VOID;
             case 'P': return TYPE_PREPROCESSOR_SYMBOL;
             case 'K': return TYPE_KEYID;
-            case '*': return TYPE_ANY;
+            case '*': return TYPE_MULTIPLE;
 
             default:
                 throw new IllegalArgumentException( "unknown ksp type : " + String.valueOf( t ) + ":" + variableName );
@@ -566,7 +597,7 @@ public class Variable extends SymbolDefinition
             case TYPE_VOID:                     return "V";
             case TYPE_PREPROCESSOR_SYMBOL:      return "P";
             case TYPE_KEYID:                    return "K";
-            case TYPE_ANY:                      return "*";
+            case TYPE_MULTIPLE:                      return "*";
             default:
                 return "{UNKNOWN:" + type  + "}";
         }

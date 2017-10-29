@@ -7,6 +7,8 @@
 
 package net.rkoubou.kspparser.analyzer;
 
+import java.util.regex.Pattern;
+
 /**
  * シンボル収集、意味解析フェーズ中に使用する共通の定数
  */
@@ -71,8 +73,9 @@ public interface AnalyzerConstants
     int TYPE_PREPROCESSOR_SYMBOL    = 0x400;
     int TYPE_KEYID                  = 0x800; // e.g. PGS <key-id>
 
-    int TYPE_NUMERICAL = TYPE_INT | TYPE_REAL;
-    int TYPE_ANY     = 0xffffff; // 全ビット ON
+    int TYPE_NUMERICAL              = TYPE_INT | TYPE_REAL;
+    int TYPE_NON_VARIABLE           = TYPE_PREPROCESSOR_SYMBOL | TYPE_KEYID;
+    int TYPE_MULTIPLE               = 0xffffff; // 型識別全ビット ON
 
     //--------------------------------------------------------------------------
     // 配列などの情報フラグ (0x01000000~0xff000000)
@@ -89,6 +92,7 @@ public interface AnalyzerConstants
 
     // 全情報ビットフラグON
     int TYPE_ATTR_ANY = 0x7F000000;
+    int TYPE_ALL      = 0xffffffff;
 
     //--------------------------------------------------------------------------
     // 上限・下限
@@ -145,4 +149,13 @@ public interface AnalyzerConstants
     /** コンスタントプール・タグ情報：文字列 */
     int CONSTAT_TAG_STRING = 1;
 
+    //--------------------------------------------------------------------------
+    // シンボル名検証
+    //--------------------------------------------------------------------------
+
+    /** 変数名の1文字目に数字文字が含まれているかどうか。KSPは許容するが、一般的な言語ではNG */
+    Pattern REGEX_NUMERIC_PREFIX = Pattern.compile( "^.[0-9]" );
+
+    /** 変数名：データ型記号がつかないプリプロセッサシンボル等のシンボルの正規表現 */
+    Pattern REGEX_NON_TYPE_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
 }

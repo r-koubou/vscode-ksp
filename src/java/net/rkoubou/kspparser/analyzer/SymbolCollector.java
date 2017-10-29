@@ -11,6 +11,7 @@ import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
@@ -232,10 +233,18 @@ public class SymbolCollector extends AbstractAnalyzer
     {
         Object ret = defaultVisit( node, data );
 
+        if( !Variable.validateNonVariablePrefix( node.symbol.name ) )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_GENERAL_SYMBOL_PREFIX_NUMERIC, node.symbol );
+            AnalyzeErrorCounter.e();
+            return ret;
+        }
+
         if( !userFunctionTable.add( node ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_FUNCTION_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();
+            return ret;
         }
 
         return ret;

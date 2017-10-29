@@ -92,7 +92,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         astRootNode.jjtAccept( this, null );
 
         //--------------------------------------------------------------------------
-        // 解析後の未使用・み初期化シンボルの洗い出し
+        // 解析後の未使用・未初期化シンボルの洗い出し
         //--------------------------------------------------------------------------
 
         if( AnalyzerOption.unused )
@@ -124,6 +124,18 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                 }
             }
         }
+        if( AnalyzerOption.strict )
+        {
+            for( SymbolDefinition s : variableTable.toArray() )
+            {
+                if( REGEX_NUMERIC_PREFIX.matcher( s.name ).find() )
+                {
+                    MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_INFO_VARNAME, s );
+                    AnalyzeErrorCounter.w();
+                }
+            }
+        }
+
     }
 
 //--------------------------------------------------------------------------
@@ -792,6 +804,7 @@ SEARCH:
                         if( var.type == t )
                         {
                             found = true;
+                            var.referenced = true;
                             break SEARCH;
                         }
                         break;
@@ -935,14 +948,13 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return exprL;
         }
-
         variable = variableTable.search( symL.name );
         if( variable == null )
         {
             // exprL 評価内で変数が見つけられなかった
             return exprL;
         }
-
+        variable.referenced = true;
         exprLType = variable.type;
         exprRType = exprR.symbol.type;
 
@@ -980,7 +992,6 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return exprL;
         }
-
         variable.status = VariableState.LOADED;
         return exprL;
     }
@@ -1510,7 +1521,7 @@ SEARCH:
             // ドキュメントに記載のない隠しコマンドの可能性
             // エラーにせず、警告に留める
             // 戻り値不定のため、全てを許可する
-            ret.symbol.type = TYPE_ANY;
+            ret.symbol.type = TYPE_MULTIPLE;
             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, node.symbol );
             AnalyzeErrorCounter.w();
             return ret;
@@ -1551,7 +1562,7 @@ SEARCH:
                 {
                     for( Argument a2 : a1.arguments )
                     {
-                        if( a2.type != TYPE_ANY && ( a2.type & TYPE_VOID ) != 0 )
+                        if( a2.type != TYPE_MULTIPLE && ( a2.type & TYPE_VOID ) != 0 )
                         {
                             valid = true;
                             break SEARCH;
@@ -1627,9 +1638,10 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     // 型指定なし（全ての型を許容する）
                     //--------------------------------------------------------------------------
-                    if( ( arg.type & (TYPE_ANY | TYPE_ATTR_ANY ) ) != 0 )
+                    if( arg.type == TYPE_ALL )
                     {
                         valid = true;
+                        break;
                     }
                     //--------------------------------------------------------------------------
                     // コマンドがUI属性付き変数を要求
@@ -1698,7 +1710,8 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     else
                     {
-                        if( ( arg.type & type ) != 0 )
+                        if( ( arg.type & type ) != 0 &&
+                            ( arg.type & TYPE_ATTR_MASK ) == ( type & TYPE_ATTR_MASK ) )
                         {
                             valid = true;
                             break;
@@ -1737,7 +1750,7 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return node;
         }
-        f.called = true;
+        f.referenced = true;
         return node;
     }
 
@@ -1784,10 +1797,7 @@ SEARCH:
             }
         }
         // <block>
-        if( node.jjtGetNumChildren() >= 2 )
-        {
-            node.jjtGetChild( 1 ).jjtAccept( this, data );
-        }
+        node.childrenAccept( this, data );
         return cond;
     }
 
@@ -1926,10 +1936,7 @@ SEARCH:
             }
         }
         // <block>
-        if( node.jjtGetNumChildren() >= 2 )
-        {
-            node.jjtGetChild( 1 ).jjtAccept( this, data );
-        }
+        node.childrenAccept( this, data );
         return cond;
     }
 

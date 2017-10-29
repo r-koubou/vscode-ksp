@@ -29,6 +29,11 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_LEXICAL                   = "error.lexical";
 
     //--------------------------------------------------------------------------
+    // General
+    //--------------------------------------------------------------------------
+    static public final String PROPERTY_ERROR_GENERAL_SYMBOL_PREFIX_NUMERIC = "error.general.symbol.prefix.numeric";
+
+    //--------------------------------------------------------------------------
     // Variable
     //--------------------------------------------------------------------------
     static public final String PROPERTY_ERROR_VARIABLE_ONINIT           = "error.variable.declared.oninit";
@@ -103,6 +108,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_WARNING_SEMANTIC_UNUSE_VARIABLE         = "warning.semantic.unuse.variable";
     static public final String PROPERTY_WARNING_SEMANTIC_UNUSE_FUNCTION         = "warning.semantic.unuse.function";
     static public final String PROPERTY_WARNING_TOOMUCH_LINECOUNT               = "warning.toomuch.linecount";
+    static public final String PROPERTY_WARNING_SEMANTIC_INFO_VARNAME           = "warning.semantic.info.varname";
 
     public enum Level
     {

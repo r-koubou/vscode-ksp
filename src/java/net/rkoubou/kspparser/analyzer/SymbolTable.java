@@ -30,7 +30,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     protected SymbolTable<NODE, SYMBOL> parent;
 
     protected int index;
-    protected Hashtable<String, SYMBOL> table = new Hashtable<String, SYMBOL>( 64 );
+    protected Hashtable<String, SYMBOL> table = new Hashtable<String, SYMBOL>( 512 );
 
     public final Comparator<SymbolDefinition> comparatorById =
 

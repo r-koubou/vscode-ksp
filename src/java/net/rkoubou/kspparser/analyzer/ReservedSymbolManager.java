@@ -422,11 +422,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         t = t.intern();
         if( t == "*" )
         {
-            type = TYPE_ANY;
+            type = TYPE_ALL;
         }
         else if( t == "*[]" )
         {
-            type = TYPE_ANY | TYPE_ATTR_ARRAY;
+            type = TYPE_MULTIPLE | TYPE_ATTR_ARRAY;
         }
         else if( t == "V" )
         {
