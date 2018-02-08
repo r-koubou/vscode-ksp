@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.12
+
+* Editor
+
+    * Small bug bug fixes
+
 ## Version 0.3.11
 
 * Syntax parser
@@ -20,7 +26,7 @@
     * Bug fixes [https://github.com/r-koubou/KSPSyntaxParser/issues/1](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
 
     * ADDED: Script line counter.
-    
+
         If reached to 5,000 lines per callback / function, KONTAKT KSP parser stack memory will be overflow error.
 
 ## Version 0.3.8

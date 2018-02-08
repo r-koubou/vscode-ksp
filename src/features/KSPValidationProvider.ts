@@ -67,6 +67,7 @@ export class KSPValidationProvider
         vscode.workspace.onDidOpenTextDocument( this.triggerValidate, this, subscriptions );
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
+            this.dispose();
             this.diagnosticCollection.delete( textDocument.uri );
             delete this.delayers[ textDocument.uri.toString() ];
         }, null, subscriptions );

@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Language (KSP)",
     "description": "Language support for NI KONTAKT Script (KSP)",
-    "version": "0.3.11",
+    "version": "0.3.12",
     "publisher": "rkoubou",
     "keywords": [
         "KONTAKT",
@@ -28,9 +28,9 @@
         "vscode": "^1.10.0"
     },
     "dependencies": {
-        "tmp": "0.0.31",
+        "tmp": "0.0.33",
         "vscode": "^1.1.0",
-        "vscode-nls": "^2.0.2"
+        "vscode-nls": "^3.2.1"
     },
     "devDependencies": {
         "@types/node": "^6.0.78"
