@@ -226,7 +226,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
                 String[] data               = line.split( DELIMITER );
                 Variable v                  = toVariableType( data[ 0 ] );
-                String name                 = Variable.toKSPTypeCharacter( v.type ) + data[ 1 ];
+                String name                 = v.toKSPTypeCharacter() + data[ 1 ];
                 boolean availableOnInit     = "Y".equals( data[ 2 ] );
 
                 v.name              = name;
@@ -234,7 +234,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 v.availableOnInit   = availableOnInit;        // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
                 v.reserved          = true;                   // 予約変数
                 v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                v.status            = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
+                v.state             = SymbolState.LOADED;   // 予約変数につき、値代入済みマーク
                 v.value             = v.getDefaultValue();
                 variables.put( name, v );
             }
@@ -369,7 +369,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                         a.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
                         a.reserved    = true;                   // 予約変数
                         a.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                        a.status      = VariableState.LOADED;   // 予約変数につき、値代入済みマーク
+                        a.state       = SymbolState.LOADED;   // 予約変数につき、値代入済みマーク
                         args.add( a );
                     }
                 }
@@ -572,7 +572,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             Variable v = args.get( x );
             v.reserved                  = false;                    // KONTAKT内部のビルトインコマンドにつき、非予約変数
             v.referenced                = true;                     // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
-            v.status                    = VariableState.LOADED;     // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
+            v.state                     = SymbolState.LOADED;     // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
             if( v.uiTypeInfo != null )
             {
                 v.uiTypeName = v.uiTypeInfo.name;

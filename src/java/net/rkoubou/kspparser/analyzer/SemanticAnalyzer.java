@@ -108,7 +108,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                 }
                 // 初期化（１度も値が格納されていない）
                 // ただし、UI型変数は除外
-                if( AnalyzerOption.strict && v.status == VariableState.UNLOADED && !v.isUIVariable() )
+                if( AnalyzerOption.strict && v.state == SymbolState.UNLOADED && !v.isUIVariable() )
                 {
                     MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, v );
                     AnalyzeErrorCounter.w();
@@ -411,18 +411,18 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         Boolean ret = null;
 
         if( ( symL.type != symR.type ) ||
-            ( !Variable.isConstant( symL.accessFlag ) || !Variable.isConstant( symR.accessFlag ) ) )
+            ( !SymbolDefinition.isConstant( symL.accessFlag ) || !SymbolDefinition.isConstant( symR.accessFlag ) ) )
         {
             return null;
         }
 
         ret = false;
-        if( Variable.getPrimitiveType( symL.type ) != Variable.getPrimitiveType( symL.type )  )
+        if( SymbolDefinition.getPrimitiveType( symL.type ) != SymbolDefinition.getPrimitiveType( symL.type )  )
         {
             return null;
         }
 
-        switch( Variable.getPrimitiveType( symL.type ) )
+        switch( SymbolDefinition.getPrimitiveType( symL.type ) )
         {
             case TYPE_INT:
             {
@@ -581,7 +581,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         {
             SimpleNode n = ((SimpleNode)arraySizeNode.jjtGetChild( i ));
 
-            if( !Variable.isInt( n.symbol.type ) )
+            if( !SymbolDefinition.isInt( n.symbol.type ) )
             {
                 // 要素数の型が整数以外
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE, v );
@@ -617,7 +617,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         if( forceSkipInitializer || node.jjtGetNumChildren() != 2 )
         {
             // 初期値代入なし
-            v.status = VariableState.UNLOADED;
+            v.state = SymbolState.UNLOADED;
             return false;
         }
 
@@ -651,13 +651,13 @@ public class SemanticAnalyzer extends AbstractAnalyzer
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i ) );
                 AnalyzeErrorCounter.e();
             }
-            // else if( !Variable.isConstant( eval.accessFlag ) )
+            // else if( !SymbolDefinition.isConstant( eval.accessFlag ) )
             // {
             //     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, eval );
             //     AnalyzeErrorCounter.e();
             // }
         }
-        v.status = VariableState.INITIALIZED;
+        v.state = SymbolState.INITIALIZED;
         return true;
     }
 
@@ -676,7 +676,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         {
             // KSP（data/symbol/uitypes.txt）で未定義のUIタイプ
             // シンボル収集フェーズで警告出力済みなので何もしない
-            v.status = VariableState.INITIALIZED;
+            v.state = SymbolState.INITIALIZED;
             return false;
         }
 
@@ -685,7 +685,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         if( v.type != uiType.uiValueType )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE, v, Variable.getTypeName( uiType.uiValueType ), uiType.name );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE, v, SymbolDefinition.getTypeName( uiType.uiValueType ), uiType.name );
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -704,7 +704,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         //--------------------------------------------------------------------------
         // ui_#### が配列型の場合、要素数宣言のチェック
         //--------------------------------------------------------------------------
-        if( Variable.isArray( uiType.uiValueType ) )
+        if( SymbolDefinition.isArray( uiType.uiValueType ) )
         {
             if( !declareArrayVariableImpl( node, v, jjtVisitorData, true ) )
             {
@@ -718,7 +718,7 @@ public class SemanticAnalyzer extends AbstractAnalyzer
         if( !uiType.initializerRequired )
         {
             // 初期化不要
-            v.status = VariableState.INITIALIZED;
+            v.state = SymbolState.INITIALIZED;
             return false;
         }
         if( node.jjtGetNumChildren() == 0 )
@@ -819,7 +819,7 @@ SEARCH:
                     }
                     break;
                 }
-                if( !Variable.isConstant( param.accessFlag ) )
+                if( !SymbolDefinition.isConstant( param.accessFlag ) )
                 {
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, n.symbol );
                     AnalyzeErrorCounter.e();
@@ -829,7 +829,7 @@ SEARCH:
             if( !found )
             {
                 // イニシャライザ: 型の不一致
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_TYPE, v, String.valueOf( i ), Variable.getTypeName( argT ) );
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_TYPE, v, String.valueOf( i ), SymbolDefinition.getTypeName( argT ) );
                 AnalyzeErrorCounter.e();
                 break;
             }
@@ -878,7 +878,7 @@ SEARCH:
         // 型の不一致
         if( ( v.type & eval.type ) == 0 )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE, v, Variable.getTypeName( eval.type ), Variable.getTypeName( v.type ) ) ;
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE, v, SymbolDefinition.getTypeName( eval.type ), SymbolDefinition.getTypeName( v.type ) ) ;
             AnalyzeErrorCounter.e();
             return false;
         }
@@ -910,7 +910,7 @@ SEARCH:
             }
             v.setValue( value );
         }
-        v.status = VariableState.INITIALIZED;
+        v.state = SymbolState.INITIALIZED;
         return true;
 
     }
@@ -968,7 +968,7 @@ SEARCH:
         }
         // コマンドコールの戻り値が複数の型を持つなどで暗黙の型変換を要する場合
         // 代入先の変数に合わせる。暗黙の型変換が不可能な場合は、代替としてVOIDを入れる
-        if( Variable.hasMultipleType( exprRType ) )
+        if( SymbolDefinition.hasMultipleType( exprRType ) )
         {
             if( ( exprLType & exprRType ) == 0 )
             {
@@ -983,8 +983,8 @@ SEARCH:
         // 配列要素への格納もあるので配列ビットをマスクさせている
         if( ( exprLType & TYPE_MASK ) != ( exprRType & TYPE_MASK ) )
         {
-            String vType = Variable.getTypeName( Variable.getPrimitiveType( exprLType ) );
-            String aType = Variable.getTypeName( exprRType );
+            String vType = SymbolDefinition.getTypeName( SymbolDefinition.getPrimitiveType( exprLType ) );
+            String aType = SymbolDefinition.getTypeName( exprRType );
             SymbolDefinition.copy( symR, tempSymbol );
             tempSymbol.name = variable.name;
 
@@ -992,7 +992,7 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return exprL;
         }
-        variable.status = VariableState.LOADED;
+        variable.state = SymbolState.LOADED;
         return exprL;
     }
 
@@ -1031,11 +1031,11 @@ SEARCH:
         if( numberOp )
         {
             // int と real を個別に判定しているのは、KSP が real から int の暗黙の型変換を持っていないため
-            if( Variable.isInt( typeL )  && Variable.isInt( typeR ) )
+            if( SymbolDefinition.isInt( typeL )  && SymbolDefinition.isInt( typeR ) )
             {
                 ret.symbol.type = TYPE_INT;
             }
-            else if( Variable.isReal( typeL )  && Variable.isReal( typeR ) )
+            else if( SymbolDefinition.isReal( typeL )  && SymbolDefinition.isReal( typeR ) )
             {
                 ret.symbol.type = TYPE_REAL;
             }
@@ -1048,7 +1048,7 @@ SEARCH:
         {
             ret.symbol.type = TYPE_STRING;
             // どちらか一方の辺が文字列型ならOK（&演算子）
-            if( ( !Variable.isString( typeL ) && !Variable.isString( typeR ) ) || node.getId() != JJTSTRADD )
+            if( ( !SymbolDefinition.isString( typeL ) && !SymbolDefinition.isString( typeR ) ) || node.getId() != JJTSTRADD )
             {
                 typeCheckResult = false;
             }
@@ -1064,7 +1064,7 @@ SEARCH:
         //--------------------------------------------------------------------------
         // 左辺、右辺共にリテラル、定数なら式の結果に定数フラグを反映
         //--------------------------------------------------------------------------
-        if( Variable.isConstant( symL.type ) && Variable.isConstant( symR.type ) )
+        if( SymbolDefinition.isConstant( symL.type ) && SymbolDefinition.isConstant( symR.type ) )
         {
             ret.symbol.accessFlag |= ACCESS_ATTR_CONST;
         }
@@ -1076,7 +1076,7 @@ SEARCH:
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+            ret.symbol.name = SymbolDefinition.toKSPTypeCharacter( TYPE_VOID );
         }
         return ret;
     }
@@ -1131,17 +1131,17 @@ SEARCH:
         SimpleNode ret = createEvalNode( node, node.getId() );
 
         // 式が数値型と一致している必要がある
-        if( numOnly && !Variable.isNumeral( type ) )
+        if( numOnly && !SymbolDefinition.isNumeral( type ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_NUMONLY, expr.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = type;
-            ret.symbol.name = Variable.toKSPTypeCharacter( type );
+            ret.symbol.name = SymbolDefinition.toKSPTypeCharacter( type );
         }
         else
         {
             int t = booleanOp ? TYPE_BOOL : type;
-            ret.symbol.name = Variable.toKSPTypeCharacter( t );
+            ret.symbol.name = SymbolDefinition.toKSPTypeCharacter( t );
             ret.symbol.type = t;
         }
 
@@ -1293,7 +1293,7 @@ SEARCH:
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD, node.symbol );
                     AnalyzeErrorCounter.e();
                     ret.symbol.type = TYPE_VOID;
-                    ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+                    ret.symbol.name = SymbolDefinition.toKSPTypeCharacter( TYPE_VOID );
                     return ret;
                 }
                 p = p.jjtGetParent();
@@ -1308,16 +1308,16 @@ SEARCH:
         int typeR = symR.type;
 
         // 左辺、右辺どちらか一方が文字列である必要がある（KONTAKT内で暗黙の型変換が作動する）
-        if( !Variable.isString( typeL ) && !Variable.isString( typeR ) )
+        if( !SymbolDefinition.isString( typeL ) && !SymbolDefinition.isString( typeR ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+            ret.symbol.name = SymbolDefinition.toKSPTypeCharacter( TYPE_VOID );
         }
         else
         {
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_STRING );
+            ret.symbol.name = SymbolDefinition.toKSPTypeCharacter( TYPE_STRING );
             ret.symbol.type = TYPE_STRING;
         }
         return ret;
@@ -1425,7 +1425,7 @@ SEARCH:
         if( node.jjtGetParent() != null && node.jjtGetParent().getId() == JJTASSIGNMENT )
         {
             // これから代入される予定の変数
-            v.status = VariableState.LOADING;
+            v.state = SymbolState.LOADING;
         }
 
         // 配列型なら添字チェック
@@ -1448,7 +1448,7 @@ SEARCH:
             }
             ret.symbol.reserved = v.reserved;
             v.referenced = true;
-            v.status = VariableState.LOADED;
+            v.state = SymbolState.LOADED;
             return ret;
         }
         // 配列型じゃないのに添え字がある
@@ -1465,7 +1465,7 @@ SEARCH:
         ret.symbol.type = v.getPrimitiveType();
         ret.symbol.reserved = v.reserved;
         v.referenced = true;
-        v.status = VariableState.LOADED;
+        v.state = SymbolState.LOADED;
         return ret;
     }
 
@@ -1492,7 +1492,7 @@ SEARCH:
         SimpleNode ret = createEvalNode( parent, JJTREFVARIABLE );
 
         // 添え字の型はintのみ
-        if( !Variable.isInt( sym.type ) )
+        if( !SymbolDefinition.isInt( sym.type ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ARRAY_ELEMENT_INTONLY, expr.symbol );
             AnalyzeErrorCounter.e();
@@ -1786,12 +1786,12 @@ SEARCH:
         // 条件式がBOOL型でない場合
         //--------------------------------------------------------------------------
         {
-            if( !Variable.isBoolean( cond.symbol.type ) )
+            if( !SymbolDefinition.isBoolean( cond.symbol.type ) )
             {
                 MessageManager.printlnE(
                     MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
                     cond.symbol,
-                    Variable.getTypeName( TYPE_BOOL )
+                    SymbolDefinition.getTypeName( TYPE_BOOL )
                 );
                 AnalyzeErrorCounter.e();
             }
@@ -1828,12 +1828,12 @@ SEARCH:
         //--------------------------------------------------------------------------
         {
             SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-            if( !Variable.isInt( cond.symbol.type ) || Variable.isArray( cond.symbol.type )  )
+            if( !SymbolDefinition.isInt( cond.symbol.type ) || SymbolDefinition.isArray( cond.symbol.type )  )
             {
                 MessageManager.printlnE(
                     MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
                     cond.symbol,
-                    Variable.getTypeName( TYPE_INT )
+                    SymbolDefinition.getTypeName( TYPE_INT )
                 );
                 AnalyzeErrorCounter.e();
                 return node;
@@ -1925,12 +1925,12 @@ SEARCH:
         // 条件式がBOOL型でない場合
         //--------------------------------------------------------------------------
         {
-            if( !Variable.isBoolean( cond.symbol.type ) )
+            if( !SymbolDefinition.isBoolean( cond.symbol.type ) )
             {
                 MessageManager.printlnE(
                     MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
                     cond.symbol,
-                    Variable.getTypeName( TYPE_BOOL )
+                    SymbolDefinition.getTypeName( TYPE_BOOL )
                 );
                 AnalyzeErrorCounter.e();
             }

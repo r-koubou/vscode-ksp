@@ -115,7 +115,7 @@ public interface AnalyzerConstants
     /*
      * 変数の状態を示す識別子。
      */
-    public enum VariableState
+    public enum SymbolState
     {
         /** 未初期化 */
         UNLOADED,

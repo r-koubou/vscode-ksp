@@ -126,7 +126,7 @@ public class SymbolCollector extends AbstractAnalyzer
             else
             {
                 // const、poly修飾子は構文解析フェーズで代入済み
-                v.type = Variable.getKSPTypeFromVariableName( v.name );
+                v.type = SymbolDefinition.getKSPTypeFromVariableName( v.name );
             }
         }
 
@@ -233,7 +233,7 @@ public class SymbolCollector extends AbstractAnalyzer
     {
         Object ret = defaultVisit( node, data );
 
-        if( !Variable.validateNonVariablePrefix( node.symbol.name ) )
+        if( !node.symbol.validateNonVariablePrefix() )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_GENERAL_SYMBOL_PREFIX_NUMERIC, node.symbol );
             AnalyzeErrorCounter.e();

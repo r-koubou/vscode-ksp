@@ -68,7 +68,7 @@ public class ReturnType implements AnalyzerConstants
         StringBuilder sb = new StringBuilder();
         for( int t : typeList )
         {
-            sb.append( Variable.toKSPTypeCharacter( t ) );
+            sb.append( SymbolDefinition.toKSPTypeCharacter( t ) );
         }
         return sb.toString();
     }
