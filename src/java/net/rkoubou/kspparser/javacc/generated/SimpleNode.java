@@ -2,6 +2,8 @@
 /* JavaCCOptions:MULTI=true,NODE_USES_PARSER=true,VISITOR=true,TRACK_TOKENS=false,NODE_PREFIX=AST,NODE_EXTENDS=net.rkoubou.kspparser.javacc.ASTKSPNode,NODE_FACTORY=,SUPPORT_CLASS_VISIBILITY_PUBLIC=true */
 package net.rkoubou.kspparser.javacc.generated;
 
+import net.rkoubou.kspparser.analyzer.SymbolDefinition;
+
 public
 class SimpleNode extends net.rkoubou.kspparser.javacc.ASTKSPNode implements Node {
 
@@ -96,6 +98,40 @@ class SimpleNode extends net.rkoubou.kspparser.javacc.ASTKSPNode implements Node
 
   public int getId() {
     return id;
+  }
+
+  /**
+   * 追記：このノードを指定された新規ノードに置き換える
+   */
+  public <T extends SimpleNode> T reset( T newNode, Node[] newChildren, Object newValue, SymbolDefinition newSymbol ) {
+    if( parent == null )
+    {
+        newNode.id       = newNode.id;
+        newNode.value    = newValue;
+        newNode.parser   = parser;
+        newNode.children = newChildren;
+        newSymbol.value  = newValue;
+        SymbolDefinition.copy( newSymbol, newNode.symbol );
+        return newNode;
+    }
+    for( int i = 0; i < parent.jjtGetNumChildren(); i++ )
+    {
+        SimpleNode n = (SimpleNode)parent.jjtGetChild( i );
+        if( n != this )
+        {
+            continue;
+        }
+        newNode.parent   = parent;
+        newNode.id       = newNode.id;
+        newNode.value    = newValue;
+        newNode.parser   = n.parser;
+        newNode.children = newChildren;
+        newSymbol.value  = newValue;
+        SymbolDefinition.copy( newSymbol, newNode.symbol );
+        ((SimpleNode)parent).children[ i ]  = newNode;
+        break;
+    }
+    return newNode;
   }
 }
 

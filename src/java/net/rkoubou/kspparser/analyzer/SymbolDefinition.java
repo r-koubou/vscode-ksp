@@ -51,6 +51,9 @@ public class SymbolDefinition implements AnalyzerConstants
     /** 定義した行・列情報 */
     public final Position position = new Position();
 
+    /** ワークバッファ */
+    static private final StringBuilder stringBuffer = new StringBuilder( 512 );
+
     /**
      * Ctor.
      */
@@ -69,6 +72,11 @@ public class SymbolDefinition implements AnalyzerConstants
      */
     static public void copy( SymbolDefinition src, SymbolDefinition dest )
     {
+        if( src == dest )
+        {
+            // 参照先が同じなので何もしない
+            return;
+        }
         dest.symbolType     = src.symbolType;
         dest.index          = src.index;
         dest.type           = src.type;
@@ -78,6 +86,26 @@ public class SymbolDefinition implements AnalyzerConstants
         dest.uiTypeName     = src.uiTypeName;
         dest.value          = src.value;
         dest.position.copy( src.position );
+    }
+
+    /**
+     * このシンボルのダンプ情報を取得する
+     */
+    public String dump()
+    {
+        StringBuilder sb = stringBuffer;
+        sb.delete( 0, sb.length() );
+        sb.append( "---- Symbol Information -----------------------------" ).append( '\n' );
+        sb.append( "symbolType:" ).append( symbolType ).append( '\n' );
+        sb.append( "index:" ).append( index ).append( '\n' );
+        sb.append( "type:" ).append( getTypeName( type ) ).append( '\n' );
+        sb.append( "accessFlag:" ).append( "0x" ).append( Integer.toHexString( accessFlag ) ).append( '\n' );
+        sb.append( "reserved:" ).append( reserved ).append( '\n' );
+        sb.append( "name:" ).append( name ).append( '\n' );
+        sb.append( "uiTypeName:" ).append( uiTypeName ).append( '\n' );
+        sb.append( "value:" ).append( value ).append( '\n' );
+
+        return sb.toString();
     }
 
     /**

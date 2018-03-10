@@ -7,16 +7,14 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import net.rkoubou.kspparser.javacc.generated.Node;
-import net.rkoubou.kspparser.javacc.generated.SimpleNode;
-
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
-import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;;
+import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
+import net.rkoubou.kspparser.javacc.generated.Node;
+import net.rkoubou.kspparser.javacc.generated.SimpleNode;;
 
 /**
  * シンボルテーブル構築クラス
