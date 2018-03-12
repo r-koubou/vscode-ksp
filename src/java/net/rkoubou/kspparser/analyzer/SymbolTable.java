@@ -21,18 +21,29 @@ import java.util.Hashtable;
  */
 abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends SymbolDefinition> implements AnalyzerConstants
 {
+
+    /**
+     * ソートタイプ
+     */
     public enum SortType
     {
-        BY_ID,
+        /** テーブルインデックス値 */
+        BY_INDEX,
+        /** シンボルタイプ */
         BY_TYPE,
     }
 
+    /** ネストなどのローカルスコープを許容する場合に使用する親ノード */
     protected SymbolTable<NODE, SYMBOL> parent;
 
+    /** シンボルに割り当てられるユニークなインデックス値 */
     protected int index;
+
+    /** テーブル本体 */
     protected Hashtable<String, SYMBOL> table = new Hashtable<String, SYMBOL>( 512 );
 
-    public final Comparator<SymbolDefinition> comparatorById =
+    /** ソート用比較処理（インデックス） */
+    public final Comparator<SymbolDefinition> comparatorByIndex =
 
         new Comparator<SymbolDefinition>()
         {
@@ -45,6 +56,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
             }
         };
 
+    /** ソート用比較処理（シンボルタイプ） */
     public final Comparator<SymbolDefinition> comparatorByType =
 
         new Comparator<SymbolDefinition>()
@@ -57,7 +69,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
                 int cmp = o1.symbolType.compareTo( o2.symbolType );
                 if( cmp == 0 )
                 {
-                    return comparatorById.compare( o1, o2 );
+                    return comparatorByIndex.compare( o1, o2 );
                 }
                 return cmp;
             }
@@ -104,7 +116,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
         SYMBOL v = table.get( name );
         if( v == null && enableSearchParent )
         {
-            SymbolTable<NODE, SYMBOL> p = parent;
+            SymbolTable<NODE, SYMBOL> p = getParent();
             while( p != null )
             {
                 v = p.table.get( name );
@@ -112,7 +124,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
                 {
                     return v;
                 }
-                p = p.parent;
+                p = p.getParent();
             }
             return null;
         }
@@ -132,12 +144,12 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合はインデックス番号、無い場合は -1
      */
-    public int searchID( String name, boolean enableSearchParent )
+    public int searchIndex( String name, boolean enableSearchParent )
     {
         SYMBOL v = search( name, enableSearchParent );
         if( v == null )
         {
-            SymbolTable<NODE, SYMBOL> p = parent;
+            SymbolTable<NODE, SYMBOL> p = getParent();
             while( p != null )
             {
                 v = p.table.get( name );
@@ -145,7 +157,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
                 {
                     return v.index;
                 }
-                p = p.parent;
+                p = p.getParent();
             }
             return -1;
         }
@@ -158,7 +170,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
      */
     public int searchID( String name )
     {
-        return searchID( name, true );
+        return searchIndex( name, true );
     }
 
     /**
@@ -178,7 +190,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
 
         switch( sortType )
         {
-            case BY_ID:   c = comparatorById;   break;
+            case BY_INDEX:   c = comparatorByIndex;   break;
             case BY_TYPE: c = comparatorByType; break;
             default:
                 throw new IllegalArgumentException();
@@ -192,6 +204,14 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
 
         return array;
 
+    }
+
+    /**
+     * 親テーブルを取得する
+     */
+    public SymbolTable<NODE, SYMBOL> getParent()
+    {
+        return parent;
     }
 
     /**
