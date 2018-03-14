@@ -68,9 +68,19 @@ export class KSPValidationProvider
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
             this.dispose();
-            this.diagnosticCollection.delete( textDocument.uri );
             delete this.delayers[ textDocument.uri.toString() ];
         }, null, subscriptions );
+    }
+
+    /**
+     * Clear diagnosticCollection
+     */
+    private clearDiagnosticCollection()
+    {
+        if( this.diagnosticCollection )
+        {
+            this.diagnosticCollection.clear();
+        }
     }
 
     /**
@@ -78,11 +88,7 @@ export class KSPValidationProvider
      */
     public dispose(): void
     {
-        if( this.diagnosticCollection )
-        {
-            this.diagnosticCollection.clear();
-        }
-        this.doDispose( this.diagnosticCollection );
+        this.clearDiagnosticCollection();
     }
 
     /**
@@ -201,8 +207,11 @@ export class KSPValidationProvider
             }, this );
 
             this.onChangedListener = vscode.workspace.onDidChangeTextDocument( (e) => {
-                this.realtimeTrigger = true;
-                this.triggerValidate( e.document );
+                if( e.document.isDirty )
+                {
+                    this.realtimeTrigger = true;
+                    this.triggerValidate( e.document );
+                }
             });
         }
     }

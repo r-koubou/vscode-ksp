@@ -9,22 +9,14 @@
 * Snippet
 * Hover
 * Go to Definition
-    - Ctrl(Command)+Shift+O
-    - F12
-    - Ctrl(Command)+Click
-* Find symbols and find references in script ( *Simplified version )
-    - Context menu
-    - Shift+F12
-
+* Find symbols and find references in script
 * Syntax validation
 * Rename Identifiers
-    - Context menu
-    - F2
 
-## Syntax validation ( `"BETA" VERSION` ).
+## Syntax validation
 
-* Analysis program has some bugs was FIXED
-* Analysis precision improved (`Semantic Analysis` is `READY`)
+* Syntax Analysis
+* Semantic Analysis
     - Validate array size at declared
     - Validate argument for all KSP command, UI initializer
     - Validate unused variable / user function
@@ -32,7 +24,7 @@
     etc.
 
     `Default is "disabled".`
-    You can change setting at Preferences -> Settings (Part of "KSP NI KONTAKT Script" ).
+    You can change setting at Preferences -> Settings (Part of "KONTAKT Script Processor (KSP)" ).
 
 ### About Syntax validation
 
@@ -44,7 +36,7 @@
 
 ## KSP Compatibility
 
-- KONTAKT 5.6.8's KSP syntax
+- KONTAKT 5.7.x
 
 ## TODO
 
@@ -59,7 +51,7 @@
 [github repository](https://github.com/r-koubou/vscode-ksp)
 
 
-## Source Code for KSP Syntax Parser Program
+## Source Code of KSP Syntax Parser Program
 
 [github repository](https://github.com/r-koubou/KSPSyntaxParser)
 
@@ -114,24 +106,19 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * シンタックスハイライト
 * 補完入力
 * スニペット
-* Hover
+* ホバー表示
 * 宣言箇所へのジャンプ
-    - Ctrl(Command)+Shift+O
-    - F12
-    - Ctrl(Command)+クリック
-* スクリプト内のシンボル参照箇所の検索（*簡易版）
-    - シンボルを右クリック後、コンテキストメニューから選択
-    - Shift+F12
+* スクリプト内のシンボル参照箇所の検索
 * 文法解析機能
 * リネーム機能
     - シンボルを右クリック後、コンテキストメニューから選択
     - F2
 
-## 文法解析機能 ( `ベータバージョン` ).
+## 文法解析機能
 
-* 解析プログラムのバグを修正しました
-* 解析精度が向上しました(`意味解析を組み込みました`)
-    - 配列変数宣言時の要素数をチェックします
+* 文法解析
+* 意味解析（論理チェック）
+    - 配列変数宣言時の要素数をチェック
     - コマンドや、UI変数へ渡すパラメータのチェック
     - 未使用の変数、ユーザー定義関数の検出
 
@@ -139,7 +126,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
     `初期設定ではこの機能はオフになっています。`
     使用する際は、設定画面で設定を変えて下さい。
-    (Preferences->Settings内、KSP NI KONTAKT Script )
+    (Preferences->Settings内、"KONTAKT Script Processor (KSP)" )
 
 ### 文法解析機能について
 
@@ -151,7 +138,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ## KSP互換
 
-- KONTAKT 5.6.8 のKSPに対応しています
+- KONTAKT 5.7.x のKSPに対応しています
 
 ## TODO
 

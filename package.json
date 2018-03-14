@@ -1,8 +1,8 @@
 {
     "name": "ksp",
-    "displayName": "KONTAKT Script Language (KSP)",
-    "description": "Language support for NI KONTAKT Script (KSP)",
-    "version": "0.3.12",
+    "displayName": "KONTAKT Script Processor (KSP)",
+    "description": "Language support for NI KONTAKT Script Processor (KSP)",
+    "version": "0.3.13",
     "publisher": "rkoubou",
     "keywords": [
         "KONTAKT",

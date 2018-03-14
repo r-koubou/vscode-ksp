@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.13
+
+* Editor, Syntax parser
+
+    * Small bug bug fixes
+
 ## Version 0.3.12
 
 * Editor
