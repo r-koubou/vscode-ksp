@@ -214,6 +214,8 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                     {
                         return null;
                     }
+                    v.referenced = true;
+                    v.state      = SymbolState.LOADED;
                     return (Integer)v.value;
                 }
             }
@@ -306,6 +308,8 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                     {
                         return null;
                     }
+                    v.referenced = true;
+                    v.state      = SymbolState.LOADED;
                     return (Double)v.value;
                 }
             }
@@ -379,12 +383,12 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         }
 
         ret = false;
-        if( SymbolDefinition.getPrimitiveType( symL.type ) != SymbolDefinition.getPrimitiveType( symL.type )  )
+        if( symL.getPrimitiveType() != symR.getPrimitiveType()  )
         {
             return null;
         }
 
-        switch( SymbolDefinition.getPrimitiveType( symL.type ) )
+        switch( symL.getPrimitiveType() )
         {
             case TYPE_INT:
             {

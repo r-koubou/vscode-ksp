@@ -223,7 +223,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
         int typeR = symR.type;
 
         // 左辺、右辺どちらか一方が文字列である必要がある（KONTAKT内で暗黙の型変換が作動する）
-        if( !Variable.isString( typeL ) && !Variable.isString( typeR ) )
+        if( !symL.isString() && !symR.isString() )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
