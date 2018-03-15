@@ -238,7 +238,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
             {
                 // リテラル文字列同士の連結：結合
                 ret.symbol.addTypeFlag( TYPE_NONE, ACCESS_ATTR_CONST );
-                ret.symbol.value = (String)symL.value + (String)symR.value;
+                ret.symbol.value = symL.value.toString() + symR.value.toString();
                 node.symbol.setValue( ret.symbol.value );
                 SymbolDefinition.setTypeFlag( ret.symbol, node.symbol );
             }

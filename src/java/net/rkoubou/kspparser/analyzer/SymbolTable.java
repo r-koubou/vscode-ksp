@@ -7,13 +7,14 @@
 
 package net.rkoubou.kspparser.analyzer;
 
-import net.rkoubou.kspparser.javacc.generated.SimpleNode;
-
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import net.rkoubou.kspparser.javacc.generated.SimpleNode;
+import net.rkoubou.kspparser.obfuscator.ShortSymbolGenerator;
 
 
 /**
@@ -240,4 +241,18 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
         }
     }
 
+    /**
+     * シンボル名のオブファスケートを行う
+     */
+    public void obfuscate()
+    {
+        for( Enumeration<SYMBOL> e = table.elements(); e.hasMoreElements(); )
+        {
+            SYMBOL v = e.nextElement();
+            if( v.name != null && v.name.length() > 0 && !v.reserved )
+            {
+                v.obfuscatedName = ShortSymbolGenerator.generate( v.name );
+            }
+        }
+    }
 }

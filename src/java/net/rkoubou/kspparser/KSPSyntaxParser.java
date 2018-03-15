@@ -16,6 +16,7 @@ import net.rkoubou.kspparser.analyzer.SemanticAnalyzer;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
+import net.rkoubou.kspparser.obfuscator.Obfuscator;
 
 /**
  * KSPSyntaxParser
@@ -72,6 +73,12 @@ public class KSPSyntaxParser
                     return;
                 }
 
+            }
+
+            {
+                Obfuscator obfuscator = new Obfuscator( rootNode, symbolCollector );
+                obfuscator.analyze();
+                System.out.println( obfuscator );
             }
         }
         finally
