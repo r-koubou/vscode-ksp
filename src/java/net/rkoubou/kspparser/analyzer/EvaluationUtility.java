@@ -208,7 +208,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             }
             if( ret == null )
             {
-                throw new RuntimeException( "Unknown nodeId : " + expr.getId() );
+                throw new RuntimeException( "Unknown nodeId : " + expr );
             }
             // 演算子ノードに定数フラグと畳み込み後の値を格納
             expr.symbol.setTypeFlag( TYPE_REAL, ACCESS_ATTR_CONST );
@@ -347,7 +347,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             {
                 case JJTLITERAL:
                 {
-                    return (String)expr.jjtGetValue();
+                    return expr.jjtGetValue().toString();
                 }
                 case JJTREFVARIABLE:
                 {
@@ -362,7 +362,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
                     {
                         return null;
                     }
-                    return (String)v.value;
+                    return v.value.toString();
                 }
             }
         }
@@ -407,17 +407,17 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         Boolean ret = null;
 
         if( ( symL.type != symR.type ) ||
-            ( !Variable.isConstant( symL.accessFlag ) || !Variable.isConstant( symR.accessFlag ) ) )
+            ( !symL.isConstant() || !symR.isConstant() ) )
         {
             return null;
         }
 
-        if( Variable.getPrimitiveType( symL.type ) != Variable.getPrimitiveType( symL.type )  )
+        if( symL.getPrimitiveType() != symR.getPrimitiveType() )
         {
             return null;
         }
 
-        switch( Variable.getPrimitiveType( symL.type ) )
+        switch( symL.getPrimitiveType() )
         {
             case TYPE_INT:
             {
@@ -501,8 +501,8 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         0: <expr>   1:<expr>
 */
 
-        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 );
-        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 );
+        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( jjtVisitor, jjtAcceptData );
+        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( jjtVisitor, jjtAcceptData );
         final SymbolDefinition symL = exprL.symbol;
         final SymbolDefinition symR = exprR.symbol;
         int typeL = symL.type;
@@ -518,11 +518,11 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         if( numberOp )
         {
             // int と real を個別に判定しているのは、KSP が real から int の暗黙の型変換を持っていないため
-            if( Variable.isInt( typeL )  && Variable.isInt( typeR ) )
+            if( symL.isInt()  && symR.isInt() )
             {
                 ret.symbol.type = TYPE_INT;
             }
-            else if( Variable.isReal( typeL )  && Variable.isReal( typeR ) )
+            else if( symL.isReal()  && symR.isReal() )
             {
                 ret.symbol.type = TYPE_REAL;
             }
@@ -535,7 +535,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         {
             ret.symbol.type = TYPE_STRING;
             // どちらか一方の辺が文字列型ならOK（&演算子）
-            if( ( !Variable.isString( typeL ) && !Variable.isString( typeR ) ) || node.getId() != JJTSTRADD )
+            if( ( !symL.isString() && !symR.isString() ) || node.getId() != JJTSTRADD )
             {
                 typeCheckResult = false;
             }
@@ -552,7 +552,8 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         // 左辺、右辺共にリテラル、定数なら式の結果に定数フラグを反映
         // このノード自体を式からリテラルに置き換える
         //--------------------------------------------------------------------------
-        if( SymbolDefinition.isConstant( symL.type ) && SymbolDefinition.isConstant( symR.type ) )
+        if( !symL.isArray() && !symR.isArray() &&
+            symL.isConstant() && symR.isConstant() )
         {
             Number constValue = null;
             ret.symbol.accessFlag |= ACCESS_ATTR_CONST;
