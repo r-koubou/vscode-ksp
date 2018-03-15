@@ -111,8 +111,6 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * スクリプト内のシンボル参照箇所の検索
 * 文法解析機能
 * リネーム機能
-    - シンボルを右クリック後、コンテキストメニューから選択
-    - F2
 
 ## 文法解析機能
 
