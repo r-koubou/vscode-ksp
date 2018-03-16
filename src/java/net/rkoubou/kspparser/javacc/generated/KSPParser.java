@@ -106,7 +106,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,Analyz
     {
         if( token.image != null )
         {
-            dest.symbol.name = token.image;
+            dest.symbol.setName( token.image );
         }
         dest.symbol.position.copy( token );
         dest.symbol.type        = type;
@@ -164,7 +164,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,Analyz
     void applyAllLiteral( Token token, SimpleNode dest )
     {
         dest.jjtSetValue( dest.symbol.value );
-        dest.symbol.name         = "";
+        dest.symbol.setName( "" );
         dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
         dest.symbol.position.copy( token );
         dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
@@ -434,7 +434,7 @@ if (jjtc000) {
       }
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-decl.symbol.name = name.image;
+decl.symbol.setName( name.image );
         decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
     } catch (Throwable jjte000) {
 if (jjtc000) {
@@ -693,7 +693,7 @@ this.currentScopeLineCounter++;
       end = jj_consume_token(ON);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name       = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
@@ -841,7 +841,7 @@ this.currentScopeLineCounter++;
       end = jj_consume_token(FUNCTION);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name       = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
@@ -1095,7 +1095,7 @@ errorSkipTo( e );
       jj_consume_token(RPAREN);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name         = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } finally {
@@ -1158,7 +1158,7 @@ if (jjtc000) {
       jj_consume_token(RPAREN);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name         = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } finally {
@@ -1223,7 +1223,7 @@ if (jjtc000) {
       jj_consume_token(PREPROCESSOR_CODE_END_IF);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name         = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } catch (Throwable jjte000) {
@@ -1302,7 +1302,7 @@ if (jjtc000) {
       jj_consume_token(PREPROCESSOR_CODE_END_IF);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name         = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     } catch (Throwable jjte000) {
@@ -1722,7 +1722,7 @@ if (jjtc000) {
       symbol = jj_consume_token(IDENTIFIER);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name       = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     } finally {
@@ -2558,7 +2558,7 @@ if (jjtc000) {
       }
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-jjtn000.symbol.name       = symbol.image;
+jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
@@ -2624,7 +2624,7 @@ if (jjtc000) {
     jjtree.openNodeScope(jjtn000);Token symbol;
     try {
       symbol = jj_consume_token(IDENTIFIER);
-jjtn000.symbol.name       = symbol.image;
+jjtn000.symbol.setName( symbol.image );
             jjtn000.symbol.position.copy( symbol );
             jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
       if (jj_2_21(2)) {

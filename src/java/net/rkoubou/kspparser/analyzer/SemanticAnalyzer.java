@@ -90,7 +90,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         {
             for( SymbolDefinition s : variableTable.toArray() )
             {
-                if( REGEX_NUMERIC_PREFIX.matcher( s.name ).find() )
+                if( REGEX_NUMERIC_PREFIX.matcher( s.getName() ).find() )
                 {
                     MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_INFO_VARNAME, s );
                     AnalyzeErrorCounter.w();
@@ -203,7 +203,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 }
                 case JJTREFVARIABLE:
                 {
-                    Variable v = variableTable.search( expr.symbol.name );
+                    Variable v = variableTable.search( expr.symbol );
                     if( v == null )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
@@ -297,7 +297,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 }
                 case JJTREFVARIABLE:
                 {
-                    Variable v = variableTable.search( expr.symbol.name );
+                    Variable v = variableTable.search( expr.symbol );
                     if( v == null )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
@@ -448,7 +448,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 -> [###Initializer]
                     -> (expr)+
 */
-        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol.name ) );
+        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol ) );
     }
 
     /**
@@ -752,7 +752,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     case JJTREFVARIABLE:
                     {
-                        Variable var = variableTable.search( n.symbol.name );
+                        Variable var = variableTable.search( n.symbol );
                         if( var == null )
                         {
                             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, n.symbol );
@@ -911,7 +911,7 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return exprL;
         }
-        variable = variableTable.search( symL.name );
+        variable = variableTable.search( symL );
         if( variable == null )
         {
             // exprL 評価内で変数が見つけられなかった
@@ -924,7 +924,7 @@ SEARCH:
         if( variable.isConstant( ) )
         {
             SymbolDefinition.copy( exprR.symbol, tempSymbol );
-            tempSymbol.name = variable.name;
+            tempSymbol.setName( variable.getName() );
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_CONSTVARIABLE, tempSymbol );
             AnalyzeErrorCounter.e();
             return exprL;
@@ -949,7 +949,7 @@ SEARCH:
             String vType = SymbolDefinition.getTypeName( SymbolDefinition.getPrimitiveType( exprLType ) );
             String aType = SymbolDefinition.getTypeName( exprRType );
             SymbolDefinition.copy( symR, tempSymbol );
-            tempSymbol.name = variable.name;
+            tempSymbol.setName( variable.getName() );
 
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE, tempSymbol, vType, aType );
             AnalyzeErrorCounter.e();
@@ -975,7 +975,7 @@ SEARCH:
         //--------------------------------------------------------------------------
         // 宣言済みかどうか
         //--------------------------------------------------------------------------
-        Variable v = variableTable.search( node.symbol.name );
+        Variable v = variableTable.search( node.symbol );
         if( v == null )
         {
             // 宣言されていない変数
@@ -1019,7 +1019,7 @@ SEARCH:
         else if( node.jjtGetNumChildren() > 0 )
         {
             SymbolDefinition.copy( node.symbol, tempSymbol );
-            tempSymbol.name = v.name;
+            tempSymbol.setName( v.getName() );
 
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOTARRAY, tempSymbol );
             AnalyzeErrorCounter.e();
@@ -1074,7 +1074,7 @@ SEARCH:
     @Override
     public Object visit( ASTCallCommand node, Object data )
     {
-        final Command cmd = commandTable.search( node.symbol.name );
+        final Command cmd = commandTable.search( node.symbol );
 
         // 上位ノードの型評価式用
         SimpleNode ret = createEvalNode( node, JJTREFVARIABLE );
@@ -1104,7 +1104,7 @@ SEARCH:
         //--------------------------------------------------------------------------
         if( callback != null )
         {
-            if( !cmd.availableCallbackList.containsKey( callback.symbol.name ) )
+            if( !cmd.availableCallbackList.containsKey( callback.symbol.getName() ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED, node.symbol );
                 AnalyzeErrorCounter.e();
@@ -1194,7 +1194,7 @@ SEARCH:
                 int type                = symbol.type;
 
                 // 評価式が変数だった場合のための変数情報への参照
-                Variable userVar        = variableTable.search( symbol.name );
+                Variable userVar        = variableTable.search( symbol );
 
                 // 引数毎に複数のデータ型が許容される仕様のため照合
                 for( Argument arg : argList.get( i ).arguments )
@@ -1241,7 +1241,7 @@ SEARCH:
                     else if( evalNode.getId() == JJTCALLCOMMAND )
                     {
                         ASTCallCommand callCmd = (ASTCallCommand)evalNode;
-                        Command retCommand = commandTable.search( callCmd.symbol.name );
+                        Command retCommand = commandTable.search( callCmd.symbol );
 
                         // [nullチェック]
                         // 隠しコマンドやドキュメント化されていない場合に逆引きできない可能性があるため
@@ -1307,7 +1307,7 @@ SEARCH:
     @Override
     public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
-        UserFunction f = userFunctionTable.search( node.symbol.name );
+        UserFunction f = userFunctionTable.search( node.symbol );
         if( f == null )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_USERFUNCTION_NOT_DECLARED, node.symbol );

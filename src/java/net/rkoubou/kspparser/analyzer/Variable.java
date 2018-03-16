@@ -49,13 +49,17 @@ public class Variable extends SymbolDefinition
     /**
      * 変数の型データからKSP文法の変数名表現に変換する
      */
+    public String getVariableName()
+    {
+        return toKSPTypeCharacter() + getName();
+    }
+
+    /**
+     * 変数の型データからKSP文法の変数名表現に変換する
+     */
     @Override
     public String toString()
     {
-        if( obfuscatedName != null && obfuscatedName.length() > 0 )
-        {
-            return toKSPTypeCharacter() + obfuscatedName;
-        }
-        return toKSPTypeCharacter() + name;
+        return getVariableName();
     }
 }

@@ -53,7 +53,7 @@ public class UserFunctionTable extends SymbolTable<ASTUserFunctionDeclaration, U
      */
     public boolean add( UserFunction c )
     {
-        final String name = c.name;
+        final String name = c.getName();
         if( table.containsKey( name ) )
         {
             return false;

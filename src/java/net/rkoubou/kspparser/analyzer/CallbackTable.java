@@ -73,7 +73,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
      */
     public boolean add( Callback c )
     {
-        final String name = c.name;
+        final String name = c.getName();
         if( table.containsKey( name ) )
         {
             //--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
      */
     public boolean addWithArgs( CallbackWithArgs c )
     {
-        final String name = c.name;
+        final String name = c.getName();
         if( table.containsKey( name ) )
         {
             //--------------------------------------------------------------------------

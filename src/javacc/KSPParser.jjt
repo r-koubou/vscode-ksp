@@ -121,7 +121,7 @@ public class KSPParser implements AnalyzerConstants
     {
         if( token.image != null )
         {
-            dest.symbol.name = token.image;
+            dest.symbol.setName( token.image );
         }
         dest.symbol.position.copy( token );
         dest.symbol.type        = type;
@@ -179,7 +179,7 @@ public class KSPParser implements AnalyzerConstants
     void applyAllLiteral( Token token, SimpleNode dest )
     {
         dest.jjtSetValue( dest.symbol.value );
-        dest.symbol.name         = "";
+        dest.symbol.setName( "" );
         dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
         dest.symbol.position.copy( token );
         dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
@@ -485,7 +485,7 @@ void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
         )
     )
     {
-        decl.symbol.name = name.image;
+        decl.symbol.setName( name.image );
         decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
     }
 }
@@ -541,7 +541,7 @@ void CallbackDeclaration() #CallbackDeclaration:
         <END> (<MULTI_LINE_DELIMITER>)* end = <ON>
     )
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.position.endLine   = end.endLine;
         jjtThis.symbol.position.endColumn = end.endColumn;
@@ -607,7 +607,7 @@ void UserFunctionDeclaration() #UserFunctionDeclaration:
         <END> (<MULTI_LINE_DELIMITER>)* end = <FUNCTION>
     )
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.position.endLine   = end.endLine;
         jjtThis.symbol.position.endColumn = end.endColumn;
@@ -707,7 +707,7 @@ void PreProcessorDefine() #PreProcessorDefine:
         <RPAREN>                                                    // )
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -731,7 +731,7 @@ void PreProcessorUnDefine() #PreProcessorUnDefine:
         <RPAREN>                                                    // )
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -757,7 +757,7 @@ void PreProcessorIfDefined() #PreProcessorIfDefined:
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -783,7 +783,7 @@ void PreProcessorIfUnDefined() #PreProcessorIfUnDefined:
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -883,7 +883,7 @@ void CallUserFunctionStatement() #CallUserFunctionStatement:
 {
     <CALL> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }
@@ -1217,7 +1217,7 @@ void RefVariable() #RefVariable :
         symbol = Variable() [ ArrayIndex() ]
     )
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
@@ -1245,7 +1245,7 @@ void CallCommand() #CallCommand:
     (
         symbol = <IDENTIFIER>
         {
-            jjtThis.symbol.name       = symbol.image;
+            jjtThis.symbol.setName( symbol.image );
             jjtThis.symbol.position.copy( symbol );
             jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
         }

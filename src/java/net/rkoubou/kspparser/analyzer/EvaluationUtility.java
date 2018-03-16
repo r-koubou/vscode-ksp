@@ -161,7 +161,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
                 }
                 case JJTREFVARIABLE:
                 {
-                    Variable v = variableTable.search( expr.symbol.name );
+                    Variable v = variableTable.search( expr.symbol );
                     if( v == null )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
@@ -274,7 +274,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
                 }
                 case JJTREFVARIABLE:
                 {
-                    Variable v = variableTable.search( expr.symbol.name );
+                    Variable v = variableTable.search( expr.symbol );
                     if( v == null )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
@@ -351,7 +351,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
                 }
                 case JJTREFVARIABLE:
                 {
-                    Variable v = variableTable.search( expr.symbol.name );
+                    Variable v = variableTable.search( expr.symbol );
                     if( v == null )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
@@ -568,7 +568,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             }
             // このノード自体を式からリテラルに置き換える
             ret.symbol.symbolType = SymbolType.Literal;
-            ret.symbol.name       = "";
+            ret.symbol.setName( "" );
             node = node.reset( new ASTLiteral( JJTLITERAL ), null, constValue, ret.symbol );
             ret = ret.reset( new ASTLiteral( JJTLITERAL ), null, constValue, ret.symbol );
             //System.out.println( constValue + ", " + node.getClass() + ", " + node.symbol.value );
@@ -582,7 +582,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
         }
         // 元のノードに型データ、値のコピー（値の畳み込み用）
         SymbolDefinition.setValue( ret.symbol, node.symbol );
@@ -647,12 +647,12 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_NUMONLY, expr.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = type;
-            ret.symbol.name = Variable.toKSPTypeCharacter( type );
+            ret.symbol.setName( Variable.toKSPTypeCharacter( type ) );
         }
         else
         {
             int t = booleanOp ? TYPE_BOOL : type;
-            ret.symbol.name = Variable.toKSPTypeCharacter( t );
+            ret.symbol.setName( Variable.toKSPTypeCharacter( t ) );
             ret.symbol.type = t;
         }
         //--------------------------------------------------------------------------

@@ -39,7 +39,7 @@ public class CallbackWithArgs extends Callback implements KSPParserTreeConstants
     public void add( String name )
     {
         ASTVariableDeclaration decl = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
-        decl.symbol.name = name;
+        decl.symbol.setName( name );
         decl.symbol.symbolType = SymbolType.Variable;
 
         Argument a = new Argument( decl );
@@ -54,7 +54,7 @@ public class CallbackWithArgs extends Callback implements KSPParserTreeConstants
     {
         for( Variable v : argList )
         {
-            if( name.equals( v.name ) )
+            if( name.equals( v.getName() ) )
             {
                 return true;
             }
@@ -73,7 +73,7 @@ public class CallbackWithArgs extends Callback implements KSPParserTreeConstants
         {
             ASTVariableDeclaration decl = new ASTVariableDeclaration( JJTVARIABLEDECLARATION );
             decl.symbol.symbolType = SymbolType.Variable;
-            decl.symbol.name = n;
+            decl.symbol.setName( n );
 
             Argument arg = new Argument( decl );
             argList.add( arg );
@@ -91,7 +91,7 @@ public class CallbackWithArgs extends Callback implements KSPParserTreeConstants
             {
                 for( Argument a2 : o.argList )
                 {
-                    if( a1.name.equals( a2.name ) )
+                    if( a1.getName().equals( a2.getName() ) )
                     {
                         return true;
                     }

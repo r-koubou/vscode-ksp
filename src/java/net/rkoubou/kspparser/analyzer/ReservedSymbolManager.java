@@ -229,7 +229,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 String name                 = v.toKSPTypeCharacter() + data[ 1 ];
                 boolean availableOnInit     = "Y".equals( data[ 2 ] );
 
-                v.name              = name;
+                v.setName( name );
                 v.accessFlag        = ACCESS_ATTR_CONST;      // ビルトイン変数に代入を許可させない
                 v.availableOnInit   = availableOnInit;        // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
                 v.reserved          = true;                   // 予約変数
@@ -295,7 +295,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 {
                     Command newItem;
                     ASTCallCommand ast = new ASTCallCommand( JJTCALLCOMMAND );
-                    ast.symbol.name = name;
+                    ast.symbol.setName( name );
                     newItem = new Command( ast );
 
                     if( args.size() > 0 )
@@ -365,11 +365,11 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
                         Variable v    = toVariableType( typeString );
                         Argument a    = new Argument( v );
-                        a.name        = ""; // シンボル収集時にマージ
+                        a.setName( "" );                                        // シンボル収集時にマージ
                         a.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
-                        a.reserved    = true;                   // 予約変数
-                        a.referenced  = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                        a.state       = SymbolState.LOADED;   // 予約変数につき、値代入済みマーク
+                        a.reserved    = true;                                   // 予約変数
+                        a.referenced  = true;                                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
+                        a.state       = SymbolState.LOADED;                     // 予約変数につき、値代入済みマーク
                         args.add( a );
                     }
                 }
@@ -379,13 +379,13 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 {
                     Callback newItem;
                     ASTCallbackDeclaration ast = new ASTCallbackDeclaration( JJTCALLBACKDECLARATION );
-                    ast.symbol.name = name;
+                    ast.symbol.setName( name );
                     if( args.size() > 0 )
                     {
                         ASTCallbackArgumentList astList = new ASTCallbackArgumentList( JJTCALLBACKARGUMENTLIST );
                         for( Argument a : args )
                         {
-                            astList.args.add( a.name );
+                            astList.args.add( a.getName() );
                         }
                         ast.jjtAddChild( astList, 0 );
                         newItem = new CallbackWithArgs( ast );
@@ -503,7 +503,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
             accessFlag |= ACCESS_ATTR_CONST;
         }
 
-        ret.name       = "tmp";
+        ret.setName( "tmp" );
         ret.type       = type;
         ret.accessFlag = accessFlag;
         ret.uiTypeInfo = uiTypeInfo;

@@ -128,7 +128,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                 -> [###Initializer]
                     -> (expr)+
 */
-        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol.name ) );
+        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol ) );
     }
 
     /**
@@ -143,7 +143,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
             -> [###Initializer]
                 -> (expr)+
 */
-        final Variable v = variableTable.search( ((Variable)data).name );
+        final Variable v = variableTable.search( ((Variable)data) );
 
         if( v.isConstant() )
         {
@@ -173,13 +173,13 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         {
             // 宣言のみ
             // const も付与されないので変数参照時の値は変数名
-            v.value = v.obfuscatedName;
-            outputCode.append( v );
+            v.value = v.getVariableName();
+            outputCode.append( v.getVariableName() );
         }
         appendEOL();
         return null;
     }
-
+TODO 配列、UI 宣言から再開
     /**
      * 配列型宣言の実装
      */
@@ -192,7 +192,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                         -> ArrayInitializer : [1][0]
                             -> ( <expr> (, <expr>)* ) : [1][1]
 */
-        outputCode.append( v )
+        outputCode.append( v.getVariableName() )
         .append( "[" )
         .append( v.arraySize )
         .append( "]" )
@@ -294,7 +294,7 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     case JJTREFVARIABLE:
                     {
-                        Variable var = variableTable.search( n.symbol.name );
+                        Variable var = variableTable.search( n.symbol );
                         if( var.type == t )
                         {
                             outputCode.append( var.value );
@@ -330,7 +330,7 @@ SEARCH:
         // 初期値代入。畳み込みで有効な値が格納される
         if( expr.symbol.symbolType != SymbolType.Command )
         {
-            outputCode.append( v ).append( ":=" );
+            outputCode.append( v.getVariableName() ).append( ":=" );
             expr.jjtAccept( this, jjtVisitorData );
         }
         return true;
@@ -347,8 +347,8 @@ SEARCH:
     @Override
     public Object visit( ASTCallbackDeclaration node, Object data )
     {
-        Callback callback = callbackTable.search( node.symbol.name );
-        outputCode.append( "on " ).append( node.symbol.name );
+        Callback callback = callbackTable.search( node.symbol );
+        outputCode.append( "on " ).append( node.symbol.getName() );
 
         if( callback != null && callback instanceof CallbackWithArgs )
         {
@@ -361,8 +361,8 @@ SEARCH:
             for( int i = 0; i < listSize; i++ )
             {
                 Argument a  = argList.get( i );
-                String name = SymbolDefinition.toKSPTypeCharacter( SymbolDefinition.getKSPTypeFromVariableName( a.name )  ) +
-                              ShortSymbolGenerator.getSymbolFromOrgName( a.name );
+                String name = SymbolDefinition.toKSPTypeCharacter( SymbolDefinition.getKSPTypeFromVariableName( a.getName() )  ) +
+                              ShortSymbolGenerator.getSymbolFromOrgName( a.getName() );
 
                 outputCode.append( name );
                 if( i < listSize - 1 )
@@ -546,22 +546,27 @@ SEARCH:
     /**
      * 2項演算ノードのソースコード生成
      */
-    public void appendBinaryOperatorNode( SimpleNode node, SimpleNode eval, Object data, String operator )
+    public void appendBinaryOperatorNode( SimpleNode node, Object data, String operator )
     {
-        System.out.println( "+ : " + node.symbol.isConstant() );
         // 畳み込みが無理な場合は式を出力
         if( !node.symbol.isConstant() )
         {
-            SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-            SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-            outputCode.append( exprL.symbol.value )
-            .append( operator )
-            .append( exprR.symbol.value );
+            SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 );
+            SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 );
+
+            // 元のコードの演算子の優先度を担保するため、全て括弧で括る
+            outputCode.append( "(" );
+
+            exprL.jjtAccept( this, data );
+            outputCode.append( operator );
+            exprR.jjtAccept( this, data );
+
+            outputCode.append( ")" );
         }
-        // ノードの処理終了状態：畳み込み済みの定数値を出力
+        // 畳み込み済みの定数値を出力
         else if( node.symbol.state != SymbolState.LOADING )
         {
-            outputCode.append( eval.symbol.value );
+            outputCode.append( node.symbol.value );
         }
     }
 
@@ -571,9 +576,8 @@ SEARCH:
     @Override
     public Object visit( ASTAdd node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
-        appendBinaryOperatorNode( node, ret, data, "+" );
-        return ret;
+        appendBinaryOperatorNode( node, data, "+" );
+        return node;
     }
 
     /**
@@ -582,9 +586,8 @@ SEARCH:
     @Override
     public Object visit( ASTSub node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
-        appendBinaryOperatorNode( node, ret, data, "-" );
-        return ret;
+        appendBinaryOperatorNode( node, data, "-" );
+        return node;
     }
 
     /**
@@ -613,9 +616,8 @@ SEARCH:
     @Override
     public Object visit( ASTMul node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
-        appendBinaryOperatorNode( node, ret, data, "*" );
-        return ret;
+        appendBinaryOperatorNode( node, data, "*" );
+        return node;
     }
 
     /**
@@ -624,9 +626,8 @@ SEARCH:
     @Override
     public Object visit( ASTDiv node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
-        appendBinaryOperatorNode( node, ret, data, "/" );
-        return ret;
+        appendBinaryOperatorNode( node, data, "/" );
+        return node;
     }
 
     /**
@@ -635,28 +636,26 @@ SEARCH:
     @Override
     public Object visit( ASTMod node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
-        appendBinaryOperatorNode( node, ret, data, " mod " );
-        return ret;
+        appendBinaryOperatorNode( node, data, " mod " );
+        return node;
     }
 
     /**
      * 単項演算ノードのソースコード生成
      */
-    public void appendSingleOperatorNode( SimpleNode node, SimpleNode eval, Object data, String operator )
+    public void appendSingleOperatorNode( SimpleNode node, Object data, String operator )
     {
         // 畳み込みが無理な場合は式を出力
         if( !node.symbol.isConstant() )
         {
-            SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-            outputCode
-            .append( operator )
-            .append( expr.symbol.value );
+            SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 );
+            outputCode.append( operator );
+            expr.jjtAccept( this, data );
         }
         // 畳み込み済みの定数値を出力
         else
         {
-            outputCode.append( eval.symbol.value );
+            outputCode.append( node.symbol.value );
         }
     }
 
@@ -666,9 +665,8 @@ SEARCH:
     @Override
     public Object visit( ASTNeg node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalSingleOperator( node, false, false, this, data, variableTable );
-        appendSingleOperatorNode( node, ret, data, "-" );
-        return ret;
+        appendSingleOperatorNode( node, data, "-" );
+        return node;
     }
 
     /**
@@ -677,9 +675,8 @@ SEARCH:
     @Override
     public Object visit( ASTNot node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalSingleOperator( node, false, false, this, data, variableTable );
-        appendSingleOperatorNode( node, ret, data, " .not. " );
-        return ret;
+        appendSingleOperatorNode( node, data, " .not. " );
+        return node;
     }
 
     /**
@@ -688,9 +685,8 @@ SEARCH:
     @Override
     public Object visit( ASTLogicalNot node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalSingleOperator( node, false, true, this, data, variableTable );
-        appendSingleOperatorNode( node, ret, data, "not " );
-        return ret;
+        appendSingleOperatorNode( node, data, "not " );
+        return node;
     }
 
     /**
@@ -712,13 +708,11 @@ SEARCH:
         SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 );
         SymbolDefinition symL = exprL.symbol;
 
-        Variable variable = variableTable.search( symL.name );
-        System.out.println( exprL );
-        System.out.println( exprR );
-        outputCode.append( variable )
+        Variable variable = variableTable.search( symL );
+        outputCode.append( variable.getVariableName() )
         .append( ":=" );
-
-        exprR.childrenAccept( this, data );
+//System.out.println( ":=" + exprR );
+        exprR.jjtAccept( this, data );
 
         appendEOL();
         return exprL;
@@ -740,7 +734,7 @@ SEARCH:
         //--------------------------------------------------------------------------
         // 宣言済みかどうか
         //--------------------------------------------------------------------------
-        Variable v = variableTable.search( node.symbol.name );
+        Variable v = variableTable.search( node.symbol );
 
         // 変数へのアクセスが確定したので、戻り値に変数のシンボル情報をコピー
         SymbolDefinition.copy( v, ret.symbol );
@@ -752,7 +746,7 @@ SEARCH:
         }
         else
         {
-            outputCode.append( v.name );
+            outputCode.append( v.getVariableName() );
             // 配列型なら添字チェック
             if( v.isArray() )
             {
@@ -822,7 +816,7 @@ SEARCH:
     @Override
     public Object visit( ASTCallCommand node, Object data )
     {
-        final Command cmd = commandTable.search( node.symbol.name );
+        final Command cmd = commandTable.search( node.symbol );
 
         // 上位ノードの型評価式用
         SimpleNode ret = EvaluationUtility.createEvalNode( node, JJTREFVARIABLE );
@@ -852,7 +846,7 @@ SEARCH:
         //--------------------------------------------------------------------------
         if( callback != null )
         {
-            if( !cmd.availableCallbackList.containsKey( callback.symbol.name ) )
+            if( !cmd.availableCallbackList.containsKey( callback.symbol.getName() ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED, node.symbol );
                 AnalyzeErrorCounter.e();
@@ -942,7 +936,7 @@ SEARCH:
                 int type                = symbol.type;
 
                 // 評価式が変数だった場合のための変数情報への参照
-                Variable userVar        = variableTable.search( symbol.name );
+                Variable userVar        = variableTable.search( symbol );
 
                 // 引数毎に複数のデータ型が許容される仕様のため照合
                 for( Argument arg : argList.get( i ).get() )
@@ -989,7 +983,7 @@ SEARCH:
                     else if( evalNode.getId() == JJTCALLCOMMAND )
                     {
                         ASTCallCommand callCmd = (ASTCallCommand)evalNode;
-                        Command retCommand = commandTable.search( callCmd.symbol.name );
+                        Command retCommand = commandTable.search( callCmd.symbol );
 
                         // [nullチェック]
                         // 隠しコマンドやドキュメント化されていない場合に逆引きできない可能性があるため
@@ -1055,7 +1049,7 @@ SEARCH:
     @Override
     public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
-        UserFunction f = userFunctionTable.search( node.symbol.name );
+        UserFunction f = userFunctionTable.search( node.symbol );
         if( f == null )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_USERFUNCTION_NOT_DECLARED, node.symbol );
@@ -1276,7 +1270,7 @@ SEARCH:
         Object ret = defaultVisit( node, data );
         // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
         // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
-        if( preProcessorSymbolTable.search( node.symbol.name ) == null )
+        if( preProcessorSymbolTable.search( node.symbol ) == null )
         {
             ASTPreProcessorDefine decl = new ASTPreProcessorDefine( JJTPREPROCESSORDEFINE );
             SymbolDefinition.copy( node.symbol,  decl.symbol );
@@ -1303,7 +1297,7 @@ SEARCH:
         // -> 意味解析だとASTの構造上スクリプトの上の行から下に向けてトラバースする。
         // 判定方法のコードはコメントアウトで以下に残しておく
 /*
-        if( preProcessorSymbolTable.search( node.symbol.name ) == null )
+        if( preProcessorSymbolTable.search( node.symbol ) == null )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
             AnalyzeErrorCounter.w();

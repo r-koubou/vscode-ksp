@@ -125,7 +125,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     {
         if( token.image != null )
         {
-            dest.symbol.name = token.image;
+            dest.symbol.setName( token.image );
         }
         dest.symbol.position.copy( token );
         dest.symbol.type        = type;
@@ -183,7 +183,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     void applyAllLiteral( Token token, SimpleNode dest )
     {
         dest.jjtSetValue( dest.symbol.value );
-        dest.symbol.name         = "";
+        dest.symbol.setName( "" );
         dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
         dest.symbol.position.copy( token );
         dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
@@ -562,7 +562,7 @@ void VariableDeclarator( ASTVariableDeclaration decl )                    :
     }
 /*@egen*/
     {
-        decl.symbol.name = name.image;
+        decl.symbol.setName( name.image );
         decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -727,7 +727,7 @@ void CallbackDeclaration()                     :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
@@ -850,7 +850,7 @@ void UserFunctionDeclaration()                         :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
@@ -1007,7 +1007,7 @@ void PreProcessorDefine()                    :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1048,7 +1048,7 @@ void PreProcessorUnDefine()                      :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1091,7 +1091,7 @@ void PreProcessorIfDefined()                       :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1148,7 +1148,7 @@ void PreProcessorIfUnDefined()                         :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1409,7 +1409,7 @@ void CallUserFunctionStatement()                           :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }/*@bgen(jjtree)*/
@@ -2160,7 +2160,7 @@ void RefVariable()              :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
@@ -2240,7 +2240,7 @@ void CallCommand()             :
     (
         symbol = <IDENTIFIER>
         {
-            jjtn000.symbol.name       = symbol.image;
+            jjtn000.symbol.setName( symbol.image );
             jjtn000.symbol.position.copy( symbol );
             jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
         }

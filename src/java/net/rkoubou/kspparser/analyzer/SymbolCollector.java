@@ -93,7 +93,7 @@ public class SymbolCollector extends AbstractAnalyzer
         if( validateVariableImpl( node ) )
         {
             variableTable.add( node );
-            Variable v = variableTable.search( node.symbol.name );
+            Variable v = variableTable.search( node.symbol );
             //--------------------------------------------------------------------------
             // UI変数チェック / 外部定義とのマージ
             //--------------------------------------------------------------------------
@@ -124,7 +124,7 @@ public class SymbolCollector extends AbstractAnalyzer
             else
             {
                 // const、poly修飾子は構文解析フェーズで代入済み
-                v.type = SymbolDefinition.getKSPTypeFromVariableName( v.name );
+                v.type = SymbolDefinition.getKSPTypeFromVariableName( v.getName() );
             }
         }
 
@@ -163,7 +163,7 @@ public class SymbolCollector extends AbstractAnalyzer
             {
                 for( String n : RESERVED_VARIABLE_PREFIX_LIST )
                 {
-                    if( d.name.startsWith( n ) )
+                    if( d.getName().startsWith( n ) )
                     {
                         MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED, d );
                         AnalyzeErrorCounter.e();
@@ -174,7 +174,7 @@ public class SymbolCollector extends AbstractAnalyzer
             //--------------------------------------------------------------------------
             // on init 外での宣言検査
             //--------------------------------------------------------------------------
-            if( !currentCallBack.symbol.name.equals( "init" ) )
+            if( !currentCallBack.symbol.getName().equals( "init" ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_ONINIT, d );
                 AnalyzeErrorCounter.e();
@@ -183,7 +183,7 @@ public class SymbolCollector extends AbstractAnalyzer
             // 定義済みの検査
             //--------------------------------------------------------------------------
             {
-                Variable v = variableTable.search( d.name );
+                Variable v = variableTable.search( d );
                 // NI の予約変数との重複
                 if( v != null && v.reserved )
                 {

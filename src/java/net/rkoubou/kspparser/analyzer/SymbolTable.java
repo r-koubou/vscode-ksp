@@ -133,6 +133,15 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     }
 
     /**
+     * 指定したシンボルがテーブルに登録されているか検索する
+     * @return あった場合はsymbol自身、無い場合は null
+     */
+    public SYMBOL search( SymbolDefinition symbol, boolean enableSearchParent )
+    {
+        return search( symbol.getName( true ), enableSearchParent );
+    }
+
+    /**
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合は有効なインスタンス、無い場合は null
      */
@@ -142,10 +151,19 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     }
 
     /**
+     * 指定したシンボルがテーブルに登録されているか検索する
+     * @return あった場合はsymbol自身、無い場合は null
+     */
+    public SYMBOL search( SymbolDefinition symbol )
+    {
+        return search( symbol.getName( true ), true );
+    }
+
+    /**
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合はインデックス番号、無い場合は -1
      */
-    public int searchIndex( String name, boolean enableSearchParent )
+    public int searchID( String name, boolean enableSearchParent )
     {
         SYMBOL v = search( name, enableSearchParent );
         if( v == null )
@@ -166,12 +184,30 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     }
 
     /**
+     * 指定したシンボルがテーブルに登録されているか検索する
+     * @return あった場合はインデックス番号、無い場合は -1
+     */
+    public int searchID( SymbolDefinition symbol, boolean enableSearchParent )
+    {
+        return searchID( symbol.getName( true ), enableSearchParent );
+    }
+
+    /**
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合はインデックス番号、無い場合は -1
      */
     public int searchID( String name )
     {
-        return searchIndex( name, true );
+        return searchID( name, true );
+    }
+
+    /**
+     * 指定したシンボルがテーブルに登録されているか検索する
+     * @return あった場合はインデックス番号、無い場合は -1
+     */
+    public int searchID( SymbolDefinition symbol )
+    {
+        return searchID( symbol.getName( true ) );
     }
 
     /**
@@ -237,7 +273,7 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     {
         for( SymbolDefinition v : toArray( SortType.BY_TYPE) )
         {
-            ps.println( v.name );
+            ps.println( v.getName() );
         }
     }
 
@@ -249,9 +285,9 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
         for( Enumeration<SYMBOL> e = table.elements(); e.hasMoreElements(); )
         {
             SYMBOL v = e.nextElement();
-            if( v.name != null && v.name.length() > 0 && !v.reserved )
+            if( v.getName() != null && v.getName().length() > 0 && !v.reserved )
             {
-                v.obfuscatedName = ShortSymbolGenerator.generate( v.name );
+                v.setObfuscatedName( ShortSymbolGenerator.generate( v.getName() ) );
             }
         }
     }

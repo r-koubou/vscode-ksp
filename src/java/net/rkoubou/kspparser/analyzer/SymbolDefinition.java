@@ -37,9 +37,9 @@ public class SymbolDefinition implements AnalyzerConstants
     /** 実行環境で予約済みのシンボルかどうか） */
     public boolean reserved = false;
     /** 識別子名 */
-    public String name = "";
+    private String name = "";
     /** オブファスケート後の識別子名 */
-    public String obfuscatedName = "";
+    private String obfuscatedName = "";
     /** 状態 */
     public SymbolState state = SymbolState.UNLOADED;
     /** 意味解析フェーズ中に走査し参照されたかを記録する */
@@ -102,10 +102,68 @@ public class SymbolDefinition implements AnalyzerConstants
         sb.append( "accessFlag:" ).append( "0x" ).append( Integer.toHexString( accessFlag ) ).append( '\n' );
         sb.append( "reserved:" ).append( reserved ).append( '\n' );
         sb.append( "name:" ).append( name ).append( '\n' );
+        sb.append( "obfuscatedName:" ).append( obfuscatedName ).append( '\n' );
         sb.append( "uiTypeName:" ).append( uiTypeName ).append( '\n' );
         sb.append( "value:" ).append( value ).append( '\n' );
 
         return sb.toString();
+    }
+
+    /**
+     * このシンボル名を取得する。
+     */
+    public String getName()
+    {
+        if( obfuscatedName != null && obfuscatedName.length() > 0 )
+        {
+            return obfuscatedName;
+        }
+        return name;
+    }
+
+    /**
+     * このシンボル名を取得する。
+     * @param originalName オブファスケート前のシンボル名を取得するかどうか
+     */
+    public String getName( boolean originalName )
+    {
+        if( originalName )
+        {
+            return name;
+        }
+        return obfuscatedName;
+    }
+
+    /**
+     * オブファスケートされたシンボル名を取得する
+     */
+   public String getObfuscatedName()
+   {
+       return obfuscatedName;
+   }
+
+    /**
+     * このシンボル名を設定する。
+     */
+    public void setName( String newName ) throws NullPointerException
+    {
+        if( newName == null )
+        {
+            throw new NullPointerException( "newName is null" );
+        }
+        name = newName;
+    }
+
+    /**
+     * このシンボルのオブファスケート後のシンボル名を設定する。
+     */
+    public void setObfuscatedName( String newName ) throws NullPointerException
+    {
+        if( newName == null )
+        {
+            throw new NullPointerException( "newName is null" );
+        }
+        obfuscatedName = newName;
     }
 
     /**
@@ -723,10 +781,6 @@ public class SymbolDefinition implements AnalyzerConstants
     @Override
     public String toString()
     {
-        if( obfuscatedName != null && obfuscatedName.length() > 0 )
-        {
-            return obfuscatedName;
-        }
         return name;
     }
 }

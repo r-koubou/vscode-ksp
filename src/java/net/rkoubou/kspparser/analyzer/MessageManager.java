@@ -258,8 +258,8 @@ public class MessageManager implements AnalyzerConstants
     static public void println( String propertyKey, Level level, SymbolDefinition symbol, String... ext )
     {
         int extIndex = 1;
-        String message = expand( propertyKey, level, symbol.position.beginLine, symbol.position.beginColumn, symbol.name.length() );
-        message = message.replace( "${symbolname}", symbol.name );
+        String message = expand( propertyKey, level, symbol.position.beginLine, symbol.position.beginColumn, symbol.getName().length() );
+        message = message.replace( "${symbolname}", symbol.getName() );
         for( String s : ext )
         {
             message = message.replace( "${ext" + extIndex + "}", s );

@@ -63,7 +63,7 @@ public class CommandArgument implements AnalyzerConstants
      */
     public void add( Argument arg )
     {
-        arg.name = "arg";
+        arg.setName( "arg" );
         arg.requireDeclarationOnInit = false;   // ビルトイン変数も有効なのでフラグは下ろす
         arguments.add( arg );
     }

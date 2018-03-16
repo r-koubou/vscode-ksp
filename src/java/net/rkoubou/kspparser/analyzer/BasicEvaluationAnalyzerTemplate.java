@@ -208,7 +208,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD, node.symbol );
                     AnalyzeErrorCounter.e();
                     ret.symbol.type = TYPE_VOID;
-                    ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+                    ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
                     return ret;
                 }
                 p = p.jjtGetParent();
@@ -219,8 +219,6 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
         final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
         final SymbolDefinition symL = exprL.symbol;
         final SymbolDefinition symR = exprR.symbol;
-        int typeL = symL.type;
-        int typeR = symR.type;
 
         // 左辺、右辺どちらか一方が文字列である必要がある（KONTAKT内で暗黙の型変換が作動する）
         if( !symL.isString() && !symR.isString() )
@@ -228,11 +226,11 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
             AnalyzeErrorCounter.e();
             ret.symbol.type = TYPE_VOID;
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_VOID );
+            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
         }
         else
         {
-            ret.symbol.name = Variable.toKSPTypeCharacter( TYPE_STRING );
+            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_STRING ) );
             ret.symbol.type = TYPE_STRING;
             if( symL.isConstant() && symR.isConstant() )
             {
@@ -331,7 +329,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
         Object ret = defaultVisit( node, data );
         // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
         // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
-        if( preProcessorSymbolTable.search( node.symbol.name ) == null )
+        if( preProcessorSymbolTable.search( node.symbol ) == null )
         {
             ASTPreProcessorDefine decl = new ASTPreProcessorDefine( JJTPREPROCESSORDEFINE );
             SymbolDefinition.copy( node.symbol,  decl.symbol );
@@ -358,7 +356,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
         // -> 意味解析だとASTの構造上スクリプトの上の行から下に向けてトラバースする。
         // 判定方法のコードはコメントアウトで以下に残しておく
 /*
-        if( preProcessorSymbolTable.search( node.symbol.name ) == null )
+        if( preProcessorSymbolTable.search( node.symbol.getName() ) == null )
         {
             MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
             AnalyzeErrorCounter.w();
