@@ -156,6 +156,9 @@ public interface AnalyzerConstants
     /** 変数名の1文字目に数字文字が含まれているかどうか。KSPは許容するが、一般的な言語ではNG */
     Pattern REGEX_NUMERIC_PREFIX = Pattern.compile( "^.[0-9]" );
 
+    /** 変数名：データ型記号付いているシンボルの正規表現 */
+    Pattern REGEX_TYPE_PREFIX = Pattern.compile( "^[\\$|\\%|\\@|\\!\\?|\\~]" );
+
     /** 変数名：データ型記号がつかないプリプロセッサシンボル等のシンボルの正規表現 */
     Pattern REGEX_NON_TYPE_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
 }

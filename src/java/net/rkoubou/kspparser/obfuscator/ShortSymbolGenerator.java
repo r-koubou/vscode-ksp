@@ -8,21 +8,15 @@
 package net.rkoubou.kspparser.obfuscator;
 
 import java.util.Hashtable;
+import java.util.UUID;
 
 /**
  * 難読化を目的とした、KSPのシンボル名を一定の規則に従い生成する
  */
 public class ShortSymbolGenerator
 {
-    /** シンボルに付与する整数の最大桁数 */
-    static private final int MAX_NUMBER_INDEX_DIGIT = 4;
-
-    /** 文字列生成用ワークバッファ */
-    static private final StringBuilder buffer = new StringBuilder();
-    /** シンボルに付与する整数インデックス */
-    static private int number;
-    /** シンボルに付与する接頭文字([a-z]) */
-    static private char prefix;
+    /** 生成するシンボルの最大文字数 */
+    static public final int MAX_SYMBOL_LENGTH = 4;
 
     /** シンボル名変更前と変更後の履歴を残すテーブル(元の名前: オブファスケート後) */
     static private final Hashtable<String, String> history = new Hashtable<String, String>( 1024 );
@@ -45,36 +39,29 @@ public class ShortSymbolGenerator
      */
     static public void reset()
     {
-        number = 0;
-        prefix = 'a';
-        buffer.delete( 0, buffer.length() );
         history.clear();
     }
 
     /**
-     * [a-z]{1}[0-9]{4}形式の連番割当て文字列を生成する
-     * よって、最大で 260000 個までの生成を上限とする
+     * 頭文字に "v"、以降を ユニークな文字列を生成する (桁数: #MAX_SYMBOL_LENGTH )
      */
     static public String generate( String orgName )
     {
-        buffer.delete( 0, buffer.length() );
-        buffer.append( prefix ).append( String.format( "%0" + MAX_NUMBER_INDEX_DIGIT + "d", number ) );
-        number++;
-        if( Integer.toString( number ).length() > MAX_NUMBER_INDEX_DIGIT )
+        long limit = 0L;
+        String uuid = "";
+        do
         {
-            number = 0;
-            if( prefix == 'z' )
-            {
-                throw new RuntimeException( "Too many generate strings... (>=" + ( 26 * ( 10 * MAX_NUMBER_INDEX_DIGIT ) ) );
-            }
-            else
-            {
-                prefix++;
-            }
+            uuid = UUID.randomUUID().toString();
+            uuid = "v" + uuid.replaceAll( "-", "" ).substring( 0, MAX_SYMBOL_LENGTH );
+        } while( history.containsValue( uuid ) && ++limit < Long.MAX_VALUE );
+
+        if( limit == Long.MAX_VALUE )
+        {
+            throw new RuntimeException( "Too many symbols declared. Cannot generate any more." );
         }
-        String ret = buffer.toString();
-        history.put( orgName, ret );
-        return ret;
+
+        history.put( orgName, uuid );
+        return uuid;
     }
 
     /**

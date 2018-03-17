@@ -26,6 +26,7 @@ import net.rkoubou.kspparser.analyzer.UIType;
 import net.rkoubou.kspparser.analyzer.UserFunction;
 import net.rkoubou.kspparser.analyzer.Variable;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
+import net.rkoubou.kspparser.javacc.generated.ASTAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTBlock;
@@ -34,14 +35,23 @@ import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTCaseCondition;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
+import net.rkoubou.kspparser.javacc.generated.ASTConditionalAnd;
+import net.rkoubou.kspparser.javacc.generated.ASTConditionalOr;
 import net.rkoubou.kspparser.javacc.generated.ASTDiv;
+import net.rkoubou.kspparser.javacc.generated.ASTEqual;
+import net.rkoubou.kspparser.javacc.generated.ASTGE;
+import net.rkoubou.kspparser.javacc.generated.ASTGT;
 import net.rkoubou.kspparser.javacc.generated.ASTIfStatement;
+import net.rkoubou.kspparser.javacc.generated.ASTInclusiveOr;
+import net.rkoubou.kspparser.javacc.generated.ASTLE;
+import net.rkoubou.kspparser.javacc.generated.ASTLT;
 import net.rkoubou.kspparser.javacc.generated.ASTLiteral;
 import net.rkoubou.kspparser.javacc.generated.ASTLogicalNot;
 import net.rkoubou.kspparser.javacc.generated.ASTMod;
 import net.rkoubou.kspparser.javacc.generated.ASTMul;
 import net.rkoubou.kspparser.javacc.generated.ASTNeg;
 import net.rkoubou.kspparser.javacc.generated.ASTNot;
+import net.rkoubou.kspparser.javacc.generated.ASTNotEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorIfDefined;
 import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorIfUnDefined;
@@ -179,11 +189,11 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         appendEOL();
         return null;
     }
-TODO 配列、UI 宣言から再開
+
     /**
      * 配列型宣言の実装
      */
-    protected boolean declareArrayVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData, boolean forceSkipInitializer )
+    protected void declareArrayVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData, boolean forceSkipInitializer )
     {
 /*
             -> VariableDeclarator
@@ -195,8 +205,7 @@ TODO 配列、UI 宣言から再開
         outputCode.append( v.getVariableName() )
         .append( "[" )
         .append( v.arraySize )
-        .append( "]" )
-        .append( ":=(");
+        .append( "]" );
 
         //--------------------------------------------------------------------------
         // 初期値代入
@@ -204,36 +213,28 @@ TODO 配列、UI 宣言から再開
         if( forceSkipInitializer || node.jjtGetNumChildren() != 2 )
         {
             // 初期値代入なし
-            return false;
+            return;
         }
 
-        final SimpleNode initializer    = (SimpleNode)node.jjtGetChild( 1 ).jjtGetChild( 0 );
-        final int length                = initializer.jjtGetNumChildren();
+        outputCode.append( ":=(");
+
+        final SimpleNode initializer = (SimpleNode)node.jjtGetChild( 1 ).jjtGetChild( 0 );
+        final int length             = initializer.jjtGetNumChildren();
         for( int i = 0; i < length; i++ )
         {
-            final SimpleNode expr = (SimpleNode)initializer.jjtGetChild( i );//.jjtAccept( this, jjtVisitorData );
-            if( expr.jjtGetNumChildren() > 0 )
-            {
-                outputCode.append( v.value );
-            }
-            else
-            {
-                outputCode.append( ((SimpleNode)expr.jjtAccept( this, jjtVisitorData )).symbol.value );
-            }
-
+            initializer.jjtGetChild( i ).jjtAccept( this, jjtVisitorData );
             if( i < length - 1 )
             {
                 outputCode.append( "," );
             }
         }
         outputCode.append( ")" );
-        return true;
     }
 
     /**
      * UI型宣言の実装
      */
-    protected boolean declareUIVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
+    protected void declareUIVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
     {
 /*
             -> VariableDeclarator
@@ -244,74 +245,61 @@ TODO 配列、UI 宣言から再開
         outputCode.append( uiType.name ).append( " " );
 
         //--------------------------------------------------------------------------
-        // ui_#### が配列型の場合、要素数宣言のチェック
+        // ui_#### が配列型の場合、要素数宣言までのコード生成
         //--------------------------------------------------------------------------
         if( Variable.isArray( uiType.uiValueType ) )
         {
-            if( !declareArrayVariableImpl( node, v, jjtVisitorData, true ) )
-            {
-                return false;
-            }
+            declareArrayVariableImpl( node, v, jjtVisitorData, true );
         }
-
-        //--------------------------------------------------------------------------
-        // 初期値代入式チェック
-        //--------------------------------------------------------------------------
-
-        Node uiInitializer = node.jjtGetChild( 0 ).jjtGetChild( 0 );
-
-        for( int i = 0; i < uiInitializer.jjtGetNumChildren(); i++ )
+        else
         {
-            SimpleNode n  = (SimpleNode)uiInitializer.jjtGetChild( i );
-            SymbolDefinition param = n.symbol;
-            int nid = n.getId();
-
-            // 四則演算等は文法解析時でクリアしているので値だけに絞る
-            if( nid != JJTLITERAL && nid != JJTREFVARIABLE )
-            {
-                continue;
-            }
-
-SEARCH:
-            for( int t : uiType.initilzerTypeList )
-            {
-                switch( nid )
-                {
-                    //--------------------------------------------------------------------------
-                    // リテラル
-                    //--------------------------------------------------------------------------
-                    case JJTLITERAL:
-                    {
-                        if( param.type == t )
-                        {
-                            outputCode.append( n.symbol.value );
-                            break SEARCH;
-                        }
-                    }
-                    break;
-                    //--------------------------------------------------------------------------
-                    // const 指定ありの変数
-                    //--------------------------------------------------------------------------
-                    case JJTREFVARIABLE:
-                    {
-                        Variable var = variableTable.search( n.symbol );
-                        if( var.type == t )
-                        {
-                            outputCode.append( var.value );
-                            break SEARCH;
-                        }
-                        break;
-                    }
-                }
-            } //~for( int t : uiType.initilzerTypeList )
+            outputCode.append( v.getVariableName() );
         }
-        return true;
+
+        //--------------------------------------------------------------------------
+        // 初期値代入
+        //--------------------------------------------------------------------------
+
+        if( node.jjtGetNumChildren() == 0 )
+        {
+            // 初期値代入なし
+            return;
+        }
+
+        Node initializer = node.jjtGetChild( 0 ).jjtGetChild( 0 );
+        if( node.jjtGetNumChildren() >= 2 )
+        {
+            //[0] == ArrayInitialier なので、初期悪式ノードの参照に切り替える
+            initializer = node.jjtGetChild( 1 ).jjtGetChild( 0 );
+        }
+
+        final int length = initializer.jjtGetNumChildren();
+
+        if( length == 0 )
+        {
+            // 配列型変数
+            // 初期値代入なし
+            return;
+        }
+
+        outputCode.append( "(");
+
+        for( int i = 0; i < length; i++ )
+        {
+            Node n = initializer.jjtGetChild( i );
+            n.jjtAccept( this, jjtVisitorData );
+            if( i < length - 1 )
+            {
+                outputCode.append( "," );
+            }
+        }
+        outputCode.append( ")" );
     }
 
     /**
      * プリミティブ型宣言の実装
      */
-    protected boolean declarePrimitiveVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
+    protected void declarePrimitiveVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
     {
 /*
             -> VariableDeclarator
@@ -321,7 +309,7 @@ SEARCH:
         if( node.jjtGetNumChildren() == 0 )
         {
             // 初期値代入なし
-            return true;
+            return;
         }
 
         final SimpleNode initializer = (SimpleNode)node.jjtGetChild( 0 );
@@ -333,8 +321,6 @@ SEARCH:
             outputCode.append( v.getVariableName() ).append( ":=" );
             expr.jjtAccept( this, jjtVisitorData );
         }
-        return true;
-
     }
 
 //--------------------------------------------------------------------------
@@ -387,161 +373,115 @@ SEARCH:
 // 式
 //--------------------------------------------------------------------------
 
-//     /**
-//      * 条件式 OR
-//      */
-//     @Override
-//     public Object visit( ASTConditionalOr node, Object data )
-//     {
-// /*
-//                  or
-//                  +
-//                  |
-//             +----+----+
-//             |         |
-//         0: <expr>   1:<expr>
-// */
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( " or " )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 条件式ノードのソースコード生成
+     */
+    public void appendConditionalNode( Node node, Object data, String operator )
+    {
+        node.jjtGetChild( 0 ).jjtAccept( this, data );
+        outputCode.append( operator );
+        node.jjtGetChild( 1 ).jjtAccept( this, data );
+    }
 
-//     /**
-//      * 条件式 AND
-//      */
-//     @Override
-//     public Object visit( ASTConditionalAnd node, Object data )
-//     {
-// /*
-//                 and
-//                  +
-//                  |
-//             +----+----+
-//             |         |
-//         0: <expr>   1:<expr>
-// */
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( " and " )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 条件式 OR
+     */
+    @Override
+    public Object visit( ASTConditionalOr node, Object data )
+    {
+        appendConditionalNode( node, data, " or " );
+        return node;
+    }
 
-//     /**
-//      * 論理積
-//      */
-//     @Override
-//     public Object visit( ASTInclusiveOr node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( " .or. " )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryNumberOperator( node, this, data );
-//     }
+    /**
+     * 条件式 AND
+     */
+    @Override
+    public Object visit( ASTConditionalAnd node, Object data )
+    {
+        appendConditionalNode( node, data, " and " );
+        return node;
+    }
 
-//     /**
-//      * 論理和
-//      */
-//     @Override
-//     public Object visit( ASTAnd node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( " .and. " )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryNumberOperator( node, this, data );
-//     }
+    /**
+     * 論理積
+     */
+    @Override
+    public Object visit( ASTInclusiveOr node, Object data )
+    {
+        appendBinaryOperatorNode( node, data, " .or. " );
+        return node;
+    }
 
-//     /**
-//      * 比較 (=)
-//      */
-//     @Override
-//     public Object visit( ASTEqual node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( "=" )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 論理和
+     */
+    @Override
+    public Object visit( ASTAnd node, Object data )
+    {
+        appendBinaryOperatorNode( node, data, " .and. " );
+        return node;
+    }
 
-//     /**
-//      * 比較 (#)
-//      */
-//     @Override
-//     public Object visit( ASTNotEqual node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( "#" )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 比較 (=)
+     */
+    @Override
+    public Object visit( ASTEqual node, Object data )
+    {
+        appendConditionalNode( node, data, "=" );
+        return node;
+    }
 
-//     /**
-//      * 不等号(<)
-//      */
-//     @Override
-//     public Object visit( ASTLT node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( "<" )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 比較 (#)
+     */
+    @Override
+    public Object visit( ASTNotEqual node, Object data )
+    {
+        appendConditionalNode( node, data, "#" );
+        return node;
+    }
 
-//     /**
-//      * 不等号(>)
-//      */
-//     @Override
-//     public Object visit( ASTGT node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( ">" )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 不等号(<)
+     */
+    @Override
+    public Object visit( ASTLT node, Object data )
+    {
+        appendConditionalNode( node, data, "<" );
+        return node;
+    }
 
-//     /**
-//      * 不等号(<=)
-//      */
-//     @Override
-//     public Object visit( ASTLE node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( "<=" )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 不等号(>)
+     */
+    @Override
+    public Object visit( ASTGT node, Object data )
+    {
+        appendConditionalNode( node, data, ">" );
+        return node;
+    }
 
-//     /**
-//      * 不等号(>=)
-//      */
-//     @Override
-//     public Object visit( ASTGE node, Object data )
-//     {
-//         SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-//         SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-//         outputCode.append( exprL.symbol.value )
-//         .append( ">=" )
-//         .append( exprR.symbol.value );
-//         return EvaluationUtility.evalBinaryBooleanOperator( node, this, data );
-//     }
+    /**
+     * 不等号(<=)
+     */
+    @Override
+    public Object visit( ASTLE node, Object data )
+    {
+        appendConditionalNode( node, data, "<=" );
+        return node;
+    }
+
+    /**
+     * 不等号(>=)
+     */
+    @Override
+    public Object visit( ASTGE node, Object data )
+    {
+        appendConditionalNode( node, data, ">=" );
+        return node;
+    }
 
     /**
      * 2項演算ノードのソースコード生成
@@ -1081,34 +1021,46 @@ SEARCH:
     {
 /*
         if
-            -> <expr>
-            -> <block>
-            :
+            -> <expr>       [0]
+            -> <block>      [1]
         | else
-            -> <block>
+            -> <block>      [2]
 */
-        SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
         //--------------------------------------------------------------------------
-        // 条件式がBOOL型でない場合
+        // ifスコープ
         //--------------------------------------------------------------------------
         {
-            if( !Variable.isBoolean( cond.symbol.type ) )
-            {
-                MessageManager.printlnE(
-                    MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
-                    cond.symbol,
-                    Variable.getTypeName( TYPE_BOOL )
-                );
-                AnalyzeErrorCounter.e();
-            }
+            Node cond = node.jjtGetChild( 0 );
+            Node block = node.jjtGetChild( 1 );
+
+            outputCode.append( "if" ).append( "(" );
+            // if( <cond> )
+            cond.jjtAccept( this, data );
+            outputCode.append( ")" );
+            appendEOL();
+
+            block.jjtAccept( this, data );
         }
-        // <block>
-        node.childrenAccept( this, data );
-        return cond;
+        //--------------------------------------------------------------------------
+        // else スコープ
+        //--------------------------------------------------------------------------
+        if( node.jjtGetNumChildren() > 2 )
+        {
+            Node block = node.jjtGetChild( 2 );
+            outputCode.append( "else" );
+            appendEOL();
+
+            block.jjtAccept( this, data );
+        }
+
+        outputCode.append( "end if" );
+        appendEOL();
+
+        return node;
     }
 
     /**
-     * select~case の case内の評価
+     * select~case の評価
      */
     @Override
     public Object visit( ASTSelectStatement node, Object data )
@@ -1119,32 +1071,22 @@ SEARCH:
             -> <expr>
             -> <case>
                 -> <casecond>
-                -> [ to [<expr>] ]
+                -> [ to <expr> ]
                 -> <block>
             -> <case>
                 -> <casecond>
-                -> [ to [<expr>] ]
+                -> [ to <expr> ]
                 -> <block>
             :
             :
 */
 
-        //--------------------------------------------------------------------------
-        // 条件式が整数型でない場合
-        //--------------------------------------------------------------------------
-        {
-            SimpleNode cond = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-            if( !Variable.isInt( cond.symbol.type ) || Variable.isArray( cond.symbol.type )  )
-            {
-                MessageManager.printlnE(
-                    MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
-                    cond.symbol,
-                    Variable.getTypeName( TYPE_INT )
-                );
-                AnalyzeErrorCounter.e();
-                return node;
-            }
-        }
+        Node cond = node.jjtGetChild( 0 );
+
+        outputCode.append( "select" ).append( "(" );
+        cond.jjtAccept( this, data );
+        outputCode.append( ")" );
+        appendEOL();
 
         //--------------------------------------------------------------------------
         // case: 整数の定数または定数宣言した変数が有効
@@ -1152,52 +1094,40 @@ SEARCH:
         for( int i = 1; i < node.jjtGetNumChildren(); i++ )
         {
             SimpleNode caseNode  = (SimpleNode)node.jjtGetChild( i );
-            SimpleNode caseCond1 = (SimpleNode)caseNode.jjtGetChild( 0 ).jjtAccept( this, data );
+            SimpleNode caseCond1 = (SimpleNode)caseNode.jjtGetChild( 0 );
             SimpleNode caseCond2 = null;
-            Integer caseValue1   = EvaluationUtility.evalConstantIntValue( caseCond1, 0, variableTable );
-            Integer caseValue2   = null;
             SimpleNode blockNode = (SimpleNode)caseNode.jjtGetChild( caseNode.jjtGetNumChildren() - 1 );
 
-            // 定数値ではない
-            if( caseValue1 == null )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond1.symbol );
-                AnalyzeErrorCounter.e();
-
-                blockNode.childrenAccept( this , data );
-                return node;
-            }
             // to <expr>
             if( caseNode.jjtGetNumChildren() >= 2 )
             {
                 SimpleNode n = (SimpleNode)caseNode.jjtGetChild( 1 );
-                if( n.getId() == JJTCASECONDITION ) // to ではない場合は Block ノード
+                if( n.getId() == JJTCASECONDITION )
                 {
-                    caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 ).jjtAccept( this, data );
-                    caseValue2 = EvaluationUtility.evalConstantIntValue( caseCond2, 0, variableTable );
-                    if( caseValue2 == null )
-                    {
-                        // 定数値ではない
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY, caseCond1.symbol );
-                        AnalyzeErrorCounter.e();
-                        blockNode.childrenAccept( this , data );
-                        return node;
-                    }
+                    // to
+                    caseCond2 = (SimpleNode)caseNode.jjtGetChild( 1 );
                 }
             }
-            if( caseValue1 != null && caseValue2 != null )
+
+            // case
+            outputCode.append( "case " );
+            caseCond1.jjtAccept( this, data );
+
+            // to
+            if( caseCond2 != null )
             {
-                // A to B のチェック
-                // 例
-                // case 1000 to 1000 { range の from to が同じ}
-                if( caseValue1.intValue() == caseValue2.intValue() )
-                {
-                    MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_CASEVALUE, caseCond1.symbol, caseValue1.toString(), caseValue2.toString() );
-                    AnalyzeErrorCounter.w();
-                }
+                outputCode.append( " to " );
+                caseCond2.jjtAccept( this, data );
             }
-            blockNode.childrenAccept( this , data );
+            appendEOL();
+
+            // block statement
+            blockNode.jjtAccept( this , data );
         }
+
+        outputCode.append( "end select" );
+        appendEOL();
+
         return node;
     }
 
@@ -1211,7 +1141,9 @@ SEARCH:
     <casecond>
         -> <expr>
 */
-        return (SimpleNode)( node.jjtGetChild( 0 ) );
+        Node n = node.jjtGetChild( 0 );
+        n.jjtAccept( this, data );
+        return n;
     }
 
     /**
@@ -1225,25 +1157,22 @@ SEARCH:
             -> <expr>
             -> <block>
 */
+        Node cond = node.jjtGetChild( 0 );
+        Node block = node.jjtGetChild( 1 );
 
-        SimpleNode cond = ((SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data) );
-        //--------------------------------------------------------------------------
-        // 条件式がBOOL型でない場合
-        //--------------------------------------------------------------------------
-        {
-            if( !Variable.isBoolean( cond.symbol.type ) )
-            {
-                MessageManager.printlnE(
-                    MessageManager.PROPERTY_ERROR_SEMANTIC_CONDITION_INVALID,
-                    cond.symbol,
-                    Variable.getTypeName( TYPE_BOOL )
-                );
-                AnalyzeErrorCounter.e();
-            }
-        }
-        // <block>
-        node.childrenAccept( this, data );
-        return cond;
+        outputCode.append( "while" ).append( "(" );
+
+        // while( <cond> )
+        cond.jjtAccept( this, data );
+        outputCode.append( ")" );
+        appendEOL();
+
+        block.jjtAccept( this, data );
+
+        outputCode.append( "end while" );
+        appendEOL();
+
+        return node;
     }
 
     /**
@@ -1260,7 +1189,7 @@ SEARCH:
 //--------------------------------------------------------------------------
 // プリプロセッサ
 //--------------------------------------------------------------------------
-
+TODO プリプロセッサ、コマンド・ユーザー関数コールから再開
     /**
      * プリプロセッサシンボル定義
      */

@@ -234,7 +234,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                 v.availableOnInit   = availableOnInit;        // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
                 v.reserved          = true;                   // 予約変数
                 v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                v.state             = SymbolState.LOADED;   // 予約変数につき、値代入済みマーク
+                v.state             = SymbolState.LOADED;     // 予約変数につき、値代入済みマーク
                 v.value             = v.getDefaultValue();
                 variables.put( name, v );
             }
@@ -570,9 +570,9 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         for( int x = 0; x < args.size(); x++ )
         {
             Variable v = args.get( x );
-            v.reserved                  = false;                    // KONTAKT内部のビルトインコマンドにつき、非予約変数
-            v.referenced                = true;                     // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
-            v.state                     = SymbolState.LOADED;     // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
+            v.reserved                  = false;                // KONTAKT内部のビルトインコマンドにつき、非予約変数
+            v.referenced                = true;                 // KONTAKT内部のビルトインコマンドにつき、使用・未使用に関わらず参照済みマーク
+            v.state                     = SymbolState.LOADED;   // KONTAKT内部のビルトインコマンドにつき、値代入済みマーク
             if( v.uiTypeInfo != null )
             {
                 v.uiTypeName = v.uiTypeInfo.name;

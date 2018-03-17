@@ -51,6 +51,11 @@ public class Variable extends SymbolDefinition
      */
     public String getVariableName()
     {
+        // 1文字目に型情報の文字を含んでいる場合はそのまま返す
+        if( AnalyzerConstants.REGEX_TYPE_PREFIX.matcher( getName() ).find() )
+        {
+            return getName();
+        }
         return toKSPTypeCharacter() + getName();
     }
 
