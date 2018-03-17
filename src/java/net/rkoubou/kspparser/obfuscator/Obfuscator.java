@@ -745,7 +745,12 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         node.childrenAccept( this, data );
         outputCode.append( ")" );
 
-        appendEOL();
+        // このコマンド呼び出しが上位ノードのコマンド引数
+        // としてコールされている場合は改行出来ないためチェックをしている
+        if( node.jjtGetParent().getId() == JJTBLOCK )
+        {
+            appendEOL();
+        }
 
         return node;
     }
