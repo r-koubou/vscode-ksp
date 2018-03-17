@@ -488,23 +488,30 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
      */
     public void appendBinaryOperatorNode( SimpleNode node, Object data, String operator )
     {
+        final SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 );
+        final SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 );
+
         // 畳み込みが無理な場合は式を出力
         if( !node.symbol.isConstant() )
         {
-            SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 );
-            SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 );
-
             // 元のコードの演算子の優先度を担保するため、全て括弧で括る
-            outputCode.append( "(" );
+            final boolean stradd = node.getId() == JJTSTRADD;
+            if( !stradd )
+            {
+                outputCode.append( "(" );
+            }
 
             exprL.jjtAccept( this, data );
             outputCode.append( operator );
             exprR.jjtAccept( this, data );
 
-            outputCode.append( ")" );
+            if( !stradd )
+            {
+                outputCode.append( ")" );
+            }
         }
         // 畳み込み済みの定数値を出力
-        else if( node.symbol.state != SymbolState.LOADING )
+        else
         {
             outputCode.append( node.symbol.value );
         }
@@ -536,18 +543,8 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     @Override
     public Object visit( ASTStrAdd node, Object data )
     {
-        SimpleNode ret = EvaluationUtility.evalBinaryStringOperator( node, this, data, variableTable );
-
-        // 畳み込みが無理な場合は式を出力
-        if( !node.symbol.isConstant() )
-        {
-            SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-            SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-            outputCode.append( exprL.symbol.value )
-            .append( "&" )
-            .append( exprR.symbol.value );
-        }
-        return ret;
+        appendBinaryOperatorNode( node, data, "&" );
+        return node;
     }
 
     /**
@@ -644,18 +641,16 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     0: <variable>   1:<expr>
 */
 
-        SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 );
-        SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 );
-        SymbolDefinition symL = exprL.symbol;
+        SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 );
+        SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 );
 
-        Variable variable = variableTable.search( symL );
-        outputCode.append( variable.getVariableName() )
-        .append( ":=" );
-//System.out.println( ":=" + exprR );
+        exprL.jjtAccept( this, data );
+        outputCode.append( ":=" );
         exprR.jjtAccept( this, data );
 
         appendEOL();
-        return exprL;
+
+        return node;
     }
 
     /**
@@ -668,16 +663,10 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
 /*
         <variable> [ 0:<arrayindex> ]
 */
-        // 上位ノードの型評価式用
-        SimpleNode ret = EvaluationUtility.createEvalNode( node, JJTREFVARIABLE );
-
         //--------------------------------------------------------------------------
         // 宣言済みかどうか
         //--------------------------------------------------------------------------
         Variable v = variableTable.search( node.symbol );
-
-        // 変数へのアクセスが確定したので、戻り値に変数のシンボル情報をコピー
-        SymbolDefinition.copy( v, ret.symbol );
 
         // ユーザー定義定数なら展開
         if( v.isConstant() && !v.reserved )
@@ -695,7 +684,6 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                 {
                     // 添え字がある
                     // 要素へのアクセスであるため、配列ビットフラグを外したプリミティブ型として扱う
-                    ret.symbol.type = v.getPrimitiveType();
                     node.jjtGetChild( 0 ).jjtAccept( this, node );
                 }
                 else
@@ -703,16 +691,11 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                     // 添え字が無い
                     // 配列変数をコマンドの引数に渡すケース
                     // 配列型としてそのまま扱う
-                    ret.symbol.type = v.type;
                 }
-                ret.symbol.reserved = v.reserved;
             }
-            return ret;
+            return node;
         }
-        // 上位ノードの型評価式用
-        ret.symbol.type = v.getPrimitiveType();
-        ret.symbol.reserved = v.reserved;
-        return ret;
+        return node;
     }
 
     /**
@@ -730,20 +713,13 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                 [ 0:<expr> ]
 */
 
-        final SimpleNode parent    = (SimpleNode)node.jjtGetParent();
-        final SimpleNode expr      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SymbolDefinition sym = expr.symbol;
+        Node expr = node.jjtGetChild( 0 );
 
-        // 上位ノードの型評価式用
-        SimpleNode ret = EvaluationUtility.createEvalNode( parent, JJTREFVARIABLE );
+        outputCode.append( "[" );
+        expr.jjtAccept( this, data );
+        outputCode.append( "]" );
 
-        // 添え字の型はintのみ
-        if( !Variable.isInt( sym.type ) )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ARRAY_ELEMENT_INTONLY, expr.symbol );
-            AnalyzeErrorCounter.e();
-        }
-        return ret;
+        return node;
     }
 
 //--------------------------------------------------------------------------
@@ -756,227 +732,44 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     @Override
     public Object visit( ASTCallCommand node, Object data )
     {
-        final Command cmd = commandTable.search( node.symbol );
-
-        // 上位ノードの型評価式用
-        SimpleNode ret = EvaluationUtility.createEvalNode( node, JJTREFVARIABLE );
-        ret.symbol.symbolType = SymbolType.Command;
+        Command cmd = commandTable.search( node.symbol );
 
         if( cmd == null )
         {
             // ドキュメントに記載のない隠しコマンドの可能性
-            // エラーにせず、警告に留める
-            // 戻り値不定のため、全てを許可する
-            ret.symbol.type = TYPE_MULTIPLE;
-            MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, node.symbol );
-            AnalyzeErrorCounter.w();
-            return ret;
+            // 存在するコマンドとして扱う
+            cmd = new Command( node );
         }
 
-        ASTCallbackDeclaration callback = EvaluationUtility.getCurrentCallBack( node );
+        outputCode.append( cmd.getName() ).append( "(" );
+        node.childrenAccept( this, data );
+        outputCode.append( ")" );
 
-        for( int t : cmd.returnType.typeList )
-        {
-            ret.symbol.type |= t;
-        }
+        appendEOL();
 
-        //--------------------------------------------------------------------------
-        // 実行が許可されているコールバック内での呼び出しかどうか
-        // ユーザー定義関数内からのコールはチェックしない
-        //--------------------------------------------------------------------------
-        if( callback != null )
-        {
-            if( !cmd.availableCallbackList.containsKey( callback.symbol.getName() ) )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_NOT_ALLOWED, node.symbol );
-                AnalyzeErrorCounter.e();
-                return ret;
-            }
-        }
-
-        //--------------------------------------------------------------------------
-        // 引数の数チェック
-        //--------------------------------------------------------------------------
-        if( node.jjtGetNumChildren() == 0 && cmd.argList.size() > 0 )
-        {
-            boolean valid = false;
-            // void(引数なしの括弧だけ)ならエラーの対象外
-            if( cmd.argList.size() == 1 )
-            {
-SEARCH:
-                for( CommandArgument a1 : cmd.argList )
-                {
-                    for( Argument a2 : a1.get() )
-                    {
-                        if( a2.type != TYPE_MULTIPLE && ( a2.type & TYPE_VOID ) != 0 )
-                        {
-                            valid = true;
-                            break SEARCH;
-                        }
-                    }
-                }
-            }
-            if( !valid )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
-                AnalyzeErrorCounter.e();
-            }
-            return ret;
-        }
-        else if( node.jjtGetNumChildren() > 0 )
-        {
-            if( node.jjtGetChild( 0 ).jjtGetNumChildren() != cmd.argList.size() )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_COMMAND_ARGCOUNT, node.symbol );
-                AnalyzeErrorCounter.e();
-                return ret;
-            }
-        }
-
-        // 引数の解析
-        node.childrenAccept( this, cmd );
-        return ret;
+        return node;
     }
 
     /**
      * コマンド引数
-     * @param data 呼び出し元 Command インスタンス
-     * @return null
      */
     @Override
     public Object visit( ASTCommandArgumentList node, Object data )
     {
         final int childrenNum = node.jjtGetNumChildren();
 
-        Command cmd   = null;
-
-        if( !( data instanceof Command ) )
-        {
-            // ここに到達する時点で意味解析自体のバグ
-            return null;
-        }
-
-        cmd = (Command)data;
-        ArrayList<CommandArgument> argList = cmd.argList;
-
         //--------------------------------------------------------------------------
-        // 引数の型チェック
+        // 引数の出力
         //--------------------------------------------------------------------------
+        for( int i = 0; i < childrenNum; i++ )
         {
-            for( int i = 0; i < childrenNum; i++ )
+            node.jjtGetChild( i ).jjtAccept( this, data );
+            if( i < childrenNum - 1 )
             {
-                Object evalValue  = node.jjtGetChild( i ).jjtAccept( this, null );    // 子ノードの評価式結果
-                if( evalValue == null )
-                {
-                    return false;
-                }
-                boolean valid           = false;
-                SimpleNode evalNode     = (SimpleNode)evalValue;
-                SymbolDefinition symbol = evalNode.symbol;
-                int type                = symbol.type;
-
-                // 評価式が変数だった場合のための変数情報への参照
-                Variable userVar        = variableTable.search( symbol );
-
-                // 引数毎に複数のデータ型が許容される仕様のため照合
-                for( Argument arg : argList.get( i ).get() )
-                {
-                    //--------------------------------------------------------------------------
-                    // 型指定なし（全ての型を許容する）
-                    //--------------------------------------------------------------------------
-                    if( arg.type == TYPE_ALL )
-                    {
-                        valid = true;
-                        break;
-                    }
-                    //--------------------------------------------------------------------------
-                    // コマンドがUI属性付き変数を要求
-                    //--------------------------------------------------------------------------
-                    else if( userVar != null && ( arg.accessFlag & ACCESS_ATTR_UI ) != 0 )
-                    {
-                        if( userVar.uiTypeInfo == null )
-                        {
-                            // ui_##### 修飾子が無い変数
-                            break;
-                        }
-                        if( arg.uiTypeName.equals( "ui_*") || arg.uiTypeName.equals( userVar.uiTypeInfo.name ) )
-                        {
-                            // 要求されている ui_#### と変数宣言時の ui_#### 修飾子が一致
-                            valid = true;
-                            break;
-                        }
-                    }
-                    //--------------------------------------------------------------------------
-                    // ui_#### 修飾子が無い変数
-                    //--------------------------------------------------------------------------
-                    else if( userVar != null )
-                    {
-                        if( arg.type == symbol.type )
-                        {
-                            valid = true;
-                            break;
-                        }
-                    }
-                    //--------------------------------------------------------------------------
-                    // コマンドの戻り値
-                    //--------------------------------------------------------------------------
-                    else if( evalNode.getId() == JJTCALLCOMMAND )
-                    {
-                        ASTCallCommand callCmd = (ASTCallCommand)evalNode;
-                        Command retCommand = commandTable.search( callCmd.symbol );
-
-                        // [nullチェック]
-                        // 隠しコマンドやドキュメント化されていない場合に逆引きできない可能性があるため
-                        if( retCommand != null )
-                        {
-                            for( int t : retCommand.returnType.typeList )
-                            {
-                                // 呼び出したコマンドの戻り値と
-                                // このコマンドの求められている引数の型チェック
-                                if( ( t & arg.type ) != 0 )
-                                {
-                                    valid = true;
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // 未知のコマンドなので正しいかどうかの判定が不可能
-                            // エラーにせずに警告に留める
-                            MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, callCmd.symbol );
-                            AnalyzeErrorCounter.w();
-                            // 戻り値の型チェックが不可能なのでデータ型は一致したものとみなす
-                            valid = true;
-                            break;
-                        }
-                    }
-                    //--------------------------------------------------------------------------
-                    // リテラル
-                    //--------------------------------------------------------------------------
-                    else
-                    {
-                        if( ( arg.type & type ) != 0 &&
-                            ( arg.type & TYPE_ATTR_MASK ) == ( type & TYPE_ATTR_MASK ) )
-                        {
-                            valid = true;
-                            break;
-                        }
-                    }
-                } // for( Argument arg : a.arguments )
-
-                if( !valid )
-                {
-                    MessageManager.printlnE(
-                        MessageManager.PROPERTY_ERROR_SEMANTIC_INCOMPATIBLE_ARG,
-                        node.symbol
-                    );
-                    AnalyzeErrorCounter.e();
-                }
-
-            } //~for( int i = 0; i < childrenNum; i++ )
+                outputCode.append( "," );
+            }
         }
-        return null;
+        return node;
     }
 
 //--------------------------------------------------------------------------
@@ -1189,7 +982,7 @@ SEARCH:
 //--------------------------------------------------------------------------
 // プリプロセッサ
 //--------------------------------------------------------------------------
-TODO プリプロセッサ、コマンド・ユーザー関数コールから再開
+TODO プリプロセッサ、ユーザー関数コールから再開
     /**
      * プリプロセッサシンボル定義
      */

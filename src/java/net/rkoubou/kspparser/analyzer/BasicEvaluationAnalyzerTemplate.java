@@ -234,9 +234,12 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
             ret.symbol.type = TYPE_STRING;
             if( symL.isConstant() && symR.isConstant() )
             {
-                // リテラル文字列同士の連結：結合
+                // 定数、リテラル文字列同士の連結：結合
+                String v = symL.value.toString() + symR.value.toString();
+                v = v.replaceAll( "\\\"", "" );
+                v = '"' + v + '"';
                 ret.symbol.addTypeFlag( TYPE_NONE, ACCESS_ATTR_CONST );
-                ret.symbol.value = symL.value.toString() + symR.value.toString();
+                ret.symbol.value = v;
                 node.symbol.setValue( ret.symbol.value );
                 SymbolDefinition.setTypeFlag( ret.symbol, node.symbol );
             }
