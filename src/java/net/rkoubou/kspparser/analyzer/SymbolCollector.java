@@ -9,6 +9,7 @@ package net.rkoubou.kspparser.analyzer;
 
 import java.io.IOException;
 
+import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
@@ -23,7 +24,8 @@ public class SymbolCollector extends AbstractAnalyzer
 {
     public final UITypeTable uiTypeTable                            = new UITypeTable();
     public final VariableTable variableTable                        = new VariableTable();
-    public final CallbackTable callbackTable                        = new CallbackTable();
+    public final CallbackTable reservedCallbackTable                = new CallbackTable();
+    public final CallbackTable usercallbackTable                    = new CallbackTable();
     public final CommandTable commandTable                          = new CommandTable();
     public final UserFunctionTable userFunctionTable                = new UserFunctionTable();
     public final PreProcessorSymbolTable preProcessorSymbolTable    = new PreProcessorSymbolTable();
@@ -59,7 +61,7 @@ public class SymbolCollector extends AbstractAnalyzer
         mgr.load();
         mgr.apply( uiTypeTable );
         mgr.apply( variableTable );
-        mgr.apply( callbackTable );
+        mgr.apply( reservedCallbackTable );
         mgr.apply( commandTable );
     }
 
@@ -215,7 +217,44 @@ public class SymbolCollector extends AbstractAnalyzer
     {
         Object ret = defaultVisit( node, data );
 
-        if( !callbackTable.add( node ) )
+        if( node.jjtGetNumChildren() >= 2 )
+        {
+            // コールバック引数リストあり
+            ASTCallbackArgumentList argList = (ASTCallbackArgumentList)node.jjtGetChild( 0 );
+            int listSize                    = argList.args.size();
+            for( int i = 0; i < listSize; i++ )
+            {
+                String arg = argList.args.get( i );
+                Variable v  = variableTable.search( arg );
+                if( v == null )
+                {
+                    SymbolDefinition s = new SymbolDefinition( node.symbol );
+                    s.setName( arg );
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, s );
+                    AnalyzeErrorCounter.e();
+                }
+            }
+        }
+
+        Callback reserved = reservedCallbackTable.search( node.symbol.getName() );
+        if( reserved == null )
+        {
+            // NI が定義していないコールバックの可能性
+            MessageManager.printlnW( MessageManager.PROPERTY_WARN_CALLBACK_UNKNOWN, node.symbol );
+            AnalyzeErrorCounter.w();
+        }
+
+        Callback newCallback;
+        if( reserved != null )
+        {
+            newCallback = new Callback( reserved );
+        }
+        else
+        {
+            newCallback = new Callback( node );
+        }
+
+        if( !usercallbackTable.add( newCallback ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_CALLBACK_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();

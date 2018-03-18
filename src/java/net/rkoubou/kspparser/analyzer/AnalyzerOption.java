@@ -27,6 +27,11 @@ public class AnalyzerOption
     /** 未使用変数、ユーザー定義関数を警告扱いにするかどうか */
     static final public boolean unused;
 
+    /** VM引数 -D オブファスケートを行うかどうか */
+    static public final String SYSTEM_PROPERTY_OBFUSCATE = "kspparser.obfuscate";
+    /** オブファスケートを行うかどうか */
+    static final public boolean obfuscate;
+
     /**
      * static initializer
      */
@@ -35,6 +40,7 @@ public class AnalyzerOption
         parseonly = getBoolean( SYSTEM_PROPERTY_PARSE_ONLY, "false" );
         strict    = getBoolean( SYSTEM_PROPERTY_STRICT, "false" );
         unused    = strict || getBoolean( SYSTEM_PROPERTY_WARNING_UNUSED, "false" );
+        obfuscate = getBoolean( SYSTEM_PROPERTY_OBFUSCATE, "false" );
     }
 
     /**

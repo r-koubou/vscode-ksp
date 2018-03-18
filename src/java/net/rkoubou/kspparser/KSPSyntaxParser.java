@@ -68,17 +68,19 @@ public class KSPSyntaxParser
                 SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer( symbolCollector );
                 AnalyzeErrorCounter.reset();
                 semanticAnalyzer.analyze();
+
                 if( AnalyzeErrorCounter.hasError() )
                 {
                     return;
                 }
 
-            }
-
-            {
-                Obfuscator obfuscator = new Obfuscator( rootNode, symbolCollector );
-                obfuscator.analyze();
-                System.out.println( obfuscator );
+                // オブファスケートは意味解析フェーズで構築したASTが必要なため
+                if( AnalyzerOption.obfuscate )
+                {
+                    Obfuscator obfuscator = new Obfuscator( rootNode, symbolCollector );
+                    obfuscator.analyze();
+                    System.out.println( obfuscator );
+                }
             }
         }
         finally

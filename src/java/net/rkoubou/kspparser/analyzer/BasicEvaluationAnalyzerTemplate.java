@@ -46,7 +46,8 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
     // シンボルテーブル保持インスタンス
     public final UITypeTable uiTypeTable;
     public final VariableTable variableTable;
-    public final CallbackTable callbackTable;
+    public final CallbackTable reservedCallbackTable;
+    public final CallbackTable userCallbackTable;
     public final CommandTable commandTable;
     public final UserFunctionTable userFunctionTable;
     public final PreProcessorSymbolTable preProcessorSymbolTable;
@@ -59,7 +60,8 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
         super( rootNode );
         this.uiTypeTable                = symbolCollector.uiTypeTable;
         this.variableTable              = symbolCollector.variableTable;
-        this.callbackTable              = symbolCollector.callbackTable;
+        this.reservedCallbackTable      = symbolCollector.reservedCallbackTable;
+        this.userCallbackTable          = symbolCollector.usercallbackTable;
         this.commandTable               = symbolCollector.commandTable;
         this.userFunctionTable          = symbolCollector.userFunctionTable;
         this.preProcessorSymbolTable    = symbolCollector.preProcessorSymbolTable;

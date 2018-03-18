@@ -141,17 +141,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     public void apply( CallbackTable dest )
     {
-        for( String key : callbacks.keySet() )
+        for( String name : callbacks.keySet() )
         {
-            Callback v = callbacks.get( key );
-            if( v instanceof CallbackWithArgs )
-            {
-                dest.addWithArgs( (CallbackWithArgs)v );
-            }
-            else
-            {
-                dest.add( v );
-            }
+            Callback v = callbacks.get( name );
+            dest.add( v, name );
         }
     }
 
@@ -365,7 +358,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
                         Variable v    = toVariableType( typeString );
                         Argument a    = new Argument( v );
-                        a.setName( "" );                                        // シンボル収集時にマージ
+                        a.setName( "<undefined>" );                             // シンボル収集時にマージ
                         a.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
                         a.reserved    = true;                                   // 予約変数
                         a.referenced  = true;                                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
@@ -388,16 +381,17 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
                             astList.args.add( a.getName() );
                         }
                         ast.jjtAddChild( astList, 0 );
-                        newItem = new CallbackWithArgs( ast );
+                        newItem = new Callback( ast );
                     }
                     else
                     {
                         newItem = new Callback( ast );
                     }
+                    newItem.setName( name );
                     newItem.symbolType     = SymbolType.Callback;
                     newItem.reserved       = true;
                     newItem.declared       = false;
-                    newItem.allowDuplicate = dup;
+                    newItem.setAllowDuplicate( dup );
                     callbacks.put( name, newItem );
                 }
 

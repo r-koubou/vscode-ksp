@@ -552,7 +552,8 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         // 左辺、右辺共にリテラル、定数なら式の結果に定数フラグを反映
         // このノード自体を式からリテラルに置き換える
         //--------------------------------------------------------------------------
-        if( !symL.isArray() && !symR.isArray() &&
+        if( !symL.reserved && !symR.reserved &&
+            !symL.isArray() && !symR.isArray() &&
             symL.isConstant() && symR.isConstant() )
         {
             Number constValue = null;
@@ -571,8 +572,6 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             ret.symbol.setName( "" );
             node = node.reset( new ASTLiteral( JJTLITERAL ), null, constValue, ret.symbol );
             ret = ret.reset( new ASTLiteral( JJTLITERAL ), null, constValue, ret.symbol );
-            //System.out.println( constValue + ", " + node.getClass() + ", " + node.symbol.value );
-            //System.out.println( node.symbol.dump() );
         }
         //--------------------------------------------------------------------------
         // 型チェック失敗

@@ -7,15 +7,9 @@
 
 package net.rkoubou.kspparser.obfuscator;
 
-import java.util.ArrayList;
-
-import net.rkoubou.kspparser.analyzer.Argument;
 import net.rkoubou.kspparser.analyzer.BasicEvaluationAnalyzerTemplate;
-import net.rkoubou.kspparser.analyzer.Callback;
-import net.rkoubou.kspparser.analyzer.CallbackWithArgs;
 import net.rkoubou.kspparser.analyzer.Command;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
-import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.UIType;
 import net.rkoubou.kspparser.analyzer.Variable;
@@ -26,6 +20,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTBlock;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
+import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTCaseCondition;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
@@ -330,19 +325,18 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                 [ -> ASTCallbackArgumentList ]
         */
 
-        Callback callback = callbackTable.search( node.symbol );
         outputCode.append( "on " ).append( node.symbol.getName() );
 
-        if( callback != null && callback instanceof CallbackWithArgs )
+        if( node.jjtGetNumChildren() >= 2 )
         {
             // コールバック引数リストあり
-            SimpleNode argList = (SimpleNode)node.jjtGetChild( 0 );
-            int listSize       = argList.jjtGetNumChildren();
+            ASTCallbackArgumentList argList = (ASTCallbackArgumentList)node.jjtGetChild( 0 );
+            int listSize                    = argList.args.size();
             outputCode.append( "(" );
             for( int i = 0; i < listSize; i++ )
             {
-                SimpleNode arg = (SimpleNode)argList.jjtGetChild( i );
-                Variable v  = variableTable.search( arg.symbol );
+                String arg = argList.args.get( i );
+                Variable v  = variableTable.search( arg );
                 String name = v.getVariableName();
 
                 outputCode.append( name );
@@ -360,7 +354,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         outputCode.append( "end on" );
         appendEOL();
 
-        return null;
+        return node;
     }
 
 
@@ -800,6 +794,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
         outputCode.append( "call " ).append( node.symbol.getName() );
+        appendEOL();
         return node;
     }
 

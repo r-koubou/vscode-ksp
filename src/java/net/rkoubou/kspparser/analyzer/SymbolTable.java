@@ -160,6 +160,23 @@ abstract public class SymbolTable<NODE extends SimpleNode, SYMBOL extends Symbol
     }
 
     /**
+     * 指定したインデックス値でテーブルに登録されているか検索する
+     * @return あった場合はsymbol自身、無い場合は null
+     */
+    public SYMBOL search( int index )
+    {
+        for( Enumeration<SYMBOL> e = table.elements(); e.hasMoreElements(); )
+        {
+            SYMBOL v = e.nextElement();
+            if( v.index == index )
+            {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 指定したシンボル名がテーブルに登録されているか検索する
      * @return あった場合はインデックス番号、無い場合は -1
      */
