@@ -10,6 +10,7 @@ package net.rkoubou.kspparser.analyzer;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
+import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalOr;
 import net.rkoubou.kspparser.javacc.generated.ASTDiv;
@@ -33,6 +34,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTPreProcessorUnDefine;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTSub;
+import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
@@ -315,6 +317,28 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
      */
     @Override
     public Object visit( ASTLiteral node, Object data )
+    {
+        return node;
+    }
+
+//--------------------------------------------------------------------------
+// ユーザー定義関数
+//--------------------------------------------------------------------------
+
+    /**
+     * ユーザー定義関数宣言
+     */
+    @Override
+    public Object visit( ASTUserFunctionDeclaration node, Object data )
+    {
+        return node;
+    }
+
+    /**
+     * ユーザー定義関数呼び出し
+     */
+    @Override
+    public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
         return node;
     }

@@ -152,9 +152,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
                         ASTCallbackDeclaration
                             -> ASTCallbackArgumentList
                     */
-                    //ASTCallbackArgumentList srcList   = (ASTCallbackArgumentList)c.astNode.jjtGetChild( 0 );
                     CallbackWithArgs callbackWithArgs = (CallbackWithArgs)p;
-
                     //--------------------------------------------------------------------------
                     // 重複宣言チェック
                     //--------------------------------------------------------------------------
@@ -185,12 +183,7 @@ public class CallbackTable extends SymbolTable<ASTCallbackDeclaration, Callback>
         }// ~if( table.containsKey( name ) )
         else
         {
-            ASTCallbackArgumentList argList = (ASTCallbackArgumentList)c.astNode.jjtGetChild( 0 );
-            for( String n : argList.args )
-            {
-                c.add( n );
-            }
-
+            // 初回登録（＝ReservedSymbolManagerによる、コールバック定義ファイルからのパース結果時）
             c.index = index;
             index++;
             c.symbolType = SymbolType.Callback;

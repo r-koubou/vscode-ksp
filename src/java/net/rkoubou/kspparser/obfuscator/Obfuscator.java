@@ -9,21 +9,15 @@ package net.rkoubou.kspparser.obfuscator;
 
 import java.util.ArrayList;
 
-import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.Argument;
 import net.rkoubou.kspparser.analyzer.BasicEvaluationAnalyzerTemplate;
 import net.rkoubou.kspparser.analyzer.Callback;
 import net.rkoubou.kspparser.analyzer.CallbackWithArgs;
 import net.rkoubou.kspparser.analyzer.Command;
-import net.rkoubou.kspparser.analyzer.CommandArgument;
-import net.rkoubou.kspparser.analyzer.EvaluationUtility;
-import net.rkoubou.kspparser.analyzer.MessageManager;
-import net.rkoubou.kspparser.analyzer.PreProcessorSymbol;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.UIType;
-import net.rkoubou.kspparser.analyzer.UserFunction;
 import net.rkoubou.kspparser.analyzer.Variable;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
@@ -61,6 +55,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTSelectStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTSub;
+import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclarator;
 import net.rkoubou.kspparser.javacc.generated.ASTWhileStatement;
@@ -75,9 +70,6 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
 
     // ソースコード生成バッファ
     protected final StringBuilder outputCode = new StringBuilder( 1024 * 1024 * 32 );
-
-    // 局所的にのみ使用することを前提としたワークエリア
-    private final SymbolDefinition tempSymbol = new SymbolDefinition();
 
     /**
      * ctor
@@ -328,27 +320,30 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
 //--------------------------------------------------------------------------
 
     /**
-     *
+     * コールバック定義
      */
     @Override
     public Object visit( ASTCallbackDeclaration node, Object data )
     {
+        /*
+            ASTCallbackDeclaration
+                [ -> ASTCallbackArgumentList ]
+        */
+
         Callback callback = callbackTable.search( node.symbol );
         outputCode.append( "on " ).append( node.symbol.getName() );
 
         if( callback != null && callback instanceof CallbackWithArgs )
         {
             // コールバック引数リストあり
-            final CallbackWithArgs c          = (CallbackWithArgs)callback;
-            final ArrayList<Argument> argList = c.argList;
-            final int listSize = argList.size();
-
+            SimpleNode argList = (SimpleNode)node.jjtGetChild( 0 );
+            int listSize       = argList.jjtGetNumChildren();
             outputCode.append( "(" );
             for( int i = 0; i < listSize; i++ )
             {
-                Argument a  = argList.get( i );
-                String name = SymbolDefinition.toKSPTypeCharacter( SymbolDefinition.getKSPTypeFromVariableName( a.getName() )  ) +
-                              ShortSymbolGenerator.getSymbolFromOrgName( a.getName() );
+                SimpleNode arg = (SimpleNode)argList.jjtGetChild( i );
+                Variable v  = variableTable.search( arg.symbol );
+                String name = v.getVariableName();
 
                 outputCode.append( name );
                 if( i < listSize - 1 )
@@ -778,23 +773,33 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     }
 
 //--------------------------------------------------------------------------
-// ユーザー定義関数呼び出し
+// ユーザー定義関数
 //--------------------------------------------------------------------------
 
     /**
-     * コマンド呼び出し
+     * ユーザー定義関数宣言
+     */
+    @Override
+    public Object visit( ASTUserFunctionDeclaration node, Object data )
+    {
+        Node block = node.jjtGetChild( 0 );
+
+        outputCode.append( "function " ).append( node.symbol.getName() );
+        appendEOL();
+        block.jjtAccept( this, data );
+        outputCode.append( "end function " );
+        appendEOL();
+
+        return node;
+    }
+
+    /**
+     * ユーザー定義関数呼び出し
      */
     @Override
     public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
-        UserFunction f = userFunctionTable.search( node.symbol );
-        if( f == null )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_USERFUNCTION_NOT_DECLARED, node.symbol );
-            AnalyzeErrorCounter.e();
-            return node;
-        }
-        f.referenced = true;
+        outputCode.append( "call " ).append( node.symbol.getName() );
         return node;
     }
 
@@ -987,26 +992,24 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
 //--------------------------------------------------------------------------
 // プリプロセッサ
 //--------------------------------------------------------------------------
-TODO プリプロセッサ、ユーザー関数コールから再開
+
+    /**
+     * プリプロセッサ def/undef のコード生成
+     */
+    protected void appendPreprocessorDefine( SimpleNode node, String keyword )
+    {
+        outputCode.append( keyword ).append( "(" ).append( node.symbol.getName() ).append( ")" );
+        appendEOL();
+    }
+
     /**
      * プリプロセッサシンボル定義
      */
     @Override
     public Object visit( ASTPreProcessorDefine node, Object data )
     {
-        Object ret = defaultVisit( node, data );
-        // プリプロセッサなので、既に宣言済みなら上書きもせずそのまま。
-        // 複数回宣言可能な KONTAKT 側の挙動に合わせる形をとった。
-        if( preProcessorSymbolTable.search( node.symbol ) == null )
-        {
-            ASTPreProcessorDefine decl = new ASTPreProcessorDefine( JJTPREPROCESSORDEFINE );
-            SymbolDefinition.copy( node.symbol,  decl.symbol );
-            decl.symbol.symbolType = SymbolType.PreprocessorSymbol;
-
-            PreProcessorSymbol v = new PreProcessorSymbol( decl );
-            preProcessorSymbolTable.add( v );
-        }
-        return ret;
+        appendPreprocessorDefine( node, "SET_CONDITION" );
+        return node;
     }
 
     /**
@@ -1015,26 +1018,27 @@ TODO プリプロセッサ、ユーザー関数コールから再開
     @Override
     public Object visit( ASTPreProcessorUnDefine node, Object data )
     {
-        Object ret = defaultVisit( node, data );
-        // 宣言されていないシンボルを undef しようとした場合
-        // 現状のKONTAKTでは未定義のシンボルでもエラーとならないので
-        // 「意味解析では何もしない」
-        // どのコールバック内でもundef可能なため、動的に呼ばれるコールバックなどは
-        // 実行時に初めて解決するケースがある。
-        // -> 意味解析だとASTの構造上スクリプトの上の行から下に向けてトラバースする。
-        // 判定方法のコードはコメントアウトで以下に残しておく
-/*
-        if( preProcessorSymbolTable.search( node.symbol ) == null )
+        appendPreprocessorDefine( node, "RESET_CONDITION" );
+        return node;
+    }
+
+    /**
+     * プリプロセッサ ifdef/ifndef のコード生成
+     */
+    protected void appendPreprocessorCondition( SimpleNode node, String keyword, Object jjtVisitorData )
+    {
+        Node block = null;
+        if( node.jjtGetNumChildren() > 0 )
         {
-            MessageManager.printlnW( MessageManager.PROPERTY_WARN_PREPROCESSOR_UNKNOWN_DEF, node.symbol );
-            AnalyzeErrorCounter.w();
+            block = node.jjtGetChild( 0 );
         }
-        else
+        outputCode.append( keyword ).append( "(" ).append( node.symbol.getName() ).append( ")" );
+        if( block != null )
         {
-            preProcessorSymbolTable.remove( node );
+            block.jjtAccept( this, jjtVisitorData );
         }
-*/
-        return ret;
+        outputCode.append( "END_USE_CODE" );
+        appendEOL();
     }
 
     /**
@@ -1043,8 +1047,8 @@ TODO プリプロセッサ、ユーザー関数コールから再開
     @Override
     public Object visit( ASTPreProcessorIfDefined node, Object data )
     {
-        Object ret = defaultVisit( node, data );
-        return ret;
+        appendPreprocessorCondition( node, "USE_CODE_IF", data );
+        return node;
     }
 
     /**
@@ -1053,8 +1057,8 @@ TODO プリプロセッサ、ユーザー関数コールから再開
     @Override
     public Object visit( ASTPreProcessorIfUnDefined node, Object data )
     {
-        Object ret = defaultVisit( node, data );
-        return ret;
+        appendPreprocessorCondition( node, "USE_CODE_IF_NOT", data );
+        return node;
     }
 
     /**

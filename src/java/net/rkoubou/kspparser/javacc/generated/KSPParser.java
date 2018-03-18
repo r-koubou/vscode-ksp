@@ -15,8 +15,6 @@ import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.Variable;
-import net.rkoubou.kspparser.analyzer.Position;
-
 
 public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,AnalyzerConstants, KSPParserConstants {/*@bgen(jjtree)*/
   protected JJTKSPParserState jjtree = new JJTKSPParserState();/** ルートの構文木 */
@@ -2940,6 +2938,12 @@ if (jjtc000) {
     finally { jj_save(24, xla); }
   }
 
+  private boolean jj_3R_106()
+ {
+    if (jj_scan_token(BOOL_AND)) return true;
+    return false;
+  }
+
   private boolean jj_3R_155()
  {
     if (jj_scan_token(BIT_NOT)) return true;
@@ -3981,12 +3985,6 @@ if (jjtc000) {
  {
     if (jj_scan_token(BOOL_NOT)) return true;
     if (jj_3R_138()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_106()
- {
-    if (jj_scan_token(BOOL_AND)) return true;
     return false;
   }
 

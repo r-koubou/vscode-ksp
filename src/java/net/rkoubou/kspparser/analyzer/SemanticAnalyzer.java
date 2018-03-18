@@ -978,7 +978,6 @@ SEARCH:
         Variable v = variableTable.search( node.symbol );
         if( v == null )
         {
-            System.out.println( node.symbol.getName() );
             // 宣言されていない変数
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();
