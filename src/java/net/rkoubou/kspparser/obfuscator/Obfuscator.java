@@ -12,6 +12,7 @@ import net.rkoubou.kspparser.analyzer.Command;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.UIType;
+import net.rkoubou.kspparser.analyzer.UserFunction;
 import net.rkoubou.kspparser.analyzer.Variable;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTAnd;
@@ -777,8 +778,8 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     public Object visit( ASTUserFunctionDeclaration node, Object data )
     {
         Node block = node.jjtGetChild( 0 );
-
-        outputCode.append( "function " ).append( node.symbol.getName() );
+        UserFunction func = userFunctionTable.search( node.symbol.getName() );
+        outputCode.append( "function " ).append( func.getName() );
         appendEOL();
         block.jjtAccept( this, data );
         outputCode.append( "end function " );

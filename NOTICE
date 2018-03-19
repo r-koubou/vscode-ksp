@@ -4,3 +4,8 @@ This project depends following 3rd party library/software.
 # JavaCC 6.0
 Java Compiler Compiler
 https://javacc.org/
+
+# args4j 2.33
+Java command line arguments parser
+http://args4j.kohsuke.org/
+(* Combine class files when jar build via "build.sh" )

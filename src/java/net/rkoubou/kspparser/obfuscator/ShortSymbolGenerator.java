@@ -15,6 +15,10 @@ import java.util.UUID;
  */
 public class ShortSymbolGenerator
 {
+
+    /** オブファスケート後のシンボル名の接頭文字 */
+    static private final String PREFIX = "_";
+
     /** 生成するシンボルの最大文字数 */
     static public final int MAX_SYMBOL_LENGTH = 4;
 
@@ -52,7 +56,7 @@ public class ShortSymbolGenerator
         do
         {
             uuid = UUID.randomUUID().toString();
-            uuid = "v" + uuid.replaceAll( "-", "" ).substring( 0, MAX_SYMBOL_LENGTH );
+            uuid = PREFIX + uuid.replaceAll( "-", "" ).substring( 0, MAX_SYMBOL_LENGTH );
         } while( history.containsValue( uuid ) && ++limit < Long.MAX_VALUE );
 
         if( limit == Long.MAX_VALUE )

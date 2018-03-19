@@ -1302,7 +1302,17 @@ SEARCH:
 //--------------------------------------------------------------------------
 
     /**
-     * コマンド呼び出し
+     * ユーザー定義関数宣言
+     */
+    @Override
+    public Object visit( ASTUserFunctionDeclaration node, Object data )
+    {
+        node.childrenAccept( this, data );
+        return node;
+    }
+
+    /**
+     * ーザー定義関数呼び出し
      */
     @Override
     public Object visit( ASTCallUserFunctionStatement node, Object data )

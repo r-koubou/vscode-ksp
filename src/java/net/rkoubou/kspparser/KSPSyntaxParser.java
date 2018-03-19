@@ -8,7 +8,9 @@
 package net.rkoubou.kspparser;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.PrintStream;
+import java.io.Writer;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerOption;
@@ -59,6 +61,7 @@ public class KSPSyntaxParser
             symbolCollector.analyze();
             if( AnalyzeErrorCounter.hasError() )
             {
+                System.exit( 1 );
                 return;
             }
 
@@ -71,6 +74,7 @@ public class KSPSyntaxParser
 
                 if( AnalyzeErrorCounter.hasError() )
                 {
+                    System.exit( 1 );
                     return;
                 }
 
@@ -79,8 +83,33 @@ public class KSPSyntaxParser
                 {
                     Obfuscator obfuscator = new Obfuscator( rootNode, symbolCollector );
                     obfuscator.analyze();
-                    System.out.println( obfuscator );
+
+                    // ファイルに出力
+                    if( args.length >= 2 )
+                    {
+                        Writer writer = null;
+                        try
+                        {
+                            writer = new FileWriter( args[ 1 ], false );
+                            writer.write( obfuscator.toString() );
+                        }
+                        finally
+                        {
+                            if( writer != null )
+                            {
+                                try{ writer.flush(); } catch( Throwable e ){}
+                                try{ writer.close(); } catch( Throwable e ){}
+                            }
+                        }
+                    }
+                    // 標準出力に出力
+                    else
+                    {
+                        System.out.println( obfuscator );
+                    }
                 }
+                System.exit( 0 );
+                return;
             }
         }
         finally
