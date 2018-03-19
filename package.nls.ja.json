@@ -6,5 +6,8 @@
 	"configuration.validate.syntax.only": "true の場合、パーサーは構文解析のみを行います（意味解析を行いません）",
 	"configuration.validate.strict": "true の場合、パーサーは厳格モードとして動作します (ksp.validate.syntax.only=falseの場合のみ有効)",
 	"configuration.validate.unused": "true の場合、パーサーは未使用変数と未使用のユーザー関数を検知します (ksp.validate.syntax.only=falseの場合のみ有効)",
-	"configuration.java.location": "javaコマンドの場所。デフォルトでは環境変数PATHに通しているものとして動作します。"
+    "configuration.java.location": "javaコマンドの場所。デフォルトでは環境変数PATHに通しているものとして動作します。",
+
+    "command.obfuscate": "NI KSP: オブファスケーターの実行"
+
 }

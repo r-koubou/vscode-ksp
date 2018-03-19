@@ -324,23 +324,24 @@ export class KSPValidationProvider
             // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
             args.push( "-Dkspparser.stdout.encoding=UTF-8" )
             args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data" )
-            if( this.validateParseSyntaxOnly )
-            {
-                args.push( "-Dkspparser.parseonly=true" );
-            }
-            if( this.validateParseStrict )
-            {
-                args.push( "-Dkspparser.strict=true" );
-            }
-            if( this.validateParseUnused )
-            {
-                args.push( "-Dkspparser.unused=true" );
-            }
 // launch en-US mode
 //            args.push( "-Duser.language=en" );
 //            args.push( "-Duser.country=US" );
             args.push( "-jar" );
             args.push( thisExtentionDir + "/kspparser/KSPSyntaxParser.jar" );
+            if( this.validateParseSyntaxOnly )
+            {
+                args.push( "--parseonly" );
+            }
+            if( this.validateParseStrict )
+            {
+                args.push( "--strict" );
+            }
+            if( this.validateParseUnused )
+            {
+                args.push( "--unused" );
+            }
+            args.push( "--source" );
             args.push( src );
 
             try

@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT Script Processor (KSP)",
-    "version": "0.3.14",
+    "version": "0.4.0-beta",
     "publisher": "rkoubou",
     "keywords": [
         "KONTAKT",
@@ -22,7 +22,8 @@
     "icon": "images/icon.png",
     "main": "./out/src/KSPMain",
     "activationEvents": [
-        "onLanguage:ksp"
+        "onLanguage:ksp",
+        "onCommand:ksp.obfuscate"
     ],
     "engines": {
         "vscode": "^1.10.0"
@@ -111,7 +112,13 @@
                     "description": "%configuration.java.location%"
                 }
             }
-        }
+        },
+        "commands":[
+            {
+                "command": "ksp.obfuscate",
+                "title": "%command.obfuscate%"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",

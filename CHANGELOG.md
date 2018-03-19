@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 0.3.15b(BETA)
+
+* Editor
+
+    * Obfuscator supported (BETA) \*
+
+* Syntax parser
+
+    * Small bug bug fixes
+    * Obfuscation is implemented(BETA) \*
+
+\* OUT OF WARRANTY
+
 ## Version 0.3.14
 
 * Syntax parser

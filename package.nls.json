@@ -6,5 +6,7 @@
 	"configuration.validate.syntax.only": "If true, parser does not Semantic analysis. (=Syntax analysis only)",
 	"configuration.validate.strict": "If true, parser will be 'strict' mode. (Require:ksp.validate.syntax.only=false)",
 	"configuration.validate.unused": "If true, parser will detect unused variables, user functions. (Require:ksp.validate.syntax.only=false)",
-	"configuration.java.location": "Location of the java executable. Default is \"java\"(Search from $PATH variable)"
+    "configuration.java.location": "Location of the java executable. Default is \"java\"(Search from $PATH variable)",
+
+    "command.obfuscate": "NI KSP: Run Obfuscator"
 }

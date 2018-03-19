@@ -26,6 +26,38 @@
     `Default is "disabled".`
     You can change setting at Preferences -> Settings (Part of "KONTAKT Script Processor (KSP)" ).
 
+## Obfuscation (-- BETA --)
+
+**OUT OF WARRANTY because it is BETA version.**
+
+Run from command palet
+
+* Expand constant variable / literal
+
+~~~
+    e.g.
+
+    [Before]
+    declare const $MAX := 100
+    declare $i
+    declare @s
+    $i := $MAX * 10
+    @a := "MAX is" & $MAX
+
+    [After]
+    declare $_geug
+    declare @_sxhd
+    $_geug := 1000
+    @_sxhd := "MAX is 100"
+~~~
+
+* Rename
+    - variable name
+    - user function
+* Shrink
+    * user variable if unused anywhere
+    * user function if unused anywhere
+
 ### About Syntax validation
 
 * You need to install Java 1.6 (or higher).
@@ -125,6 +157,37 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
     `初期設定ではこの機能はオフになっています。`
     使用する際は、設定画面で設定を変えて下さい。
     (Preferences->Settings内、"KONTAKT Script Processor (KSP)" )
+
+## オブファスケート (-- BETA --)
+
+**ベータ版のため、動作保証外**
+
+コマンドパレットから実行できます
+
+* 定数、リテラルの展開
+
+~~~
+    例：
+
+    [Before]
+    declare const $MAX := 100
+    declare $i
+    declare @s
+    $i := $MAX * 10
+    @a := "MAX is" & $MAX
+
+    [After]
+    declare $_geug
+    declare @_sxhd
+    $_geug := 1000
+    @_sxhd := "MAX is 100"
+~~~
+
+* リネーム
+    - ユーザー定義の変数名
+    - ユーザー定義の関数名
+* シュリンク
+    * どこからも使用されていない変数、関数
 
 ### 文法解析機能について
 
