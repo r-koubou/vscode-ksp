@@ -3,4 +3,5 @@
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="eclipse_compiled"/>
+    <classpathentry kind="lib" path="lib/args4j.jar" exported="true"/>
 </classpath>

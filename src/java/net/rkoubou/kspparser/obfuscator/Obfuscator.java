@@ -126,7 +126,12 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                 -> [###Initializer]
                     -> (expr)+
 */
-        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol ) );
+        Variable v = variableTable.search( node.symbol );
+        if( !v.referenced && !v.reserved )
+        {
+            return node;
+        }
+        return node.jjtGetChild( 0 ).jjtAccept( this, v );
     }
 
     /**
@@ -779,11 +784,15 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     {
         Node block = node.jjtGetChild( 0 );
         UserFunction func = userFunctionTable.search( node.symbol.getName() );
-        outputCode.append( "function " ).append( func.getName() );
-        appendEOL();
-        block.jjtAccept( this, data );
-        outputCode.append( "end function " );
-        appendEOL();
+
+        if( func.referenced )
+        {
+            outputCode.append( "function " ).append( func.getName() );
+            appendEOL();
+            block.jjtAccept( this, data );
+            outputCode.append( "end function " );
+            appendEOL();
+        }
 
         return node;
     }
@@ -794,7 +803,8 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     @Override
     public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
-        outputCode.append( "call " ).append( node.symbol.getName() );
+        UserFunction func = userFunctionTable.search( node.symbol );
+        outputCode.append( "call " ).append( func.getName() );
         appendEOL();
         return node;
     }

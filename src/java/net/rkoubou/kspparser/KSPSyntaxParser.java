@@ -12,13 +12,15 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 
+import org.kohsuke.args4j.CmdLineParser;
+
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
-import net.rkoubou.kspparser.analyzer.AnalyzerOption;
 import net.rkoubou.kspparser.analyzer.SemanticAnalyzer;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.KSPParser;
 import net.rkoubou.kspparser.obfuscator.Obfuscator;
+import net.rkoubou.kspparser.options.CommandlineOptions;;
 
 /**
  * KSPSyntaxParser
@@ -44,7 +46,18 @@ public class KSPSyntaxParser
                 System.setOut( stdout );
                 System.setErr( stderr );
             }
-            File file            = new File( args[ 0 ] );
+            // コマンドライン引数の解析
+            CmdLineParser cmdLineParser = CommandlineOptions.setup( args );
+            if( CommandlineOptions.options.sourceFile == null )
+            {
+                cmdLineParser.printUsage( System.err );
+                System.err.println();
+                System.exit( 1 );
+                return;
+            }
+
+            // プログラム解析
+            File file            = new File( CommandlineOptions.options.sourceFile );
             KSPParser p          = new KSPParser( file );
 
             // 構文解析フェーズ
@@ -53,7 +66,6 @@ public class KSPSyntaxParser
             {
                 return;
             }
-
 
             // シンボル収集フェーズ
             SymbolCollector symbolCollector = new SymbolCollector( rootNode );
@@ -66,7 +78,7 @@ public class KSPSyntaxParser
             }
 
             // 意味解析フェーズ
-            if( !AnalyzerOption.parseonly )
+            if( !CommandlineOptions.options.parseonly )
             {
                 SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer( symbolCollector );
                 AnalyzeErrorCounter.reset();
@@ -79,18 +91,19 @@ public class KSPSyntaxParser
                 }
 
                 // オブファスケートは意味解析フェーズで構築したASTが必要なため
-                if( AnalyzerOption.obfuscate )
+                if( CommandlineOptions.options.obfuscate )
                 {
                     Obfuscator obfuscator = new Obfuscator( rootNode, symbolCollector );
                     obfuscator.analyze();
 
                     // ファイルに出力
-                    if( args.length >= 2 )
+                    String outputFile = CommandlineOptions.options.outputFile;
+                    if( outputFile != null )
                     {
                         Writer writer = null;
                         try
                         {
-                            writer = new FileWriter( args[ 1 ], false );
+                            writer = new FileWriter( outputFile, false );
                             writer.write( obfuscator.toString() );
                         }
                         finally

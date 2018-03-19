@@ -27,6 +27,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclarator;
 import net.rkoubou.kspparser.javacc.generated.ASTWhileStatement;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
+import net.rkoubou.kspparser.options.CommandlineOptions;
 
 /**
  * 意味解析実行クラス
@@ -57,7 +58,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         // 解析後の未使用・未初期化シンボルの洗い出し
         //--------------------------------------------------------------------------
 
-        if( AnalyzerOption.unused )
+        if( CommandlineOptions.options.unused )
         {
             for( SymbolDefinition s : variableTable.toArray() )
             {
@@ -70,7 +71,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 }
                 // 初期化（１度も値が格納されていない）
                 // ただし、UI型変数は除外
-                if( AnalyzerOption.strict && v.state == SymbolState.UNLOADED && !v.isUIVariable() )
+                if( CommandlineOptions.options.strict && v.state == SymbolState.UNLOADED && !v.isUIVariable() )
                 {
                     MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_VARIABLE_INIT, v );
                     AnalyzeErrorCounter.w();
@@ -86,7 +87,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 }
             }
         }
-        if( AnalyzerOption.strict )
+        if( CommandlineOptions.options.strict )
         {
             for( SymbolDefinition s : variableTable.toArray() )
             {
