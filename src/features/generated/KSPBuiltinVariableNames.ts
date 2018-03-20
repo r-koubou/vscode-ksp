@@ -531,6 +531,7 @@ export var builtinVariableNameList : string[] = [
     "$KNOB_UNIT_ST",
     "$KSP_TIMER",
     "$LFO_TYPE_MULTI",
+    "$LFO_TYPE_RANDO",
     "$LFO_TYPE_RANDOM",
     "$LFO_TYPE_RECTANGLE",
     "$LFO_TYPE_SAWTOOTH",

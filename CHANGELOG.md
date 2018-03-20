@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 0.3.15-RC1
+
+* Syntax parser
+
+    * Following bug fixes.
+     - [Bug - Array variable declaration](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
+     - [Bug - Parser false detection in message() command](https://github.com/r-koubou/KSPSyntaxParser/issues/2)
+     - [BUG - Unrecognized some NI built-in variables by parser](https://github.com/r-koubou/KSPSyntaxParser/issues/3)
+
+* Editor
+
+    * Small bug bug fixes
+    * Undocumented NI variables / commands added to snipet etc.
+
 ## Version 0.3.14
 
 * Syntax parser

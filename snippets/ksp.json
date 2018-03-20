@@ -80,6 +80,14 @@
         ],
         "description": "declare a user-defined string array to store text strings at specified indices"
     },
+    "const":
+    {
+        "prefix": "const",
+        "body":[
+            "declare const $${1:name} := ${2:value}"
+        ],
+        "description": "declare a user-defined polyphonic variable to store a single integer value per note event"
+    },
     "polyphonicv":
     {
         "prefix": "polyphonic",
@@ -291,6 +299,14 @@
             "make_persistent( ${1:variable} )"
         ],
         "description": "retain the value of a variable whith the instrument and snapshot"
+    },
+    "_read_persistent_var":
+    {
+        "prefix": "_read_persistent_var",
+        "body":[
+            "_read_persistent_var( ${1:variable} )"
+        ],
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
     },
     "read_persistent_var":
     {
@@ -1303,6 +1319,14 @@
         ],
         "description": "set the script title"
     },
+    "_set_skin_offset":
+    {
+        "prefix": "_set_skin_offset",
+        "body":[
+            "_set_skin_offset( ${1:offset-in-pixel} )"
+        ],
+        "description": "offsets the chosen background picture file by the specified number of pixels"
+    },
     "set_skin_offset":
     {
         "prefix": "set_skin_offset",
@@ -1487,6 +1511,14 @@
         ],
         "description": "returns the slot index of a modulation slot of an internal modulator"
     },
+    "_get_engine_par":
+    {
+        "prefix": "_get_engine_par",
+        "body":[
+            "_get_engine_par( ${1:parameter}, ${2:group}, ${3:slot}, ${4:generic} )"
+        ],
+        "description": "returns the value of a specific engine parameter"
+    },
     "get_engine_par":
     {
         "prefix": "get_engine_par",
@@ -1494,6 +1526,14 @@
             "get_engine_par( ${1:parameter}, ${2:group}, ${3:slot}, ${4:generic} )"
         ],
         "description": "returns the value of a specific engine parameter"
+    },
+    "_get_engine_par_disp":
+    {
+        "prefix": "_get_engine_par_disp",
+        "body":[
+            "_get_engine_par_disp( ${1:parameter}, ${2:group}, ${3:slot}, ${4:generic} )"
+        ],
+        "description": "returns the displayed string of a specific engine parameter"
     },
     "get_engine_par_disp":
     {
@@ -1519,6 +1559,14 @@
         ],
         "description": "returns the channel name for the specified output"
     },
+    "_set_engine_par":
+    {
+        "prefix": "_set_engine_par",
+        "body":[
+            "_set_engine_par( ${1:parameter}, ${2:value}, ${3:group}, ${4:slot}, ${5:generic} )"
+        ],
+        "description": "control automatable KONTAKT parameters and bypass buttons"
+    },
     "set_engine_par":
     {
         "prefix": "set_engine_par",
@@ -1534,6 +1582,14 @@
             "set_voice_limit( ${1:voice-type}, ${2:value} )"
         ],
         "description": "sets the voice limit for the Time Machine Pro mode of the source module"
+    },
+    "_get_folder":
+    {
+        "prefix": "_get_folder",
+        "body":[
+            "_get_folder( ${1:path-variable} )"
+        ],
+        "description": "returns the path specified with the built-in path variable"
     },
     "get_folder":
     {
@@ -1558,6 +1614,14 @@
             "load_array_str( ${1:array-variable}, ${2:path} )"
         ],
         "description": "loads an array from an external file (.nka file) using the file's absolute path"
+    },
+    "_load_ir_sample":
+    {
+        "prefix": "_load_ir_sample",
+        "body":[
+            "_load_ir_sample( ${1:file-path}, ${2:slot}, ${3:generic} )"
+        ],
+        "description": "loads an impulse response sample into KONTAKT's convolution effect"
     },
     "load_ir_sample":
     {
@@ -1859,6 +1923,14 @@
         ],
         "description": "condition; if defined with SET_CONDITION(), the system script which triggers samples upon the release of a key is bypassed"
     },
+    "_reset_rls_trig_counter":
+    {
+        "prefix": "_reset_rls_trig_counter",
+        "body":[
+            "_reset_rls_trig_counter( ${1:note} )"
+        ],
+        "description": "dresets the release trigger counter (used by the release trigger system script)"
+    },
     "reset_rls_trig_counter":
     {
         "prefix": "reset_rls_trig_counter",
@@ -1866,6 +1938,14 @@
             "reset_rls_trig_counter( ${1:note} )"
         ],
         "description": "dresets the release trigger counter (used by the release trigger system script)"
+    },
+    "_will_never_terminate":
+    {
+        "prefix": "_will_never_terminate",
+        "body":[
+            "_will_never_terminate( ${1:event-id} )"
+        ],
+        "description": ""
     },
     "will_never_terminate":
     {
@@ -1875,11 +1955,27 @@
         ],
         "description": ""
     },
+    "_pgs_create_key":
+    {
+        "prefix": "_pgs_create_key",
+        "body":[
+            "_pgs_create_key( ${1:key-id}, ${2:size} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
     "pgs_create_key":
     {
         "prefix": "pgs_create_key",
         "body":[
             "pgs_create_key( ${1:key-id}, ${2:size} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "_pgs_key_exists":
+    {
+        "prefix": "_pgs_key_exists",
+        "body":[
+            "_pgs_key_exists( ${1:key-id} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1891,11 +1987,27 @@
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
+    "_pgs_set_key_val":
+    {
+        "prefix": "_pgs_set_key_val",
+        "body":[
+            "_pgs_set_key_val( ${1:key-id}, ${2:index}, ${3:value} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
     "pgs_set_key_val":
     {
         "prefix": "pgs_set_key_val",
         "body":[
             "pgs_set_key_val( ${1:key-id}, ${2:index}, ${3:value} )"
+        ],
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "_pgs_get_key_val":
+    {
+        "prefix": "_pgs_get_key_val",
+        "body":[
+            "_pgs_get_key_val( ${1:key-id}, ${2:index} )"
         ],
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
@@ -1946,6 +2058,46 @@
             "get_sample_length( ${1:zone-ID} )"
         ],
         "description": "returns the length of the specified zone's sample in microseconds"
+    },
+    "_slice_length":
+    {
+        "prefix": "_slice_length",
+        "body":[
+            "_slice_length( ${1:zone-ID}, ${2:slice-index} )"
+        ],
+        "description": "returns the length in microseconds of the specified slice with respect to the current tempo"
+    },
+    "_slice_start":
+    {
+        "prefix": "_slice_start",
+        "body":[
+            "_slice_start( ${1:zone-ID}, ${2:slice-index} )"
+        ],
+        "description": "returns the absolute start point of the specified slice in microseconds, independent of the current tempo"
+    },
+    "_slice_idx_loop_start":
+    {
+        "prefix": "_slice_idx_loop_start",
+        "body":[
+            "_slice_idx_loop_start( ${1:zone-ID}, ${2:loop-index} )"
+        ],
+        "description": "returns the index number of the slice at the loop start"
+    },
+    "_slice_idx_loop_end":
+    {
+        "prefix": "_slice_idx_loop_end",
+        "body":[
+            "_slice_idx_loop_end( ${1:zone-ID}, ${2:loop-index} )"
+        ],
+        "description": "returns the index number of the slice at the loop end"
+    },
+    "_slice_loop_count":
+    {
+        "prefix": "_slice_loop_count",
+        "body":[
+            "_slice_loop_count( ${1:zone-ID}, ${2:loop-index} )"
+        ],
+        "description": "returns the loop count of the specified loop"
     },
     "num_slices_zone":
     {
@@ -2052,6 +2204,206 @@
             "set_midi( ${1:channel}, ${2:command}, ${3:byte-1}, ${4:byte-2} )"
         ],
         "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
+    "_delay_event_for_loading_slots":
+    {
+        "prefix": "_delay_event_for_loading_slots",
+        "body":[
+            "_delay_event_for_loading_slots( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "cc_delivery_request":
+    {
+        "prefix": "cc_delivery_request",
+        "body":[
+            "cc_delivery_request( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "change_time_with_pitch":
+    {
+        "prefix": "change_time_with_pitch",
+        "body":[
+            "change_time_with_pitch( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "get_control_par_arr":
+    {
+        "prefix": "get_control_par_arr",
+        "body":[
+            "get_control_par_arr( ${1:arg1}, ${2:arg2}, ${3:arg3} )"
+        ],
+        "description": "Undocumented"
+    },
+    "get_control_par_str":
+    {
+        "prefix": "get_control_par_str",
+        "body":[
+            "get_control_par_str( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "get_engine_par_disp_m":
+    {
+        "prefix": "get_engine_par_disp_m",
+        "body":[
+            "get_engine_par_disp_m( ${1:arg1}, ${2:arg2}, ${3:arg3}, ${4:arg4} )"
+        ],
+        "description": "Undocumented"
+    },
+    "get_engine_par_m":
+    {
+        "prefix": "get_engine_par_m",
+        "body":[
+            "get_engine_par_m( ${1:arg1}, ${2:arg2}, ${3:arg3}, ${4:arg4} )"
+        ],
+        "description": "Undocumented"
+    },
+    "load_ir_sample_m":
+    {
+        "prefix": "load_ir_sample_m",
+        "body":[
+            "load_ir_sample_m( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "load_patch":
+    {
+        "prefix": "load_patch",
+        "body":[
+            "load_patch( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "mf_get_note_length":
+    {
+        "prefix": "mf_get_note_length",
+        "body":[
+            "mf_get_note_length()"
+        ],
+        "description": "Undocumented"
+    },
+    "mf_get_pos":
+    {
+        "prefix": "mf_get_pos",
+        "body":[
+            "mf_get_pos()"
+        ],
+        "description": "Undocumented"
+    },
+    "mf_get_track_idx":
+    {
+        "prefix": "mf_get_track_idx",
+        "body":[
+            "mf_get_track_idx()"
+        ],
+        "description": "Undocumented"
+    },
+    "_num_slices":
+    {
+        "prefix": "_num_slices",
+        "body":[
+            "_num_slices( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "num_slices":
+    {
+        "prefix": "num_slices",
+        "body":[
+            "num_slices( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "redirect_midi":
+    {
+        "prefix": "redirect_midi",
+        "body":[
+            "redirect_midi( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "redirect_output":
+    {
+        "prefix": "redirect_output",
+        "body":[
+            "redirect_output( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "reset_engine":
+    {
+        "prefix": "reset_engine",
+        "body":[
+            "reset_engine()"
+        ],
+        "description": "Undocumented"
+    },
+    "set_engine_par_m":
+    {
+        "prefix": "set_engine_par_m",
+        "body":[
+            "set_engine_par_m( ${1:arg1}, ${2:arg2}, ${3:arg3}, ${4:arg4}, ${5:arg5} )"
+        ],
+        "description": "Undocumented"
+    },
+    "show_library_tab":
+    {
+        "prefix": "show_library_tab",
+        "body":[
+            "show_library_tab"
+        ],
+        "description": "Undocumented"
+    },
+    "slice_idx_loop_end":
+    {
+        "prefix": "slice_idx_loop_end",
+        "body":[
+            "slice_idx_loop_end( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "slice_idx_loop_start":
+    {
+        "prefix": "slice_idx_loop_start",
+        "body":[
+            "slice_idx_loop_start( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "slice_length":
+    {
+        "prefix": "slice_length",
+        "body":[
+            "slice_length( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "slice_loop_count":
+    {
+        "prefix": "slice_loop_count",
+        "body":[
+            "slice_loop_count( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "slice_start":
+    {
+        "prefix": "slice_start",
+        "body":[
+            "slice_start( ${1:arg1}, ${2:arg2} )"
+        ],
+        "description": "Undocumented"
+    },
+    "unload_slot":
+    {
+        "prefix": "unload_slot",
+        "body":[
+            "unload_slot( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
     },
     "ALL_EVENTS":
     {
@@ -7460,5 +7812,5 @@
             "$NI_CB_TYPE_ASYNC_COMPLETE"
         ],
         "description": "Built-in Variable: NI_CB_TYPE_ASYNC_COMPLETE"
-    }
+    },
 }
