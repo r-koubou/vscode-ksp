@@ -630,7 +630,7 @@ export var commands = {
     "get_ui_wf_property":
     {
         "signature":   "(variable,property>},index)",
-        "description": "returns the value of the waveform’s different properties."
+        "description": "returns the value of the waveform's different properties."
     },
     "make_perfview":
     {
