@@ -43,7 +43,7 @@ I||S	lsb	*	@I
 #-------------------------------------------------------------------------------------------------------
 V	exit	*
 V	ignore_controller	*
-V	message	*	@S
+V	message	*	@S||@I||@R
 V	note_off	!init	@I
 I||S	play_note	!init	@I	@I	@I	@I
 V	set_controller	*	@I	@I
