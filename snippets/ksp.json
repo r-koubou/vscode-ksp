@@ -190,6 +190,19 @@
         ],
         "description": "executed whenever any pgs_set_key_val() command is executed in any script"
     },
+    "on _pgs_changed":
+    {
+        "prefix": "on _pgs_changed",
+        "body":[
+            "{",
+            "    ${1:executed whenever any pgs_set_key_val() command is executed in any script}",
+            "}",
+            "on _pgs_changed",
+            "    ${2:{your code here\\}}",
+            "end on"
+        ],
+        "description": "executed whenever any pgs_set_key_val() command is executed in any script"
+    },
     "on poly_at":
     {
         "prefix": "on poly_at",

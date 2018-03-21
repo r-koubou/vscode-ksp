@@ -37,6 +37,11 @@ export var commands = {
         "signature":   "",
         "description": "executed whenever any pgs_set_key_val() command is executed in any script"
     },
+    "on _pgs_changed":
+    {
+        "signature":   "",
+        "description": "executed whenever any pgs_set_key_val() command is executed in any script"
+    },
     "on poly_at":
     {
         "signature":   "",

@@ -185,11 +185,11 @@ I||S	save_midi_file	*	@S
 # MIDI Object Commands
 #-------------------------------------------------------------------------------------------------------
 I||S	mf_insert_file	*	@S	@I	@I	@I
-V	mf_set_export_area	*	@S	@I	@I	@I	@I
-V	mf_set_buffer_size	*	@I
+I||S	mf_set_export_area	*	@S	@I	@I	@I	@I
+I||S	mf_set_buffer_size	*	@I
 I||S	mf_get_buffer_size	*	V
 V	mf_reset	*	V
-V	mf_insert_event	*	@I	@I	@I	@I	@I
+I||S	mf_insert_event	*	@I	@I	@I	@I	@I
 V	mf_remove_event	*	@I
 V	mf_set_event_par	*	@I	@I	@I
 I||S	mf_get_event_par	*	@I	@I

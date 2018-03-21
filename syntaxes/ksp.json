@@ -118,7 +118,7 @@
             "patterns":[
                 {
                     "name":  "keyword.callback.ksp",
-                    "match": "^\\s*on\\s+(async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn|nrpn|ui_control|ui_update|midi_in)\\b"
+                    "match": "^\\s*on\\s+(_pgs_changed|async_complete|controller|init|listener|note|persistence_changed|pgs_changed|poly_at|release|rpn|nrpn|ui_control|ui_update|midi_in)\\b"
                 },
                 {
                     "name":  "keyword.callback.ksp",

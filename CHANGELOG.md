@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 0.3.15-RC2
+
+* Syntax parser
+
+    * Following bug fixes.
+        - [BUG - Value assign to string variable](https://github.com/r-koubou/KSPSyntaxParser/issues/7)
+        - [BUG - Callback "on __pgs_changed" is not reconized](https://github.com/r-koubou/KSPSyntaxParser/issues/4)
+
+
 ## Version 0.3.15-RC1
 
 * Syntax parser
