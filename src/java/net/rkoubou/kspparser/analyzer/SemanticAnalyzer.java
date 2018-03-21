@@ -946,14 +946,19 @@ SEARCH:
         // 配列要素への格納もあるので配列ビットをマスクさせている
         if( ( exprLType & TYPE_MASK ) != ( exprRType & TYPE_MASK ) )
         {
-            String vType = SymbolDefinition.getTypeName( SymbolDefinition.getPrimitiveType( exprLType ) );
-            String aType = SymbolDefinition.getTypeName( exprRType );
-            SymbolDefinition.copy( symR, tempSymbol );
-            tempSymbol.name = variable.name;
+            // 代入先が文字列型なら暗黙の型変換が可能
+            // 文字列型以外なら型の不一致
+            if( !symL.isString() )
+            {
+                String vType = SymbolDefinition.getTypeName( SymbolDefinition.getPrimitiveType( exprLType ) );
+                String aType = SymbolDefinition.getTypeName( exprRType );
+                SymbolDefinition.copy( symR, tempSymbol );
+                tempSymbol.name = variable.name;
 
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE, tempSymbol, vType, aType );
-            AnalyzeErrorCounter.e();
-            return exprL;
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE, tempSymbol, vType, aType );
+                AnalyzeErrorCounter.e();
+                return exprL;
+            }
         }
         variable.state = SymbolState.LOADED;
         return exprL;
