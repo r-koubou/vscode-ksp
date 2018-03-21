@@ -1,10 +1,20 @@
+#-------------------------------------------------------------------------------------------------------
+# Return Type	name	Allow Callback	Arg1	Arg2	Arg3	Arg4	Arg5	Arg6	Arg7	Arg8
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
 # Variables
+#-------------------------------------------------------------------------------------------------------
 V	make_instr_persistent	*	*
 V	make_persistent	*	*
+V	_read_persistent_var	*	*
 V	read_persistent_var	*	*
+#-------------------------------------------------------------------------------------------------------
 # Boolean Operators
+#-------------------------------------------------------------------------------------------------------
 B	in_range	*	@I	@I	@I
+#-------------------------------------------------------------------------------------------------------
 # Arithmetic Commands
+#-------------------------------------------------------------------------------------------------------
 I||S	abs	*	@I||@R
 V	inc	*	I
 V	dec	*	I
@@ -28,17 +38,21 @@ I||S	int_to_real	*	@I
 R||S	real_to_int	*	@R
 I||S	msb	*	@I
 I||S	lsb	*	@I
+#-------------------------------------------------------------------------------------------------------
 # General Commands
+#-------------------------------------------------------------------------------------------------------
 V	exit	*
 V	ignore_controller	*
-V	message	*	@S
+V	message	*	@S||@I||@R
 V	note_off	!init	@I
-I	play_note	!init	@I	@I	@I	@I
+I||S	play_note	!init	@I	@I	@I	@I
 V	set_controller	*	@I	@I
 V	set_rpn	*	@I	@I
 V	set_nrpn	*	@I	@I
 V	set_snapshot_type	*	@I
+#-------------------------------------------------------------------------------------------------------
 # Event Commands
+#-------------------------------------------------------------------------------------------------------
 I||S	by_marks	*	@I
 V	change_note	note	@I	@I
 V	change_pan	!init	@I	@I	@I
@@ -56,19 +70,25 @@ V	ignore_event	note||release	@I
 V	set_event_mark	*	@I	@I
 V	set_event_par	*	@I	@I	@I
 V	set_event_par_arr	*	@I	@I	@I	@I
+#-------------------------------------------------------------------------------------------------------
 # Array Commands
+#-------------------------------------------------------------------------------------------------------
 B	array_equal	*	I[]	I[]
 I||S	num_elements	*	I[]||R[]||S[]
 I||S	search	*	I[]	@I
 V	sort	*	I[]||R[]	@I
+#-------------------------------------------------------------------------------------------------------
 # Group Commands
+#-------------------------------------------------------------------------------------------------------
 V	allow_group	note||release	@I
 V	disallow_group	note||release	@I
 I||S	find_group	*	@S
 I||S	get_purge_state	*	@I
 S	group_name	*	@I
 V	purge_group	ui_control||persistence_changed	@I	@I
+#-------------------------------------------------------------------------------------------------------
 # Time-Related Commands
+#-------------------------------------------------------------------------------------------------------
 V	change_listener_par	*	@I	@I
 I||S	ms_to_ticks	*	@I
 V	set_listener	init	@I	@I
@@ -77,7 +97,9 @@ V	reset_ksp_timer	*
 I||S	ticks_to_ms	*	@I
 V	wait	!init	@I
 V	wait_ticks	!init	@I
+#-------------------------------------------------------------------------------------------------------
 # User Interface Commands
+#-------------------------------------------------------------------------------------------------------
 V	add_menu_item	init	ui_menu	@S	@I
 V	add_text_line	*	ui_label	@S
 V	attach_level_meter	*	@I	@I	@I	@I	@I
@@ -107,6 +129,7 @@ V	set_menu_item_value	*	@I	@I	@I
 V	set_menu_item_visibility	*	@I	@I	@I
 V	set_table_steps_shown	*	ui_table	@I
 V	set_script_title	init	@S
+V	_set_skin_offset	*	@I
 V	set_skin_offset	*	@I
 V	set_text	*	ui_button||ui_knob||ui_label||ui_switch||ui_value_edit	@I||@R||@S
 V	set_ui_color	*	@I
@@ -114,7 +137,9 @@ V	set_ui_height	*	@I
 V	set_ui_height_px	*	@I
 V	set_ui_width_px	*	@I
 V	set_ui_wf_property	*	ui_waveform	@I	@I	@I
-V	# Keyboard Commands	*
+#-------------------------------------------------------------------------------------------------------
+# Keyboard Commands
+#-------------------------------------------------------------------------------------------------------
 I||S	get_key_color	*	@I
 S	get_key_name	*	@I
 I||S	get_key_triggerstate	*	@I
@@ -129,31 +154,42 @@ V	set_key_pressed_support	*	@I
 V	set_key_type	*	@I	@I
 V	set_keyrange	*	@I	@I	@S
 V	remove_keyrange	*	@I
+#-------------------------------------------------------------------------------------------------------
 # Engine Parameter Commands
+#-------------------------------------------------------------------------------------------------------
 I||S	find_mod	*	@I	@S
 I||S	find_target	*	@I	@I	@S
+I||S	_get_engine_par	*	@I	@I	@I	@I
 I||S	get_engine_par	*	@I	@I	@I	@I
+S	_get_engine_par_disp	*	@I	@I	@I	@I
 S	get_engine_par_disp	*	@I	@I	@I	@I
 I||S	get_voice_limit	*	@I
 S	output_channel_name	*	@I
-V	set_engine_par	*	@I	@I	@I	@I	@I
+I||S	_set_engine_par	*	@I	@I	@I	@I	@I
+I||S	set_engine_par	*	@I	@I	@I	@I	@I
 I||S	set_voice_limit	*	@I	@I
+#-------------------------------------------------------------------------------------------------------
 # Load/Save Commands
+#-------------------------------------------------------------------------------------------------------
+S	_get_folder	*	@I
 S	get_folder	*	@I
 I||S	load_array	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
 I||S	load_array_str	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	@S||@I
+S	_load_ir_sample	*	@S	@I	@I
 I||S	load_ir_sample	*	@S	@I	@I
 I||S	load_midi_file	*	@S
 I||S	save_array	persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
 I||S	save_array_str	persistence_changed||pgs_changed||ui_control	I[]||S[]	@S||@I
 I||S	save_midi_file	*	@S
+#-------------------------------------------------------------------------------------------------------
 # MIDI Object Commands
+#-------------------------------------------------------------------------------------------------------
 I||S	mf_insert_file	*	@S	@I	@I	@I
-V	mf_set_export_area	*	@S	@I	@I	@I	@I
-V	mf_set_buffer_size	*	@I
+I||S	mf_set_export_area	*	@S	@I	@I	@I	@I
+I||S	mf_set_buffer_size	*	@I
 I||S	mf_get_buffer_size	*	V
 V	mf_reset	*	V
-V	mf_insert_event	*	@I	@I	@I	@I	@I
+I||S	mf_insert_event	*	@I	@I	@I	@I	@I
 V	mf_remove_event	*	@I
 V	mf_set_event_par	*	@I	@I	@I
 I||S	mf_get_event_par	*	@I	@I
@@ -169,29 +205,48 @@ V	mf_get_prev	*	@I
 V	mf_get_prev_at	*	@I	@I
 I||S	mf_get_num_tracks	*	V
 V	mf_set_pos	*	@I
+#-------------------------------------------------------------------------------------------------------
 # Advanced Concepts: Preprocessor & System Scripts
+#-------------------------------------------------------------------------------------------------------
+V	_reset_rls_trig_counter	*	@I
 V	reset_rls_trig_counter	*	@I
+V	_will_never_terminate	*	@I
 V	will_never_terminate	*	@I
+#-------------------------------------------------------------------------------------------------------
 # Advanced Concepts: PGS
+#-------------------------------------------------------------------------------------------------------
+V	_pgs_create_key	*	KEY	@I
 V	pgs_create_key	*	KEY	@I
+B	_pgs_key_exists	*	KEY
 B	pgs_key_exists	*	KEY
-V	pgs_set_key_val	*	KEY	@I	@I||@R||@S
-I||R||S	pgs_get_key_val	*	KEY	@I
+V	_pgs_set_key_val	*	KEY	@I	@I
+V	pgs_set_key_val	*	KEY	@I	@I
+I||S	_pgs_get_key_val	*	KEY	@I
+I||S	pgs_get_key_val	*	KEY	@I
 V	pgs_create_str_key	*	KEY
 B	pgs_str_key_exists	*	KEY
-V	pgs_set_str_key_val	*	KEY	@S||@I
+V	pgs_set_str_key_val	*	KEY	@S||@I||@R
 S	pgs_get_str_key_val	*	KEY
+#-------------------------------------------------------------------------------------------------------
 # Advanced Concepts: Zone and Slice Functions
-I	find_zone	init	@S
-I	get_sample_length	*	@I
-I	num_slices_zone	*	@I
-I	zone_slice_length	*	@I	@I
-I	zone_slice_start	*	@I	@I
-I	zone_slice_idx_loop_start	*	@I	@I
-I	zone_slice_idx_loop_end	*	@I	@I
-I	zone_slice_loop_count	*	@I	@I
+#-------------------------------------------------------------------------------------------------------
+I||S	find_zone	init	@S
+I||S	get_sample_length	*	@I
+I||S	_slice_idx_loop_end	*	@I	@I
+I||S	_slice_idx_loop_start	*	@I	@I
+I||S	_slice_length	*	@I	@I
+I||S	_slice_loop_count	*	@I	@I
+I||S	_slice_start	*	@I	@I
+I||S	num_slices_zone	*	@I
+I||S	zone_slice_length	*	@I	@I
+I||S	zone_slice_start	*	@I	@I
+I||S	zone_slice_idx_loop_start	*	@I	@I
+I||S	zone_slice_idx_loop_end	*	@I	@I
+I||S	zone_slice_loop_count	*	@I	@I
 V	dont_use_machine_mode	*	@I
+#-------------------------------------------------------------------------------------------------------
 # Undocumented
+#-------------------------------------------------------------------------------------------------------
 V	mf_set_command	*	@I
 I||S	mf_get_command	*	V
 V	mf_set_byte_one	*	@I
@@ -200,4 +255,33 @@ V	mf_set_byte_two	*	@I
 I||S	mf_get_byte_two	*	V
 I||S	mf_get_channel	*	V
 V	mf_set_channel	*	@I
-S	_get_folder	*	@I
+#-------------------------------------------------------------------------------------------------------
+# Undocumented
+#-------------------------------------------------------------------------------------------------------
+V	_delay_event_for_loading_slots	*	@I
+V	cc_delivery_request	*	@I
+I||S	change_time_with_pitch	*	@I	@I
+I||S	get_control_par_arr	*	@I	@I	@I
+S	get_control_par_str	*	@I	@I
+S	get_engine_par_disp_m	*	@I	@I	@I	@I
+I||S	get_engine_par_m	*	@I	@I	@I	@I
+V	ignore_midi	*
+V	load_ir_sample_m	*	*
+V	load_patch	*	@S	@I
+I||S	mf_get_note_length	*	V
+I||S	mf_get_pos	*	V
+I||S	mf_get_track_idx	*	V
+I||S	_num_slices	*	@I
+I||S	num_slices	*	@I
+V	redirect_midi	*	*
+V	redirect_output	*	*
+V	reset_engine	*	V
+V	set_engine_par_m	*	@I	@I	@I	@I	@I
+V	set_midi	*	@I	@I	@I	@I
+V	show_library_tab	*
+I||S	slice_idx_loop_end	*	@I	@I
+I||S	slice_idx_loop_start	*	@I	@I
+I||S	slice_length	*	@I	@I
+I||S	slice_loop_count	*	@I	@I
+I||S	slice_start	*	@I	@I
+V	unload_slot	*	@I
