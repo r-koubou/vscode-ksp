@@ -1,22 +1,16 @@
 # Changelog
 
-## Version 0.3.15-RC2
+## Version 0.3.15
 
 * Syntax parser
 
     * Following bug fixes.
+
         - [BUG - Value assign to string variable](https://github.com/r-koubou/KSPSyntaxParser/issues/7)
         - [BUG - Callback "on __pgs_changed" is not reconized](https://github.com/r-koubou/KSPSyntaxParser/issues/4)
-
-
-## Version 0.3.15-RC1
-
-* Syntax parser
-
-    * Following bug fixes.
-     - [Bug - Array variable declaration](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
-     - [Bug - Parser false detection in message() command](https://github.com/r-koubou/KSPSyntaxParser/issues/2)
-     - [BUG - Unrecognized some NI built-in variables by parser](https://github.com/r-koubou/KSPSyntaxParser/issues/3)
+        - [BUG - Array variable declaration](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
+        - [BUG - Parser false detection in message() command](https://github.com/r-koubou/KSPSyntaxParser/issues/2)
+        - [BUG - Unrecognized some NI built-in variables by parser](https://github.com/r-koubou/KSPSyntaxParser/issues/3)
 
 * Editor
 

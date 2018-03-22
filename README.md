@@ -13,7 +13,7 @@
 * Syntax validation
 * Rename Identifiers
 
-## Syntax validation
+## Syntax validation (BETA)
 
 * Syntax Analysis
 * Semantic Analysis
@@ -25,6 +25,9 @@
 
     `Default is "disabled".`
     You can change setting at Preferences -> Settings (Part of "KONTAKT Script Processor (KSP)" ).
+
+    **NOTE:**
+    Known some limitation / bug includes. Please see [HERE](https://github.com/r-koubou/KSPSyntaxParser/issues) for detail.
 
 ### About Syntax validation
 
@@ -112,7 +115,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * 文法解析機能
 * リネーム機能
 
-## 文法解析機能
+## 文法解析機能 (BETA)
 
 * 文法解析
 * 意味解析（論理チェック）
@@ -125,6 +128,9 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
     `初期設定ではこの機能はオフになっています。`
     使用する際は、設定画面で設定を変えて下さい。
     (Preferences->Settings内、"KONTAKT Script Processor (KSP)" )
+
+    **備考:**
+    既知のいくつかの制限/バグが含まれています。 詳細は[こちら](https://github.com/r-koubou/KSPSyntaxParser/issues) をご覧ください。
 
 ### 文法解析機能について
 
