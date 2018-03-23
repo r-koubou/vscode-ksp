@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
+import net.rkoubou.kspparser.javacc.generated.ASTArrayInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
 import net.rkoubou.kspparser.javacc.generated.ASTBlock;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
@@ -19,11 +20,13 @@ import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTCaseCondition;
 import net.rkoubou.kspparser.javacc.generated.ASTCommandArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTIfStatement;
+import net.rkoubou.kspparser.javacc.generated.ASTPrimitiveInititalizer;
 import net.rkoubou.kspparser.javacc.generated.ASTRefVariable;
 import net.rkoubou.kspparser.javacc.generated.ASTSelectStatement;
+import net.rkoubou.kspparser.javacc.generated.ASTUIInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
-import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclarator;
+import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTWhileStatement;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
@@ -444,70 +447,94 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
     public Object visit( ASTVariableDeclaration node, Object data)
     {
 /*
-        VariableDeclaration
-            -> VariableDeclarator [arrayindex] -> <expr>
-                -> [###Initializer]
-                    -> (expr)+
+    VariableDeclaration                     // NOW
+            -> ASTVariableInitializer
+                -> [
+                      ArrayInitializer
+                    | UIInitializer
+                    | PrimitiveInititalizer
+                ]
 */
-        return node.jjtGetChild( 0 ).jjtAccept( this, variableTable.search( node.symbol ) );
+        return node.jjtGetChild( 0 ).jjtAccept( this, node );
     }
 
     /**
-     * 変数宣言(変数名、初期値代入)
-     * @param data Variableインスタンス
+     * 変数宣言(+初期値代入)
      */
     @Override
-    public Object visit( ASTVariableDeclarator node, Object data )
+    public Object visit( ASTVariableInitializer node, Object data )
     {
 /*
-        VariableDeclarator [arrayindex] -> <expr>
-            -> [###Initializer]
-                -> (expr)+
+    VariableDeclaration
+            -> ASTVariableInitializer   // NOW
+                -> [
+                      ArrayInitializer
+                    | UIInitializer
+                    | PrimitiveInititalizer
+                ]
 */
-        final Object ret    = defaultVisit( node, data );
-        final Variable v    = (Variable)data;
-
-        if( v.isUIVariable() )
+        // 宣言のみ
+        if( node.jjtGetNumChildren() == 0 )
         {
-            declareUIVariableImpl( node, v, data );
-        }
-        else if( v.isArray() )
-        {
-            declareArrayVariableImpl( node, v, data, false );
-        }
-        else if( node.jjtGetNumChildren() > 0 )
-        {
-            declarePrimitiveVariableImpl( node, v, data );
-        }
-        else
-        {
-            // 宣言のみ
-            if( v.isConstant() )
+            SimpleNode parent = (SimpleNode)node.jjtGetParent();
+            // 定数宣言している場合は初期値代入が必須
+            if( parent.symbol.isConstant() )
             {
-                // 定数宣言している場合は初期値代入が必須
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v ) ;
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, parent.symbol ) ;
                 AnalyzeErrorCounter.e();
             }
+            return node;
         }
 
-        return ret;
+        node.childrenAccept( this, data );
+        return node;
     }
 
     /**
      * 配列型宣言の実装
      */
-    protected boolean declareArrayVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData, boolean forceSkipInitializer )
+    @Override
+    public Object visit( ASTArrayInitializer node, Object data )
     {
 /*
-            -> VariableDeclarator
-                -> <arrayindex> -> <expr> : [0]
-                    -> [ := VariableInitializer ] : [1]
-                        -> ArrayInitializer : [1][0]
-                            -> ( <expr> (, <expr>)* ) : [1][1]
+    VariableDeclaration
+            -> ASTVariableInitializer
+                -> [
+                        ArrayInitializer        //NOW
+                            -> ArrayIndex
+                            -> Expression
+                            -> (,Expression)*
+                    | UIInitializer
+                    | PrimitiveInititalizer
+                ]
+*/
+        arrayInitializerImpl( node, data, false );
+        return node;
+    }
+
+    /**
+     * 配列型宣言の実装(詳細).
+     * UI変数かつ配列型のケースもあるので外部化
+     */
+    protected boolean arrayInitializerImpl( SimpleNode node, Object data, boolean forceSkipInitializer )
+    {
+/*
+    VariableDeclaration
+            -> ASTVariableInitializer
+                -> [
+                        ArrayInitializer        //NOW
+                            -> ArrayIndex
+                            -> Expression
+                            -> (,Expression)*
+                    | UIInitializer
+                    | PrimitiveInititalizer
+                ]
 */
 
+        final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
+
         //--------------------------------------------------------------------------
-        // 型チェック(UI変数チェック経由でこのメソッドも呼び出される)
+        // 型チェック
         //--------------------------------------------------------------------------
         if( !v.isArray() )
         {
@@ -569,7 +596,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
 
         if( v.arraySize > MAX_KSP_ARRAY_SIZE )
         {
-            // 要素数が上限を超えた or 0
+            // 要素数が上限を超えた
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE, v, String.valueOf( MAX_KSP_ARRAY_SIZE ) );
             AnalyzeErrorCounter.e();
             return false;
@@ -578,48 +605,35 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         //--------------------------------------------------------------------------
         // 初期値代入
         //--------------------------------------------------------------------------
-        if( forceSkipInitializer || node.jjtGetNumChildren() != 2 )
+        if( forceSkipInitializer || node.jjtGetNumChildren() == 1 )
         {
             // 初期値代入なし
             v.state = SymbolState.UNLOADED;
             return false;
         }
 
-        final SimpleNode initializer    = (SimpleNode)node.jjtGetChild( 1 ).jjtGetChild( 0 );
-        if( initializer.getId() != JJTARRAYINITIALIZER )
-        {
-            // 配列初期化式 ( 0, 1, 2, ...) ではない
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, initializer.symbol );
-            AnalyzeErrorCounter.e();
-            return false;
-        }
-
         if( v.isString() )
         {
+            // 文字列配列型に初期値代入は出来ない
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER, v );
             AnalyzeErrorCounter.e();
             return false;
         }
 
-        for( int i = 0; i < initializer.jjtGetNumChildren(); i++ )
+        for( int i = 1; i < node.jjtGetNumChildren(); i++ )
         {
-            final SimpleNode expr = (SimpleNode)initializer.jjtGetChild( i ).jjtAccept( this, jjtVisitorData);
+            final SimpleNode expr = (SimpleNode)node.jjtGetChild( i ).jjtAccept( this, data );
             SymbolDefinition eval = (SymbolDefinition) expr.symbol;
 
             if( expr.getId() == JJTNEG )
             {
-                eval = ( (Variable)expr.jjtAccept( this, jjtVisitorData) );
+                eval = ( (Variable)expr.jjtAccept( this, node ) );
             }
             if( ( v.type & eval.type ) == 0 )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i ) );
                 AnalyzeErrorCounter.e();
             }
-            // else if( !SymbolDefinition.isConstant( eval.accessFlag ) )
-            // {
-            //     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, eval );
-            //     AnalyzeErrorCounter.e();
-            // }
         }
         v.state = SymbolState.INITIALIZED;
         return true;
@@ -628,14 +642,24 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
     /**
      * UI型宣言の実装
      */
-    protected boolean declareUIVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
+    @Override
+    public Object visit( ASTUIInitializer node, Object data )
     {
 /*
-            -> VariableDeclarator
-                -> [ := UIInitializer ]
-                    -> (expr)+
+    VariableDeclaration
+            -> ASTVariableInitializer
+                -> [
+                      ArrayInitializer
+                    | UIInitializer         // NOW
+                        -> [ArrayIndex]
+                        -> Expression
+                        -> (,Expression)*
+                    | PrimitiveInititalizer
+                ]
 */
-        UIType uiType = uiTypeTable.search( v.uiTypeName );
+        final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
+        final UIType uiType = uiTypeTable.search( v.uiTypeName );
+
         if( uiType == null )
         {
             // KSP（data/symbol/uitypes.txt）で未定義のUIタイプ
@@ -651,7 +675,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE, v, SymbolDefinition.getTypeName( uiType.uiValueType ), uiType.name );
             AnalyzeErrorCounter.e();
-            return false;
+            return node;
         }
 
         //--------------------------------------------------------------------------
@@ -662,7 +686,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
             // ui_#### const 修飾子を付与できない
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_DECLARE_CONST, v );
             AnalyzeErrorCounter.e();
-            return false;
+            return node;
         }
 
         //--------------------------------------------------------------------------
@@ -670,9 +694,9 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         //--------------------------------------------------------------------------
         if( SymbolDefinition.isArray( uiType.uiValueType ) )
         {
-            if( !declareArrayVariableImpl( node, v, jjtVisitorData, true ) )
+            if( !arrayInitializerImpl( node, data, true ) )
             {
-                return false;
+                return node;
             }
         }
 
@@ -683,35 +707,49 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         {
             // 初期化不要
             v.state = SymbolState.INITIALIZED;
-            return false;
+            return node;
         }
-        if( node.jjtGetNumChildren() == 0 )
+        if( node.jjtGetNumChildren() < 1 )
         {
+            // 配列型なら子は2以上 (ArrayIndex, Expression, ...)
+            // そうでない場合なら子1は以上(Expression, ...)
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v );
             AnalyzeErrorCounter.e();
-            return false;
+            return node;
         }
 
-        Node uiInitializer = node.jjtGetChild( 0 ).jjtGetChild( 0 );
-        if( uiInitializer.getId() != JJTUIINITIALIZER )
+        // for のカウンタ初期値の設定
+        int i;
+        if( node.jjtGetChild( 0 ).getId() == JJTARRAYINDEX )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER, v );
-            return false;
+            // 変数配列型の場合
+            // node[ 0 ]        : ArrayIndex
+            // node[ 1 ... n ]  : Expression
+            i = 1;
+
         }
-        if( uiInitializer.jjtGetNumChildren() != uiType.initilzerTypeList.length )
+        else
+        {
+            // node[ 0 ... n ]  : Expression
+            i = 0;
+        }
+
+        // UI初期化式の引数チェック
+        if( node.jjtGetNumChildren() - i != uiType.initilzerTypeList.length )
         {
             // 引数の数が一致していない
-            String cnt = String.valueOf( uiInitializer.jjtGetNumChildren() );
+            String cnt = String.valueOf( node.jjtGetNumChildren() - i );
             String req = String.valueOf( uiType.initilzerTypeList.length );
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_COUNT, v, uiType.name, cnt, req );
             AnalyzeErrorCounter.e();
             return false;
         }
 
-        for( int i = 0; i < uiInitializer.jjtGetNumChildren(); i++ )
+        // i は上記で初期化済み
+        for( ; i < node.jjtGetNumChildren(); i++ )
         {
             boolean found = false;
-            SimpleNode n  = (SimpleNode)uiInitializer.jjtGetChild( i );
+            SimpleNode n  = (SimpleNode)node.jjtGetChild( i );
             SymbolDefinition param = n.symbol;
             int nid = n.getId();
             int argT = 0;
@@ -798,19 +836,28 @@ SEARCH:
                 break;
             }
         }
-        return true;
+
+        return node;
     }
 
     /**
      * プリミティブ型宣言の実装
      */
-    protected boolean declarePrimitiveVariableImpl( ASTVariableDeclarator node, Variable v, Object jjtVisitorData )
+    @Override
+    public Object visit( ASTPrimitiveInititalizer node, Object data )
     {
 /*
-            -> VariableDeclarator
-                -> [ := <VariableInitializer> ]
-                    -> <expr>
+    VariableDeclaration
+            -> ASTVariableInitializer
+                -> [
+                      ArrayInitializer
+                    | UIInitializer
+                    | PrimitiveInititalizer     //NOW
+                        -> [Expression]
+                ]
 */
+        final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
+
         if( node.jjtGetNumChildren() == 0 )
         {
             if( v.isConstant() )
@@ -818,25 +865,18 @@ SEARCH:
                 // 定数宣言している場合は初期値代入が必須
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v ) ;
                 AnalyzeErrorCounter.e();
-                return false;
+                return node;
             }
             // 初期値代入なし
-            return true;
+            return node;
         }
 
-        final SimpleNode initializer = (SimpleNode)node.jjtGetChild( 0 );
-        final SimpleNode expr        = (SimpleNode)initializer.jjtGetChild( 0 ).jjtAccept( this, jjtVisitorData );
-        SymbolDefinition eval        = (SymbolDefinition) expr.symbol;
-
-        if( initializer.getId() != JJTVARIABLEINITIALIZER )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, initializer.symbol );
-            return false;
-        }
+        final SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
+        SymbolDefinition eval = (SymbolDefinition)expr.symbol;
 
         if( expr.getId() == JJTNEG )
         {
-            eval = ( (Variable)expr.jjtAccept( this, jjtVisitorData) );
+            eval = (SymbolDefinition)expr.jjtAccept( this, data );
         }
 
         // 型の不一致
@@ -844,7 +884,7 @@ SEARCH:
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE, v, SymbolDefinition.getTypeName( eval.type ), SymbolDefinition.getTypeName( v.type ) ) ;
             AnalyzeErrorCounter.e();
-            return false;
+            return node;
         }
 
         // 文字列型は初期値代入不可
@@ -852,7 +892,7 @@ SEARCH:
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER, v );
             AnalyzeErrorCounter.e();
-            return false;
+            return node;
         }
 
         // 初期値代入。畳み込みで有効な値が格納される
@@ -875,8 +915,7 @@ SEARCH:
             v.setValue( value );
         }
         v.state = SymbolState.INITIALIZED;
-        return true;
-
+        return node;
     }
 
 //--------------------------------------------------------------------------

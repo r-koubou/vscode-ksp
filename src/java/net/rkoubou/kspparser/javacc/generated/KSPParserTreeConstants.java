@@ -6,10 +6,10 @@ public interface KSPParserTreeConstants
   public int JJTROOTNODE = 0;
   public int JJTVOID = 1;
   public int JJTVARIABLEDECLARATION = 2;
-  public int JJTVARIABLEDECLARATOR = 3;
-  public int JJTVARIABLEINITIALIZER = 4;
-  public int JJTARRAYINITIALIZER = 5;
-  public int JJTUIINITIALIZER = 6;
+  public int JJTVARIABLEINITIALIZER = 3;
+  public int JJTARRAYINITIALIZER = 4;
+  public int JJTUIINITIALIZER = 5;
+  public int JJTPRIMITIVEINITITALIZER = 6;
   public int JJTCALLBACKDECLARATION = 7;
   public int JJTCALLBACKARGUMENTLIST = 8;
   public int JJTUSERFUNCTIONDECLARATION = 9;
@@ -55,10 +55,10 @@ public interface KSPParserTreeConstants
     "RootNode",
     "void",
     "VariableDeclaration",
-    "VariableDeclarator",
     "VariableInitializer",
     "ArrayInitializer",
     "UIInitializer",
+    "PrimitiveInititalizer",
     "CallbackDeclaration",
     "CallbackArgumentList",
     "UserFunctionDeclaration",
@@ -100,4 +100,4 @@ public interface KSPParserTreeConstants
     "CommandArgumentList",
   };
 }
-/* JavaCC - OriginalChecksum=49e8d8a96fd615f16bfbc128ae6bbba1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=2d3680c5b44ee188fa68c77ce9a02195 (do not edit this line) */

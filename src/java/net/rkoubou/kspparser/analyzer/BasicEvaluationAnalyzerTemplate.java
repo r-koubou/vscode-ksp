@@ -207,7 +207,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
             Node p = node.jjtGetParent();
             while( p != null )
             {
-                if( p.getId() == JJTVARIABLEDECLARATOR )
+                if( p.getId() == JJTVARIABLEINITIALIZER )
                 {
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD, node.symbol );
                     AnalyzeErrorCounter.e();

@@ -1,6 +1,6 @@
 options
 {
-    DEBUG_PARSER        = false;
+    DEBUG_PARSER        = true;
     DEBUG_TOKEN_MANAGER = false;
     STATIC              = false;
     UNICODE_INPUT       = true;
@@ -440,10 +440,12 @@ Token Variable() :
 //
 void VariableDeclaration() #VariableDeclaration:
 {
+    Token name;
     Token symbol;
     Token uiType = null;
 }
 {
+TODO このBNFではUI配列変数と通常の配列変数の区別が出来ない
     (
         symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
         (
@@ -451,7 +453,16 @@ void VariableDeclaration() #VariableDeclaration:
             | <POLYPHONIC>           { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
             | uiType = <IDENTIFIER>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
         )?
-        VariableDeclarator( jjtThis )
+
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+        (
+            name = Variable()
+            [ LOOKAHEAD(2) VariableInitializer() ]
+        )
+        {
+            jjtThis.symbol.setName( name.image );
+            jjtThis.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
+        }
     )
     {
         if( uiType != null )
@@ -464,39 +475,14 @@ void VariableDeclaration() #VariableDeclaration:
 }
 
 //
-// 変数宣言(詳細)
-//
-void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
-{
-    Token name;
-}
-{
-    (
-        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
-        name = Variable()
-        (
-            (
-                [ ArrayIndex() ]
-            )
-
-            [ LOOKAHEAD(2) VariableInitializer() ]
-        )
-    )
-    {
-        decl.symbol.setName( name.image );
-        decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
-    }
-}
-
-//
 // 初期値代入
 //
 void VariableInitializer() #VariableInitializer:
 {}
 {
-      LOOKAHEAD(3) <ASSIGN> ArrayInitializer()
+      LOOKAHEAD( 3 ) ArrayInitializer()
     | UIInitializer()
-    | <ASSIGN> Expression()
+    | PrimitiveInititalizer()
 }
 
 //
@@ -505,9 +491,13 @@ void VariableInitializer() #VariableInitializer:
 void ArrayInitializer() #ArrayInitializer:
 {}
 {
-    <LPAREN>
-        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-    <RPAREN>
+    ArrayIndex()
+    (
+        <ASSIGN>
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )?
 }
 
 //
@@ -516,9 +506,19 @@ void ArrayInitializer() #ArrayInitializer:
 void UIInitializer() #UIInitializer:
 {}
 {
+    [ ArrayIndex() ]
     <LPAREN>
         Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
     <RPAREN>
+}
+
+//
+// プリミティブ型変数初期値代入
+//
+void PrimitiveInititalizer() #PrimitiveInititalizer:
+{}
+{
+    <ASSIGN> Expression()
 }
 
 //

@@ -84,12 +84,14 @@ public class SymbolCollector extends AbstractAnalyzer
         Object ret = defaultVisit( node, data );
 //--------------------------------------------------------------------------
 /*
-    変数
-        [node]
-        VariableDeclaration
-            -> VariableDeclarator [arrayindex]
-                -> [VariableInitializer]
-                    -> Expression
+/*
+    VariableDeclaration                     // NOW
+            -> ASTVariableInitializer
+                -> [
+                      ArrayInitializer
+                    | UIInitializer
+                    | PrimitiveInititalizer
+                ]
 */
 //--------------------------------------------------------------------------
         if( validateVariableImpl( node ) )

@@ -1,0 +1,53 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) with test.ksp",
+            "projectName": "KSPSyntaxParser",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "classPaths": [
+                "./lib/args4j.jar",
+                "./eclipse_compiled/"
+            ],
+            "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
+            "args": "--source ./.temp/test.ksp"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) with test.ksp (Parse)",
+            "projectName": "KSPSyntaxParser",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "classPaths": [
+                "./lib/args4j.jar",
+                "./eclipse_compiled/"
+            ],
+            "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
+            "args": "--source ./.temp/test.ksp --parseonly"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) with Arguments Prompt",
+            "projectName": "KSPSyntaxParser",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "classPaths": [
+                "./lib/args4j.jar",
+                "./eclipse_compiled/"
+            ],
+            "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
+            "args": "${command:SpecifyProgramArgs}"
+        }
+    ]
+}
