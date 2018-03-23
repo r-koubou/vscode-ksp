@@ -4,6 +4,10 @@ package net.rkoubou.kspparser.javacc.generated;
 
 public
 class ASTPrimitiveInititalizer extends SimpleNode {
+
+  /** トークン ":="" を含んでいたかどうか。UIの初期化子の場合分け用 */
+  public boolean hasAssign;
+
   public ASTPrimitiveInititalizer(int id) {
     super(id);
   }

@@ -1,6 +1,6 @@
 options
 {
-    DEBUG_PARSER        = true;
+    DEBUG_PARSER        = false;
     DEBUG_TOKEN_MANAGER = false;
     STATIC              = false;
     UNICODE_INPUT       = true;
@@ -445,7 +445,6 @@ void VariableDeclaration() #VariableDeclaration:
     Token uiType = null;
 }
 {
-TODO このBNFではUI配列変数と通常の配列変数の区別が出来ない
     (
         symbol = <DECLARE> (LOOKAHEAD(2) <MULTI_LINE_DELIMITER>)*
         (
@@ -480,45 +479,52 @@ TODO このBNFではUI配列変数と通常の配列変数の区別が出来な�
 void VariableInitializer() #VariableInitializer:
 {}
 {
-      LOOKAHEAD( 3 ) ArrayInitializer()
-    | UIInitializer()
+      ArrayInitializer()
     | PrimitiveInititalizer()
-}
-
-//
-// 配列変数初期値代入
-//
-void ArrayInitializer() #ArrayInitializer:
-{}
-{
-    ArrayIndex()
-    (
-        <ASSIGN>
-        <LPAREN>
-            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-        <RPAREN>
-    )?
-}
-
-//
-// UI変数初期値代入
-//
-void UIInitializer() #UIInitializer:
-{}
-{
-    [ ArrayIndex() ]
-    <LPAREN>
-        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-    <RPAREN>
 }
 
 //
 // プリミティブ型変数初期値代入
 //
 void PrimitiveInititalizer() #PrimitiveInititalizer:
-{}
 {
-    <ASSIGN> Expression()
+}
+{
+    (
+        <ASSIGN> Expression()
+    )
+    {
+        jjtThis.hasAssign = true;
+    }
+|
+    (
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )
+    {
+        jjtThis.hasAssign = false;
+    }
+}
+
+//
+// 配列変数初期値代入
+//
+void ArrayInitializer() #ArrayInitializer:
+{
+    Token assign = null;
+}
+{
+    ArrayIndex()
+    (
+        LOOKAHEAD(2) [ assign = <ASSIGN> ]
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )?
+    {
+        jjtThis.hasAssign = assign != null;
+    }
 }
 
 //

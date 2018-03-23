@@ -26,7 +26,7 @@ public class MessageManager implements AnalyzerConstants
     //--------------------------------------------------------------------------
     // Lexical
     //--------------------------------------------------------------------------
-    static public final String PROPERTY_ERROR_LEXICAL                   = "error.lexical";
+    static public final String PROPERTY_ERROR_SYNTAX                        = "error.syntax";
 
     //--------------------------------------------------------------------------
     // General
@@ -207,7 +207,7 @@ public class MessageManager implements AnalyzerConstants
     static public String expand( ParseException src )
     {
         return expand(
-            PROPERTY_ERROR_LEXICAL,
+            PROPERTY_ERROR_SYNTAX,
             Level.ERROR,
             src.currentToken.beginLine,
             src.currentToken.beginColumn,

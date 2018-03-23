@@ -4,6 +4,10 @@ package net.rkoubou.kspparser.javacc.generated;
 
 public
 class ASTArrayInitializer extends SimpleNode {
+
+  /** トークン ":="" を含んでいたかどうか。UIの初期化子の場合分け用 */
+  public boolean hasAssign;
+
   public ASTArrayInitializer(int id) {
     super(id);
   }

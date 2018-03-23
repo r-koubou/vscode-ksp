@@ -53,7 +53,6 @@ import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTSelectStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTSub;
-import net.rkoubou.kspparser.javacc.generated.ASTUIInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
@@ -149,13 +148,15 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         {
             // 宣言のみ
             // const も付与されないので変数参照時の値は変数名
+            if( v.isUIVariable() )
+            {
+                outputCode.append( v.uiTypeName ).append( " " );
+            }
             v.value = v.getVariableName();
             outputCode.append( v.getVariableName() );
             appendEOL();
             return node;
         }
-
-        outputCode.append( v.getVariableName() );
 
         node.jjtGetChild( 0 ).jjtAccept( this, node );
         appendEOL();
@@ -183,6 +184,51 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     }
 
     /**
+     * プリミティブ型宣言の実装
+     */
+    @Override
+    public Object visit( ASTPrimitiveInititalizer node, Object data )
+    {
+/*
+    VariableDeclaration
+            -> ASTVariableInitializer
+                -> [
+                      ArrayInitializer
+                    | UIInitializer
+                    | PrimitiveInititalizer     //NOW
+                        -> [Expression]
+                ]
+*/
+        final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
+
+        if( node.jjtGetNumChildren() == 0 )
+        {
+            // 初期値代入なし
+            return node;
+        }
+
+        final SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 );
+        final String varName  = v.getVariableName();
+
+        // UI型変数+初期化子
+        if( v.isUIVariable() )
+        {
+            uiInitializerImpl( node, v, data );
+        }
+        else
+        {
+            // プリミティブ初期値代入。畳み込みで有効な値が格納される
+            if( expr.symbol.symbolType != SymbolType.Command )
+            {
+                outputCode.append( varName ).append( ":=" );
+                expr.jjtAccept( this, data );
+            }
+        }
+
+        return node;
+    }
+
+    /**
      * 配列型宣言の実装
      */
     @Override
@@ -200,7 +246,23 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                     | PrimitiveInititalizer
                 ]
 */
-        arrayInitializerImpl( node, data, false );
+        final Variable v      = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
+
+        if( node.hasAssign )
+        {
+            arrayInitializerImpl( node, data, false );
+        }
+        else
+        {
+            if( v.isUIVariable() )
+            {
+                uiInitializerImpl( node, v, data );
+            }
+            else
+            {
+                arrayInitializerImpl( node, data, false );
+            }
+        }
         return node;
     }
 
@@ -224,7 +286,9 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
 */
         final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
 
-        outputCode.append( "[" )
+        outputCode
+        .append( v.getVariableName() )
+        .append( "[" )
         .append( v.arraySize )
         .append( "]" );
 
@@ -256,47 +320,53 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     /**
      * UI型宣言の実装
      */
-    @Override
-    public Object visit( ASTUIInitializer node, Object data )
+    protected void uiInitializerImpl( SimpleNode initializer, Variable v, Object jjtVisitorData )
     {
 /*
     VariableDeclaration
             -> ASTVariableInitializer
                 -> [
-                      ArrayInitializer
-                    | UIInitializer         // NOW
-                        -> [ArrayIndex]
-                        -> Expression
-                        -> (,Expression)*
+                        ArrayInitializer
+                            -> ArrayIndex
+                            -> Expression
+                            -> (,Expression)*
+                    | UIInitializer             //NOW
+                            -> [ ArrayIndex ]
+                            -> Expressiom
+                            -> (,Expression)*
                     | PrimitiveInititalizer
                 ]
 */
-        final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
         final UIType uiType = uiTypeTable.search( v.uiTypeName );
 
-        outputCode.append( uiType.name ).append( " " );
+        outputCode
+        .append( uiType.name )
+        .append( " " );
 
         //--------------------------------------------------------------------------
         // ui_#### が配列型の場合、要素数宣言までのコード生成
         //--------------------------------------------------------------------------
         if( Variable.isArray( uiType.uiValueType ) )
         {
-            arrayInitializerImpl( node, data, true );
-            return node;
+            arrayInitializerImpl( initializer, jjtVisitorData, true );
+        }
+        else
+        {
+            outputCode.append( v.getVariableName() );
         }
 
         //--------------------------------------------------------------------------
         // 初期値代入
         //--------------------------------------------------------------------------
-        if( node.jjtGetNumChildren() == 0 )
+        if( initializer.jjtGetNumChildren() == 0 )
         {
             // 初期値代入なし
-            return node;
+            return;
         }
 
         // for のカウンタ初期値の設定
         int i;
-        if( node.jjtGetChild( 0 ).getId() == JJTARRAYINDEX )
+        if( initializer.jjtGetChild( 0 ).getId() == JJTARRAYINDEX )
         {
             // 変数配列型の場合
             // node[ 0 ]        : ArrayIndex
@@ -310,15 +380,15 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
             i = 0;
         }
 
-        final int length = node.jjtGetNumChildren() - i;
+        final int length = initializer.jjtGetNumChildren();
 
         outputCode.append( "(");
 
         // i は上記で初期化済み
         for( ; i < length; i++ )
         {
-            Node n = node.jjtGetChild( i );
-            n.jjtAccept( this, data );
+            Node n = initializer.jjtGetChild( i );
+            n.jjtAccept( this, jjtVisitorData );
             if( i < length - 1 )
             {
                 outputCode.append( "," );
@@ -326,44 +396,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         }
 
         outputCode.append( ")" );
-
-        return node;
-    }
-
-        /**
-     * プリミティブ型宣言の実装
-     */
-    @Override
-    public Object visit( ASTPrimitiveInititalizer node, Object data )
-    {
-/*
-    VariableDeclaration
-            -> ASTVariableInitializer
-                -> [
-                      ArrayInitializer
-                    | UIInitializer
-                    | PrimitiveInititalizer     //NOW
-                        -> [Expression]
-                ]
-*/
-        final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
-
-        if( node.jjtGetNumChildren() == 0 )
-        {
-            // 初期値代入なし
-            return node;
-        }
-
-        final SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 );
-
-        // 初期値代入。畳み込みで有効な値が格納される
-        if( expr.symbol.symbolType != SymbolType.Command )
-        {
-            outputCode.append( v.getVariableName() ).append( ":=" );
-            expr.jjtAccept( this, data );
-        }
-
-        return node;
+        return;
     }
 
 //--------------------------------------------------------------------------
@@ -786,9 +819,13 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
             cmd = new Command( node );
         }
 
-        outputCode.append( cmd.getName() ).append( "(" );
-        node.childrenAccept( this, data );
-        outputCode.append( ")" );
+        outputCode.append( cmd.getName() );
+        if( cmd.hasParenthesis )
+        {
+            outputCode.append( "(" );
+            node.childrenAccept( this, data );
+            outputCode.append( ")" );
+        }
 
         // このコマンド呼び出しが上位ノードのコマンド引数
         // としてコールされている場合は改行出来ないためチェックをしている

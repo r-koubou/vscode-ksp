@@ -18,13 +18,10 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTVariableInitializer node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTArrayInitializer node, Object data){
-    return defaultVisit(node, data);
-  }
-  public Object visit(ASTUIInitializer node, Object data){
-    return defaultVisit(node, data);
-  }
   public Object visit(ASTPrimitiveInititalizer node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTArrayInitializer node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTCallbackDeclaration node, Object data){
@@ -145,4 +142,4 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=9552a9ab074f879fcba7a802973e6112 (do not edit this line) */
+/* JavaCC - OriginalChecksum=de5194f8f83f19c5a006fb7c95ace1c2 (do not edit this line) */

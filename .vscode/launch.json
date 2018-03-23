@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch) with test.ksp",
+            "name": "Debug with test.ksp",
             "projectName": "KSPSyntaxParser",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -14,14 +14,14 @@
             "stopOnEntry": false,
             "classPaths": [
                 "./lib/args4j.jar",
-                "./eclipse_compiled/"
+                "./classes/"
             ],
             "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
             "args": "--source ./.temp/test.ksp"
         },
         {
             "type": "java",
-            "name": "Debug (Launch) with test.ksp (Parse)",
+            "name": "Debug with test.ksp (+Obfuscate)",
             "projectName": "KSPSyntaxParser",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -29,10 +29,10 @@
             "stopOnEntry": false,
             "classPaths": [
                 "./lib/args4j.jar",
-                "./eclipse_compiled/"
+                "./classes/"
             ],
             "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
-            "args": "--source ./.temp/test.ksp --parseonly"
+            "args": "--source ./.temp/test.ksp --obfuscate"
         },
         {
             "type": "java",
@@ -44,7 +44,7 @@
             "stopOnEntry": false,
             "classPaths": [
                 "./lib/args4j.jar",
-                "./eclipse_compiled/"
+                "./classes/"
             ],
             "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
             "args": "${command:SpecifyProgramArgs}"
