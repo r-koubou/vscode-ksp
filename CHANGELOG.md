@@ -1,17 +1,38 @@
 # Changelog
 
-## Version 0.3.15b(BETA)
+## Version 0.4.0(BETA1)
 
-* Editor
+**Fixed(Provisional)**
 
-    * Obfuscator supported (BETA) \*
+- [BUG - Variable initializer expression (using with brackets)](https://github.com/r-koubou/KSPSyntaxParser/issues/6)
+
+**New Feature (BETA)**
+
+- Obfuscator(BETA)
+
+    **[STEP]**
+
+    1. Script file open
+    2. Set language mode to 'ksp'
+    3. Open command palette and type 'ksp'
+    4. Select Obfuscator
+
+## Version 0.3.15
 
 * Syntax parser
 
-    * Small bug bug fixes
-    * Obfuscation is implemented(BETA) \*
+    * Following bug fixes.
 
-\* OUT OF WARRANTY
+        - [BUG - Value assign to string variable](https://github.com/r-koubou/KSPSyntaxParser/issues/7)
+        - [BUG - Callback "on __pgs_changed" is not reconized](https://github.com/r-koubou/KSPSyntaxParser/issues/4)
+        - [BUG - Array variable declaration](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
+        - [BUG - Parser false detection in message() command](https://github.com/r-koubou/KSPSyntaxParser/issues/2)
+        - [BUG - Unrecognized some NI built-in variables by parser](https://github.com/r-koubou/KSPSyntaxParser/issues/3)
+
+* Editor
+
+    * Small bug bug fixes
+    * Undocumented NI variables / commands added to snipet etc.
 
 ## Version 0.3.14
 
