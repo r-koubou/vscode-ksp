@@ -16,6 +16,7 @@ import * as tmp             from 'tmp';
 import * as fs              from 'fs';
 import { ThrottledDelayer } from './libs/async';
 import * as config          from './KSPConfigurationConstants';
+import { KSPConfigurationManager} from './KSPConfigurationManager';
 import * as kspconst        from './KSPExtensionConstants';
 
 const CHECKED_EXECUTABLE_PATH               = 'ksp.validate.checkedExecutablePath';
@@ -133,34 +134,17 @@ export class KSPValidationProvider
         let oldExecutable = this.executable;
         if( section )
         {
-            // Load implementation
-            let getConfig = function<T>(key:string, defaultValue:T, callback: ( value:T, userDefined:boolean) => void )
-            {
-                let value:T = defaultValue;
-                let userDefined: boolean = false;
-                let inspect = section.inspect<T>( key );
-                if( inspect )
-                {
-                    if( inspect.workspaceValue )
-                    {
-                        value       = inspect.workspaceValue;
-                        userDefined = true;
-                    }
-                    else if( inspect.globalValue )
-                    {
-                        value = inspect.globalValue;
-                    }
-                }
-                callback( value, userDefined );
-            };
             // Get configurations
-            getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE, (v, user) =>{
+            KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE, (v, user) =>{
                 this.validationEnabled = v;
             });
-            getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, config.DEFAULT_REALTIME_VALIDATE, (v, user) =>{
+            KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION, (v, user) =>{
+                this.executable = v;
+            });
+            KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, config.DEFAULT_REALTIME_VALIDATE, (v, user) =>{
                 this.realtimeValidationEnabled = v;
             });
-            getConfig<number>( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, (v, user) =>{
+            KSPConfigurationManager.getConfig<number>( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, (v, user) =>{
                 if( v < 16 )
                 {
                     this.realtimeValidationDelay = config.DEFAULT_VALIDATE_DELAY;
@@ -172,13 +156,13 @@ export class KSPValidationProvider
                     this.realtimeValidationDelay = v;
                 }
             });
-            getConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY, config.DEFAULT_PARSE_SYNTAX_ONLY, (v, user) =>{
+            KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY, config.DEFAULT_PARSE_SYNTAX_ONLY, (v, user) =>{
                 this.validateParseSyntaxOnly = v;
             });
-            getConfig<boolean>( config.KEY_PARSE_STRICT, config.DEFAULT_PARSE_STRICT, (v, user) =>{
+            KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_STRICT, config.DEFAULT_PARSE_STRICT, (v, user) =>{
                 this.validateParseStrict = v;
             });
-            getConfig<boolean>( config.KEY_PARSE_UNUSED, config.DEFAULT_PARSE_UNUSED, (v, user) =>{
+            KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_UNUSED, config.DEFAULT_PARSE_UNUSED, (v, user) =>{
                 this.validateParseUnused = v;
             });
             // ~Get configurations
