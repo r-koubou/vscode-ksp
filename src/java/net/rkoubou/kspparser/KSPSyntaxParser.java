@@ -64,6 +64,7 @@ public class KSPSyntaxParser
             ASTRootNode rootNode = p.analyzeSyntax();
             if( rootNode == null || AnalyzeErrorCounter.hasError() )
             {
+                System.exit( 1 );
                 return;
             }
 
