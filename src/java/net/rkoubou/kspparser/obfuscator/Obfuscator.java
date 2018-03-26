@@ -59,6 +59,7 @@ import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTWhileStatement;
 import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
+import net.rkoubou.kspparser.options.CommandlineOptions;
 
 /**
 * オブファスケーター実行クラス
@@ -872,7 +873,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         Node block = node.jjtGetChild( 0 );
         UserFunction func = userFunctionTable.search( node.symbol.getName() );
 
-        if( func.referenced )
+        if( !CommandlineOptions.options.inlineUserFunction && func.referenced )
         {
             outputCode.append( "function " ).append( func.getName() );
             appendEOL();
@@ -891,8 +892,17 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
     public Object visit( ASTCallUserFunctionStatement node, Object data )
     {
         UserFunction func = userFunctionTable.search( node.symbol );
-        outputCode.append( "call " ).append( func.getName() );
-        appendEOL();
+        if( CommandlineOptions.options.inlineUserFunction )
+        {
+            // インライン展開
+            Node block = func.astNode.jjtGetChild( 0 );
+            block.jjtAccept( this, data );
+        }
+        else
+        {
+            outputCode.append( "call " ).append( func.getName() );
+            appendEOL();
+        }
         return node;
     }
 

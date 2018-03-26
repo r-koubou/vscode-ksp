@@ -8,10 +8,12 @@
 package net.rkoubou.kspparser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 
+import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
@@ -33,8 +35,9 @@ public class KSPSyntaxParser
      */
     static public void main( String[] args ) throws Throwable
     {
-        PrintStream stdout = null;
-        PrintStream stderr = null;
+        PrintStream stdout          = null;
+        PrintStream stderr          = null;
+        CmdLineParser cmdLineParser = null;
         try
         {
             // -Dkspparser.stdout.encoding=#### の指定があった場合、そのエンコードを標準出力・エラーに再設定する
@@ -47,11 +50,16 @@ public class KSPSyntaxParser
                 System.setErr( stderr );
             }
             // コマンドライン引数の解析
-            CmdLineParser cmdLineParser = CommandlineOptions.setup( args );
+            cmdLineParser = CommandlineOptions.setup( args );
+            if( CommandlineOptions.options.usage )
+            {
+                usage( cmdLineParser );
+                System.exit( 1 );
+                return;
+            }
             if( CommandlineOptions.options.sourceFile == null )
             {
-                cmdLineParser.printUsage( System.err );
-                System.err.println();
+                usage( cmdLineParser );
                 System.exit( 1 );
                 return;
             }
@@ -126,6 +134,16 @@ public class KSPSyntaxParser
                 return;
             }
         }
+        catch( CmdLineException cmd )
+        {
+            System.err.println( cmd.getMessage() );
+            usage( cmdLineParser );
+            System.exit( 1 );
+        }
+        catch( FileNotFoundException fne )
+        {
+            System.err.println( "script not found : " + fne.getMessage() );
+        }
         finally
         {
             //AnalyzeErrorCounter.dump( System.out );
@@ -133,4 +151,24 @@ public class KSPSyntaxParser
             if( stderr != null ){ try{ stdout.close(); } catch( Throwable e ){} }
         }
     }
+
+    /**
+     * コマンドライン引数の表示
+     */
+    static private void usage( CmdLineParser p )
+    {
+        System.err.println( "usage" );
+        System.err.println( "  java -jar ./KSPSyntaxParser.jar [options] source" );
+        if( p != null )
+        {
+            System.err.println();
+            p.printUsage( System.err );
+        }
+        else
+        {
+            System.err.println( "please type -h to show usage" );
+        }
+        System.err.println();
+    }
+
 }

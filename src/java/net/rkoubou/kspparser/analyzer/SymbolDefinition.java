@@ -44,6 +44,8 @@ public class SymbolDefinition implements AnalyzerConstants
     public SymbolState state = SymbolState.UNLOADED;
     /** 意味解析フェーズ中に走査し参照されたかを記録する */
     public boolean referenced = false;
+    /** 意味解析フェーズ中に走査し参照された回数を記録する */
+    public int referenceCount = 0;
     /** accessFlagにACCESS_ATTR_UIが含まれている場合のUIタイプの識別子名 */
     public String uiTypeName = "";
     /** 値がある場合はその値(Integer,Double,String,int[],double[],String[]) */

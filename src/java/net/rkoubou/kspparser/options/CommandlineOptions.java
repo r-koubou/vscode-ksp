@@ -33,6 +33,7 @@ public class CommandlineOptions
 
         if( options.obfuscate )
         {
+            // 警告メッセージ出力を抑制＆オブファスケート時にシュリンクする
             options.strict = false;
         }
         if( options.strict )

@@ -1138,6 +1138,7 @@ SEARCH:
             }
             ret.symbol.reserved = v.reserved;
             v.referenced = true;
+            v.referenceCount++;
             v.state = SymbolState.LOADED;
             return ret;
         }
@@ -1438,7 +1439,7 @@ SEARCH:
     }
 
     /**
-     * ーザー定義関数呼び出し
+     * ユーザー定義関数呼び出し
      */
     @Override
     public Object visit( ASTCallUserFunctionStatement node, Object data )
@@ -1451,6 +1452,7 @@ SEARCH:
             return node;
         }
         f.referenced = true;
+        f.referenceCount++;
         return node;
     }
 
