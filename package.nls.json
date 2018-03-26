@@ -8,6 +8,7 @@
 	"configuration.validate.strict": "If true, parser will be 'strict' mode. (Require:ksp.validate.syntax.only=false)",
 	"configuration.validate.unused": "If true, parser will detect unused variables, user functions. (Require:ksp.validate.syntax.only=false)",
     "configuration.obfuscator.suffix": "Default file suffix which generate by Obfuscator from command palette",
+    "configuration.obfuscator.inline.function": "If true, all user defined functions will be expanded (=inline expansion) when run Obfuscator",
 
     "command.obfuscate": "NI KSP: Run Obfuscator"
 }

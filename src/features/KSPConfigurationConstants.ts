@@ -21,6 +21,7 @@ export const KEY_PARSE_STRICT               = 'validate.strict';
 export const KEY_PARSE_UNUSED               = 'validate.unused';
 // Obfuscator
 export const KEY_OBFUSCATOR_SUFFIX          = 'obfuscator.suffix';
+export const KEY_OBFUSCATOR_INLINE_FUNCTION = 'obfuscator.inline.function';
 
 export const DEFAULT_JAVA_LOCATION          = 'java';
 export const DEFAULT_ENABLE_VALIDATE        = false;
@@ -30,3 +31,4 @@ export const DEFAULT_PARSE_SYNTAX_ONLY      = false;
 export const DEFAULT_PARSE_STRICT           = false;
 export const DEFAULT_PARSE_UNUSED           = false;
 export const DEFAULT_OBFUSCATOR_SUFFIX      = '.out.txt';
+export const DEFAULT_INLINE_FUNCTION        = false

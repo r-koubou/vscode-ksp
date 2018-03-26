@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 0.4.0(BETA2)
+
+- Obfuscator(BETA)
+
+    Added: inline function
+    
+    Default is OFF. If you try, turn on vscode preference **"ksp.obfuscator.inline.function"**
+
 ## Version 0.4.0(BETA1)
 
 **Fixed(Provisional)**

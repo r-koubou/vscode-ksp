@@ -58,6 +58,12 @@ export function doObfuscate( context: vscode.ExtensionContext )
     // Run Obfuscator
     //--------------------------------------------------------------------------
     function obfuscate( output:string ){
+
+        let inline: boolean = config.DEFAULT_INLINE_FUNCTION;
+        KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION, (v, user) =>{
+            inline = v;
+        });
+
         // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
         args.push( "-Dkspparser.stdout.encoding=UTF-8" )
         args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data" )
@@ -68,10 +74,13 @@ export function doObfuscate( context: vscode.ExtensionContext )
         args.push( thisExtentionDir + "/kspparser/KSPSyntaxParser.jar" );
         args.push( "--strict" );
         args.push( "--obfuscate" );
-        args.push( "--source" );
-        args.push( textDocument.fileName );
+        if( inline )
+        {
+            args.push( "--inline-userfunction" )
+        }
         args.push( "--output" );
         args.push( output );
+        args.push( textDocument.fileName );
 
         try
         {

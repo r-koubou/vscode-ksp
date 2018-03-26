@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT Script Processor (KSP)",
-    "version": "0.4.0-beta1",
+    "version": "0.4.0-beta2",
     "publisher": "rkoubou",
     "license": "MIT",
     "keywords": [
@@ -116,6 +116,11 @@
                     "type": "string",
                     "default": ".out.txt",
                     "description": "%configuration.obfuscator.suffix%"
+                },
+                "ksp.obfuscator.inline.function": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%configuration.obfuscator.inline.function%"
                 }
             }
         },

@@ -325,7 +325,6 @@ export class KSPValidationProvider
             {
                 args.push( "--unused" );
             }
-            args.push( "--source" );
             args.push( src );
 
             try

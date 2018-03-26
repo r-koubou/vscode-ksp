@@ -8,6 +8,7 @@
 	"configuration.validate.unused": "true の場合、パーサーは未使用変数と未使用のユーザー関数を検知します (ksp.validate.syntax.only=falseの場合のみ有効)",
     "configuration.java.location": "javaコマンドの場所。デフォルトでは環境変数PATHに通しているものとして動作します。",
     "configuration.obfuscator.suffix": "コマンドパレットでオブファスケーターを実行することによって生成される、デフォルトのファイル拡張子",
+    "configuration.obfuscator.inline.function": "true の場合、オブファスケーター実行時に全てのユーザー定義関数をインライン展開します",
 
     "command.obfuscate": "NI KSP: オブファスケーターの実行"
 
