@@ -247,8 +247,8 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 case JJTMUL:            return numL * numR;
                 case JJTDIV:            return numL / numR;
                 case JJTMOD:            return numL % numR;
-                case JJTINCLUSIVEOR:    return numL | numR;
-                case JJTAND:            return numL & numR;
+                case JJTBITWISEOR:      return numL | numR;
+                case JJTBITWISEAND:     return numL & numR;
                 default:
                     return null;
             }
@@ -1026,12 +1026,6 @@ SEARCH:
         int exprLType = TYPE_NONE;
         int exprRType = TYPE_NONE;
 
-        if( exprL.getId() != JJTREFVARIABLE )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ASSIGN_NOTVARIABLE, exprL.symbol );
-            AnalyzeErrorCounter.e();
-            return exprL;
-        }
         variable = variableTable.search( symL );
         if( variable == null )
         {
@@ -1118,7 +1112,19 @@ SEARCH:
             v.state = SymbolState.LOADING;
         }
 
-        // 配列型なら添字チェック
+        // 配列型なら親ノードに応じて添字の有無検証
+        if( node.isNecessaryValidArraySubscribe() && !EvaluationUtility.validArraySubscript( node, false ) )
+        {
+            // 添字が必須なのに添字がない
+            // 変数ノードの場合、宣言部が行番号にあたるので、出現箇所の出現行番号を指定する
+            SymbolDefinition sym = new SymbolDefinition( v );
+            sym.position.copy( node.symbol.position );
+
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT, sym );
+            AnalyzeErrorCounter.e();
+            return ret;
+        }
+
         if( v.isArray() )
         {
             // 上位ノードの型評価式用

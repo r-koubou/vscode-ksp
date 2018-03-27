@@ -900,7 +900,7 @@ void CallUserFunctionStatement() #CallUserFunctionStatement:
 void Expression():
 {}
 {
-    ConditionalOrExpression()
+    ConditionalExpression()
 }
 
 //
@@ -918,28 +918,9 @@ void Assignment() #Assignment:
 }
 
 //
-// 条件式OR
+// 条件式 AND / OR
 //
-void ConditionalOrExpression():
-{
-    Token token;
-}
-{
-    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    ConditionalAndExpression()
-    (
-        token = <BOOL_OR> ConditionalAndExpression()
-        {
-            jjtThis.symbol.position.copy( token );
-            jjtThis.symbol.type  = TYPE_BOOL;
-        } #ConditionalOr(2)
-    )*
-}
-
-//
-// 条件式AND
-//
-void ConditionalAndExpression():
+void ConditionalExpression():
 {
     Token token;
 }
@@ -947,6 +928,12 @@ void ConditionalAndExpression():
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     StringConcatenateExpression()
     (
+        token = <BOOL_OR> StringConcatenateExpression()
+        {
+            jjtThis.symbol.position.copy( token );
+            jjtThis.symbol.type  = TYPE_BOOL;
+        } #ConditionalOr(2)
+|
         token = <BOOL_AND> StringConcatenateExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
@@ -963,9 +950,9 @@ void StringConcatenateExpression() :
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression()
+    BitwiseExpression()
     (
-        token = <STRING_ADD> InclusiveOrExpression()
+        token = <STRING_ADD> BitwiseExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
         } #StrAdd(2)
@@ -973,27 +960,9 @@ void StringConcatenateExpression() :
 }
 
 //
-// 論理積
+// 論理積, 論理和
 //
-void InclusiveOrExpression() :
-{
-    Token token;
-}
-{
-    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    AndExpression()
-    (
-        token = <BIT_OR> AndExpression()
-        {
-            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
-        } #InclusiveOr(2)
-    )*
-}
-
-//
-// 論理和
-//
-void AndExpression() :
+void BitwiseExpression() :
 {
     Token token;
 }
@@ -1001,10 +970,15 @@ void AndExpression() :
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
+        token = <BIT_OR> EqualityExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #BitwiseOr(2)
+|
         token = <BIT_AND> EqualityExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
-        } #And(2)
+        } #BitwiseAnd(2)
     )*
 }
 

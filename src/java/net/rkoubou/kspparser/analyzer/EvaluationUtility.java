@@ -119,7 +119,11 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
      */
     static public boolean validArraySubscript( SimpleNode varNode, boolean defaultValue )
     {
-        if( varNode.getId() != JJTREFVARIABLE || !varNode.symbol.isArray())
+        if( varNode.getId() != JJTREFVARIABLE )
+        {
+            return defaultValue;
+        }
+        if( !varNode.symbol.isArray())
         {
             return defaultValue;
         }
@@ -158,8 +162,8 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             case JJTMUL:            ret = numL * numR; break;
             case JJTDIV:            ret = numL / numR; break;
             case JJTMOD:            ret = numL % numR; break;
-            case JJTINCLUSIVEOR:    ret = numL | numR; break;
-            case JJTAND:            ret = numL & numR; break;
+            case JJTBITWISEOR:      ret = numL | numR; break;
+            case JJTBITWISEAND:     ret = numL & numR; break;
         }
         if( ret == null )
         {
@@ -475,36 +479,9 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         // 上位ノードの型評価式用
         SimpleNode ret = EvaluationUtility.createEvalNode( node, node.getId() );
 
-        // 左辺と右辺の添え字、型チェック
+        // 型チェック
         if( numberOp )
         {
-            // 配列変数の添え字の存在チェック
-            {
-                SimpleNode errArraySubscript = null;
-
-                if( !EvaluationUtility.validArraySubscript( exprL, true ) )
-                {
-                    errArraySubscript = exprL;
-                }
-                else if( !EvaluationUtility.validArraySubscript( exprR, true ) )
-                {
-                    errArraySubscript = exprR;
-                }
-
-                if( errArraySubscript != null )
-                {
-                    // 変数ノードの場合、宣言部が行番号にあたるので、演算子の出現行番号を指定する
-                    SymbolDefinition sym = new SymbolDefinition( errArraySubscript.symbol );
-                    sym.position.copy( node.symbol.position );
-
-                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT, sym );
-                    AnalyzeErrorCounter.e();
-                    ret.symbol.type = TYPE_VOID;
-                    ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
-                    return ret;
-                }
-            }
-
             // int と real を個別に判定しているのは、KSP が real から int の暗黙の型変換を持っていないため
             if( symL.isInt()  && symR.isInt() )
             {
@@ -608,42 +585,6 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         //----------------------------------------------------------------------
         // KONTAKT内で暗黙の型変換が作動し、文字列型となる
         //----------------------------------------------------------------------
-
-        // 以下の条件をみたす場合は結合できない
-        // ・添字のない配列変数(それ以外の変数型は可能)
-        // ・BOOL式
-        {
-            String errorMsgPropertyName = null;
-            SymbolDefinition errSym     = null;
-
-            SimpleNode nodeL = (SimpleNode)node.jjtGetChild( 0 );
-            SimpleNode nodeR = (SimpleNode)node.jjtGetChild( 1 );
-
-            if( !EvaluationUtility.validArraySubscript( nodeL, true ) )
-            {
-                errSym               = nodeL.symbol;
-                errorMsgPropertyName = MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT;
-            }
-            else if( !EvaluationUtility.validArraySubscript( nodeR, true ) )
-            {
-                errSym               = nodeR.symbol;
-                errorMsgPropertyName = MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT;
-            }
-            else if( nodeL.symbol.isBoolean() || nodeR.symbol.isBoolean() )
-            {
-                errSym               = node.symbol;
-                errorMsgPropertyName = MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID;
-            }
-
-            if( errorMsgPropertyName != null )
-            {
-                MessageManager.printlnE( errorMsgPropertyName, errSym );
-                AnalyzeErrorCounter.e();
-                ret.symbol.type = TYPE_VOID;
-                ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
-                return ret;
-            }
-        }
 
         // 定数、リテラル同士の連結：結合
         if( symL.isConstant() && symR.isConstant() )

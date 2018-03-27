@@ -9,7 +9,8 @@ package net.rkoubou.kspparser.analyzer;
 
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
-import net.rkoubou.kspparser.javacc.generated.ASTAnd;
+import net.rkoubou.kspparser.javacc.generated.ASTBitwiseAnd;
+import net.rkoubou.kspparser.javacc.generated.ASTBitwiseOr;
 import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTConditionalOr;
@@ -17,7 +18,6 @@ import net.rkoubou.kspparser.javacc.generated.ASTDiv;
 import net.rkoubou.kspparser.javacc.generated.ASTEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTGE;
 import net.rkoubou.kspparser.javacc.generated.ASTGT;
-import net.rkoubou.kspparser.javacc.generated.ASTInclusiveOr;
 import net.rkoubou.kspparser.javacc.generated.ASTLE;
 import net.rkoubou.kspparser.javacc.generated.ASTLT;
 import net.rkoubou.kspparser.javacc.generated.ASTLiteral;
@@ -103,7 +103,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
      * 論理積
      */
     @Override
-    public Object visit( ASTInclusiveOr node, Object data )
+    public Object visit( ASTBitwiseOr node, Object data )
     {
         return EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
     }
@@ -112,7 +112,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
      * 論理和
      */
     @Override
-    public Object visit( ASTAnd node, Object data )
+    public Object visit( ASTBitwiseAnd node, Object data )
     {
         return EvaluationUtility.evalBinaryNumberOperator( node, this, data, variableTable );
     }

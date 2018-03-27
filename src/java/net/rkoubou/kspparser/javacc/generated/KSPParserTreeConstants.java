@@ -27,8 +27,8 @@ public interface KSPParserTreeConstants
   public int JJTCONDITIONALOR = 21;
   public int JJTCONDITIONALAND = 22;
   public int JJTSTRADD = 23;
-  public int JJTINCLUSIVEOR = 24;
-  public int JJTAND = 25;
+  public int JJTBITWISEOR = 24;
+  public int JJTBITWISEAND = 25;
   public int JJTEQUAL = 26;
   public int JJTNOTEQUAL = 27;
   public int JJTLT = 28;
@@ -75,8 +75,8 @@ public interface KSPParserTreeConstants
     "ConditionalOr",
     "ConditionalAnd",
     "StrAdd",
-    "InclusiveOr",
-    "And",
+    "BitwiseOr",
+    "BitwiseAnd",
     "Equal",
     "NotEqual",
     "LT",
@@ -98,4 +98,4 @@ public interface KSPParserTreeConstants
     "CommandArgumentList",
   };
 }
-/* JavaCC - OriginalChecksum=1d9ea893ee88cb62198bd997032b21a5 (do not edit this line) */
+/* JavaCC - OriginalChecksum=cfcc1aa43f6829bff29c3ad647771f3c (do not edit this line) */

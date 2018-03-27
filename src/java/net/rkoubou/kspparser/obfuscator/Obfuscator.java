@@ -15,10 +15,11 @@ import net.rkoubou.kspparser.analyzer.UIType;
 import net.rkoubou.kspparser.analyzer.UserFunction;
 import net.rkoubou.kspparser.analyzer.Variable;
 import net.rkoubou.kspparser.javacc.generated.ASTAdd;
-import net.rkoubou.kspparser.javacc.generated.ASTAnd;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayIndex;
 import net.rkoubou.kspparser.javacc.generated.ASTArrayInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTAssignment;
+import net.rkoubou.kspparser.javacc.generated.ASTBitwiseAnd;
+import net.rkoubou.kspparser.javacc.generated.ASTBitwiseOr;
 import net.rkoubou.kspparser.javacc.generated.ASTBlock;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallUserFunctionStatement;
@@ -33,7 +34,6 @@ import net.rkoubou.kspparser.javacc.generated.ASTEqual;
 import net.rkoubou.kspparser.javacc.generated.ASTGE;
 import net.rkoubou.kspparser.javacc.generated.ASTGT;
 import net.rkoubou.kspparser.javacc.generated.ASTIfStatement;
-import net.rkoubou.kspparser.javacc.generated.ASTInclusiveOr;
 import net.rkoubou.kspparser.javacc.generated.ASTLE;
 import net.rkoubou.kspparser.javacc.generated.ASTLT;
 import net.rkoubou.kspparser.javacc.generated.ASTLiteral;
@@ -486,7 +486,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
      * 論理積
      */
     @Override
-    public Object visit( ASTInclusiveOr node, Object data )
+    public Object visit( ASTBitwiseOr node, Object data )
     {
         appendBinaryOperatorNode( node, data, " .or. " );
         return node;
@@ -496,7 +496,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
      * 論理和
      */
     @Override
-    public Object visit( ASTAnd node, Object data )
+    public Object visit( ASTBitwiseAnd node, Object data )
     {
         appendBinaryOperatorNode( node, data, " .and. " );
         return node;

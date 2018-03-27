@@ -1416,7 +1416,7 @@ void CallUserFunctionStatement()                           :
 void Expression():
 {}
 {
-    ConditionalOrExpression()
+    ConditionalExpression()
 }
 
 //
@@ -1465,17 +1465,17 @@ void Assignment()            :
 }
 
 //
-// \u6761\u4ef6\u5f0fOR
+// \u6761\u4ef6\u5f0f AND / OR
 //
-void ConditionalOrExpression():
+void ConditionalExpression():
 {
     Token token;
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    ConditionalAndExpression()
+    StringConcatenateExpression()
     (
-        token = <BOOL_OR> ConditionalAndExpression()/*@bgen(jjtree) #ConditionalOr( 2) */
+        token = <BOOL_OR> StringConcatenateExpression()/*@bgen(jjtree) #ConditionalOr( 2) */
         {
           ASTConditionalOr jjtn001 = new ASTConditionalOr(this, JJTCONDITIONALOR);
           boolean jjtc001 = true;
@@ -1498,39 +1498,26 @@ void ConditionalOrExpression():
           }
         }
 /*@egen*/                  
-    )*
-}
-
-//
-// \u6761\u4ef6\u5f0fAND
-//
-void ConditionalAndExpression():
-{
-    Token token;
-}
-{
-    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    StringConcatenateExpression()
-    (
+|
         token = <BOOL_AND> StringConcatenateExpression()/*@bgen(jjtree) #ConditionalAnd( 2) */
         {
-          ASTConditionalAnd jjtn001 = new ASTConditionalAnd(this, JJTCONDITIONALAND);
-          boolean jjtc001 = true;
-          jjtree.openNodeScope(jjtn001);
+          ASTConditionalAnd jjtn002 = new ASTConditionalAnd(this, JJTCONDITIONALAND);
+          boolean jjtc002 = true;
+          jjtree.openNodeScope(jjtn002);
         }
         try {
 /*@egen*//*@bgen(jjtree)*/
         {
-          jjtree.closeNodeScope(jjtn001,  2);
-          jjtc001 = false;
+          jjtree.closeNodeScope(jjtn002,  2);
+          jjtc002 = false;
         }
 /*@egen*/
         {
-            applyToSymbol( token, jjtn001, TYPE_BOOL, SymbolType.Expression );
+            applyToSymbol( token, jjtn002, TYPE_BOOL, SymbolType.Expression );
         }/*@bgen(jjtree)*/
         } finally {
-          if (jjtc001) {
-            jjtree.closeNodeScope(jjtn001,  2);
+          if (jjtc002) {
+            jjtree.closeNodeScope(jjtn002,  2);
           }
         }
 /*@egen*/                   
@@ -1546,9 +1533,9 @@ void StringConcatenateExpression() :
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression()
+    BitwiseExpression()
     (
-        token = <STRING_ADD> InclusiveOrExpression()/*@bgen(jjtree) #StrAdd( 2) */
+        token = <STRING_ADD> BitwiseExpression()/*@bgen(jjtree) #StrAdd( 2) */
         {
           ASTStrAdd jjtn001 = new ASTStrAdd(this, JJTSTRADD);
           boolean jjtc001 = true;
@@ -1574,45 +1561,9 @@ void StringConcatenateExpression() :
 }
 
 //
-// \u8ad6\u7406\u7a4d
+// \u8ad6\u7406\u7a4d, \u8ad6\u7406\u548c
 //
-void InclusiveOrExpression() :
-{
-    Token token;
-}
-{
-    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    AndExpression()
-    (
-        token = <BIT_OR> AndExpression()/*@bgen(jjtree) #InclusiveOr( 2) */
-        {
-          ASTInclusiveOr jjtn001 = new ASTInclusiveOr(this, JJTINCLUSIVEOR);
-          boolean jjtc001 = true;
-          jjtree.openNodeScope(jjtn001);
-        }
-        try {
-/*@egen*//*@bgen(jjtree)*/
-        {
-          jjtree.closeNodeScope(jjtn001,  2);
-          jjtc001 = false;
-        }
-/*@egen*/
-        {
-            applyToSymbol( token, jjtn001, TYPE_INT, SymbolType.Expression );
-        }/*@bgen(jjtree)*/
-        } finally {
-          if (jjtc001) {
-            jjtree.closeNodeScope(jjtn001,  2);
-          }
-        }
-/*@egen*/                
-    )*
-}
-
-//
-// \u8ad6\u7406\u548c
-//
-void AndExpression() :
+void BitwiseExpression() :
 {
     Token token;
 }
@@ -1620,9 +1571,9 @@ void AndExpression() :
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
-        token = <BIT_AND> EqualityExpression()/*@bgen(jjtree) #And( 2) */
+        token = <BIT_OR> EqualityExpression()/*@bgen(jjtree) #BitwiseOr( 2) */
         {
-          ASTAnd jjtn001 = new ASTAnd(this, JJTAND);
+          ASTBitwiseOr jjtn001 = new ASTBitwiseOr(this, JJTBITWISEOR);
           boolean jjtc001 = true;
           jjtree.openNodeScope(jjtn001);
         }
@@ -1641,7 +1592,30 @@ void AndExpression() :
             jjtree.closeNodeScope(jjtn001,  2);
           }
         }
-/*@egen*/        
+/*@egen*/              
+|
+        token = <BIT_AND> EqualityExpression()/*@bgen(jjtree) #BitwiseAnd( 2) */
+        {
+          ASTBitwiseAnd jjtn002 = new ASTBitwiseAnd(this, JJTBITWISEAND);
+          boolean jjtc002 = true;
+          jjtree.openNodeScope(jjtn002);
+        }
+        try {
+/*@egen*//*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn002,  2);
+          jjtc002 = false;
+        }
+/*@egen*/
+        {
+            applyToSymbol( token, jjtn002, TYPE_INT, SymbolType.Expression );
+        }/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc002) {
+            jjtree.closeNodeScope(jjtn002,  2);
+          }
+        }
+/*@egen*/               
     )*
 }
 
