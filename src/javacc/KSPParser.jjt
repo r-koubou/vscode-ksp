@@ -945,12 +945,30 @@ void ConditionalAndExpression():
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression()
+    StringConcatenateExpression()
     (
-        token = <BOOL_AND> InclusiveOrExpression()
+        token = <BOOL_AND> StringConcatenateExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
         } #ConditionalAnd(2)
+    )*
+}
+
+//
+// 連結(->連結後、文字列へ暗黙の型変換)
+//
+void StringConcatenateExpression() :
+{
+    Token token;
+}
+{
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+    InclusiveOrExpression()
+    (
+        token = <STRING_ADD> InclusiveOrExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
+        } #StrAdd(2)
     )*
 }
 
@@ -1066,11 +1084,6 @@ void AdditiveExpression() :
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Sub(2)
-|
-        token = <STRING_ADD> MultiplicativeExpression()
-        {
-            applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
-        } #StrAdd(2)
     )*
 }
 

@@ -1510,9 +1510,9 @@ void ConditionalAndExpression():
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression()
+    StringConcatenateExpression()
     (
-        token = <BOOL_AND> InclusiveOrExpression()/*@bgen(jjtree) #ConditionalAnd( 2) */
+        token = <BOOL_AND> StringConcatenateExpression()/*@bgen(jjtree) #ConditionalAnd( 2) */
         {
           ASTConditionalAnd jjtn001 = new ASTConditionalAnd(this, JJTCONDITIONALAND);
           boolean jjtc001 = true;
@@ -1534,6 +1534,42 @@ void ConditionalAndExpression():
           }
         }
 /*@egen*/                   
+    )*
+}
+
+//
+// \u9023\u7d50(->\u9023\u7d50\u5f8c\u3001\u6587\u5b57\u5217\u3078\u6697\u9ed9\u306e\u578b\u5909\u63db)
+//
+void StringConcatenateExpression() :
+{
+    Token token;
+}
+{
+    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
+    InclusiveOrExpression()
+    (
+        token = <STRING_ADD> InclusiveOrExpression()/*@bgen(jjtree) #StrAdd( 2) */
+        {
+          ASTStrAdd jjtn001 = new ASTStrAdd(this, JJTSTRADD);
+          boolean jjtc001 = true;
+          jjtree.openNodeScope(jjtn001);
+        }
+        try {
+/*@egen*//*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn001,  2);
+          jjtc001 = false;
+        }
+/*@egen*/
+        {
+            applyToSymbol( token, jjtn001, TYPE_STRING, SymbolType.Expression );
+        }/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc001) {
+            jjtree.closeNodeScope(jjtn001,  2);
+          }
+        }
+/*@egen*/           
     )*
 }
 
@@ -1829,29 +1865,6 @@ void AdditiveExpression() :
           }
         }
 /*@egen*/        
-|
-        token = <STRING_ADD> MultiplicativeExpression()/*@bgen(jjtree) #StrAdd( 2) */
-        {
-          ASTStrAdd jjtn003 = new ASTStrAdd(this, JJTSTRADD);
-          boolean jjtc003 = true;
-          jjtree.openNodeScope(jjtn003);
-        }
-        try {
-/*@egen*//*@bgen(jjtree)*/
-        {
-          jjtree.closeNodeScope(jjtn003,  2);
-          jjtc003 = false;
-        }
-/*@egen*/
-        {
-            applyToSymbol( token, jjtn003, TYPE_STRING, SymbolType.Expression );
-        }/*@bgen(jjtree)*/
-        } finally {
-          if (jjtc003) {
-            jjtree.closeNodeScope(jjtn003,  2);
-          }
-        }
-/*@egen*/           
     )*
 }
 

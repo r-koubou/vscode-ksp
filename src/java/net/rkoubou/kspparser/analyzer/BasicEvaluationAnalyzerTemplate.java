@@ -35,8 +35,6 @@ import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTStrAdd;
 import net.rkoubou.kspparser.javacc.generated.ASTSub;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
-import net.rkoubou.kspparser.javacc.generated.Node;
-import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 
 /**
  * 基本的な四則演算の評価処理を実装したテンプレートクラス
@@ -197,58 +195,7 @@ abstract public class BasicEvaluationAnalyzerTemplate extends AbstractAnalyzer
     @Override
     public Object visit( ASTStrAdd node, Object data )
     {
-        // 上位ノードの型評価式用
-        SimpleNode ret = EvaluationUtility.createEvalNode( node, node.getId() );
-
-        //--------------------------------------------------------------------------
-        // ＊初期値代入式では使用できない
-        //--------------------------------------------------------------------------
-        {
-            Node p = node.jjtGetParent();
-            while( p != null )
-            {
-                if( p.getId() == JJTVARIABLEINITIALIZER )
-                {
-                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD, node.symbol );
-                    AnalyzeErrorCounter.e();
-                    ret.symbol.type = TYPE_VOID;
-                    ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
-                    return ret;
-                }
-                p = p.jjtGetParent();
-            }
-        }
-
-        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
-        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, data );
-        final SymbolDefinition symL = exprL.symbol;
-        final SymbolDefinition symR = exprR.symbol;
-
-        // 左辺、右辺どちらか一方が文字列である必要がある（KONTAKT内で暗黙の型変換が作動する）
-        if( !symL.isString() && !symR.isString() )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
-            AnalyzeErrorCounter.e();
-            ret.symbol.type = TYPE_VOID;
-            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
-        }
-        else
-        {
-            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_STRING ) );
-            ret.symbol.type = TYPE_STRING;
-            if( symL.isConstant() && symR.isConstant() )
-            {
-                // 定数、リテラル文字列同士の連結：結合
-                String v = symL.value.toString() + symR.value.toString();
-                v = v.replaceAll( "\\\"", "" );
-                v = '"' + v + '"';
-                ret.symbol.addTypeFlag( TYPE_NONE, ACCESS_ATTR_CONST );
-                ret.symbol.value = v;
-                node.symbol.setValue( ret.symbol.value );
-                SymbolDefinition.setTypeFlag( ret.symbol, node.symbol );
-            }
-        }
-        return ret;
+        return EvaluationUtility.evalStringAddOperator( node, this, data );
     }
 
     /**

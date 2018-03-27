@@ -36,6 +36,10 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         return ret;
     }
 
+//------------------------------------------------------------------------------
+// ステートメント・コールバック・ユーザー関数
+//------------------------------------------------------------------------------
+
     /**
      * 与えられた式が条件ステートメント(if,while等)内で実行されているかどうかを判定する
      * BOOL演算子はこの状況下でしか使用出来ないKSP仕様
@@ -102,6 +106,31 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         }
         return ret;
     }
+
+//------------------------------------------------------------------------------
+// 変数
+//------------------------------------------------------------------------------
+
+    /**
+     * 指定されたノードが配列変数参照で、且つ添字を含んでいるかどうかを判定する
+     * @param varNode 変数参照のノード
+     * @param defaultValue varNodeが配列型変数参照のノードでなかった場合の戻り値
+     * @return 配列型変数参照のノードの場合は子ノード(ArrayIndx)を持つかどうかの判定結果、そうでない場合は defaultValue
+     */
+    static public boolean validArraySubscript( SimpleNode varNode, boolean defaultValue )
+    {
+        if( varNode.getId() != JJTREFVARIABLE || !varNode.symbol.isArray())
+        {
+            return defaultValue;
+        }
+
+        // RefVariable [ ArrayIndex ]
+        return varNode.jjtGetNumChildren() > 0;
+    }
+
+//------------------------------------------------------------------------------
+// 畳み込み
+//------------------------------------------------------------------------------
 
     /**
      * 与えられた式ノードから定数値を算出する（畳み込み）
@@ -332,73 +361,6 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
     /**
      * 与えられた式ノードから定数値を算出する（畳み込み）
      * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
-     * @param calc 定数値カウント時の再帰処理用。最初のノード時のみ "" を渡す
-     */
-    static public String evalConstantStringValue( SimpleNode expr, String calc, VariableTable variableTable )
-    {
-        String ret = null;
-
-        //--------------------------------------------------------------------------
-        // リテラル・変数
-        //--------------------------------------------------------------------------
-        if( expr.jjtGetNumChildren() == 0 )
-        {
-            switch( expr.getId() )
-            {
-                case JJTLITERAL:
-                {
-                    return expr.jjtGetValue().toString();
-                }
-                case JJTREFVARIABLE:
-                {
-                    Variable v = variableTable.search( expr.symbol );
-                    if( v == null )
-                    {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
-                        AnalyzeErrorCounter.e();
-                        return null;
-                    }
-                    else if( !v.isConstant() || !v.isString() )
-                    {
-                        return null;
-                    }
-                    return v.value.toString();
-                }
-            }
-        }
-        //--------------------------------------------------------------------------
-        // 文字列連結演算子
-        //--------------------------------------------------------------------------
-        else if( expr.jjtGetNumChildren() == 2 )
-        {
-            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
-            SimpleNode exprR = (SimpleNode)expr.jjtGetChild( 1 );
-            String numL = evalConstantStringValue( exprL, calc, variableTable );
-            if( numL == null )
-            {
-                return null;
-            }
-            String numR = evalConstantStringValue( exprR, numL, variableTable );
-            if( numR == null )
-            {
-                return null;
-            }
-            if( expr.getId() != JJTSTRADD )
-            {
-                throw new RuntimeException( "Unknown nodeId : " + expr.getId() );
-            }
-            ret = numL + numR;
-            // 演算子ノードに定数フラグと畳み込み後の値を格納
-            expr.symbol.setTypeFlag( TYPE_STRING, ACCESS_ATTR_CONST );
-            expr.symbol.value = ret;
-        }
-
-        return ret;
-    }
-
-    /**
-     * 与えられた式ノードから定数値を算出する（畳み込み）
-     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
      */
     static public Boolean evalConstantBooleanValue( SimpleNode node, SimpleNode exprL, SimpleNode exprR, VariableTable variableTable )
     {
@@ -484,13 +446,12 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
      * @param node 演算子ノード
      * @param numberOp 演算子は数値を扱う演算子かどうか
      * @param booleanOp 演算子はブール演算子かどうか
-     * @param stringOp 演算子は文字列連結演算子(&)かどうか
      * @param jjtVisitor jjtAcceptメソッドのvisitor引数
      * @param jjtAcceptData jjtAcceptメソッドのdata引数
      * @param variableTable 変数テーブル
      * @return SimpleNodeインスタンス（データ型を格納した評価結果。エラー時は TYPE_VOID が格納される）
      */
-    static public SimpleNode evalBinaryOperator( SimpleNode node, boolean numberOp, boolean booleanOp, boolean stringOp, KSPParserVisitor jjtVisitor, Object jjtAcceptData, VariableTable variableTable )
+    static public SimpleNode evalBinaryOperator( SimpleNode node, boolean numberOp, boolean booleanOp, KSPParserVisitor jjtVisitor, Object jjtAcceptData, VariableTable variableTable )
     {
 /*
              <operator>
@@ -514,9 +475,36 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         // 上位ノードの型評価式用
         SimpleNode ret = EvaluationUtility.createEvalNode( node, node.getId() );
 
-        // 左辺と右辺の型チェック
+        // 左辺と右辺の添え字、型チェック
         if( numberOp )
         {
+            // 配列変数の添え字の存在チェック
+            {
+                SimpleNode errArraySubscript = null;
+
+                if( !EvaluationUtility.validArraySubscript( exprL, true ) )
+                {
+                    errArraySubscript = exprL;
+                }
+                else if( !EvaluationUtility.validArraySubscript( exprR, true ) )
+                {
+                    errArraySubscript = exprR;
+                }
+
+                if( errArraySubscript != null )
+                {
+                    // 変数ノードの場合、宣言部が行番号にあたるので、演算子の出現行番号を指定する
+                    SymbolDefinition sym = new SymbolDefinition( errArraySubscript.symbol );
+                    sym.position.copy( node.symbol.position );
+
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT, sym );
+                    AnalyzeErrorCounter.e();
+                    ret.symbol.type = TYPE_VOID;
+                    ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
+                    return ret;
+                }
+            }
+
             // int と real を個別に判定しているのは、KSP が real から int の暗黙の型変換を持っていないため
             if( symL.isInt()  && symR.isInt() )
             {
@@ -527,15 +515,6 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
                 ret.symbol.type = TYPE_REAL;
             }
             else
-            {
-                typeCheckResult = false;
-            }
-        }
-        else if( stringOp )
-        {
-            ret.symbol.type = TYPE_STRING;
-            // どちらか一方の辺が文字列型ならOK（&演算子）
-            if( ( !symL.isString() && !symR.isString() ) || node.getId() != JJTSTRADD )
             {
                 typeCheckResult = false;
             }
@@ -590,11 +569,102 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
     }
 
     /**
+     * &演算子の評価インプリメンテーション
+     * @param node &演算子ノード
+     * @param jjtVisitor jjtAcceptメソッドのvisitor引数
+     * @param jjtAcceptData jjtAcceptメソッドのdata引数
+     * @return SimpleNodeインスタンス（データ型を格納した評価結果。エラー時は TYPE_VOID が格納される）
+     */
+    static public SimpleNode evalStringAddOperator( SimpleNode node, KSPParserVisitor jjtVisitor, Object jjtAcceptData )
+    {
+        // 上位ノードの型評価式用
+        SimpleNode ret  = EvaluationUtility.createEvalNode( node, node.getId() );
+        ret.symbol.type = TYPE_STRING;
+
+        //--------------------------------------------------------------------------
+        // ＊初期値代入式では使用できない
+        //--------------------------------------------------------------------------
+        {
+            Node p = node.jjtGetParent();
+            while( p != null )
+            {
+                if( p.getId() == JJTVARIABLEINITIALIZER )
+                {
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD, node.symbol );
+                    AnalyzeErrorCounter.e();
+                    ret.symbol.type = TYPE_VOID;
+                    ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
+                    return ret;
+                }
+                p = p.jjtGetParent();
+            }
+        }
+
+        final SimpleNode exprL      = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( jjtVisitor, jjtAcceptData );
+        final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( jjtVisitor, jjtAcceptData );
+        final SymbolDefinition symL = exprL.symbol;
+        final SymbolDefinition symR = exprR.symbol;
+
+        //----------------------------------------------------------------------
+        // KONTAKT内で暗黙の型変換が作動し、文字列型となる
+        //----------------------------------------------------------------------
+
+        // 以下の条件をみたす場合は結合できない
+        // ・添字のない配列変数(それ以外の変数型は可能)
+        // ・BOOL式
+        {
+            String errorMsgPropertyName = null;
+            SymbolDefinition errSym     = null;
+
+            SimpleNode nodeL = (SimpleNode)node.jjtGetChild( 0 );
+            SimpleNode nodeR = (SimpleNode)node.jjtGetChild( 1 );
+
+            if( !EvaluationUtility.validArraySubscript( nodeL, true ) )
+            {
+                errSym               = nodeL.symbol;
+                errorMsgPropertyName = MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT;
+            }
+            else if( !EvaluationUtility.validArraySubscript( nodeR, true ) )
+            {
+                errSym               = nodeR.symbol;
+                errorMsgPropertyName = MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT;
+            }
+            else if( nodeL.symbol.isBoolean() || nodeR.symbol.isBoolean() )
+            {
+                errSym               = node.symbol;
+                errorMsgPropertyName = MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID;
+            }
+
+            if( errorMsgPropertyName != null )
+            {
+                MessageManager.printlnE( errorMsgPropertyName, errSym );
+                AnalyzeErrorCounter.e();
+                ret.symbol.type = TYPE_VOID;
+                ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
+                return ret;
+            }
+        }
+
+        // 定数、リテラル同士の連結：結合
+        if( symL.isConstant() && symR.isConstant() )
+        {
+            String v = symL.value.toString() + symR.value.toString();
+            v = v.replaceAll( "\\\"", "" );
+            v = '"' + v + '"';
+            ret.symbol.addTypeFlag( TYPE_NONE, ACCESS_ATTR_CONST );
+            ret.symbol.value = v;
+            node.symbol.setValue( ret.symbol.value );
+            SymbolDefinition.setTypeFlag( ret.symbol, node.symbol );
+        }
+        return ret;
+    }
+
+    /**
      * evalBinaryOperator のコンビニエンスメソッド
      */
     static public SimpleNode evalBinaryNumberOperator( SimpleNode node, KSPParserVisitor jjtVisitor, Object jjtAcceptData, VariableTable variableTable )
     {
-        return evalBinaryOperator( node, true, false, false, jjtVisitor, jjtAcceptData, variableTable );
+        return evalBinaryOperator( node, true, false, jjtVisitor, jjtAcceptData, variableTable );
     }
 
     /**
@@ -602,15 +672,7 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
      */
     static public SimpleNode evalBinaryBooleanOperator( SimpleNode node, KSPParserVisitor jjtVisitor, Object jjtAcceptData, VariableTable variableTable )
     {
-        return evalBinaryOperator( node, false, true, false, jjtVisitor, jjtAcceptData, variableTable );
-    }
-
-    /**
-     * evalBinaryOperator のコンビニエンスメソッド
-     */
-    static public SimpleNode evalBinaryStringOperator( SimpleNode node, KSPParserVisitor jjtVisitor, Object jjtAcceptData, VariableTable variableTable )
-    {
-        return evalBinaryOperator( node, false, false, true, jjtVisitor, jjtAcceptData, variableTable );
+        return evalBinaryOperator( node, false, true, jjtVisitor, jjtAcceptData, variableTable );
     }
 
     /**

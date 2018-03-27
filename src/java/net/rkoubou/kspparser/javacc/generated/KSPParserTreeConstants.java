@@ -26,17 +26,17 @@ public interface KSPParserTreeConstants
   public int JJTASSIGNMENT = 20;
   public int JJTCONDITIONALOR = 21;
   public int JJTCONDITIONALAND = 22;
-  public int JJTINCLUSIVEOR = 23;
-  public int JJTAND = 24;
-  public int JJTEQUAL = 25;
-  public int JJTNOTEQUAL = 26;
-  public int JJTLT = 27;
-  public int JJTGT = 28;
-  public int JJTLE = 29;
-  public int JJTGE = 30;
-  public int JJTADD = 31;
-  public int JJTSUB = 32;
-  public int JJTSTRADD = 33;
+  public int JJTSTRADD = 23;
+  public int JJTINCLUSIVEOR = 24;
+  public int JJTAND = 25;
+  public int JJTEQUAL = 26;
+  public int JJTNOTEQUAL = 27;
+  public int JJTLT = 28;
+  public int JJTGT = 29;
+  public int JJTLE = 30;
+  public int JJTGE = 31;
+  public int JJTADD = 32;
+  public int JJTSUB = 33;
   public int JJTMUL = 34;
   public int JJTDIV = 35;
   public int JJTMOD = 36;
@@ -74,6 +74,7 @@ public interface KSPParserTreeConstants
     "Assignment",
     "ConditionalOr",
     "ConditionalAnd",
+    "StrAdd",
     "InclusiveOr",
     "And",
     "Equal",
@@ -84,7 +85,6 @@ public interface KSPParserTreeConstants
     "GE",
     "Add",
     "Sub",
-    "StrAdd",
     "Mul",
     "Div",
     "Mod",
@@ -98,4 +98,4 @@ public interface KSPParserTreeConstants
     "CommandArgumentList",
   };
 }
-/* JavaCC - OriginalChecksum=8eb99d30756b5b771197b687cb332c93 (do not edit this line) */
+/* JavaCC - OriginalChecksum=1d9ea893ee88cb62198bd997032b21a5 (do not edit this line) */

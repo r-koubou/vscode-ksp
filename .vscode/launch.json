@@ -17,7 +17,7 @@
                 "./classes/"
             ],
             "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
-            "args": "--source ./.temp/test.ksp"
+            "args": "./.temp/test.ksp"
         },
         {
             "type": "java",
@@ -32,7 +32,7 @@
                 "./classes/"
             ],
             "mainClass": "net.rkoubou.kspparser.KSPSyntaxParser",
-            "args": "--source ./.temp/test.ksp --obfuscate"
+            "args": "./.temp/test.ksp --obfuscate"
         },
         {
             "type": "java",

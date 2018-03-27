@@ -89,6 +89,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSIZE = "error.semantic.variable.invalid.arraysize";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE = "error.semantic.variable.invalid.maxarraysize";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER = "error.semantic.variable.invalid.arrayinitilizer";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT = "error.semantic.variable.invalid.arraysubscript";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE  = "error.semantic.variable.invalid.uitype";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_COUNT = "error.semantic.variable.invalid.uiinitializer.count";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_TYPE = "error.semantic.variable.invalid.uiinitializer.type";
