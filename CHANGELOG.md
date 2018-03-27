@@ -1,11 +1,19 @@
 # Changelog
 
+## Version 0.4.0(BETA3)
+
+- Syntax parser
+    - Fixed
+        [operator "&" problem (WIP)](https://github.com/r-koubou/KSPSyntaxParser/issues/5)
+    - Improved
+        - Check array subscribe supported
+
 ## Version 0.4.0(BETA2)
 
 - Obfuscator(BETA)
 
     Added: inline function
-    
+
     Default is OFF. If you try, turn on vscode preference **"ksp.obfuscator.inline.function"**
 
 ## Version 0.4.0(BETA1)
