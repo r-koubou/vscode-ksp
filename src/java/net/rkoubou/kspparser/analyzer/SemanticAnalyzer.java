@@ -27,7 +27,6 @@ import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableInitializer;
 import net.rkoubou.kspparser.javacc.generated.ASTWhileStatement;
-import net.rkoubou.kspparser.javacc.generated.Node;
 import net.rkoubou.kspparser.javacc.generated.SimpleNode;
 import net.rkoubou.kspparser.options.CommandlineOptions;
 
@@ -117,324 +116,6 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         return ret;
     }
 
-    /**
-     * 与えられた式が条件ステートメント(if,while等)内で実行されているかどうかを判定する
-     * BOOL演算子はこの状況下でしか使用出来ないKSP仕様
-     */
-    protected boolean isInConditionalStatement( Node expr )
-    {
-        Node p = expr.jjtGetParent();
-        while( p != null )
-        {
-            switch( p.getId() )
-            {
-                case JJTIFSTATEMENT:
-                case JJTWHILESTATEMENT:
-                case JJTSELECTSTATEMENT:
-                    return true;
-            }
-            p = p.jjtGetParent();
-        }
-        return false;
-    }
-
-    /**
-     * 現在のパース中のコールバックを取得する
-     */
-    protected ASTCallbackDeclaration getCurrentCallBack( Node child )
-    {
-        ASTCallbackDeclaration ret = null;
-        while( true )
-        {
-            Node p = child.jjtGetParent();
-            if( p == null )
-            {
-                return null;
-            }
-            if( p.getId() == JJTCALLBACKDECLARATION )
-            {
-                ret = (ASTCallbackDeclaration)p;
-                break;
-            }
-            child = p;
-        }
-        return ret;
-    }
-
-    /**
-     * 現在のパース中のユーザー定義関数を取得する
-     */
-    protected ASTUserFunctionDeclaration getCurrentUserFunction( Node child )
-    {
-        ASTUserFunctionDeclaration ret = null;
-        while( true )
-        {
-            Node p = child.jjtGetParent();
-            if( p == null )
-            {
-                return null;
-            }
-            if( p.getId() == JJTUSERFUNCTIONDECLARATION )
-            {
-                ret = (ASTUserFunctionDeclaration)p;
-                break;
-            }
-            child = p;
-        }
-        return ret;
-    }
-
-    /**
-     * 与えられた式ノードから定数値を算出する（畳み込み）
-     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
-     * @param calc 低数値カウント時の再帰処理用。最初のノード時のみ 0 を渡す
-     */
-    protected Integer evalConstantIntValue( SimpleNode expr, int calc )
-    {
-        int ret = 0;
-
-        //--------------------------------------------------------------------------
-        // リテラル・変数
-        //--------------------------------------------------------------------------
-        if( expr.jjtGetNumChildren() == 0 )
-        {
-            switch( expr.getId() )
-            {
-                case JJTLITERAL:
-                {
-                    return (Integer)expr.jjtGetValue();
-                }
-                case JJTREFVARIABLE:
-                {
-                    Variable v = variableTable.search( expr.symbol );
-                    if( v == null )
-                    {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
-                        AnalyzeErrorCounter.e();
-                        return null;
-                    }
-                    else if( !v.isConstant() || !v.isInt() )
-                    {
-                        return null;
-                    }
-                    v.referenced = true;
-                    v.state      = SymbolState.LOADED;
-                    return (Integer)v.value;
-                }
-            }
-        }
-        //--------------------------------------------------------------------------
-        // ２項演算子
-        //--------------------------------------------------------------------------
-        else if( expr.jjtGetNumChildren() == 2 )
-        {
-            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
-            SimpleNode exprR = (SimpleNode)expr.jjtGetChild( 1 );
-            Integer numL = evalConstantIntValue( exprL, calc );
-            if( numL == null )
-            {
-                return null;
-            }
-            Integer numR = evalConstantIntValue( exprR, numL );
-            if( numR == null )
-            {
-                return null;
-            }
-            switch( expr.getId() )
-            {
-                case JJTADD:            return numL + numR;
-                case JJTSUB:            return numL - numR;
-                case JJTMUL:            return numL * numR;
-                case JJTDIV:            return numL / numR;
-                case JJTMOD:            return numL % numR;
-                case JJTBITWISEOR:      return numL | numR;
-                case JJTBITWISEAND:     return numL & numR;
-                default:
-                    return null;
-            }
-        }
-        //--------------------------------------------------------------------------
-        // 単項演算子
-        //--------------------------------------------------------------------------
-        else if( expr.jjtGetNumChildren() == 1 )
-        {
-            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
-            Integer numL = evalConstantIntValue( exprL, calc );
-            if( numL == null )
-            {
-                return null;
-            }
-            switch( expr.getId() )
-            {
-                case JJTNEG:            return -numL;
-                case JJTNOT:            return ~numL;
-                case JJTLOGICALNOT:     return numL != 0 ? 0 : 1; // 0=false, 1=true としている
-                default:
-                    return null;
-            }
-
-        }
-
-        return ret;
-    }
-
-    /**
-     * 与えられた式ノードから定数値を算出する（畳み込み）
-     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
-     * @param calc 低数値カウント時の再帰処理用。最初のノード時のみ 0 を渡す
-     */
-    protected Double evalConstantRealValue( SimpleNode expr, double calc )
-    {
-        double ret = 0;
-
-        //--------------------------------------------------------------------------
-        // リテラル・変数
-        //--------------------------------------------------------------------------
-        if( expr.jjtGetNumChildren() == 0 )
-        {
-            switch( expr.getId() )
-            {
-                case JJTLITERAL:
-                {
-                    return (Double)expr.jjtGetValue();
-                }
-                case JJTREFVARIABLE:
-                {
-                    Variable v = variableTable.search( expr.symbol );
-                    if( v == null )
-                    {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, expr.symbol );
-                        AnalyzeErrorCounter.e();
-                        return null;
-                    }
-                    else if( !v.isConstant() || !v.isReal() )
-                    {
-                        return null;
-                    }
-                    v.referenced = true;
-                    v.state      = SymbolState.LOADED;
-                    return (Double)v.value;
-                }
-            }
-        }
-        //--------------------------------------------------------------------------
-        // ２項演算子
-        //--------------------------------------------------------------------------
-        else if( expr.jjtGetNumChildren() == 2 )
-        {
-            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
-            SimpleNode exprR = (SimpleNode)expr.jjtGetChild( 1 );
-            Double numL = evalConstantRealValue( exprL, calc );
-            if( numL == null )
-            {
-                return null;
-            }
-            Double numR = evalConstantRealValue( exprR, numL );
-            if( numR == null )
-            {
-                return null;
-            }
-            switch( expr.getId() )
-            {
-                case JJTADD:            return numL + numR;
-                case JJTSUB:            return numL - numR;
-                case JJTMUL:            return numL * numR;
-                case JJTDIV:            return numL / numR;
-                case JJTMOD:            return numL % numR;
-                default:
-                    return null;
-            }
-        }
-        //--------------------------------------------------------------------------
-        // 単項演算子
-        //--------------------------------------------------------------------------
-        else if( expr.jjtGetNumChildren() == 1 )
-        {
-            SimpleNode exprL = (SimpleNode)expr.jjtGetChild( 0 );
-            Double numL = evalConstantRealValue( exprL, calc );
-            if( numL == null )
-            {
-                return null;
-            }
-            switch( expr.getId() )
-            {
-                case JJTNEG:            return -numL;
-                default:
-                    return null;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * 与えられた式ノードから定数値を算出する（畳み込み）
-     * 定数値が含まれていない場合はその時点で処理を終了、nullを返す。
-     */
-    protected Boolean evalConstantBooleanValue( SimpleNode node )
-    {
-        SimpleNode exprL = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, null );
-        SimpleNode exprR = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( this, null );
-        SymbolDefinition symL = exprL.symbol;
-        SymbolDefinition symR = exprR.symbol;
-        Boolean ret = null;
-
-        if( ( symL.type != symR.type ) ||
-            ( !SymbolDefinition.isConstant( symL.accessFlag ) || !SymbolDefinition.isConstant( symR.accessFlag ) ) )
-        {
-            return null;
-        }
-
-        ret = false;
-        if( symL.getPrimitiveType() != symR.getPrimitiveType()  )
-        {
-            return null;
-        }
-
-        switch( symL.getPrimitiveType() )
-        {
-            case TYPE_INT:
-            {
-                Integer intL = evalConstantIntValue( exprL,  0 );
-                Integer intR = evalConstantIntValue( exprR,  0 );
-
-                if( intL != null && intR != null )
-                {
-                    switch( node.getId() )
-                    {
-                        case JJTEQUAL:      ret = intL == intR; break;
-                        case JJTNOTEQUAL:   ret = intL != intR; break;
-                        case JJTGT:         ret = intL > intR;  break;
-                        case JJTLT:         ret = intL < intR;  break;
-                        case JJTGE:         ret = intL >= intR; break;
-                        case JJTLE:         ret = intL <= intR; break;
-                    }
-                }
-            }
-            break;
-            case TYPE_REAL:
-            {
-                Double realL = evalConstantRealValue( exprL,  0 );
-                Double realR = evalConstantRealValue( exprR,  0 );
-                if( realL != null && realR != null )
-                {
-                    switch( node.getId() )
-                    {
-                        case JJTEQUAL:      ret = realL == realR; break;
-                        case JJTNOTEQUAL:   ret = realL != realR; break;
-                        case JJTGT:         ret = realL > realR;  break;
-                        case JJTLT:         ret = realL < realR;  break;
-                        case JJTGE:         ret = realL >= realR; break;
-                        case JJTLE:         ret = realL <= realR; break;
-                    }
-                }
-            }
-            break;
-        }
-
-        return ret;
-    }
-
 //--------------------------------------------------------------------------
 // 変数宣言
 //--------------------------------------------------------------------------
@@ -461,8 +142,15 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
             final Variable v    = variableTable.search( node.symbol );
             final UIType uiType = uiTypeTable.search( v.uiTypeName );
 
+            // const 修飾子がついているかどうかの検証
+            if( v.isConstant() )
+            {
+                // 変数宣言時に初期化式が必須
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER, v );
+                AnalyzeErrorCounter.e();
+            }
             // UI型変数の初期値代入必須の検証
-            if( v.isUIVariable() )
+            else if( v.isUIVariable() )
             {
                 if( uiType == null )
                 {
@@ -607,11 +295,11 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
             Object value = null;
             if( v.isInt() )
             {
-                value = evalConstantIntValue( expr, 0 );
+                value = EvaluationUtility.evalConstantIntValue( expr, 0, variableTable );
             }
             else if( v.isReal() )
             {
-                value = evalConstantRealValue( expr, 0 );
+                value = EvaluationUtility.evalConstantRealValue( expr, 0, variableTable );
             }
             else if( v.isString() )
             {
@@ -741,7 +429,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 return false;
             }
 
-            size = evalConstantIntValue( n, 0 );
+            size = EvaluationUtility.evalConstantIntValue( n, 0, variableTable );
 
             if( size == null || size <= 0 )
             {
@@ -1036,7 +724,7 @@ SEARCH:
         exprLType = variable.type;
         exprRType = exprR.symbol.type;
 
-        if( variable.isConstant( ) )
+        if( variable.isConstant() )
         {
             SymbolDefinition.copy( exprR.symbol, tempSymbol );
             tempSymbol.setName( variable.getName() );
@@ -1062,8 +750,8 @@ SEARCH:
         if( ( exprLType & TYPE_MASK ) != ( exprRType & TYPE_MASK ) )
         {
             // 代入先が文字列型なら暗黙の型変換が可能
-            // 文字列型以外なら型の不一致
-            if( !symL.isString() )
+            // 文字列型以外なら型の不一致 or 条件式は代入不可
+            if( !symL.isString() || symR.isBoolean() )
             {
                 String vType = SymbolDefinition.getTypeName( SymbolDefinition.getPrimitiveType( exprLType ) );
                 String aType = SymbolDefinition.getTypeName( exprRType );
@@ -1174,7 +862,7 @@ SEARCH:
     public Object visit( ASTArrayIndex node, Object data )
     {
 /*
-            parent:<variable>
+            parent:<RefVariable>
                     +
                     |
                     +
@@ -1194,6 +882,26 @@ SEARCH:
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_ARRAY_ELEMENT_INTONLY, expr.symbol );
             AnalyzeErrorCounter.e();
         }
+        // インデックスが定数値で配列サイズ外アクセス（Out of Bounds）
+        if( sym.isConstant() && !EvaluationUtility.isInVariableDeclaration( node ) )
+        {
+            Variable v = variableTable.search( parent.symbol );
+            if( v != null && sym.value != null )
+            {
+                int index = Integer.parseInt( sym.value.toString() );
+                int size  = v.arraySize;
+                if( index < 0 || index >= size )
+                {
+                    // 行番号を合わせるため、行番号をマージした一時シンボルを生成
+                    SymbolDefinition s = new SymbolDefinition( v );
+                    s.position.copy( parent.symbol.position );
+
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYOUTOFBOUNDS, s, String.valueOf( size ), String.valueOf( index ) );
+                    AnalyzeErrorCounter.e();
+                }
+            }
+        }
+
         return ret;
     }
 
@@ -1224,7 +932,7 @@ SEARCH:
             return ret;
         }
 
-        ASTCallbackDeclaration callback = getCurrentCallBack( node );
+        ASTCallbackDeclaration callback = EvaluationUtility.getCurrentCallBack( node );
 
         for( int t : cmd.returnType.typeList )
         {
@@ -1556,7 +1264,7 @@ SEARCH:
             SimpleNode caseNode  = (SimpleNode)node.jjtGetChild( i );
             SimpleNode caseCond1 = (SimpleNode)caseNode.jjtGetChild( 0 ).jjtAccept( this, data );
             SimpleNode caseCond2 = null;
-            Integer caseValue1   = evalConstantIntValue( caseCond1, 0 );
+            Integer caseValue1   = EvaluationUtility.evalConstantIntValue( caseCond1, 0, variableTable );
             Integer caseValue2   = null;
             SimpleNode blockNode = (SimpleNode)caseNode.jjtGetChild( caseNode.jjtGetNumChildren() - 1 );
 
@@ -1576,7 +1284,7 @@ SEARCH:
                 if( n.getId() == JJTCASECONDITION ) // to ではない場合は Block ノード
                 {
                     caseCond2  = (SimpleNode)caseNode.jjtGetChild( 1 ).jjtAccept( this, data );
-                    caseValue2 = evalConstantIntValue( caseCond2, 0 );
+                    caseValue2 = EvaluationUtility.evalConstantIntValue( caseCond2, 0, variableTable );
                     if( caseValue2 == null )
                     {
                         // 定数値ではない

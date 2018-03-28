@@ -161,4 +161,18 @@ public interface AnalyzerConstants
 
     /** 変数名：データ型記号がつかないプリプロセッサシンボル等のシンボルの正規表現 */
     Pattern REGEX_NON_TYPE_PREFIX = Pattern.compile( "^[a-z|A-Z|_]" );
+
+    /**
+     * NI が使用を禁止している変数名の接頭文字
+     */
+    String[] RESERVED_VARIABLE_PREFIX_LIST =
+    {
+        // From KSP Reference Manual:
+        // Please do not create variables with the prefixes below, as these prefixes are used for
+        // internal variables and constants
+        "$NI_",
+        "$CONTROL_PAR_",
+        "$EVENT_PAR_",
+        "$ENGINE_PAR_",
+    };
 }

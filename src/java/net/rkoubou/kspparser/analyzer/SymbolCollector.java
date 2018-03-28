@@ -31,20 +31,6 @@ public class SymbolCollector extends AbstractAnalyzer
     public final PreProcessorSymbolTable preProcessorSymbolTable    = new PreProcessorSymbolTable();
 
     /**
-     * NI が使用を禁止している変数名の接頭文字
-     */
-    static private final String[] RESERVED_VARIABLE_PREFIX_LIST =
-    {
-        // From KSP Reference Manual:
-        // Please do not create variables with the prefixes below, as these prefixes are used for
-        // internal variables and constants
-        "$NI_",
-        "$CONTROL_PAR_",
-        "$EVENT_PAR_",
-        "$ENGINE_PAR_",
-    };
-
-    /**
      * ctor.
      */
     public SymbolCollector( ASTRootNode node )
@@ -164,16 +150,10 @@ public class SymbolCollector extends AbstractAnalyzer
             //--------------------------------------------------------------------------
             // 予約済み（NIが禁止している）接頭語検査
             //--------------------------------------------------------------------------
+            if( !EvaluationUtility.isAvailableUserVariableName( d, false ) )
             {
-                for( String n : RESERVED_VARIABLE_PREFIX_LIST )
-                {
-                    if( d.getName().startsWith( n ) )
-                    {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED, d );
-                        AnalyzeErrorCounter.e();
-                        break;
-                    }
-                }
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED, d );
+                AnalyzeErrorCounter.e();
             }
             //--------------------------------------------------------------------------
             // on init 外での宣言検査

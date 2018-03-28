@@ -78,6 +78,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_COND_BOOLEAN             = "error.semantic.cond.boolean";
     static public final String PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT         = "error.semantic.binopr.different";
     static public final String PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY  = "error.semantic.expression.constantonly";
+    static public final String PROPERTY_WARNING_SEMANTIC_VARIABLE_UNKNOWN = "warning.semantic.variable.unknown";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER = "error.semantic.variable.required.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER = "error.semantic.variable.invalid.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER = "error.semantic.variable.invalid.string.initializer";
@@ -90,6 +91,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE = "error.semantic.variable.invalid.maxarraysize";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER = "error.semantic.variable.invalid.arrayinitilizer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYSUBSCRIPT = "error.semantic.variable.invalid.arraysubscript";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYOUTOFBOUNDS = "error.semantic.variable.invalid.arrayoutofbounds";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UITYPE  = "error.semantic.variable.invalid.uitype";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_COUNT = "error.semantic.variable.invalid.uiinitializer.count";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_UIINITIALIZER_TYPE = "error.semantic.variable.invalid.uiinitializer.type";
@@ -98,6 +100,7 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_ASSIGN_TYPE_NOTCOMPATIBLE = "error.semantic.assign.type.notcompatible";
     static public final String PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_NUMONLY  = "error.semantic.single.operator.numonly";
     static public final String PROPERTY_ERROR_SEMANTIC_SINGLE_OPERATOR_LNOT     = "error.semantic.single.operator.lnot";
+    static public final String PROPERTY_ERROR_SEMANTIC_STRING_OPERATOR_CONDITIONAL = "error.semantic.string.operator.conditional";
     static public final String PROPERTY_ERROR_SEMANTIC_ARRAY_ELEMENT_INTONLY    = "error.semantic.array.element.intonly";
     static public final String PROPERTY_WARNING_SEMANTIC_CASEVALUE              = "warning.semantic.casevalue";
     static public final String PROPERTY_ERROR_SEMANTIC_CASEVALUE_CONSTONLY      = "error.semantic.casevalue.constonly";
