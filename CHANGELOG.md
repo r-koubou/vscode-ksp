@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 0.4.0(BETA4)
+
+- Syntax parser
+    - Fixed
+        - Single operator convolution
+    - Improved
+        - Check array subscribe
+
 ## Version 0.4.0(BETA3)
 
 - Syntax parser

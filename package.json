@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT Script Processor (KSP)",
-    "version": "0.4.0-beta3",
+    "version": "0.4.0-beta4",
     "publisher": "rkoubou",
     "license": "MIT",
     "keywords": [
