@@ -1,8 +1,14 @@
-# Native Instruments KONTAKT Script for VS Code
+# Language support for NI KONTAKT(TM) Script Processor (KSP)
 
 <small>※日本語の説明は英語の後に書いています</small>
 
 ## Features
+
+### NEW
+
+* Obfuscate and Optimize a Script **(BETA)**
+
+### Other Features
 
 * Syntax highlighting
 * Autocomplete
@@ -26,29 +32,39 @@
     `Default is "disabled".`
     You can change setting at Preferences -> Settings (Part of "KONTAKT Script Processor (KSP)" ).
 
-## Obfuscation (-- BETA --)
+## Obfuscate a Script (-- BETA --)
 
 **OUT OF WARRANTY because it is BETA version.**
 
 Run from command palet
 
+### [How to Run]
+
+1. Script file open
+2. Set language mode to 'ksp'
+3. Open command palette and type 'ksp'
+4. Select Obfuscator
+
+![](images/readme/obfuscate_01.gif)
+
+### Detail
+
 * Expand constant variable / literal
 
 ~~~
     e.g.
-
     [Before]
     declare const $MAX := 100
     declare $i
     declare @s
     $i := $MAX * 10
-    @a := "MAX is" & $MAX
+    @a := "MAX is" & $MAX & " always $MAX is 100"
 
     [After]
     declare $_geug
     declare @_sxhd
     $_geug := 1000
-    @_sxhd := "MAX is 100"
+    @_sxhd := "MAX is 100 always $MAX is 100"
 ~~~
 
 * Rename
@@ -57,6 +73,10 @@ Run from command palet
 * Shrink
     * user variable if unused anywhere
     * user function if unused anywhere
+
+* inline user function
+
+    Default is disabled. If you try, turn on vscode preference **"ksp.obfuscator.inline.function"**
 
 ### About Syntax validation
 
@@ -135,6 +155,13 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ## 機能
 
+### 新機能
+
+* スクリプトのオブファスケートとオプティマイザ **(BETA)**
+
+
+### その他機能
+
 * シンタックスハイライト
 * 補完入力
 * スニペット
@@ -164,23 +191,33 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 コマンドパレットから実行できます
 
+### [実行方法]
+
+1. スクリプファイルを開く
+2. 言語モードを'ksp'に設定する
+3. コマンドパレットを開き、'ksp' とタイプする
+4. オブファスケーターを選択する
+
+![](images/readme/obfuscate_01.gif)
+
+### 詳細
+
 * 定数、リテラルの展開
 
 ~~~
     例：
-
     [Before]
     declare const $MAX := 100
     declare $i
     declare @s
     $i := $MAX * 10
-    @a := "MAX is" & $MAX
+    @a := "MAX is" & $MAX & " always $MAX is 100"
 
     [After]
     declare $_geug
     declare @_sxhd
     $_geug := 1000
-    @_sxhd := "MAX is 100"
+    @_sxhd := "MAX is 100 always $MAX is 100"
 ~~~
 
 * リネーム
@@ -188,6 +225,11 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
     - ユーザー定義の関数名
 * シュリンク
     * どこからも使用されていない変数、関数
+
+* ユーザー定義関数のインライン展開
+
+    初期設定ではオフにしています。もし試す場合はVSCodeの設定→ **"ksp.obfuscator.inline.function"** を編集して下さい。
+
 
 ### 文法解析機能について
 

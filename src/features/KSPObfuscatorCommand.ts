@@ -10,6 +10,7 @@
 
 import * as vscode          from 'vscode';
 import * as cp              from 'child_process';
+import * as path            from 'path';
 
 import * as kspconst        from './KSPExtensionConstants';
 import * as config          from './KSPConfigurationConstants';
@@ -24,11 +25,16 @@ export function doObfuscate( context: vscode.ExtensionContext )
     let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
     let args: string[]      = [];
     var textDocument: vscode.TextDocument;
-    let suffix = config.DEFAULT_OBFUSCATOR_SUFFIX;;
+    let suffix = config.DEFAULT_OBFUSCATOR_SUFFIX;
+    let REG_SUFFIX: RegExp  = /(.*)(?:\.([^.]+$))/;
+    let defaultOutputDir: string;
+    let defaultOutputName: string;
+    let defaultOutputPath: string;
 
     KSPConfigurationManager.getConfig<string>( config.KEY_OBFUSCATOR_SUFFIX, config.DEFAULT_OBFUSCATOR_SUFFIX, (v, user) =>{
         suffix = v;
     });
+
 
     //--------------------------------------------------------------------------
     // Preverify
@@ -55,7 +61,21 @@ export function doObfuscate( context: vscode.ExtensionContext )
     }
 
     //--------------------------------------------------------------------------
-    // Run Obfuscator
+    // Initialize from context
+    //--------------------------------------------------------------------------
+    defaultOutputDir  = path.dirname( textDocument.fileName );
+    defaultOutputName = path.basename( textDocument.fileName );
+    {
+        let group: string[] = defaultOutputName.match( REG_SUFFIX );
+        if( group.length >= 2 )
+        {
+            defaultOutputName = defaultOutputName.match( REG_SUFFIX )[ 1 ];
+        }
+    }
+    defaultOutputPath = path.join( defaultOutputDir, defaultOutputName ) + suffix;
+
+    //--------------------------------------------------------------------------
+    // Run Obfuscator function
     //--------------------------------------------------------------------------
     function obfuscate( output:string ){
 
@@ -119,20 +139,20 @@ export function doObfuscate( context: vscode.ExtensionContext )
                     }
                     else
                     {
-                        vscode.window.showInformationMessage( "KSP Obfuscator: Successfully" );
+                        vscode.window.showInformationMessage( "KSP Obfuscator: Successfully : " + path.basename( textDocument.fileName ) );
                     }
                 });
             }
         }
         catch( e )
         {
-            vscode.window.showErrorMessage( "Obfuscation failed" );
+            vscode.window.showErrorMessage( "Obfuscation failed : " + path.basename( textDocument.fileName ) );
         }
 
     }; //~function obfuscate
 
     vscode.window.showSaveDialog({
-        defaultUri: vscode.Uri.file( textDocument.fileName + suffix ),
+        defaultUri: vscode.Uri.file( defaultOutputPath ),
         filters:{ 'KSP Script': [ 'txt', 'ksp' ] }
     }).then( result=>{
         if( result )

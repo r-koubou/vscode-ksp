@@ -1162,6 +1162,22 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_2"
     },
+    "$ENGINE_PAR_SENDLEVEL_3":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_3"
+    },
+    "$ENGINE_PAR_SENDLEVEL_4":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_4"
+    },
+    "$ENGINE_PAR_SENDLEVEL_5":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_5"
+    },
+    "$ENGINE_PAR_SENDLEVEL_6":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_6"
+    },
     "$ENGINE_PAR_SENDLEVEL_7":
     {
         "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_7"
@@ -2034,6 +2050,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $LFO_TYPE_RANDO"
     },
+    "$LFO_TYPE_RANDOM":
+    {
+        "description": "Built-in Variable: $LFO_TYPE_RANDOM"
+    },
     "$LFO_TYPE_RECTANGLE":
     {
         "description": "Built-in Variable: $LFO_TYPE_RECTANGLE"
@@ -2613,5 +2633,81 @@ export var builtinVariables = {
     "~NI_MATH_PI":
     {
         "description": "Built-in Variable: ~NI_MATH_PI"
+    },
+    "$ENGINE_PAR_EXTMOD_INTENSITY":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_EXTMOD_INTENSITY"
+    },
+    "$ENGINE_PAR_INTMOD_INTENSITY":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_INTENSITY"
+    },
+    "$ENGINE_PAR_RELEASE_TRIGGER":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_RELEASE_TRIGGER"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_0":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_0"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_1":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_1"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_2":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_2"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_3":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_3"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_4":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_4"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_5":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_5"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_6":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_6"
+    },
+    "$ENGINE_PAR_SENDLEVEL_SMOOTHED_7":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_SMOOTHED_7"
+    },
+    "$GET_FOLDER_INSTALL_DIR":
+    {
+        "description": "Built-in Variable: $GET_FOLDER_INSTALL_DIR"
+    },
+    "$IDX_OFFSET_EXT_MOD":
+    {
+        "description": "Built-in Variable: $IDX_OFFSET_EXT_MOD"
+    },
+    "$INST_LIB_COPYRIGHT_ID":
+    {
+        "description": "Built-in Variable: $INST_LIB_COPYRIGHT_ID"
+    },
+    "$INST_LIB_DESCRIPTION_ID":
+    {
+        "description": "Built-in Variable: $INST_LIB_DESCRIPTION_ID"
+    },
+    "$INST_LIB_PIC_ONE_ID":
+    {
+        "description": "Built-in Variable: $INST_LIB_PIC_ONE_ID"
+    },
+    "$INST_LIB_PIC_TWO_ID":
+    {
+        "description": "Built-in Variable: $INST_LIB_PIC_TWO_ID"
+    },
+    "$LFO_TYPE_SINE":
+    {
+        "description": "Built-in Variable: $LFO_TYPE_SINE"
+    },
+    "$NI_CB_TYPE_ASYNC_COMPLETE":
+    {
+        "description": "Built-in Variable: $NI_CB_TYPE_ASYNC_COMPLETE"
     },
 };

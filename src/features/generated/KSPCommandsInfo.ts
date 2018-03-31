@@ -37,6 +37,11 @@ export var commands = {
         "signature":   "",
         "description": "executed whenever any pgs_set_key_val() command is executed in any script"
     },
+    "on _pgs_changed":
+    {
+        "signature":   "",
+        "description": ""
+    },
     "on poly_at":
     {
         "signature":   "",
@@ -86,6 +91,11 @@ export var commands = {
     {
         "signature":   "(variable)",
         "description": "retain the value of a variable whith the instrument and snapshot"
+    },
+    "_read_persistent_var":
+    {
+        "signature":   "(variable)",
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
     },
     "read_persistent_var":
     {
@@ -712,6 +722,11 @@ export var commands = {
         "signature":   "(text)",
         "description": "set the script title"
     },
+    "_set_skin_offset":
+    {
+        "signature":   "(offsetInPixel)",
+        "description": "offsets the chosen background picture file by the specified number of pixels"
+    },
     "set_skin_offset":
     {
         "signature":   "(offsetInPixel)",
@@ -827,10 +842,20 @@ export var commands = {
         "signature":   "(groupIndex,modIndex,targetName)",
         "description": "returns the slot index of a modulation slot of an internal modulator"
     },
+    "_get_engine_par":
+    {
+        "signature":   "(parameter,group,slot,generic)",
+        "description": "returns the value of a specific engine parameter"
+    },
     "get_engine_par":
     {
         "signature":   "(parameter,group,slot,generic)",
         "description": "returns the value of a specific engine parameter"
+    },
+    "_get_engine_par_disp":
+    {
+        "signature":   "(parameter,group,slot,generic)",
+        "description": "returns the displayed string of a specific engine parameter"
     },
     "get_engine_par_disp":
     {
@@ -847,6 +872,11 @@ export var commands = {
         "signature":   "(outputNumber)",
         "description": "returns the channel name for the specified output"
     },
+    "_set_engine_par":
+    {
+        "signature":   "(parameter,value,group,slot,generic)",
+        "description": "control automatable KONTAKT parameters and bypass buttons"
+    },
     "set_engine_par":
     {
         "signature":   "(parameter,value,group,slot,generic)",
@@ -856,6 +886,11 @@ export var commands = {
     {
         "signature":   "(voiceType,value)",
         "description": "sets the voice limit for the Time Machine Pro mode of the source module"
+    },
+    "_get_folder":
+    {
+        "signature":   "(pathVariable)",
+        "description": "returns the path specified with the built-in path variable"
     },
     "get_folder":
     {
@@ -871,6 +906,11 @@ export var commands = {
     {
         "signature":   "(arrayVariable,path)",
         "description": "loads an array from an external file (.nka file) using the file's absolute path"
+    },
+    "_load_ir_sample":
+    {
+        "signature":   "(filePath,slot,generic)",
+        "description": "loads an impulse response sample into KONTAKT's convolution effect"
     },
     "load_ir_sample":
     {
@@ -1057,19 +1097,39 @@ export var commands = {
         "signature":   "",
         "description": "condition; if defined with SET_CONDITION(), the system script which triggers samples upon the release of a key is bypassed"
     },
+    "_reset_rls_trig_counter":
+    {
+        "signature":   "(note)",
+        "description": "dresets the release trigger counter (used by the release trigger system script)"
+    },
     "reset_rls_trig_counter":
     {
         "signature":   "(note)",
         "description": "dresets the release trigger counter (used by the release trigger system script)"
+    },
+    "_will_never_terminate":
+    {
+        "signature":   "(eventId)",
+        "description": ""
     },
     "will_never_terminate":
     {
         "signature":   "(eventId)",
         "description": ""
     },
+    "_pgs_create_key":
+    {
+        "signature":   "(keyId,size)",
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
     "pgs_create_key":
     {
         "signature":   "(keyId,size)",
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "_pgs_key_exists":
+    {
+        "signature":   "(keyId)",
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
     "pgs_key_exists":
@@ -1077,9 +1137,19 @@ export var commands = {
         "signature":   "(keyId)",
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
+    "_pgs_set_key_val":
+    {
+        "signature":   "(keyId,index,value)",
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
     "pgs_set_key_val":
     {
         "signature":   "(keyId,index,value)",
+        "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
+    },
+    "_pgs_get_key_val":
+    {
+        "signature":   "(keyId,index)",
         "description": "It is possible to send and receive values from one script to another, discarding the usual left-to-right order by using the Program Global Storage (PGS) commands. PGS is a dynamic memory that can be read/written by any script."
     },
     "pgs_get_key_val":
@@ -1111,6 +1181,31 @@ export var commands = {
     {
         "signature":   "(zone_ID)",
         "description": "returns the length of the specified zone's sample in microseconds"
+    },
+    "_slice_length":
+    {
+        "signature":   "(zone_ID,sliceIndex)",
+        "description": "returns the length in microseconds of the specified slice with respect to the current tempo"
+    },
+    "_slice_start":
+    {
+        "signature":   "(zone_ID,sliceIndex)",
+        "description": "returns the absolute start point of the specified slice in microseconds, independent of the current tempo"
+    },
+    "_slice_idx_loop_start":
+    {
+        "signature":   "(zone_ID,loopIndex)",
+        "description": "returns the index number of the slice at the loop start"
+    },
+    "_slice_idx_loop_end":
+    {
+        "signature":   "(zone_ID,loopIndex)",
+        "description": "returns the index number of the slice at the loop end"
+    },
+    "_slice_loop_count":
+    {
+        "signature":   "(zone_ID,loopIndex)",
+        "description": "returns the loop count of the specified loop"
     },
     "num_slices_zone":
     {
@@ -1171,5 +1266,130 @@ export var commands = {
     {
         "signature":   "(channel,command,byte1,byte2)",
         "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
+    "_delay_event_for_loading_slots":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "cc_delivery_request":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "change_time_with_pitch":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "get_control_par_arr":
+    {
+        "signature":   "(arg1,arg2,arg3)",
+        "description": "Undocumented"
+    },
+    "get_control_par_str":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "get_engine_par_disp_m":
+    {
+        "signature":   "(arg1,arg2,arg3,arg4)",
+        "description": "Undocumented"
+    },
+    "get_engine_par_m":
+    {
+        "signature":   "(arg1,arg2,arg3,arg4)",
+        "description": "Undocumented"
+    },
+    "load_ir_sample_m":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "load_patch":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "mf_get_note_length":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "mf_get_pos":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "mf_get_track_idx":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "_num_slices":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "num_slices":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "redirect_midi":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "redirect_output":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "reset_engine":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "set_engine_par_m":
+    {
+        "signature":   "(arg1,arg2,arg3,arg4,arg5)",
+        "description": "Undocumented"
+    },
+    "show_library_tab":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "slice_idx_loop_end":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "slice_idx_loop_start":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "slice_length":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "slice_loop_count":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "slice_start":
+    {
+        "signature":   "${1:arg1},${2:arg2}",
+        "description": "Undocumented"
+    },
+    "unload_slot":
+    {
+        "signature":   "(arg1)",
+        "description": "Undocumented"
     },
 };
