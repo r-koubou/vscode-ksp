@@ -6,10 +6,9 @@ public interface KSPParserVisitor
   public Object visit(SimpleNode node, Object data);
   public Object visit(ASTRootNode node, Object data);
   public Object visit(ASTVariableDeclaration node, Object data);
-  public Object visit(ASTVariableDeclarator node, Object data);
   public Object visit(ASTVariableInitializer node, Object data);
+  public Object visit(ASTPrimitiveInititalizer node, Object data);
   public Object visit(ASTArrayInitializer node, Object data);
-  public Object visit(ASTUIInitializer node, Object data);
   public Object visit(ASTCallbackDeclaration node, Object data);
   public Object visit(ASTCallbackArgumentList node, Object data);
   public Object visit(ASTUserFunctionDeclaration node, Object data);
@@ -27,8 +26,9 @@ public interface KSPParserVisitor
   public Object visit(ASTAssignment node, Object data);
   public Object visit(ASTConditionalOr node, Object data);
   public Object visit(ASTConditionalAnd node, Object data);
-  public Object visit(ASTInclusiveOr node, Object data);
-  public Object visit(ASTAnd node, Object data);
+  public Object visit(ASTStrAdd node, Object data);
+  public Object visit(ASTBitwiseOr node, Object data);
+  public Object visit(ASTBitwiseAnd node, Object data);
   public Object visit(ASTEqual node, Object data);
   public Object visit(ASTNotEqual node, Object data);
   public Object visit(ASTLT node, Object data);
@@ -37,7 +37,6 @@ public interface KSPParserVisitor
   public Object visit(ASTGE node, Object data);
   public Object visit(ASTAdd node, Object data);
   public Object visit(ASTSub node, Object data);
-  public Object visit(ASTStrAdd node, Object data);
   public Object visit(ASTMul node, Object data);
   public Object visit(ASTDiv node, Object data);
   public Object visit(ASTMod node, Object data);
@@ -50,4 +49,4 @@ public interface KSPParserVisitor
   public Object visit(ASTCallCommand node, Object data);
   public Object visit(ASTCommandArgumentList node, Object data);
 }
-/* JavaCC - OriginalChecksum=96784fba793967fcdb720b464d6dc645 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8858f020937be59c25d7d78c6c3cfc10 (do not edit this line) */

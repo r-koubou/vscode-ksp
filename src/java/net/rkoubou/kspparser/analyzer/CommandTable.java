@@ -53,7 +53,7 @@ public class CommandTable extends SymbolTable<ASTCallCommand, Command> implement
      */
     public boolean add( Command c )
     {
-        final String name = c.name;
+        final String name = c.getName();
         if( table.containsKey( name ) )
         {
             return false;

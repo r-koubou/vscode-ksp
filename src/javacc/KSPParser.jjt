@@ -29,8 +29,6 @@ import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.Variable;
-import net.rkoubou.kspparser.analyzer.Position;
-
 
 public class KSPParser implements AnalyzerConstants
 {
@@ -121,7 +119,7 @@ public class KSPParser implements AnalyzerConstants
     {
         if( token.image != null )
         {
-            dest.symbol.name = token.image;
+            dest.symbol.setName( token.image );
         }
         dest.symbol.position.copy( token );
         dest.symbol.type        = type;
@@ -179,7 +177,7 @@ public class KSPParser implements AnalyzerConstants
     void applyAllLiteral( Token token, SimpleNode dest )
     {
         dest.jjtSetValue( dest.symbol.value );
-        dest.symbol.name         = "";
+        dest.symbol.setName( "" );
         dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
         dest.symbol.position.copy( token );
         dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
@@ -442,6 +440,7 @@ Token Variable() :
 //
 void VariableDeclaration() #VariableDeclaration:
 {
+    Token name;
     Token symbol;
     Token uiType = null;
 }
@@ -453,7 +452,16 @@ void VariableDeclaration() #VariableDeclaration:
             | <POLYPHONIC>           { jjtThis.symbol.accessFlag = ACCESS_ATTR_POLY; }
             | uiType = <IDENTIFIER>  { jjtThis.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
         )?
-        VariableDeclarator( jjtThis )
+
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+        (
+            name = Variable()
+            [ LOOKAHEAD(2) VariableInitializer() ]
+        )
+        {
+            jjtThis.symbol.setName( name.image );
+            jjtThis.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
+        }
     )
     {
         if( uiType != null )
@@ -466,61 +474,57 @@ void VariableDeclaration() #VariableDeclaration:
 }
 
 //
-// 変数宣言(詳細)
-//
-void VariableDeclarator( ASTVariableDeclaration decl ) #VariableDeclarator:
-{
-    Token name;
-}
-{
-    (
-        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
-        name = Variable()
-        (
-            (
-                [ ArrayIndex() ]
-            )
-
-            [ LOOKAHEAD(2) VariableInitializer() ]
-        )
-    )
-    {
-        decl.symbol.name = name.image;
-        decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
-    }
-}
-
-//
 // 初期値代入
 //
 void VariableInitializer() #VariableInitializer:
 {}
 {
-      LOOKAHEAD(3) <ASSIGN> ArrayInitializer()
-    | UIInitializer()
-    | <ASSIGN> Expression()
+      ArrayInitializer()
+    | PrimitiveInititalizer()
+}
+
+//
+// プリミティブ型変数初期値代入
+//
+void PrimitiveInititalizer() #PrimitiveInititalizer:
+{
+}
+{
+    (
+        <ASSIGN> Expression()
+    )
+    {
+        jjtThis.hasAssign = true;
+    }
+|
+    (
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )
+    {
+        jjtThis.hasAssign = false;
+    }
 }
 
 //
 // 配列変数初期値代入
 //
 void ArrayInitializer() #ArrayInitializer:
-{}
 {
-    <LPAREN>
-        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-    <RPAREN>
+    Token assign = null;
 }
-
-//
-// UI変数初期値代入
-//
-void UIInitializer() #UIInitializer:
-{}
 {
-    <LPAREN>
-        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-    <RPAREN>
+    ArrayIndex()
+    (
+        LOOKAHEAD(2) [ assign = <ASSIGN> ]
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )?
+    {
+        jjtThis.hasAssign = assign != null;
+    }
 }
 
 //
@@ -541,7 +545,7 @@ void CallbackDeclaration() #CallbackDeclaration:
         <END> (<MULTI_LINE_DELIMITER>)* end = <ON>
     )
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.position.endLine   = end.endLine;
         jjtThis.symbol.position.endColumn = end.endColumn;
@@ -607,7 +611,7 @@ void UserFunctionDeclaration() #UserFunctionDeclaration:
         <END> (<MULTI_LINE_DELIMITER>)* end = <FUNCTION>
     )
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.position.endLine   = end.endLine;
         jjtThis.symbol.position.endColumn = end.endColumn;
@@ -707,7 +711,7 @@ void PreProcessorDefine() #PreProcessorDefine:
         <RPAREN>                                                    // )
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -731,7 +735,7 @@ void PreProcessorUnDefine() #PreProcessorUnDefine:
         <RPAREN>                                                    // )
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -757,7 +761,7 @@ void PreProcessorIfDefined() #PreProcessorIfDefined:
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -783,7 +787,7 @@ void PreProcessorIfUnDefined() #PreProcessorIfUnDefined:
         <PREPROCESSOR_CODE_END_IF>                                  // END_USE_CODE
     )
     {
-        jjtThis.symbol.name         = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }
@@ -883,7 +887,7 @@ void CallUserFunctionStatement() #CallUserFunctionStatement:
 {
     <CALL> (<MULTI_LINE_DELIMITER>)* symbol = <IDENTIFIER>
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }
@@ -896,7 +900,7 @@ void CallUserFunctionStatement() #CallUserFunctionStatement:
 void Expression():
 {}
 {
-    ConditionalOrExpression()
+    ConditionalExpression()
 }
 
 //
@@ -914,36 +918,23 @@ void Assignment() #Assignment:
 }
 
 //
-// 条件式OR
+// 条件式 AND / OR
 //
-void ConditionalOrExpression():
+void ConditionalExpression():
 {
     Token token;
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    ConditionalAndExpression()
+    StringConcatenateExpression()
     (
-        token = <BOOL_OR> ConditionalAndExpression()
+        token = <BOOL_OR> StringConcatenateExpression()
         {
             jjtThis.symbol.position.copy( token );
             jjtThis.symbol.type  = TYPE_BOOL;
         } #ConditionalOr(2)
-    )*
-}
-
-//
-// 条件式AND
-//
-void ConditionalAndExpression():
-{
-    Token token;
-}
-{
-    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression()
-    (
-        token = <BOOL_AND> InclusiveOrExpression()
+|
+        token = <BOOL_AND> StringConcatenateExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_BOOL, SymbolType.Expression );
         } #ConditionalAnd(2)
@@ -951,27 +942,27 @@ void ConditionalAndExpression():
 }
 
 //
-// 論理積
+// 連結(->連結後、文字列へ暗黙の型変換)
 //
-void InclusiveOrExpression() :
+void StringConcatenateExpression() :
 {
     Token token;
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    AndExpression()
+    BitwiseExpression()
     (
-        token = <BIT_OR> AndExpression()
+        token = <STRING_ADD> BitwiseExpression()
         {
-            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
-        } #InclusiveOr(2)
+            applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
+        } #StrAdd(2)
     )*
 }
 
 //
-// 論理和
+// 論理積, 論理和
 //
-void AndExpression() :
+void BitwiseExpression() :
 {
     Token token;
 }
@@ -979,10 +970,15 @@ void AndExpression() :
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
+        token = <BIT_OR> EqualityExpression()
+        {
+            applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
+        } #BitwiseOr(2)
+|
         token = <BIT_AND> EqualityExpression()
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
-        } #And(2)
+        } #BitwiseAnd(2)
     )*
 }
 
@@ -1062,11 +1058,6 @@ void AdditiveExpression() :
         {
             applyToSymbol( token, jjtThis, TYPE_INT, SymbolType.Expression );
         } #Sub(2)
-|
-        token = <STRING_ADD> MultiplicativeExpression()
-        {
-            applyToSymbol( token, jjtThis, TYPE_STRING, SymbolType.Expression );
-        } #StrAdd(2)
     )*
 }
 
@@ -1217,7 +1208,7 @@ void RefVariable() #RefVariable :
         symbol = Variable() [ ArrayIndex() ]
     )
     {
-        jjtThis.symbol.name       = symbol.image;
+        jjtThis.symbol.setName( symbol.image );
         jjtThis.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
         jjtThis.symbol.position.copy( symbol );
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
@@ -1245,7 +1236,7 @@ void CallCommand() #CallCommand:
     (
         symbol = <IDENTIFIER>
         {
-            jjtThis.symbol.name       = symbol.image;
+            jjtThis.symbol.setName( symbol.image );
             jjtThis.symbol.position.copy( symbol );
             jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Command;
         }

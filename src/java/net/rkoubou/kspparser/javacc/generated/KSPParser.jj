@@ -30,8 +30,6 @@ import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.Variable;
-import net.rkoubou.kspparser.analyzer.Position;
-
 
 public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@egen*/ AnalyzerConstants
 {/*@bgen(jjtree)*/
@@ -125,7 +123,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     {
         if( token.image != null )
         {
-            dest.symbol.name = token.image;
+            dest.symbol.setName( token.image );
         }
         dest.symbol.position.copy( token );
         dest.symbol.type        = type;
@@ -183,7 +181,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     void applyAllLiteral( Token token, SimpleNode dest )
     {
         dest.jjtSetValue( dest.symbol.value );
-        dest.symbol.name         = "";
+        dest.symbol.setName( "" );
         dest.symbol.accessFlag   = ACCESS_ATTR_CONST;
         dest.symbol.position.copy( token );
         dest.symbol.symbolType   = SymbolDefinition.SymbolType.Literal;
@@ -481,6 +479,7 @@ void VariableDeclaration()                     :
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
+    Token name;
     Token symbol;
     Token uiType = null;
 }
@@ -494,7 +493,16 @@ void VariableDeclaration()                     :
             | <POLYPHONIC>           { jjtn000.symbol.accessFlag = ACCESS_ATTR_POLY; }
             | uiType = <IDENTIFIER>  { jjtn000.symbol.accessFlag = ACCESS_ATTR_UI; } // ui_****
         )?
-        VariableDeclarator( jjtn000 )
+
+        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
+        (
+            name = Variable()
+            [ LOOKAHEAD(2) VariableInitializer() ]
+        )
+        {
+            jjtn000.symbol.setName( name.image );
+            jjtn000.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
+        }
     )/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
@@ -532,29 +540,56 @@ void VariableDeclaration()                     :
 }
 
 //
-// \u5909\u6570\u5ba3\u8a00(\u8a73\u7d30)
+// \u521d\u671f\u5024\u4ee3\u5165
 //
-void VariableDeclarator( ASTVariableDeclaration decl )                    :
-{/*@bgen(jjtree) VariableDeclarator */
-    ASTVariableDeclarator jjtn000 = new ASTVariableDeclarator(this, JJTVARIABLEDECLARATOR);
-    boolean jjtc000 = true;
-    jjtree.openNodeScope(jjtn000);
+void VariableInitializer()                     :
+{/*@bgen(jjtree) VariableInitializer */
+  ASTVariableInitializer jjtn000 = new ASTVariableInitializer(this, JJTVARIABLEINITIALIZER);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) VariableInitializer */
+      try {
 /*@egen*/
-    Token name;
+      ArrayInitializer()
+    | PrimitiveInititalizer()/*@bgen(jjtree)*/
+      } catch (Throwable jjte000) {
+        if (jjtc000) {
+          jjtree.clearNodeScope(jjtn000);
+          jjtc000 = false;
+        } else {
+          jjtree.popNode();
+        }
+        if (jjte000 instanceof RuntimeException) {
+          throw (RuntimeException)jjte000;
+        }
+        if (jjte000 instanceof ParseException) {
+          throw (ParseException)jjte000;
+        }
+        throw (Error)jjte000;
+      } finally {
+        if (jjtc000) {
+          jjtree.closeNodeScope(jjtn000, true);
+        }
+      }
+/*@egen*/
 }
-{/*@bgen(jjtree) VariableDeclarator */
+
+//
+// \u30d7\u30ea\u30df\u30c6\u30a3\u30d6\u578b\u5909\u6570\u521d\u671f\u5024\u4ee3\u5165
+//
+void PrimitiveInititalizer()                       :
+{/*@bgen(jjtree) PrimitiveInititalizer */
+  ASTPrimitiveInititalizer jjtn000 = new ASTPrimitiveInititalizer(this, JJTPRIMITIVEINITITALIZER);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/
+}
+{/*@bgen(jjtree) PrimitiveInititalizer */
     try {
 /*@egen*/
     (
-        ( LOOKAHEAD(2) <MULTI_LINE_DELIMITER> )*
-        name = Variable()
-        (
-            (
-                [ ArrayIndex() ]
-            )
-
-            [ LOOKAHEAD(2) VariableInitializer() ]
-        )
+        <ASSIGN> Expression()
     )/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
@@ -562,8 +597,21 @@ void VariableDeclarator( ASTVariableDeclaration decl )                    :
     }
 /*@egen*/
     {
-        decl.symbol.name = name.image;
-        decl.symbol.type = Variable.getKSPTypeFromVariableName( name.image );
+        jjtn000.hasAssign = true;
+    }
+|
+    (
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+        jjtn000.hasAssign = false;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -588,94 +636,34 @@ void VariableDeclarator( ASTVariableDeclaration decl )                    :
 }
 
 //
-// \u521d\u671f\u5024\u4ee3\u5165
-//
-void VariableInitializer()                     :
-{/*@bgen(jjtree) VariableInitializer */
-  ASTVariableInitializer jjtn000 = new ASTVariableInitializer(this, JJTVARIABLEINITIALIZER);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) VariableInitializer */
-      try {
-/*@egen*/
-      LOOKAHEAD(3) <ASSIGN> ArrayInitializer()
-    | UIInitializer()
-    | <ASSIGN> Expression()/*@bgen(jjtree)*/
-      } catch (Throwable jjte000) {
-        if (jjtc000) {
-          jjtree.clearNodeScope(jjtn000);
-          jjtc000 = false;
-        } else {
-          jjtree.popNode();
-        }
-        if (jjte000 instanceof RuntimeException) {
-          throw (RuntimeException)jjte000;
-        }
-        if (jjte000 instanceof ParseException) {
-          throw (ParseException)jjte000;
-        }
-        throw (Error)jjte000;
-      } finally {
-        if (jjtc000) {
-          jjtree.closeNodeScope(jjtn000, true);
-        }
-      }
-/*@egen*/
-}
-
-//
 // \u914d\u5217\u5909\u6570\u521d\u671f\u5024\u4ee3\u5165
 //
 void ArrayInitializer()                  :
 {/*@bgen(jjtree) ArrayInitializer */
-  ASTArrayInitializer jjtn000 = new ASTArrayInitializer(this, JJTARRAYINITIALIZER);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+    ASTArrayInitializer jjtn000 = new ASTArrayInitializer(this, JJTARRAYINITIALIZER);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    Token assign = null;
+}
 {/*@bgen(jjtree) ArrayInitializer */
     try {
 /*@egen*/
-    <LPAREN>
-        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-    <RPAREN>/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
+    ArrayIndex()
+    (
+        LOOKAHEAD(2) [ assign = <ASSIGN> ]
+        <LPAREN>
+            Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
+        <RPAREN>
+    )?/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
     }
 /*@egen*/
-}
-
-//
-// UI\u5909\u6570\u521d\u671f\u5024\u4ee3\u5165
-//
-void UIInitializer()               :
-{/*@bgen(jjtree) UIInitializer */
-  ASTUIInitializer jjtn000 = new ASTUIInitializer(this, JJTUIINITIALIZER);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) UIInitializer */
-    try {
-/*@egen*/
-    <LPAREN>
-        Expression() ( (<MULTI_LINE_DELIMITER>)* <COMMA> Expression() )*
-    <RPAREN>/*@bgen(jjtree)*/
+    {
+        jjtn000.hasAssign = assign != null;
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -727,7 +715,7 @@ void CallbackDeclaration()                     :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
@@ -850,7 +838,7 @@ void UserFunctionDeclaration()                         :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
@@ -1007,7 +995,7 @@ void PreProcessorDefine()                    :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1048,7 +1036,7 @@ void PreProcessorUnDefine()                      :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1091,7 +1079,7 @@ void PreProcessorIfDefined()                       :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1148,7 +1136,7 @@ void PreProcessorIfUnDefined()                         :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name         = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType   = SymbolDefinition.SymbolType.PreprocessorSymbol;
     }/*@bgen(jjtree)*/
@@ -1409,7 +1397,7 @@ void CallUserFunctionStatement()                           :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
     }/*@bgen(jjtree)*/
@@ -1428,7 +1416,7 @@ void CallUserFunctionStatement()                           :
 void Expression():
 {}
 {
-    ConditionalOrExpression()
+    ConditionalExpression()
 }
 
 //
@@ -1477,17 +1465,17 @@ void Assignment()            :
 }
 
 //
-// \u6761\u4ef6\u5f0fOR
+// \u6761\u4ef6\u5f0f AND / OR
 //
-void ConditionalOrExpression():
+void ConditionalExpression():
 {
     Token token;
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    ConditionalAndExpression()
+    StringConcatenateExpression()
     (
-        token = <BOOL_OR> ConditionalAndExpression()/*@bgen(jjtree) #ConditionalOr( 2) */
+        token = <BOOL_OR> StringConcatenateExpression()/*@bgen(jjtree) #ConditionalOr( 2) */
         {
           ASTConditionalOr jjtn001 = new ASTConditionalOr(this, JJTCONDITIONALOR);
           boolean jjtc001 = true;
@@ -1510,39 +1498,26 @@ void ConditionalOrExpression():
           }
         }
 /*@egen*/                  
-    )*
-}
-
-//
-// \u6761\u4ef6\u5f0fAND
-//
-void ConditionalAndExpression():
-{
-    Token token;
-}
-{
-    (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    InclusiveOrExpression()
-    (
-        token = <BOOL_AND> InclusiveOrExpression()/*@bgen(jjtree) #ConditionalAnd( 2) */
+|
+        token = <BOOL_AND> StringConcatenateExpression()/*@bgen(jjtree) #ConditionalAnd( 2) */
         {
-          ASTConditionalAnd jjtn001 = new ASTConditionalAnd(this, JJTCONDITIONALAND);
-          boolean jjtc001 = true;
-          jjtree.openNodeScope(jjtn001);
+          ASTConditionalAnd jjtn002 = new ASTConditionalAnd(this, JJTCONDITIONALAND);
+          boolean jjtc002 = true;
+          jjtree.openNodeScope(jjtn002);
         }
         try {
 /*@egen*//*@bgen(jjtree)*/
         {
-          jjtree.closeNodeScope(jjtn001,  2);
-          jjtc001 = false;
+          jjtree.closeNodeScope(jjtn002,  2);
+          jjtc002 = false;
         }
 /*@egen*/
         {
-            applyToSymbol( token, jjtn001, TYPE_BOOL, SymbolType.Expression );
+            applyToSymbol( token, jjtn002, TYPE_BOOL, SymbolType.Expression );
         }/*@bgen(jjtree)*/
         } finally {
-          if (jjtc001) {
-            jjtree.closeNodeScope(jjtn001,  2);
+          if (jjtc002) {
+            jjtree.closeNodeScope(jjtn002,  2);
           }
         }
 /*@egen*/                   
@@ -1550,19 +1525,19 @@ void ConditionalAndExpression():
 }
 
 //
-// \u8ad6\u7406\u7a4d
+// \u9023\u7d50(->\u9023\u7d50\u5f8c\u3001\u6587\u5b57\u5217\u3078\u6697\u9ed9\u306e\u578b\u5909\u63db)
 //
-void InclusiveOrExpression() :
+void StringConcatenateExpression() :
 {
     Token token;
 }
 {
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
-    AndExpression()
+    BitwiseExpression()
     (
-        token = <BIT_OR> AndExpression()/*@bgen(jjtree) #InclusiveOr( 2) */
+        token = <STRING_ADD> BitwiseExpression()/*@bgen(jjtree) #StrAdd( 2) */
         {
-          ASTInclusiveOr jjtn001 = new ASTInclusiveOr(this, JJTINCLUSIVEOR);
+          ASTStrAdd jjtn001 = new ASTStrAdd(this, JJTSTRADD);
           boolean jjtc001 = true;
           jjtree.openNodeScope(jjtn001);
         }
@@ -1574,21 +1549,21 @@ void InclusiveOrExpression() :
         }
 /*@egen*/
         {
-            applyToSymbol( token, jjtn001, TYPE_INT, SymbolType.Expression );
+            applyToSymbol( token, jjtn001, TYPE_STRING, SymbolType.Expression );
         }/*@bgen(jjtree)*/
         } finally {
           if (jjtc001) {
             jjtree.closeNodeScope(jjtn001,  2);
           }
         }
-/*@egen*/                
+/*@egen*/           
     )*
 }
 
 //
-// \u8ad6\u7406\u548c
+// \u8ad6\u7406\u7a4d, \u8ad6\u7406\u548c
 //
-void AndExpression() :
+void BitwiseExpression() :
 {
     Token token;
 }
@@ -1596,9 +1571,9 @@ void AndExpression() :
     (LOOKAHEAD(2)<MULTI_LINE_DELIMITER>)*
     EqualityExpression()
     (
-        token = <BIT_AND> EqualityExpression()/*@bgen(jjtree) #And( 2) */
+        token = <BIT_OR> EqualityExpression()/*@bgen(jjtree) #BitwiseOr( 2) */
         {
-          ASTAnd jjtn001 = new ASTAnd(this, JJTAND);
+          ASTBitwiseOr jjtn001 = new ASTBitwiseOr(this, JJTBITWISEOR);
           boolean jjtc001 = true;
           jjtree.openNodeScope(jjtn001);
         }
@@ -1617,7 +1592,30 @@ void AndExpression() :
             jjtree.closeNodeScope(jjtn001,  2);
           }
         }
-/*@egen*/        
+/*@egen*/              
+|
+        token = <BIT_AND> EqualityExpression()/*@bgen(jjtree) #BitwiseAnd( 2) */
+        {
+          ASTBitwiseAnd jjtn002 = new ASTBitwiseAnd(this, JJTBITWISEAND);
+          boolean jjtc002 = true;
+          jjtree.openNodeScope(jjtn002);
+        }
+        try {
+/*@egen*//*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn002,  2);
+          jjtc002 = false;
+        }
+/*@egen*/
+        {
+            applyToSymbol( token, jjtn002, TYPE_INT, SymbolType.Expression );
+        }/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc002) {
+            jjtree.closeNodeScope(jjtn002,  2);
+          }
+        }
+/*@egen*/               
     )*
 }
 
@@ -1841,29 +1839,6 @@ void AdditiveExpression() :
           }
         }
 /*@egen*/        
-|
-        token = <STRING_ADD> MultiplicativeExpression()/*@bgen(jjtree) #StrAdd( 2) */
-        {
-          ASTStrAdd jjtn003 = new ASTStrAdd(this, JJTSTRADD);
-          boolean jjtc003 = true;
-          jjtree.openNodeScope(jjtn003);
-        }
-        try {
-/*@egen*//*@bgen(jjtree)*/
-        {
-          jjtree.closeNodeScope(jjtn003,  2);
-          jjtc003 = false;
-        }
-/*@egen*/
-        {
-            applyToSymbol( token, jjtn003, TYPE_STRING, SymbolType.Expression );
-        }/*@bgen(jjtree)*/
-        } finally {
-          if (jjtc003) {
-            jjtree.closeNodeScope(jjtn003,  2);
-          }
-        }
-/*@egen*/           
     )*
 }
 
@@ -2160,7 +2135,7 @@ void RefVariable()              :
     }
 /*@egen*/
     {
-        jjtn000.symbol.name       = symbol.image;
+        jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.type       = Variable.getKSPTypeFromVariableName( symbol.image );
         jjtn000.symbol.position.copy( symbol );
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Variable;
@@ -2240,7 +2215,7 @@ void CallCommand()             :
     (
         symbol = <IDENTIFIER>
         {
-            jjtn000.symbol.name       = symbol.image;
+            jjtn000.symbol.setName( symbol.image );
             jjtn000.symbol.position.copy( symbol );
             jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Command;
         }

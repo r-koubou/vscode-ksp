@@ -8,7 +8,7 @@
 
 # Property Names here
 PROPERTIES = [
-    "error.semantic.variable.invalid.string.initializer"
+    "error.semantic.variable.invalid.arrayoutofbounds"
 ]
 
 TEMPLATE = "static public final String PROPERTY_{name} = \"{value}\";"

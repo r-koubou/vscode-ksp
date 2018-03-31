@@ -9,6 +9,7 @@ package net.rkoubou.kspparser.analyzer;
 
 import java.io.IOException;
 
+import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;
 import net.rkoubou.kspparser.javacc.generated.ASTUserFunctionDeclaration;
@@ -23,24 +24,11 @@ public class SymbolCollector extends AbstractAnalyzer
 {
     public final UITypeTable uiTypeTable                            = new UITypeTable();
     public final VariableTable variableTable                        = new VariableTable();
-    public final CallbackTable callbackTable                        = new CallbackTable();
+    public final CallbackTable reservedCallbackTable                = new CallbackTable();
+    public final CallbackTable usercallbackTable                    = new CallbackTable();
     public final CommandTable commandTable                          = new CommandTable();
     public final UserFunctionTable userFunctionTable                = new UserFunctionTable();
     public final PreProcessorSymbolTable preProcessorSymbolTable    = new PreProcessorSymbolTable();
-
-    /**
-     * NI が使用を禁止している変数名の接頭文字
-     */
-    static private final String[] RESERVED_VARIABLE_PREFIX_LIST =
-    {
-        // From KSP Reference Manual:
-        // Please do not create variables with the prefixes below, as these prefixes are used for
-        // internal variables and constants
-        "$NI_",
-        "$CONTROL_PAR_",
-        "$EVENT_PAR_",
-        "$ENGINE_PAR_",
-    };
 
     /**
      * ctor.
@@ -59,7 +47,7 @@ public class SymbolCollector extends AbstractAnalyzer
         mgr.load();
         mgr.apply( uiTypeTable );
         mgr.apply( variableTable );
-        mgr.apply( callbackTable );
+        mgr.apply( reservedCallbackTable );
         mgr.apply( commandTable );
     }
 
@@ -82,18 +70,20 @@ public class SymbolCollector extends AbstractAnalyzer
         Object ret = defaultVisit( node, data );
 //--------------------------------------------------------------------------
 /*
-    変数
-        [node]
-        VariableDeclaration
-            -> VariableDeclarator [arrayindex]
-                -> [VariableInitializer]
-                    -> Expression
+/*
+    VariableDeclaration                     // NOW
+            -> ASTVariableInitializer
+                -> [
+                      ArrayInitializer
+                    | UIInitializer
+                    | PrimitiveInititalizer
+                ]
 */
 //--------------------------------------------------------------------------
         if( validateVariableImpl( node ) )
         {
             variableTable.add( node );
-            Variable v = variableTable.search( node.symbol.name );
+            Variable v = variableTable.search( node.symbol );
             //--------------------------------------------------------------------------
             // UI変数チェック / 外部定義とのマージ
             //--------------------------------------------------------------------------
@@ -124,7 +114,7 @@ public class SymbolCollector extends AbstractAnalyzer
             else
             {
                 // const、poly修飾子は構文解析フェーズで代入済み
-                v.type = SymbolDefinition.getKSPTypeFromVariableName( v.name );
+                v.type = SymbolDefinition.getKSPTypeFromVariableName( v.getName() );
             }
         }
 
@@ -160,21 +150,15 @@ public class SymbolCollector extends AbstractAnalyzer
             //--------------------------------------------------------------------------
             // 予約済み（NIが禁止している）接頭語検査
             //--------------------------------------------------------------------------
+            if( !EvaluationUtility.isAvailableUserVariableName( d, false ) )
             {
-                for( String n : RESERVED_VARIABLE_PREFIX_LIST )
-                {
-                    if( d.name.startsWith( n ) )
-                    {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED, d );
-                        AnalyzeErrorCounter.e();
-                        break;
-                    }
-                }
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_PREFIX_RESERVED, d );
+                AnalyzeErrorCounter.e();
             }
             //--------------------------------------------------------------------------
             // on init 外での宣言検査
             //--------------------------------------------------------------------------
-            if( !currentCallBack.symbol.name.equals( "init" ) )
+            if( !currentCallBack.symbol.getName().equals( "init" ) )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_VARIABLE_ONINIT, d );
                 AnalyzeErrorCounter.e();
@@ -183,7 +167,7 @@ public class SymbolCollector extends AbstractAnalyzer
             // 定義済みの検査
             //--------------------------------------------------------------------------
             {
-                Variable v = variableTable.search( d.name );
+                Variable v = variableTable.search( d );
                 // NI の予約変数との重複
                 if( v != null && v.reserved )
                 {
@@ -215,7 +199,44 @@ public class SymbolCollector extends AbstractAnalyzer
     {
         Object ret = defaultVisit( node, data );
 
-        if( !callbackTable.add( node ) )
+        if( node.jjtGetNumChildren() >= 2 )
+        {
+            // コールバック引数リストあり
+            ASTCallbackArgumentList argList = (ASTCallbackArgumentList)node.jjtGetChild( 0 );
+            int listSize                    = argList.args.size();
+            for( int i = 0; i < listSize; i++ )
+            {
+                String arg = argList.args.get( i );
+                Variable v  = variableTable.search( arg );
+                if( v == null )
+                {
+                    SymbolDefinition s = new SymbolDefinition( node.symbol );
+                    s.setName( arg );
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, s );
+                    AnalyzeErrorCounter.e();
+                }
+            }
+        }
+
+        Callback reserved = reservedCallbackTable.search( node.symbol.getName() );
+        if( reserved == null )
+        {
+            // NI が定義していないコールバックの可能性
+            MessageManager.printlnW( MessageManager.PROPERTY_WARN_CALLBACK_UNKNOWN, node.symbol );
+            AnalyzeErrorCounter.w();
+        }
+
+        Callback newCallback;
+        if( reserved != null )
+        {
+            newCallback = new Callback( reserved );
+        }
+        else
+        {
+            newCallback = new Callback( node );
+        }
+
+        if( !usercallbackTable.add( newCallback ) )
         {
             MessageManager.printlnE( MessageManager.PROPERTY_ERROR_CALLBACK_DECLARED, node.symbol );
             AnalyzeErrorCounter.e();

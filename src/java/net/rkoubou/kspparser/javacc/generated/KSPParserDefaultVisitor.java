@@ -15,16 +15,13 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTVariableDeclaration node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTVariableDeclarator node, Object data){
-    return defaultVisit(node, data);
-  }
   public Object visit(ASTVariableInitializer node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTArrayInitializer node, Object data){
+  public Object visit(ASTPrimitiveInititalizer node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTUIInitializer node, Object data){
+  public Object visit(ASTArrayInitializer node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTCallbackDeclaration node, Object data){
@@ -78,10 +75,13 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
   public Object visit(ASTConditionalAnd node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTInclusiveOr node, Object data){
+  public Object visit(ASTStrAdd node, Object data){
     return defaultVisit(node, data);
   }
-  public Object visit(ASTAnd node, Object data){
+  public Object visit(ASTBitwiseOr node, Object data){
+    return defaultVisit(node, data);
+  }
+  public Object visit(ASTBitwiseAnd node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTEqual node, Object data){
@@ -106,9 +106,6 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
   public Object visit(ASTSub node, Object data){
-    return defaultVisit(node, data);
-  }
-  public Object visit(ASTStrAdd node, Object data){
     return defaultVisit(node, data);
   }
   public Object visit(ASTMul node, Object data){
@@ -145,4 +142,4 @@ public class KSPParserDefaultVisitor implements KSPParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=a967275fa4dec06686a91e74209ccb6d (do not edit this line) */
+/* JavaCC - OriginalChecksum=c14549a741844246a8c3ca6c9822da44 (do not edit this line) */

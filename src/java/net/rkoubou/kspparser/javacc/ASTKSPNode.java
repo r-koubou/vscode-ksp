@@ -32,8 +32,8 @@ abstract public class ASTKSPNode implements Node, KSPParserTreeConstants
             case JJTMUL:
             case JJTDIV:
             case JJTMOD:
-            case JJTINCLUSIVEOR:
-            case JJTAND:
+            case JJTBITWISEOR:
+            case JJTBITWISEAND:
                 return true;
         }
         return false;

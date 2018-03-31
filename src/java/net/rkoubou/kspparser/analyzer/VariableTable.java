@@ -56,7 +56,7 @@ public class VariableTable extends SymbolTable<ASTVariableDeclaration, Variable>
      */
     public boolean add( Variable v )
     {
-        final String name = v.name;
+        final String name = v.getName();
         if( table.containsKey( name ) )
         {
             // 宣言済み
