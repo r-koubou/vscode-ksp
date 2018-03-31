@@ -1,8 +1,8 @@
 {
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
-    "description": "Language support for NI KONTAKT Script Processor (KSP)",
-    "version": "0.3.15",
+    "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
+    "version": "0.4.0",
     "publisher": "rkoubou",
     "license": "MIT",
     "keywords": [
@@ -23,10 +23,11 @@
     "icon": "images/icon.png",
     "main": "./out/src/KSPMain",
     "activationEvents": [
-        "onLanguage:ksp"
+        "onLanguage:ksp",
+        "onCommand:ksp.obfuscate"
     ],
     "engines": {
-        "vscode": "^1.10.0"
+        "vscode": "^1.17.0"
     },
     "dependencies": {
         "tmp": "0.0.33",
@@ -76,6 +77,11 @@
             "title": "%configuration.title%",
             "type": "object",
             "properties": {
+                "ksp.java.location": {
+                    "type": "string",
+                    "default": null,
+                    "description": "%configuration.java.location%"
+                },
                 "ksp.validate.enable": {
                     "type": "boolean",
                     "default": false,
@@ -106,13 +112,24 @@
                     "default": false,
                     "description": "%configuration.validate.unused%"
                 },
-                "ksp.java.location": {
+                "ksp.obfuscator.suffix": {
                     "type": "string",
-                    "default": null,
-                    "description": "%configuration.java.location%"
+                    "default": ".out.txt",
+                    "description": "%configuration.obfuscator.suffix%"
+                },
+                "ksp.obfuscator.inline.function": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%configuration.obfuscator.inline.function%"
                 }
             }
-        }
+        },
+        "commands": [
+            {
+                "command": "ksp.obfuscate",
+                "title": "%command.obfuscate%"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",

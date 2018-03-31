@@ -1,5 +1,48 @@
 # Changelog
 
+## Version 0.4.0
+
+Minor update.
+
+This version contains important bug fixes.
+
+### New Feature
+
+- **Obfuscate(BETA)**
+
+    **[How to Run]**
+
+    1. Script file open
+    2. Set language mode to 'ksp'
+    3. Open command palette and type 'ksp'
+    4. Select Obfuscator
+
+    - inline function option
+
+        Default is disabled. If you try, turn on vscode preference **"ksp.obfuscator.inline.function"**
+
+### BUG FIXED / Improved
+
+- Syntax parser
+    - Bug
+        - [Operator "&" problem](https://github.com/r-koubou/KSPSyntaxParser/issues/5)
+        - [Variable initializer expression (using with brackets)](https://github.com/r-koubou/KSPSyntaxParser/issues/6)
+
+    - Improved
+        - Check array subscribe
+
+- Editor
+    - Small bug bug fixes
+    - Snipet behavior improved
+
+### 0.4.0 BETA Release note
+
+- [BETA4](https://github.com/r-koubou/vscode-ksp/releases/tag/Beta-0.4.0_4)
+- [BETA3](https://github.com/r-koubou/vscode-ksp/releases/tag/Beta-0.4.0_3)
+- [BETA2](https://github.com/r-koubou/vscode-ksp/releases/tag/Beta-0.4.0_2)
+- [BETA1](https://github.com/r-koubou/vscode-ksp/releases/tag/Beta-0.4.0_1)
+
+
 ## Version 0.3.15
 
 * Syntax parser

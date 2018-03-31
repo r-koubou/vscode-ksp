@@ -1,10 +1,14 @@
 {
 	"configuration.title": "KONTAKT Script Processor (KSP)",
+    "configuration.java.location": "Location of the java executable. Default is \"java\"(Search from $PATH variable)",
 	"configuration.validate.enable": "Enable/disable KSP syntax validation(*ALPHA VERSION). Require: Java 1.6 or higher (Recommend:1.8 or higher) Note: Although the parser will attempt as much error detection as possible, if the grammar of the script content deviates from the KSP specification, it will not function properly.",
 	"configuration.realtime.validate.enable": "Enable/disable Realtime KSP syntax validation. If true, validator runs on type and save. If false, validator runs on save only.",
 	"configuration.realtime.validate.delay": "Delay time to start validation. (unit:milliseconds) Recommend: about 500 ms.",
 	"configuration.validate.syntax.only": "If true, parser does not Semantic analysis. (=Syntax analysis only)",
 	"configuration.validate.strict": "If true, parser will be 'strict' mode. (Require:ksp.validate.syntax.only=false)",
 	"configuration.validate.unused": "If true, parser will detect unused variables, user functions. (Require:ksp.validate.syntax.only=false)",
-	"configuration.java.location": "Location of the java executable. Default is \"java\"(Search from $PATH variable)"
+    "configuration.obfuscator.suffix": "Default file suffix which generate by Obfuscator from command palette",
+    "configuration.obfuscator.inline.function": "If true, all user defined functions will be expanded (=inline expansion) when run Obfuscator",
+
+    "command.obfuscate": "NI KSP: Run Obfuscator"
 }

@@ -1391,5 +1391,5 @@ export var commands = {
     {
         "signature":   "(arg1)",
         "description": "Undocumented"
-    }
+    },
 };
