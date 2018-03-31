@@ -4,2614 +4,2614 @@
 export var builtinVariables = {
     "$ALL_EVENTS":
     {
-        "description": "Built-in Variable: ALL_EVENTS"
+        "description": "Built-in Variable: $ALL_EVENTS"
     },
     "$ALL_GROUPS":
     {
-        "description": "Built-in Variable: ALL_GROUPS"
+        "description": "Built-in Variable: $ALL_GROUPS"
     },
     "$CC_NUM":
     {
-        "description": "Built-in Variable: CC_NUM"
+        "description": "Built-in Variable: $CC_NUM"
     },
     "$CONTROL_PAR_ACTIVE_INDEX":
     {
-        "description": "Built-in Variable: CONTROL_PAR_ACTIVE_INDEX"
+        "description": "Built-in Variable: $CONTROL_PAR_ACTIVE_INDEX"
     },
     "$CONTROL_PAR_ALLOW_AUTOMATION":
     {
-        "description": "Built-in Variable: CONTROL_PAR_ALLOW_AUTOMATION"
+        "description": "Built-in Variable: $CONTROL_PAR_ALLOW_AUTOMATION"
     },
     "$CONTROL_PAR_AUTOMATION_ID":
     {
-        "description": "Built-in Variable: CONTROL_PAR_AUTOMATION_ID"
+        "description": "Built-in Variable: $CONTROL_PAR_AUTOMATION_ID"
     },
     "$CONTROL_PAR_AUTOMATION_NAME":
     {
-        "description": "Built-in Variable: CONTROL_PAR_AUTOMATION_NAME"
+        "description": "Built-in Variable: $CONTROL_PAR_AUTOMATION_NAME"
     },
     "$CONTROL_PAR_BAR_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_BAR_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_BAR_COLOR"
     },
     "$CONTROL_PAR_BASEPATH":
     {
-        "description": "Built-in Variable: CONTROL_PAR_BASEPATH"
+        "description": "Built-in Variable: $CONTROL_PAR_BASEPATH"
     },
     "$CONTROL_PAR_BG_ALPHA":
     {
-        "description": "Built-in Variable: CONTROL_PAR_BG_ALPHA"
+        "description": "Built-in Variable: $CONTROL_PAR_BG_ALPHA"
     },
     "$CONTROL_PAR_BG_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_BG_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_BG_COLOR"
     },
     "$CONTROL_PAR_COLUMN_WIDTH":
     {
-        "description": "Built-in Variable: CONTROL_PAR_COLUMN_WIDTH"
+        "description": "Built-in Variable: $CONTROL_PAR_COLUMN_WIDTH"
     },
     "$CONTROL_PAR_CURSOR_PICTURE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_CURSOR_PICTURE"
+        "description": "Built-in Variable: $CONTROL_PAR_CURSOR_PICTURE"
     },
     "$CONTROL_PAR_DEFAULT_VALUE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_DEFAULT_VALUE"
+        "description": "Built-in Variable: $CONTROL_PAR_DEFAULT_VALUE"
     },
     "$CONTROL_PAR_DND_BEHAVIOUR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_DND_BEHAVIOUR"
+        "description": "Built-in Variable: $CONTROL_PAR_DND_BEHAVIOUR"
     },
     "$CONTROL_PAR_FILEPATH":
     {
-        "description": "Built-in Variable: CONTROL_PAR_FILEPATH"
+        "description": "Built-in Variable: $CONTROL_PAR_FILEPATH"
     },
     "$CONTROL_PAR_FILE_TYPE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_FILE_TYPE"
+        "description": "Built-in Variable: $CONTROL_PAR_FILE_TYPE"
     },
     "$CONTROL_PAR_FONT_TYPE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_FONT_TYPE"
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE"
     },
     "$CONTROL_PAR_GRID_HEIGHT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_GRID_HEIGHT"
+        "description": "Built-in Variable: $CONTROL_PAR_GRID_HEIGHT"
     },
     "$CONTROL_PAR_GRID_WIDTH":
     {
-        "description": "Built-in Variable: CONTROL_PAR_GRID_WIDTH"
+        "description": "Built-in Variable: $CONTROL_PAR_GRID_WIDTH"
     },
     "$CONTROL_PAR_GRID_X":
     {
-        "description": "Built-in Variable: CONTROL_PAR_GRID_X"
+        "description": "Built-in Variable: $CONTROL_PAR_GRID_X"
     },
     "$CONTROL_PAR_GRID_Y":
     {
-        "description": "Built-in Variable: CONTROL_PAR_GRID_Y"
+        "description": "Built-in Variable: $CONTROL_PAR_GRID_Y"
     },
     "$CONTROL_PAR_HEIGHT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_HEIGHT"
+        "description": "Built-in Variable: $CONTROL_PAR_HEIGHT"
     },
     "$CONTROL_PAR_HELP":
     {
-        "description": "Built-in Variable: CONTROL_PAR_HELP"
+        "description": "Built-in Variable: $CONTROL_PAR_HELP"
     },
     "$CONTROL_PAR_HIDE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_HIDE"
+        "description": "Built-in Variable: $CONTROL_PAR_HIDE"
     },
     "$CONTROL_PAR_KEY_ALT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_KEY_ALT"
+        "description": "Built-in Variable: $CONTROL_PAR_KEY_ALT"
     },
     "$CONTROL_PAR_KEY_CONTROL":
     {
-        "description": "Built-in Variable: CONTROL_PAR_KEY_CONTROL"
+        "description": "Built-in Variable: $CONTROL_PAR_KEY_CONTROL"
     },
     "$CONTROL_PAR_KEY_SHIFT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_KEY_SHIFT"
+        "description": "Built-in Variable: $CONTROL_PAR_KEY_SHIFT"
     },
     "$CONTROL_PAR_LABEL":
     {
-        "description": "Built-in Variable: CONTROL_PAR_LABEL"
+        "description": "Built-in Variable: $CONTROL_PAR_LABEL"
     },
     "$CONTROL_PAR_MAX_VALUE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_MAX_VALUE"
+        "description": "Built-in Variable: $CONTROL_PAR_MAX_VALUE"
     },
     "$CONTROL_PAR_MIN_VALUE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_MIN_VALUE"
+        "description": "Built-in Variable: $CONTROL_PAR_MIN_VALUE"
     },
     "$CONTROL_PAR_MOUSE_BEHAVIOUR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR"
+        "description": "Built-in Variable: $CONTROL_PAR_MOUSE_BEHAVIOUR"
     },
     "$CONTROL_PAR_MOUSE_BEHAVIOUR_X":
     {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_X"
+        "description": "Built-in Variable: $CONTROL_PAR_MOUSE_BEHAVIOUR_X"
     },
     "$CONTROL_PAR_MOUSE_BEHAVIOUR_Y":
     {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
+        "description": "Built-in Variable: $CONTROL_PAR_MOUSE_BEHAVIOUR_Y"
     },
     "$CONTROL_PAR_MOUSE_MODE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_MOUSE_MODE"
+        "description": "Built-in Variable: $CONTROL_PAR_MOUSE_MODE"
     },
     "$CONTROL_PAR_NONE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_NONE"
+        "description": "Built-in Variable: $CONTROL_PAR_NONE"
     },
     "$CONTROL_PAR_NUM_ITEMS":
     {
-        "description": "Built-in Variable: CONTROL_PAR_NUM_ITEMS"
+        "description": "Built-in Variable: $CONTROL_PAR_NUM_ITEMS"
     },
     "$CONTROL_PAR_OFF_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_OFF_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_OFF_COLOR"
     },
     "$CONTROL_PAR_ON_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_ON_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_ON_COLOR"
     },
     "$CONTROL_PAR_OVERLOAD_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_OVERLOAD_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_OVERLOAD_COLOR"
     },
     "$CONTROL_PAR_PEAK_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_PEAK_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_PEAK_COLOR"
     },
     "$CONTROL_PAR_PICTURE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_PICTURE"
+        "description": "Built-in Variable: $CONTROL_PAR_PICTURE"
     },
     "$CONTROL_PAR_PICTURE_STATE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_PICTURE_STATE"
+        "description": "Built-in Variable: $CONTROL_PAR_PICTURE_STATE"
     },
     "$CONTROL_PAR_POS_X":
     {
-        "description": "Built-in Variable: CONTROL_PAR_POS_X"
+        "description": "Built-in Variable: $CONTROL_PAR_POS_X"
     },
     "$CONTROL_PAR_POS_Y":
     {
-        "description": "Built-in Variable: CONTROL_PAR_POS_Y"
+        "description": "Built-in Variable: $CONTROL_PAR_POS_Y"
     },
     "$CONTROL_PAR_SELECTED_ITEM_IDX":
     {
-        "description": "Built-in Variable: CONTROL_PAR_SELECTED_ITEM_IDX"
+        "description": "Built-in Variable: $CONTROL_PAR_SELECTED_ITEM_IDX"
     },
     "$CONTROL_PAR_SHOW_ARROWS":
     {
-        "description": "Built-in Variable: CONTROL_PAR_SHOW_ARROWS"
+        "description": "Built-in Variable: $CONTROL_PAR_SHOW_ARROWS"
     },
     "$CONTROL_PAR_SLICEMARKERS_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_SLICEMARKERS_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_SLICEMARKERS_COLOR"
     },
     "$CONTROL_PAR_TEXT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_TEXT"
+        "description": "Built-in Variable: $CONTROL_PAR_TEXT"
     },
     "$CONTROL_PAR_TEXTLINE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_TEXTLINE"
+        "description": "Built-in Variable: $CONTROL_PAR_TEXTLINE"
     },
     "$CONTROL_PAR_TEXTPOS_Y":
     {
-        "description": "Built-in Variable: CONTROL_PAR_TEXTPOS_Y"
+        "description": "Built-in Variable: $CONTROL_PAR_TEXTPOS_Y"
     },
     "$CONTROL_PAR_TEXT_ALIGNMENT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_TEXT_ALIGNMENT"
+        "description": "Built-in Variable: $CONTROL_PAR_TEXT_ALIGNMENT"
     },
     "$CONTROL_PAR_UNIT":
     {
-        "description": "Built-in Variable: CONTROL_PAR_UNIT"
+        "description": "Built-in Variable: $CONTROL_PAR_UNIT"
     },
     "$CONTROL_PAR_VALUE":
     {
-        "description": "Built-in Variable: CONTROL_PAR_VALUE"
+        "description": "Built-in Variable: $CONTROL_PAR_VALUE"
     },
     "$CONTROL_PAR_VERTICAL":
     {
-        "description": "Built-in Variable: CONTROL_PAR_VERTICAL"
+        "description": "Built-in Variable: $CONTROL_PAR_VERTICAL"
     },
     "$CONTROL_PAR_WAVE_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_WAVE_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_COLOR"
     },
     "$CONTROL_PAR_WAVE_CURSOR_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_WAVE_CURSOR_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_CURSOR_COLOR"
     },
     "$CONTROL_PAR_WIDTH":
     {
-        "description": "Built-in Variable: CONTROL_PAR_WIDTH"
+        "description": "Built-in Variable: $CONTROL_PAR_WIDTH"
     },
     "$CONTROL_PAR_ZERO_LINE_COLOR":
     {
-        "description": "Built-in Variable: CONTROL_PAR_ZERO_LINE_COLOR"
+        "description": "Built-in Variable: $CONTROL_PAR_ZERO_LINE_COLOR"
     },
     "$CONTROL_PAR_Z_LAYER":
     {
-        "description": "Built-in Variable: CONTROL_PAR_Z_LAYER"
+        "description": "Built-in Variable: $CONTROL_PAR_Z_LAYER"
     },
     "$CURRENT_EVENT":
     {
-        "description": "Built-in Variable: CURRENT_EVENT"
+        "description": "Built-in Variable: $CURRENT_EVENT"
     },
     "$CURRENT_SCRIPT_SLOT":
     {
-        "description": "Built-in Variable: CURRENT_SCRIPT_SLOT"
+        "description": "Built-in Variable: $CURRENT_SCRIPT_SLOT"
     },
     "$DISTANCE_BAR_START":
     {
-        "description": "Built-in Variable: DISTANCE_BAR_START"
+        "description": "Built-in Variable: $DISTANCE_BAR_START"
     },
     "$DURATION_BAR":
     {
-        "description": "Built-in Variable: DURATION_BAR"
+        "description": "Built-in Variable: $DURATION_BAR"
     },
     "$DURATION_EIGHTH":
     {
-        "description": "Built-in Variable: DURATION_EIGHTH"
+        "description": "Built-in Variable: $DURATION_EIGHTH"
     },
     "$DURATION_EIGHTH_TRIPLET":
     {
-        "description": "Built-in Variable: DURATION_EIGHTH_TRIPLET"
+        "description": "Built-in Variable: $DURATION_EIGHTH_TRIPLET"
     },
     "$DURATION_QUARTER":
     {
-        "description": "Built-in Variable: DURATION_QUARTER"
+        "description": "Built-in Variable: $DURATION_QUARTER"
     },
     "$DURATION_QUARTER_TRIPLET":
     {
-        "description": "Built-in Variable: DURATION_QUARTER_TRIPLET"
+        "description": "Built-in Variable: $DURATION_QUARTER_TRIPLET"
     },
     "$DURATION_SIXTEENTH":
     {
-        "description": "Built-in Variable: DURATION_SIXTEENTH"
+        "description": "Built-in Variable: $DURATION_SIXTEENTH"
     },
     "$DURATION_SIXTEENTH_TRIPLET":
     {
-        "description": "Built-in Variable: DURATION_SIXTEENTH_TRIPLET"
+        "description": "Built-in Variable: $DURATION_SIXTEENTH_TRIPLET"
     },
     "$EFFECT_TYPE_ACBOX":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_ACBOX"
+        "description": "Built-in Variable: $EFFECT_TYPE_ACBOX"
     },
     "$EFFECT_TYPE_AET_FILTER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_AET_FILTER"
+        "description": "Built-in Variable: $EFFECT_TYPE_AET_FILTER"
     },
     "$EFFECT_TYPE_BUS_COMP":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_BUS_COMP"
+        "description": "Built-in Variable: $EFFECT_TYPE_BUS_COMP"
     },
     "$EFFECT_TYPE_CABINET":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_CABINET"
+        "description": "Built-in Variable: $EFFECT_TYPE_CABINET"
     },
     "$EFFECT_TYPE_CAT":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_CAT"
+        "description": "Built-in Variable: $EFFECT_TYPE_CAT"
     },
     "$EFFECT_TYPE_CHORUS":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_CHORUS"
+        "description": "Built-in Variable: $EFFECT_TYPE_CHORUS"
     },
     "$EFFECT_TYPE_COMPRESSOR":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_COMPRESSOR"
+        "description": "Built-in Variable: $EFFECT_TYPE_COMPRESSOR"
     },
     "$EFFECT_TYPE_DELAY":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_DELAY"
+        "description": "Built-in Variable: $EFFECT_TYPE_DELAY"
     },
     "$EFFECT_TYPE_DISTORTION":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_DISTORTION"
+        "description": "Built-in Variable: $EFFECT_TYPE_DISTORTION"
     },
     "$EFFECT_TYPE_DSTORTION":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_DSTORTION"
+        "description": "Built-in Variable: $EFFECT_TYPE_DSTORTION"
     },
     "$EFFECT_TYPE_FB_COMP":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_FB_COMP"
+        "description": "Built-in Variable: $EFFECT_TYPE_FB_COMP"
     },
     "$EFFECT_TYPE_FILTER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_FILTER"
+        "description": "Built-in Variable: $EFFECT_TYPE_FILTER"
     },
     "$EFFECT_TYPE_FLANGER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_FLANGER"
+        "description": "Built-in Variable: $EFFECT_TYPE_FLANGER"
     },
     "$EFFECT_TYPE_GAINER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_GAINER"
+        "description": "Built-in Variable: $EFFECT_TYPE_GAINER"
     },
     "$EFFECT_TYPE_HOTSOLO":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_HOTSOLO"
+        "description": "Built-in Variable: $EFFECT_TYPE_HOTSOLO"
     },
     "$EFFECT_TYPE_INVERTER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_INVERTER"
+        "description": "Built-in Variable: $EFFECT_TYPE_INVERTER"
     },
     "$EFFECT_TYPE_IRC":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_IRC"
+        "description": "Built-in Variable: $EFFECT_TYPE_IRC"
     },
     "$EFFECT_TYPE_JUMP":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_JUMP"
+        "description": "Built-in Variable: $EFFECT_TYPE_JUMP"
     },
     "$EFFECT_TYPE_LIMITER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_LIMITER"
+        "description": "Built-in Variable: $EFFECT_TYPE_LIMITER"
     },
     "$EFFECT_TYPE_LOFI":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_LOFI"
+        "description": "Built-in Variable: $EFFECT_TYPE_LOFI"
     },
     "$EFFECT_TYPE_NONE":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_NONE"
+        "description": "Built-in Variable: $EFFECT_TYPE_NONE"
     },
     "$EFFECT_TYPE_PHASER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_PHASER"
+        "description": "Built-in Variable: $EFFECT_TYPE_PHASER"
     },
     "$EFFECT_TYPE_REVERB":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_REVERB"
+        "description": "Built-in Variable: $EFFECT_TYPE_REVERB"
     },
     "$EFFECT_TYPE_ROTATOR":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_ROTATOR"
+        "description": "Built-in Variable: $EFFECT_TYPE_ROTATOR"
     },
     "$EFFECT_TYPE_SEND_LEVELS":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_SEND_LEVELS"
+        "description": "Built-in Variable: $EFFECT_TYPE_SEND_LEVELS"
     },
     "$EFFECT_TYPE_SHAPER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_SHAPER"
+        "description": "Built-in Variable: $EFFECT_TYPE_SHAPER"
     },
     "$EFFECT_TYPE_SKREAMER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_SKREAMER"
+        "description": "Built-in Variable: $EFFECT_TYPE_SKREAMER"
     },
     "$EFFECT_TYPE_SOLID_GEQ":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_SOLID_GEQ"
+        "description": "Built-in Variable: $EFFECT_TYPE_SOLID_GEQ"
     },
     "$EFFECT_TYPE_STEREO":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_STEREO"
+        "description": "Built-in Variable: $EFFECT_TYPE_STEREO"
     },
     "$EFFECT_TYPE_SURROUND_PANNER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_SURROUND_PANNER"
+        "description": "Built-in Variable: $EFFECT_TYPE_SURROUND_PANNER"
     },
     "$EFFECT_TYPE_TAPE_SAT":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_TAPE_SAT"
+        "description": "Built-in Variable: $EFFECT_TYPE_TAPE_SAT"
     },
     "$EFFECT_TYPE_TRANS_MASTER":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_TRANS_MASTER"
+        "description": "Built-in Variable: $EFFECT_TYPE_TRANS_MASTER"
     },
     "$EFFECT_TYPE_TWANG":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_TWANG"
+        "description": "Built-in Variable: $EFFECT_TYPE_TWANG"
     },
     "$EFFECT_TYPE_VAN51":
     {
-        "description": "Built-in Variable: EFFECT_TYPE_VAN51"
+        "description": "Built-in Variable: $EFFECT_TYPE_VAN51"
     },
     "$ENGINE_PAR_AC_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_BASS"
     },
     "$ENGINE_PAR_AC_BRILLIANTVOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_BRILLIANTVOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_BRILLIANTVOLUME"
     },
     "$ENGINE_PAR_AC_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_MONO"
     },
     "$ENGINE_PAR_AC_NORMALVOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_NORMALVOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_NORMALVOLUME"
     },
     "$ENGINE_PAR_AC_TONECUT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_TONECUT"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_TONECUT"
     },
     "$ENGINE_PAR_AC_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_TREBLE"
     },
     "$ENGINE_PAR_AC_TREMOLODEPTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_TREMOLODEPTH"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_TREMOLODEPTH"
     },
     "$ENGINE_PAR_AC_TREMOLOSPEED":
     {
-        "description": "Built-in Variable: ENGINE_PAR_AC_TREMOLOSPEED"
+        "description": "Built-in Variable: $ENGINE_PAR_AC_TREMOLOSPEED"
     },
     "$ENGINE_PAR_ATK_CURVE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_ATK_CURVE"
+        "description": "Built-in Variable: $ENGINE_PAR_ATK_CURVE"
     },
     "$ENGINE_PAR_ATTACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_ATTACK"
+        "description": "Built-in Variable: $ENGINE_PAR_ATTACK"
     },
     "$ENGINE_PAR_ATTACK_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_ATTACK_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_ATTACK_UNIT"
     },
     "$ENGINE_PAR_BANDWIDTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_BANDWIDTH"
+        "description": "Built-in Variable: $ENGINE_PAR_BANDWIDTH"
     },
     "$ENGINE_PAR_BITS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_BITS"
+        "description": "Built-in Variable: $ENGINE_PAR_BITS"
     },
     "$ENGINE_PAR_BREAK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_BREAK"
+        "description": "Built-in Variable: $ENGINE_PAR_BREAK"
     },
     "$ENGINE_PAR_BW1":
     {
-        "description": "Built-in Variable: ENGINE_PAR_BW1"
+        "description": "Built-in Variable: $ENGINE_PAR_BW1"
     },
     "$ENGINE_PAR_BW2":
     {
-        "description": "Built-in Variable: ENGINE_PAR_BW2"
+        "description": "Built-in Variable: $ENGINE_PAR_BW2"
     },
     "$ENGINE_PAR_BW3":
     {
-        "description": "Built-in Variable: ENGINE_PAR_BW3"
+        "description": "Built-in Variable: $ENGINE_PAR_BW3"
     },
     "$ENGINE_PAR_CABINET_TYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CABINET_TYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_CABINET_TYPE"
     },
     "$ENGINE_PAR_CB_AIR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CB_AIR"
+        "description": "Built-in Variable: $ENGINE_PAR_CB_AIR"
     },
     "$ENGINE_PAR_CB_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CB_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_CB_BASS"
     },
     "$ENGINE_PAR_CB_SIZE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CB_SIZE"
+        "description": "Built-in Variable: $ENGINE_PAR_CB_SIZE"
     },
     "$ENGINE_PAR_CB_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CB_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_CB_TREBLE"
     },
     "$ENGINE_PAR_CH_DEPTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CH_DEPTH"
+        "description": "Built-in Variable: $ENGINE_PAR_CH_DEPTH"
     },
     "$ENGINE_PAR_CH_PHASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CH_PHASE"
+        "description": "Built-in Variable: $ENGINE_PAR_CH_PHASE"
     },
     "$ENGINE_PAR_CH_SPEED":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CH_SPEED"
+        "description": "Built-in Variable: $ENGINE_PAR_CH_SPEED"
     },
     "$ENGINE_PAR_CH_SPEED_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CH_SPEED_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_CH_SPEED_UNIT"
     },
     "$ENGINE_PAR_COMP_ATTACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_COMP_ATTACK"
+        "description": "Built-in Variable: $ENGINE_PAR_COMP_ATTACK"
     },
     "$ENGINE_PAR_COMP_DECAY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_COMP_DECAY"
+        "description": "Built-in Variable: $ENGINE_PAR_COMP_DECAY"
     },
     "$ENGINE_PAR_CT_BALLS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_BALLS"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_BALLS"
     },
     "$ENGINE_PAR_CT_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_BASS"
     },
     "$ENGINE_PAR_CT_DISTORTION":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_DISTORTION"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_DISTORTION"
     },
     "$ENGINE_PAR_CT_FILTER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_FILTER"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_FILTER"
     },
     "$ENGINE_PAR_CT_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_MONO"
     },
     "$ENGINE_PAR_CT_TONE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_TONE"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_TONE"
     },
     "$ENGINE_PAR_CT_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_TREBLE"
     },
     "$ENGINE_PAR_CT_VOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CT_VOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_CT_VOLUME"
     },
     "$ENGINE_PAR_CUTOFF":
     {
-        "description": "Built-in Variable: ENGINE_PAR_CUTOFF"
+        "description": "Built-in Variable: $ENGINE_PAR_CUTOFF"
     },
     "$ENGINE_PAR_DAMPING":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DAMPING"
+        "description": "Built-in Variable: $ENGINE_PAR_DAMPING"
     },
     "$ENGINE_PAR_DECAY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DECAY"
+        "description": "Built-in Variable: $ENGINE_PAR_DECAY"
     },
     "$ENGINE_PAR_DECAY1":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DECAY1"
+        "description": "Built-in Variable: $ENGINE_PAR_DECAY1"
     },
     "$ENGINE_PAR_DECAY1_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DECAY1_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_DECAY1_UNIT"
     },
     "$ENGINE_PAR_DECAY2":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DECAY2"
+        "description": "Built-in Variable: $ENGINE_PAR_DECAY2"
     },
     "$ENGINE_PAR_DECAY2_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DECAY2_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_DECAY2_UNIT"
     },
     "$ENGINE_PAR_DECAY_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DECAY_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_DECAY_UNIT"
     },
     "$ENGINE_PAR_DISTORTION_TYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DISTORTION_TYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_DISTORTION_TYPE"
     },
     "$ENGINE_PAR_DL_DAMPING":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DL_DAMPING"
+        "description": "Built-in Variable: $ENGINE_PAR_DL_DAMPING"
     },
     "$ENGINE_PAR_DL_FEEDBACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DL_FEEDBACK"
+        "description": "Built-in Variable: $ENGINE_PAR_DL_FEEDBACK"
     },
     "$ENGINE_PAR_DL_PAN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DL_PAN"
+        "description": "Built-in Variable: $ENGINE_PAR_DL_PAN"
     },
     "$ENGINE_PAR_DL_TIME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DL_TIME"
+        "description": "Built-in Variable: $ENGINE_PAR_DL_TIME"
     },
     "$ENGINE_PAR_DL_TIME_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DL_TIME_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_DL_TIME_UNIT"
     },
     "$ENGINE_PAR_DRIVE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DRIVE"
+        "description": "Built-in Variable: $ENGINE_PAR_DRIVE"
     },
     "$ENGINE_PAR_DS_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_BASS"
     },
     "$ENGINE_PAR_DS_DRIVE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_DRIVE"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_DRIVE"
     },
     "$ENGINE_PAR_DS_MID":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_MID"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_MID"
     },
     "$ENGINE_PAR_DS_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_MONO"
     },
     "$ENGINE_PAR_DS_TONE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_TONE"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_TONE"
     },
     "$ENGINE_PAR_DS_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_TREBLE"
     },
     "$ENGINE_PAR_DS_VOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_DS_VOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_DS_VOLUME"
     },
     "$ENGINE_PAR_EFFECT_BYPASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_EFFECT_BYPASS"
+        "description": "Built-in Variable: $ENGINE_PAR_EFFECT_BYPASS"
     },
     "$ENGINE_PAR_EFFECT_SUBTYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_EFFECT_SUBTYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_EFFECT_SUBTYPE"
     },
     "$ENGINE_PAR_EFFECT_TYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_EFFECT_TYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_EFFECT_TYPE"
     },
     "$ENGINE_PAR_ENVELOPE_ORDER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_ENVELOPE_ORDER"
+        "description": "Built-in Variable: $ENGINE_PAR_ENVELOPE_ORDER"
     },
     "$ENGINE_PAR_EXP_FILTER_AMOUNT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_EXP_FILTER_AMOUNT"
+        "description": "Built-in Variable: $ENGINE_PAR_EXP_FILTER_AMOUNT"
     },
     "$ENGINE_PAR_EXP_FILTER_MORPH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_EXP_FILTER_MORPH"
+        "description": "Built-in Variable: $ENGINE_PAR_EXP_FILTER_MORPH"
     },
     "$ENGINE_PAR_FCOMP_ATTACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_ATTACK"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_ATTACK"
     },
     "$ENGINE_PAR_FCOMP_HQ_MODE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_HQ_MODE"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_HQ_MODE"
     },
     "$ENGINE_PAR_FCOMP_INPUT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_INPUT"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_INPUT"
     },
     "$ENGINE_PAR_FCOMP_LINK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_LINK"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_LINK"
     },
     "$ENGINE_PAR_FCOMP_MAKEUP":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_MAKEUP"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_MAKEUP"
     },
     "$ENGINE_PAR_FCOMP_MIX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_MIX"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_MIX"
     },
     "$ENGINE_PAR_FCOMP_RATIO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_RATIO"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_RATIO"
     },
     "$ENGINE_PAR_FCOMP_RELEASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FCOMP_RELEASE"
+        "description": "Built-in Variable: $ENGINE_PAR_FCOMP_RELEASE"
     },
     "$ENGINE_PAR_FILTER_BYPA":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_BYPA"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_BYPA"
     },
     "$ENGINE_PAR_FILTER_BYPB":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_BYPB"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_BYPB"
     },
     "$ENGINE_PAR_FILTER_BYPC":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_BYPC"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_BYPC"
     },
     "$ENGINE_PAR_FILTER_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_GAIN"
     },
     "$ENGINE_PAR_FILTER_LADDER_HQ":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_LADDER_HQ"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_LADDER_HQ"
     },
     "$ENGINE_PAR_FILTER_RESB":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_RESB"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_RESB"
     },
     "$ENGINE_PAR_FILTER_RESC":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_RESC"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_RESC"
     },
     "$ENGINE_PAR_FILTER_SHIFTB":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_SHIFTB"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_SHIFTB"
     },
     "$ENGINE_PAR_FILTER_SHIFTC":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_SHIFTC"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_SHIFTC"
     },
     "$ENGINE_PAR_FILTER_TYPEA":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_TYPEA"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_TYPEA"
     },
     "$ENGINE_PAR_FILTER_TYPEB":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_TYPEB"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_TYPEB"
     },
     "$ENGINE_PAR_FILTER_TYPEC":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FILTER_TYPEC"
+        "description": "Built-in Variable: $ENGINE_PAR_FILTER_TYPEC"
     },
     "$ENGINE_PAR_FL_COLOR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FL_COLOR"
+        "description": "Built-in Variable: $ENGINE_PAR_FL_COLOR"
     },
     "$ENGINE_PAR_FL_DEPTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FL_DEPTH"
+        "description": "Built-in Variable: $ENGINE_PAR_FL_DEPTH"
     },
     "$ENGINE_PAR_FL_FEEDBACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FL_FEEDBACK"
+        "description": "Built-in Variable: $ENGINE_PAR_FL_FEEDBACK"
     },
     "$ENGINE_PAR_FL_PHASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FL_PHASE"
+        "description": "Built-in Variable: $ENGINE_PAR_FL_PHASE"
     },
     "$ENGINE_PAR_FL_SPEED":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FL_SPEED"
+        "description": "Built-in Variable: $ENGINE_PAR_FL_SPEED"
     },
     "$ENGINE_PAR_FL_SPEED_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FL_SPEED_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_FL_SPEED_UNIT"
     },
     "$ENGINE_PAR_FORMANT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FORMANT"
+        "description": "Built-in Variable: $ENGINE_PAR_FORMANT"
     },
     "$ENGINE_PAR_FORMANT_SHARP":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FORMANT_SHARP"
+        "description": "Built-in Variable: $ENGINE_PAR_FORMANT_SHARP"
     },
     "$ENGINE_PAR_FORMANT_SHIFT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FORMANT_SHIFT"
+        "description": "Built-in Variable: $ENGINE_PAR_FORMANT_SHIFT"
     },
     "$ENGINE_PAR_FORMANT_SIZE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FORMANT_SIZE"
+        "description": "Built-in Variable: $ENGINE_PAR_FORMANT_SIZE"
     },
     "$ENGINE_PAR_FORMANT_TALK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FORMANT_TALK"
+        "description": "Built-in Variable: $ENGINE_PAR_FORMANT_TALK"
     },
     "$ENGINE_PAR_FREQ1":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FREQ1"
+        "description": "Built-in Variable: $ENGINE_PAR_FREQ1"
     },
     "$ENGINE_PAR_FREQ2":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FREQ2"
+        "description": "Built-in Variable: $ENGINE_PAR_FREQ2"
     },
     "$ENGINE_PAR_FREQ3":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FREQ3"
+        "description": "Built-in Variable: $ENGINE_PAR_FREQ3"
     },
     "$ENGINE_PAR_FREQUENCY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_FREQUENCY"
+        "description": "Built-in Variable: $ENGINE_PAR_FREQUENCY"
     },
     "$ENGINE_PAR_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_GAIN"
     },
     "$ENGINE_PAR_GAIN1":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GAIN1"
+        "description": "Built-in Variable: $ENGINE_PAR_GAIN1"
     },
     "$ENGINE_PAR_GAIN2":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GAIN2"
+        "description": "Built-in Variable: $ENGINE_PAR_GAIN2"
     },
     "$ENGINE_PAR_GAIN3":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GAIN3"
+        "description": "Built-in Variable: $ENGINE_PAR_GAIN3"
     },
     "$ENGINE_PAR_GLIDE_COEF":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GLIDE_COEF"
+        "description": "Built-in Variable: $ENGINE_PAR_GLIDE_COEF"
     },
     "$ENGINE_PAR_GLIDE_COEF_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GLIDE_COEF_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_GLIDE_COEF_UNIT"
     },
     "$ENGINE_PAR_GN_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GN_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_GN_GAIN"
     },
     "$ENGINE_PAR_GRAIN_LENGTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_GRAIN_LENGTH"
+        "description": "Built-in Variable: $ENGINE_PAR_GRAIN_LENGTH"
     },
     "$ENGINE_PAR_HOLD":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HOLD"
+        "description": "Built-in Variable: $ENGINE_PAR_HOLD"
     },
     "$ENGINE_PAR_HOLD_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HOLD_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_HOLD_UNIT"
     },
     "$ENGINE_PAR_HP_CUTOFF":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HP_CUTOFF"
+        "description": "Built-in Variable: $ENGINE_PAR_HP_CUTOFF"
     },
     "$ENGINE_PAR_HS_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_BASS"
     },
     "$ENGINE_PAR_HS_DEPTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_DEPTH"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_DEPTH"
     },
     "$ENGINE_PAR_HS_MASTER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_MASTER"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_MASTER"
     },
     "$ENGINE_PAR_HS_MID":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_MID"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_MID"
     },
     "$ENGINE_PAR_HS_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_MONO"
     },
     "$ENGINE_PAR_HS_OVERDRIVE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_OVERDRIVE"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_OVERDRIVE"
     },
     "$ENGINE_PAR_HS_PRENORMAL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_PRENORMAL"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_PRENORMAL"
     },
     "$ENGINE_PAR_HS_PREOVERDRIVE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_PREOVERDRIVE"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_PREOVERDRIVE"
     },
     "$ENGINE_PAR_HS_PRESENCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_PRESENCE"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_PRESENCE"
     },
     "$ENGINE_PAR_HS_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_HS_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_HS_TREBLE"
     },
     "$ENGINE_PAR_INSERT_EFFECT_OUTPUT_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INSERT_EFFECT_OUTPUT_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_INSERT_EFFECT_OUTPUT_GAIN"
     },
     "$ENGINE_PAR_INTMOD_BYPASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INTMOD_BYPASS"
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_BYPASS"
     },
     "$ENGINE_PAR_INTMOD_FREQUENCY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INTMOD_FREQUENCY"
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_FREQUENCY"
     },
     "$ENGINE_PAR_INTMOD_FREQUENCY_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INTMOD_FREQUENCY_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_FREQUENCY_UNIT"
     },
     "$ENGINE_PAR_INTMOD_PULSEWIDTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INTMOD_PULSEWIDTH"
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_PULSEWIDTH"
     },
     "$ENGINE_PAR_INTMOD_SUBTYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INTMOD_SUBTYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_SUBTYPE"
     },
     "$ENGINE_PAR_INTMOD_TYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_INTMOD_TYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_INTMOD_TYPE"
     },
     "$ENGINE_PAR_IRC_FREQ_HIGHPASS_ER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_FREQ_HIGHPASS_ER"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_FREQ_HIGHPASS_ER"
     },
     "$ENGINE_PAR_IRC_FREQ_HIGHPASS_LR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_FREQ_HIGHPASS_LR"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_FREQ_HIGHPASS_LR"
     },
     "$ENGINE_PAR_IRC_FREQ_LOWPASS_ER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_FREQ_LOWPASS_ER"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_FREQ_LOWPASS_ER"
     },
     "$ENGINE_PAR_IRC_FREQ_LOWPASS_LR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_FREQ_LOWPASS_LR"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_FREQ_LOWPASS_LR"
     },
     "$ENGINE_PAR_IRC_LENGTH_RATIO_ER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_LENGTH_RATIO_ER"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_LENGTH_RATIO_ER"
     },
     "$ENGINE_PAR_IRC_LENGTH_RATIO_LR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_LENGTH_RATIO_LR"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_LENGTH_RATIO_LR"
     },
     "$ENGINE_PAR_IRC_PREDELAY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_IRC_PREDELAY"
+        "description": "Built-in Variable: $ENGINE_PAR_IRC_PREDELAY"
     },
     "$ENGINE_PAR_JMP_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_BASS"
     },
     "$ENGINE_PAR_JMP_HIGAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_HIGAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_HIGAIN"
     },
     "$ENGINE_PAR_JMP_MASTER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_MASTER"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_MASTER"
     },
     "$ENGINE_PAR_JMP_MID":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_MID"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_MID"
     },
     "$ENGINE_PAR_JMP_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_MONO"
     },
     "$ENGINE_PAR_JMP_PREAMP":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_PREAMP"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_PREAMP"
     },
     "$ENGINE_PAR_JMP_PRESENCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_PRESENCE"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_PRESENCE"
     },
     "$ENGINE_PAR_JMP_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_JMP_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_JMP_TREBLE"
     },
     "$ENGINE_PAR_LFO_DELAY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_DELAY"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_DELAY"
     },
     "$ENGINE_PAR_LFO_DELAY_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_DELAY_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_DELAY_UNIT"
     },
     "$ENGINE_PAR_LFO_RAND":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_RAND"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_RAND"
     },
     "$ENGINE_PAR_LFO_RECT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_RECT"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_RECT"
     },
     "$ENGINE_PAR_LFO_SAW":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_SAW"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_SAW"
     },
     "$ENGINE_PAR_LFO_SINE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_SINE"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_SINE"
     },
     "$ENGINE_PAR_LFO_TRI":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LFO_TRI"
+        "description": "Built-in Variable: $ENGINE_PAR_LFO_TRI"
     },
     "$ENGINE_PAR_LIM_IN_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LIM_IN_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_LIM_IN_GAIN"
     },
     "$ENGINE_PAR_LIM_RELEASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LIM_RELEASE"
+        "description": "Built-in Variable: $ENGINE_PAR_LIM_RELEASE"
     },
     "$ENGINE_PAR_LP_CUTOFF":
     {
-        "description": "Built-in Variable: ENGINE_PAR_LP_CUTOFF"
+        "description": "Built-in Variable: $ENGINE_PAR_LP_CUTOFF"
     },
     "$ENGINE_PAR_MOD_TARGET_INTENSITY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_MOD_TARGET_INTENSITY"
+        "description": "Built-in Variable: $ENGINE_PAR_MOD_TARGET_INTENSITY"
     },
     "$ENGINE_PAR_NOISECOLOR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_NOISECOLOR"
+        "description": "Built-in Variable: $ENGINE_PAR_NOISECOLOR"
     },
     "$ENGINE_PAR_NOISELEVEL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_NOISELEVEL"
+        "description": "Built-in Variable: $ENGINE_PAR_NOISELEVEL"
     },
     "$ENGINE_PAR_OUTPUT_CHANNEL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_OUTPUT_CHANNEL"
+        "description": "Built-in Variable: $ENGINE_PAR_OUTPUT_CHANNEL"
     },
     "$ENGINE_PAR_PAN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_PAN"
+        "description": "Built-in Variable: $ENGINE_PAR_PAN"
     },
     "$ENGINE_PAR_PH_DEPTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_PH_DEPTH"
+        "description": "Built-in Variable: $ENGINE_PAR_PH_DEPTH"
     },
     "$ENGINE_PAR_PH_FEEDBACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_PH_FEEDBACK"
+        "description": "Built-in Variable: $ENGINE_PAR_PH_FEEDBACK"
     },
     "$ENGINE_PAR_PH_PHASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_PH_PHASE"
+        "description": "Built-in Variable: $ENGINE_PAR_PH_PHASE"
     },
     "$ENGINE_PAR_PH_SPEED":
     {
-        "description": "Built-in Variable: ENGINE_PAR_PH_SPEED"
+        "description": "Built-in Variable: $ENGINE_PAR_PH_SPEED"
     },
     "$ENGINE_PAR_PH_SPEED_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_PH_SPEED_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_PH_SPEED_UNIT"
     },
     "$ENGINE_PAR_RATIO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RATIO"
+        "description": "Built-in Variable: $ENGINE_PAR_RATIO"
     },
     "$ENGINE_PAR_RELEASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RELEASE"
+        "description": "Built-in Variable: $ENGINE_PAR_RELEASE"
     },
     "$ENGINE_PAR_RELEASE_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RELEASE_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_RELEASE_UNIT"
     },
     "$ENGINE_PAR_RESONANCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RESONANCE"
+        "description": "Built-in Variable: $ENGINE_PAR_RESONANCE"
     },
     "$ENGINE_PAR_RT_ACCEL_HI":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RT_ACCEL_HI"
+        "description": "Built-in Variable: $ENGINE_PAR_RT_ACCEL_HI"
     },
     "$ENGINE_PAR_RT_ACCEL_LO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RT_ACCEL_LO"
+        "description": "Built-in Variable: $ENGINE_PAR_RT_ACCEL_LO"
     },
     "$ENGINE_PAR_RT_BALANCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RT_BALANCE"
+        "description": "Built-in Variable: $ENGINE_PAR_RT_BALANCE"
     },
     "$ENGINE_PAR_RT_DISTANCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RT_DISTANCE"
+        "description": "Built-in Variable: $ENGINE_PAR_RT_DISTANCE"
     },
     "$ENGINE_PAR_RT_MIX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RT_MIX"
+        "description": "Built-in Variable: $ENGINE_PAR_RT_MIX"
     },
     "$ENGINE_PAR_RT_SPEED":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RT_SPEED"
+        "description": "Built-in Variable: $ENGINE_PAR_RT_SPEED"
     },
     "$ENGINE_PAR_RV_COLOUR":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RV_COLOUR"
+        "description": "Built-in Variable: $ENGINE_PAR_RV_COLOUR"
     },
     "$ENGINE_PAR_RV_DAMPING":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RV_DAMPING"
+        "description": "Built-in Variable: $ENGINE_PAR_RV_DAMPING"
     },
     "$ENGINE_PAR_RV_PREDELAY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RV_PREDELAY"
+        "description": "Built-in Variable: $ENGINE_PAR_RV_PREDELAY"
     },
     "$ENGINE_PAR_RV_SIZE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RV_SIZE"
+        "description": "Built-in Variable: $ENGINE_PAR_RV_SIZE"
     },
     "$ENGINE_PAR_RV_STEREO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_RV_STEREO"
+        "description": "Built-in Variable: $ENGINE_PAR_RV_STEREO"
     },
     "$ENGINE_PAR_SCOMP_ATTACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SCOMP_ATTACK"
+        "description": "Built-in Variable: $ENGINE_PAR_SCOMP_ATTACK"
     },
     "$ENGINE_PAR_SCOMP_MAKEUP":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SCOMP_MAKEUP"
+        "description": "Built-in Variable: $ENGINE_PAR_SCOMP_MAKEUP"
     },
     "$ENGINE_PAR_SCOMP_MIX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SCOMP_MIX"
+        "description": "Built-in Variable: $ENGINE_PAR_SCOMP_MIX"
     },
     "$ENGINE_PAR_SCOMP_RATIO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SCOMP_RATIO"
+        "description": "Built-in Variable: $ENGINE_PAR_SCOMP_RATIO"
     },
     "$ENGINE_PAR_SCOMP_RELEASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SCOMP_RELEASE"
+        "description": "Built-in Variable: $ENGINE_PAR_SCOMP_RELEASE"
     },
     "$ENGINE_PAR_SCOMP_THRESHOLD":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SCOMP_THRESHOLD"
+        "description": "Built-in Variable: $ENGINE_PAR_SCOMP_THRESHOLD"
     },
     "$ENGINE_PAR_SENDLEVEL_0":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SENDLEVEL_0"
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_0"
     },
     "$ENGINE_PAR_SENDLEVEL_1":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SENDLEVEL_1"
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_1"
     },
     "$ENGINE_PAR_SENDLEVEL_2":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SENDLEVEL_2"
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_2"
     },
     "$ENGINE_PAR_SENDLEVEL_7":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SENDLEVEL_7"
+        "description": "Built-in Variable: $ENGINE_PAR_SENDLEVEL_7"
     },
     "$ENGINE_PAR_SEND_EFFECT_BYPASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEND_EFFECT_BYPASS"
+        "description": "Built-in Variable: $ENGINE_PAR_SEND_EFFECT_BYPASS"
     },
     "$ENGINE_PAR_SEND_EFFECT_DRY_LEVEL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEND_EFFECT_DRY_LEVEL"
+        "description": "Built-in Variable: $ENGINE_PAR_SEND_EFFECT_DRY_LEVEL"
     },
     "$ENGINE_PAR_SEND_EFFECT_OUTPUT_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEND_EFFECT_OUTPUT_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_SEND_EFFECT_OUTPUT_GAIN"
     },
     "$ENGINE_PAR_SEND_EFFECT_TYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEND_EFFECT_TYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_SEND_EFFECT_TYPE"
     },
     "$ENGINE_PAR_SEQ_HF_BELL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_HF_BELL"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HF_BELL"
     },
     "$ENGINE_PAR_SEQ_HF_FREQ":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_HF_FREQ"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HF_FREQ"
     },
     "$ENGINE_PAR_SEQ_HF_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_HF_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HF_GAIN"
     },
     "$ENGINE_PAR_SEQ_HMF_FREQ":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_HMF_FREQ"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HMF_FREQ"
     },
     "$ENGINE_PAR_SEQ_HMF_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_HMF_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HMF_GAIN"
     },
     "$ENGINE_PAR_SEQ_HMF_Q":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_HMF_Q"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HMF_Q"
     },
     "$ENGINE_PAR_SEQ_LF_BELL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_LF_BELL"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_LF_BELL"
     },
     "$ENGINE_PAR_SEQ_LF_FREQ":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_LF_FREQ"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_LF_FREQ"
     },
     "$ENGINE_PAR_SEQ_LF_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_LF_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_LF_GAIN"
     },
     "$ENGINE_PAR_SEQ_LMF_FREQ":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_LMF_FREQ"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_LMF_FREQ"
     },
     "$ENGINE_PAR_SEQ_LMF_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_LMF_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_LMF_GAIN"
     },
     "$ENGINE_PAR_SEQ_LMF_Q":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SEQ_LMF_Q"
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_LMF_Q"
     },
     "$ENGINE_PAR_SHAPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SHAPE"
+        "description": "Built-in Variable: $ENGINE_PAR_SHAPE"
     },
     "$ENGINE_PAR_SHAPE_TYPE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SHAPE_TYPE"
+        "description": "Built-in Variable: $ENGINE_PAR_SHAPE_TYPE"
     },
     "$ENGINE_PAR_SK_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SK_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_SK_BASS"
     },
     "$ENGINE_PAR_SK_BRIGHT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SK_BRIGHT"
+        "description": "Built-in Variable: $ENGINE_PAR_SK_BRIGHT"
     },
     "$ENGINE_PAR_SK_DRIVE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SK_DRIVE"
+        "description": "Built-in Variable: $ENGINE_PAR_SK_DRIVE"
     },
     "$ENGINE_PAR_SK_MIX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SK_MIX"
+        "description": "Built-in Variable: $ENGINE_PAR_SK_MIX"
     },
     "$ENGINE_PAR_SK_TONE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SK_TONE"
+        "description": "Built-in Variable: $ENGINE_PAR_SK_TONE"
     },
     "$ENGINE_PAR_SLICE_ATTACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SLICE_ATTACK"
+        "description": "Built-in Variable: $ENGINE_PAR_SLICE_ATTACK"
     },
     "$ENGINE_PAR_SLICE_RELEASE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SLICE_RELEASE"
+        "description": "Built-in Variable: $ENGINE_PAR_SLICE_RELEASE"
     },
     "$ENGINE_PAR_SMOOTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SMOOTH"
+        "description": "Built-in Variable: $ENGINE_PAR_SMOOTH"
     },
     "$ENGINE_PAR_SPEED":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SPEED"
+        "description": "Built-in Variable: $ENGINE_PAR_SPEED"
     },
     "$ENGINE_PAR_SPEED_UNIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SPEED_UNIT"
+        "description": "Built-in Variable: $ENGINE_PAR_SPEED_UNIT"
     },
     "$ENGINE_PAR_SP_DIVERGENCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_DIVERGENCE"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_DIVERGENCE"
     },
     "$ENGINE_PAR_SP_LFE_VOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_LFE_VOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_LFE_VOLUME"
     },
     "$ENGINE_PAR_SP_OFFSET_AZIMUTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_OFFSET_AZIMUTH"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_OFFSET_AZIMUTH"
     },
     "$ENGINE_PAR_SP_OFFSET_DISTANCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_OFFSET_DISTANCE"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_OFFSET_DISTANCE"
     },
     "$ENGINE_PAR_SP_OFFSET_X":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_OFFSET_X"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_OFFSET_X"
     },
     "$ENGINE_PAR_SP_OFFSET_Y":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_OFFSET_Y"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_OFFSET_Y"
     },
     "$ENGINE_PAR_SP_SIZE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SP_SIZE"
+        "description": "Built-in Variable: $ENGINE_PAR_SP_SIZE"
     },
     "$ENGINE_PAR_START_CRITERIA_CC_MAX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_CC_MAX"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_CC_MAX"
     },
     "$ENGINE_PAR_START_CRITERIA_CC_MIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_CC_MIN"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_CC_MIN"
     },
     "$ENGINE_PAR_START_CRITERIA_CONTROLLER":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_CONTROLLER"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_CONTROLLER"
     },
     "$ENGINE_PAR_START_CRITERIA_CYCLE_CLASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_CYCLE_CLASS"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_CYCLE_CLASS"
     },
     "$ENGINE_PAR_START_CRITERIA_KEY_MAX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_KEY_MAX"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_KEY_MAX"
     },
     "$ENGINE_PAR_START_CRITERIA_KEY_MIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_KEY_MIN"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_KEY_MIN"
     },
     "$ENGINE_PAR_START_CRITERIA_MODE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_MODE"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_MODE"
     },
     "$ENGINE_PAR_START_CRITERIA_NEXT_CRIT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_NEXT_CRIT"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_NEXT_CRIT"
     },
     "$ENGINE_PAR_START_CRITERIA_SEQ_ONLY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_SEQ_ONLY"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_SEQ_ONLY"
     },
     "$ENGINE_PAR_START_CRITERIA_SLICE_IDX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_SLICE_IDX"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_SLICE_IDX"
     },
     "$ENGINE_PAR_START_CRITERIA_ZONE_IDX":
     {
-        "description": "Built-in Variable: ENGINE_PAR_START_CRITERIA_ZONE_IDX"
+        "description": "Built-in Variable: $ENGINE_PAR_START_CRITERIA_ZONE_IDX"
     },
     "$ENGINE_PAR_STEREO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_STEREO"
+        "description": "Built-in Variable: $ENGINE_PAR_STEREO"
     },
     "$ENGINE_PAR_STEREO_PAN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_STEREO_PAN"
+        "description": "Built-in Variable: $ENGINE_PAR_STEREO_PAN"
     },
     "$ENGINE_PAR_SUSTAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_SUSTAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_SUSTAIN"
     },
     "$ENGINE_PAR_THRESHOLD":
     {
-        "description": "Built-in Variable: ENGINE_PAR_THRESHOLD"
+        "description": "Built-in Variable: $ENGINE_PAR_THRESHOLD"
     },
     "$ENGINE_PAR_TP_GAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TP_GAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_TP_GAIN"
     },
     "$ENGINE_PAR_TP_HF_ROLLOFF":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TP_HF_ROLLOFF"
+        "description": "Built-in Variable: $ENGINE_PAR_TP_HF_ROLLOFF"
     },
     "$ENGINE_PAR_TP_QUALITY":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TP_QUALITY"
+        "description": "Built-in Variable: $ENGINE_PAR_TP_QUALITY"
     },
     "$ENGINE_PAR_TP_WARMTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TP_WARMTH"
+        "description": "Built-in Variable: $ENGINE_PAR_TP_WARMTH"
     },
     "$ENGINE_PAR_TRANSIENT_SIZE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TRANSIENT_SIZE"
+        "description": "Built-in Variable: $ENGINE_PAR_TRANSIENT_SIZE"
     },
     "$ENGINE_PAR_TR_ATTACK":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TR_ATTACK"
+        "description": "Built-in Variable: $ENGINE_PAR_TR_ATTACK"
     },
     "$ENGINE_PAR_TR_INPUT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TR_INPUT"
+        "description": "Built-in Variable: $ENGINE_PAR_TR_INPUT"
     },
     "$ENGINE_PAR_TR_SMOOTH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TR_SMOOTH"
+        "description": "Built-in Variable: $ENGINE_PAR_TR_SMOOTH"
     },
     "$ENGINE_PAR_TR_SUSTAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TR_SUSTAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_TR_SUSTAIN"
     },
     "$ENGINE_PAR_TUNE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TUNE"
+        "description": "Built-in Variable: $ENGINE_PAR_TUNE"
     },
     "$ENGINE_PAR_TW_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TW_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_TW_BASS"
     },
     "$ENGINE_PAR_TW_BRIGHT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TW_BRIGHT"
+        "description": "Built-in Variable: $ENGINE_PAR_TW_BRIGHT"
     },
     "$ENGINE_PAR_TW_MID":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TW_MID"
+        "description": "Built-in Variable: $ENGINE_PAR_TW_MID"
     },
     "$ENGINE_PAR_TW_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TW_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_TW_MONO"
     },
     "$ENGINE_PAR_TW_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TW_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_TW_TREBLE"
     },
     "$ENGINE_PAR_TW_VOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_TW_VOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_TW_VOLUME"
     },
     "$ENGINE_PAR_V5_BASS":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_BASS"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_BASS"
     },
     "$ENGINE_PAR_V5_BRIGHT":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_BRIGHT"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_BRIGHT"
     },
     "$ENGINE_PAR_V5_CRUNCH":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_CRUNCH"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_CRUNCH"
     },
     "$ENGINE_PAR_V5_HIGAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_HIGAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_HIGAIN"
     },
     "$ENGINE_PAR_V5_LEADCHANNEL":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_LEADCHANNEL"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_LEADCHANNEL"
     },
     "$ENGINE_PAR_V5_MID":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_MID"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_MID"
     },
     "$ENGINE_PAR_V5_MONO":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_MONO"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_MONO"
     },
     "$ENGINE_PAR_V5_POSTGAIN":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_POSTGAIN"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_POSTGAIN"
     },
     "$ENGINE_PAR_V5_PREGAINLEAD":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_PREGAINLEAD"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_PREGAINLEAD"
     },
     "$ENGINE_PAR_V5_PREGAINRHYTHM":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_PREGAINRHYTHM"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_PREGAINRHYTHM"
     },
     "$ENGINE_PAR_V5_PRESENCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_PRESENCE"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_PRESENCE"
     },
     "$ENGINE_PAR_V5_RESONANCE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_RESONANCE"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_RESONANCE"
     },
     "$ENGINE_PAR_V5_TREBLE":
     {
-        "description": "Built-in Variable: ENGINE_PAR_V5_TREBLE"
+        "description": "Built-in Variable: $ENGINE_PAR_V5_TREBLE"
     },
     "$ENGINE_PAR_VOLUME":
     {
-        "description": "Built-in Variable: ENGINE_PAR_VOLUME"
+        "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
     },
     "$ENGINE_UPTIME":
     {
-        "description": "Built-in Variable: ENGINE_UPTIME"
+        "description": "Built-in Variable: $ENGINE_UPTIME"
     },
     "$ENV_TYPE_AHDSR":
     {
-        "description": "Built-in Variable: ENV_TYPE_AHDSR"
+        "description": "Built-in Variable: $ENV_TYPE_AHDSR"
     },
     "$ENV_TYPE_DBD":
     {
-        "description": "Built-in Variable: ENV_TYPE_DBD"
+        "description": "Built-in Variable: $ENV_TYPE_DBD"
     },
     "$ENV_TYPE_FLEX":
     {
-        "description": "Built-in Variable: ENV_TYPE_FLEX"
+        "description": "Built-in Variable: $ENV_TYPE_FLEX"
     },
     "$EVENT_ID":
     {
-        "description": "Built-in Variable: EVENT_ID"
+        "description": "Built-in Variable: $EVENT_ID"
     },
     "$EVENT_NOTE":
     {
-        "description": "Built-in Variable: EVENT_NOTE"
+        "description": "Built-in Variable: $EVENT_NOTE"
     },
     "$EVENT_PAR_0":
     {
-        "description": "Built-in Variable: EVENT_PAR_0"
+        "description": "Built-in Variable: $EVENT_PAR_0"
     },
     "$EVENT_PAR_1":
     {
-        "description": "Built-in Variable: EVENT_PAR_1"
+        "description": "Built-in Variable: $EVENT_PAR_1"
     },
     "$EVENT_PAR_2":
     {
-        "description": "Built-in Variable: EVENT_PAR_2"
+        "description": "Built-in Variable: $EVENT_PAR_2"
     },
     "$EVENT_PAR_3":
     {
-        "description": "Built-in Variable: EVENT_PAR_3"
+        "description": "Built-in Variable: $EVENT_PAR_3"
     },
     "$EVENT_PAR_ALLOW_GROUP":
     {
-        "description": "Built-in Variable: EVENT_PAR_ALLOW_GROUP"
+        "description": "Built-in Variable: $EVENT_PAR_ALLOW_GROUP"
     },
     "$EVENT_PAR_ID":
     {
-        "description": "Built-in Variable: EVENT_PAR_ID"
+        "description": "Built-in Variable: $EVENT_PAR_ID"
     },
     "$EVENT_PAR_MIDI_BYTE_1":
     {
-        "description": "Built-in Variable: EVENT_PAR_MIDI_BYTE_1"
+        "description": "Built-in Variable: $EVENT_PAR_MIDI_BYTE_1"
     },
     "$EVENT_PAR_MIDI_BYTE_2":
     {
-        "description": "Built-in Variable: EVENT_PAR_MIDI_BYTE_2"
+        "description": "Built-in Variable: $EVENT_PAR_MIDI_BYTE_2"
     },
     "$EVENT_PAR_MIDI_CHANNEL":
     {
-        "description": "Built-in Variable: EVENT_PAR_MIDI_CHANNEL"
+        "description": "Built-in Variable: $EVENT_PAR_MIDI_CHANNEL"
     },
     "$EVENT_PAR_MIDI_COMMAND":
     {
-        "description": "Built-in Variable: EVENT_PAR_MIDI_COMMAND"
+        "description": "Built-in Variable: $EVENT_PAR_MIDI_COMMAND"
     },
     "$EVENT_PAR_NOTE":
     {
-        "description": "Built-in Variable: EVENT_PAR_NOTE"
+        "description": "Built-in Variable: $EVENT_PAR_NOTE"
     },
     "$EVENT_PAR_NOTE_LENGTH":
     {
-        "description": "Built-in Variable: EVENT_PAR_NOTE_LENGTH"
+        "description": "Built-in Variable: $EVENT_PAR_NOTE_LENGTH"
     },
     "$EVENT_PAR_PAN":
     {
-        "description": "Built-in Variable: EVENT_PAR_PAN"
+        "description": "Built-in Variable: $EVENT_PAR_PAN"
     },
     "$EVENT_PAR_PLAY_POS":
     {
-        "description": "Built-in Variable: EVENT_PAR_PLAY_POS"
+        "description": "Built-in Variable: $EVENT_PAR_PLAY_POS"
     },
     "$EVENT_PAR_POS":
     {
-        "description": "Built-in Variable: EVENT_PAR_POS"
+        "description": "Built-in Variable: $EVENT_PAR_POS"
     },
     "$EVENT_PAR_SOURCE":
     {
-        "description": "Built-in Variable: EVENT_PAR_SOURCE"
+        "description": "Built-in Variable: $EVENT_PAR_SOURCE"
     },
     "$EVENT_PAR_TRACK_NR":
     {
-        "description": "Built-in Variable: EVENT_PAR_TRACK_NR"
+        "description": "Built-in Variable: $EVENT_PAR_TRACK_NR"
     },
     "$EVENT_PAR_TUNE":
     {
-        "description": "Built-in Variable: EVENT_PAR_TUNE"
+        "description": "Built-in Variable: $EVENT_PAR_TUNE"
     },
     "$EVENT_PAR_VELOCITY":
     {
-        "description": "Built-in Variable: EVENT_PAR_VELOCITY"
+        "description": "Built-in Variable: $EVENT_PAR_VELOCITY"
     },
     "$EVENT_PAR_VOLUME":
     {
-        "description": "Built-in Variable: EVENT_PAR_VOLUME"
+        "description": "Built-in Variable: $EVENT_PAR_VOLUME"
     },
     "$EVENT_PAR_ZONE_ID":
     {
-        "description": "Built-in Variable: EVENT_PAR_ZONE_ID"
+        "description": "Built-in Variable: $EVENT_PAR_ZONE_ID"
     },
     "$EVENT_STATUS_INACTIVE":
     {
-        "description": "Built-in Variable: EVENT_STATUS_INACTIVE"
+        "description": "Built-in Variable: $EVENT_STATUS_INACTIVE"
     },
     "$EVENT_STATUS_MIDI_QUEUE":
     {
-        "description": "Built-in Variable: EVENT_STATUS_MIDI_QUEUE"
+        "description": "Built-in Variable: $EVENT_STATUS_MIDI_QUEUE"
     },
     "$EVENT_STATUS_NOTE_QUEUE":
     {
-        "description": "Built-in Variable: EVENT_STATUS_NOTE_QUEUE"
+        "description": "Built-in Variable: $EVENT_STATUS_NOTE_QUEUE"
     },
     "$EVENT_VELOCITY":
     {
-        "description": "Built-in Variable: EVENT_VELOCITY"
+        "description": "Built-in Variable: $EVENT_VELOCITY"
     },
     "$FILTER_TYPE_AR_BP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_BP2"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_BP2"
     },
     "$FILTER_TYPE_AR_BP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_BP4"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_BP4"
     },
     "$FILTER_TYPE_AR_BP24":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_BP24"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_BP24"
     },
     "$FILTER_TYPE_AR_HP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_HP2"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_HP2"
     },
     "$FILTER_TYPE_AR_HP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_HP4"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_HP4"
     },
     "$FILTER_TYPE_AR_HP24":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_HP24"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_HP24"
     },
     "$FILTER_TYPE_AR_LP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_LP2"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_LP2"
     },
     "$FILTER_TYPE_AR_LP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_LP4"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_LP4"
     },
     "$FILTER_TYPE_AR_LP24":
     {
-        "description": "Built-in Variable: FILTER_TYPE_AR_LP24"
+        "description": "Built-in Variable: $FILTER_TYPE_AR_LP24"
     },
     "$FILTER_TYPE_BP2POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_BP2POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_BP2POLE"
     },
     "$FILTER_TYPE_BP4POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_BP4POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_BP4POLE"
     },
     "$FILTER_TYPE_BR4POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_BR4POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_BR4POLE"
     },
     "$FILTER_TYPE_DAFT_HP":
     {
-        "description": "Built-in Variable: FILTER_TYPE_DAFT_HP"
+        "description": "Built-in Variable: $FILTER_TYPE_DAFT_HP"
     },
     "$FILTER_TYPE_DAFT_LP":
     {
-        "description": "Built-in Variable: FILTER_TYPE_DAFT_LP"
+        "description": "Built-in Variable: $FILTER_TYPE_DAFT_LP"
     },
     "$FILTER_TYPE_EQ1BAND":
     {
-        "description": "Built-in Variable: FILTER_TYPE_EQ1BAND"
+        "description": "Built-in Variable: $FILTER_TYPE_EQ1BAND"
     },
     "$FILTER_TYPE_EQ2BAND":
     {
-        "description": "Built-in Variable: FILTER_TYPE_EQ2BAND"
+        "description": "Built-in Variable: $FILTER_TYPE_EQ2BAND"
     },
     "$FILTER_TYPE_EQ3BAND":
     {
-        "description": "Built-in Variable: FILTER_TYPE_EQ3BAND"
+        "description": "Built-in Variable: $FILTER_TYPE_EQ3BAND"
     },
     "$FILTER_TYPE_FORMANT_1":
     {
-        "description": "Built-in Variable: FILTER_TYPE_FORMANT_1"
+        "description": "Built-in Variable: $FILTER_TYPE_FORMANT_1"
     },
     "$FILTER_TYPE_FORMANT_2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_FORMANT_2"
+        "description": "Built-in Variable: $FILTER_TYPE_FORMANT_2"
     },
     "$FILTER_TYPE_HP1POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_HP1POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_HP1POLE"
     },
     "$FILTER_TYPE_HP2POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_HP2POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_HP2POLE"
     },
     "$FILTER_TYPE_HP4POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_HP4POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_HP4POLE"
     },
     "$FILTER_TYPE_LADDER":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LADDER"
+        "description": "Built-in Variable: $FILTER_TYPE_LADDER"
     },
     "$FILTER_TYPE_LDR_BP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_BP2"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_BP2"
     },
     "$FILTER_TYPE_LDR_BP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_BP4"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_BP4"
     },
     "$FILTER_TYPE_LDR_HP1":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_HP1"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_HP1"
     },
     "$FILTER_TYPE_LDR_HP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_HP2"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_HP2"
     },
     "$FILTER_TYPE_LDR_HP3":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_HP3"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_HP3"
     },
     "$FILTER_TYPE_LDR_HP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_HP4"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_HP4"
     },
     "$FILTER_TYPE_LDR_LP1":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_LP1"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_LP1"
     },
     "$FILTER_TYPE_LDR_LP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_LP2"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_LP2"
     },
     "$FILTER_TYPE_LDR_LP3":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_LP3"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_LP3"
     },
     "$FILTER_TYPE_LDR_LP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_LP4"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_LP4"
     },
     "$FILTER_TYPE_LDR_NOTCH":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_NOTCH"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_NOTCH"
     },
     "$FILTER_TYPE_LDR_PEAK":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LDR_PEAK"
+        "description": "Built-in Variable: $FILTER_TYPE_LDR_PEAK"
     },
     "$FILTER_TYPE_LP1POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LP1POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_LP1POLE"
     },
     "$FILTER_TYPE_LP2POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LP2POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_LP2POLE"
     },
     "$FILTER_TYPE_LP4POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LP4POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_LP4POLE"
     },
     "$FILTER_TYPE_LP6POLE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_LP6POLE"
+        "description": "Built-in Variable: $FILTER_TYPE_LP6POLE"
     },
     "$FILTER_TYPE_PHASER":
     {
-        "description": "Built-in Variable: FILTER_TYPE_PHASER"
+        "description": "Built-in Variable: $FILTER_TYPE_PHASER"
     },
     "$FILTER_TYPE_PRO52":
     {
-        "description": "Built-in Variable: FILTER_TYPE_PRO52"
+        "description": "Built-in Variable: $FILTER_TYPE_PRO52"
     },
     "$FILTER_TYPE_SIMPLE_LPHP":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SIMPLE_LPHP"
+        "description": "Built-in Variable: $FILTER_TYPE_SIMPLE_LPHP"
     },
     "$FILTER_TYPE_SV_BP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_BP2"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_BP2"
     },
     "$FILTER_TYPE_SV_BP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_BP4"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_BP4"
     },
     "$FILTER_TYPE_SV_HP1":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_HP1"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_HP1"
     },
     "$FILTER_TYPE_SV_HP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_HP2"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_HP2"
     },
     "$FILTER_TYPE_SV_HP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_HP4"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_HP4"
     },
     "$FILTER_TYPE_SV_LP1":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_LP1"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_LP1"
     },
     "$FILTER_TYPE_SV_LP2":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_LP2"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_LP2"
     },
     "$FILTER_TYPE_SV_LP4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_LP4"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_LP4"
     },
     "$FILTER_TYPE_SV_NOTCH4":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_NOTCH4"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_NOTCH4"
     },
     "$FILTER_TYPE_SV_PAR_BPBP":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_PAR_BPBP"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_PAR_BPBP"
     },
     "$FILTER_TYPE_SV_PAR_LPHP":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_PAR_LPHP"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_PAR_LPHP"
     },
     "$FILTER_TYPE_SV_SER_LPHP":
     {
-        "description": "Built-in Variable: FILTER_TYPE_SV_SER_LPHP"
+        "description": "Built-in Variable: $FILTER_TYPE_SV_SER_LPHP"
     },
     "$FILTER_TYPE_VERSATILE":
     {
-        "description": "Built-in Variable: FILTER_TYPE_VERSATILE"
+        "description": "Built-in Variable: $FILTER_TYPE_VERSATILE"
     },
     "$FILTER_TYPE_VOWELA":
     {
-        "description": "Built-in Variable: FILTER_TYPE_VOWELA"
+        "description": "Built-in Variable: $FILTER_TYPE_VOWELA"
     },
     "$FILTER_TYPE_VOWELB":
     {
-        "description": "Built-in Variable: FILTER_TYPE_VOWELB"
+        "description": "Built-in Variable: $FILTER_TYPE_VOWELB"
     },
     "$GET_FOLDER_FACTORY_DIR":
     {
-        "description": "Built-in Variable: GET_FOLDER_FACTORY_DIR"
+        "description": "Built-in Variable: $GET_FOLDER_FACTORY_DIR"
     },
     "$GET_FOLDER_LIBRARY_DIR":
     {
-        "description": "Built-in Variable: GET_FOLDER_LIBRARY_DIR"
+        "description": "Built-in Variable: $GET_FOLDER_LIBRARY_DIR"
     },
     "$GET_FOLDER_PATCH_DIR":
     {
-        "description": "Built-in Variable: GET_FOLDER_PATCH_DIR"
+        "description": "Built-in Variable: $GET_FOLDER_PATCH_DIR"
     },
     "$HIDE_PART_BG":
     {
-        "description": "Built-in Variable: HIDE_PART_BG"
+        "description": "Built-in Variable: $HIDE_PART_BG"
     },
     "$HIDE_PART_CURSOR":
     {
-        "description": "Built-in Variable: HIDE_PART_CURSOR"
+        "description": "Built-in Variable: $HIDE_PART_CURSOR"
     },
     "$HIDE_PART_MOD_LIGHT":
     {
-        "description": "Built-in Variable: HIDE_PART_MOD_LIGHT"
+        "description": "Built-in Variable: $HIDE_PART_MOD_LIGHT"
     },
     "$HIDE_PART_NOTHING":
     {
-        "description": "Built-in Variable: HIDE_PART_NOTHING"
+        "description": "Built-in Variable: $HIDE_PART_NOTHING"
     },
     "$HIDE_PART_TITLE":
     {
-        "description": "Built-in Variable: HIDE_PART_TITLE"
+        "description": "Built-in Variable: $HIDE_PART_TITLE"
     },
     "$HIDE_PART_VALUE":
     {
-        "description": "Built-in Variable: HIDE_PART_VALUE"
+        "description": "Built-in Variable: $HIDE_PART_VALUE"
     },
     "$HIDE_WHOLE_CONTROL":
     {
-        "description": "Built-in Variable: HIDE_WHOLE_CONTROL"
+        "description": "Built-in Variable: $HIDE_WHOLE_CONTROL"
     },
     "$INST_ICON_ID":
     {
-        "description": "Built-in Variable: INST_ICON_ID"
+        "description": "Built-in Variable: $INST_ICON_ID"
     },
     "$INST_WALLPAPER_ID":
     {
-        "description": "Built-in Variable: INST_WALLPAPER_ID"
+        "description": "Built-in Variable: $INST_WALLPAPER_ID"
     },
     "$INTMOD_TYPE_ENVELOPE":
     {
-        "description": "Built-in Variable: INTMOD_TYPE_ENVELOPE"
+        "description": "Built-in Variable: $INTMOD_TYPE_ENVELOPE"
     },
     "$INTMOD_TYPE_ENV_FOLLOW":
     {
-        "description": "Built-in Variable: INTMOD_TYPE_ENV_FOLLOW"
+        "description": "Built-in Variable: $INTMOD_TYPE_ENV_FOLLOW"
     },
     "$INTMOD_TYPE_GLIDE":
     {
-        "description": "Built-in Variable: INTMOD_TYPE_GLIDE"
+        "description": "Built-in Variable: $INTMOD_TYPE_GLIDE"
     },
     "$INTMOD_TYPE_LFO":
     {
-        "description": "Built-in Variable: INTMOD_TYPE_LFO"
+        "description": "Built-in Variable: $INTMOD_TYPE_LFO"
     },
     "$INTMOD_TYPE_NONE":
     {
-        "description": "Built-in Variable: INTMOD_TYPE_NONE"
+        "description": "Built-in Variable: $INTMOD_TYPE_NONE"
     },
     "$INTMOD_TYPE_STEPMOD":
     {
-        "description": "Built-in Variable: INTMOD_TYPE_STEPMOD"
+        "description": "Built-in Variable: $INTMOD_TYPE_STEPMOD"
     },
     "$KEY_COLOR_BLACK":
     {
-        "description": "Built-in Variable: KEY_COLOR_BLACK"
+        "description": "Built-in Variable: $KEY_COLOR_BLACK"
     },
     "$KEY_COLOR_BLUE":
     {
-        "description": "Built-in Variable: KEY_COLOR_BLUE"
+        "description": "Built-in Variable: $KEY_COLOR_BLUE"
     },
     "$KEY_COLOR_CYAN":
     {
-        "description": "Built-in Variable: KEY_COLOR_CYAN"
+        "description": "Built-in Variable: $KEY_COLOR_CYAN"
     },
     "$KEY_COLOR_DEFAULT":
     {
-        "description": "Built-in Variable: KEY_COLOR_DEFAULT"
+        "description": "Built-in Variable: $KEY_COLOR_DEFAULT"
     },
     "$KEY_COLOR_FUCHSIA":
     {
-        "description": "Built-in Variable: KEY_COLOR_FUCHSIA"
+        "description": "Built-in Variable: $KEY_COLOR_FUCHSIA"
     },
     "$KEY_COLOR_GREEN":
     {
-        "description": "Built-in Variable: KEY_COLOR_GREEN"
+        "description": "Built-in Variable: $KEY_COLOR_GREEN"
     },
     "$KEY_COLOR_INACTIVE":
     {
-        "description": "Built-in Variable: KEY_COLOR_INACTIVE"
+        "description": "Built-in Variable: $KEY_COLOR_INACTIVE"
     },
     "$KEY_COLOR_LIGHT_ORANGE":
     {
-        "description": "Built-in Variable: KEY_COLOR_LIGHT_ORANGE"
+        "description": "Built-in Variable: $KEY_COLOR_LIGHT_ORANGE"
     },
     "$KEY_COLOR_LIME":
     {
-        "description": "Built-in Variable: KEY_COLOR_LIME"
+        "description": "Built-in Variable: $KEY_COLOR_LIME"
     },
     "$KEY_COLOR_MAGENTA":
     {
-        "description": "Built-in Variable: KEY_COLOR_MAGENTA"
+        "description": "Built-in Variable: $KEY_COLOR_MAGENTA"
     },
     "$KEY_COLOR_MINT":
     {
-        "description": "Built-in Variable: KEY_COLOR_MINT"
+        "description": "Built-in Variable: $KEY_COLOR_MINT"
     },
     "$KEY_COLOR_NONE":
     {
-        "description": "Built-in Variable: KEY_COLOR_NONE"
+        "description": "Built-in Variable: $KEY_COLOR_NONE"
     },
     "$KEY_COLOR_ORANGE":
     {
-        "description": "Built-in Variable: KEY_COLOR_ORANGE"
+        "description": "Built-in Variable: $KEY_COLOR_ORANGE"
     },
     "$KEY_COLOR_PLUM":
     {
-        "description": "Built-in Variable: KEY_COLOR_PLUM"
+        "description": "Built-in Variable: $KEY_COLOR_PLUM"
     },
     "$KEY_COLOR_PURPLE":
     {
-        "description": "Built-in Variable: KEY_COLOR_PURPLE"
+        "description": "Built-in Variable: $KEY_COLOR_PURPLE"
     },
     "$KEY_COLOR_RED":
     {
-        "description": "Built-in Variable: KEY_COLOR_RED"
+        "description": "Built-in Variable: $KEY_COLOR_RED"
     },
     "$KEY_COLOR_TURQUOISE":
     {
-        "description": "Built-in Variable: KEY_COLOR_TURQUOISE"
+        "description": "Built-in Variable: $KEY_COLOR_TURQUOISE"
     },
     "$KEY_COLOR_VIOLET":
     {
-        "description": "Built-in Variable: KEY_COLOR_VIOLET"
+        "description": "Built-in Variable: $KEY_COLOR_VIOLET"
     },
     "$KEY_COLOR_WARM_YELLOW":
     {
-        "description": "Built-in Variable: KEY_COLOR_WARM_YELLOW"
+        "description": "Built-in Variable: $KEY_COLOR_WARM_YELLOW"
     },
     "$KEY_COLOR_WHITE":
     {
-        "description": "Built-in Variable: KEY_COLOR_WHITE"
+        "description": "Built-in Variable: $KEY_COLOR_WHITE"
     },
     "$KEY_COLOR_YELLOW":
     {
-        "description": "Built-in Variable: KEY_COLOR_YELLOW"
+        "description": "Built-in Variable: $KEY_COLOR_YELLOW"
     },
     "$KNOB_UNIT_DB":
     {
-        "description": "Built-in Variable: KNOB_UNIT_DB"
+        "description": "Built-in Variable: $KNOB_UNIT_DB"
     },
     "$KNOB_UNIT_HZ":
     {
-        "description": "Built-in Variable: KNOB_UNIT_HZ"
+        "description": "Built-in Variable: $KNOB_UNIT_HZ"
     },
     "$KNOB_UNIT_MS":
     {
-        "description": "Built-in Variable: KNOB_UNIT_MS"
+        "description": "Built-in Variable: $KNOB_UNIT_MS"
     },
     "$KNOB_UNIT_NONE":
     {
-        "description": "Built-in Variable: KNOB_UNIT_NONE"
+        "description": "Built-in Variable: $KNOB_UNIT_NONE"
     },
     "$KNOB_UNIT_OCT":
     {
-        "description": "Built-in Variable: KNOB_UNIT_OCT"
+        "description": "Built-in Variable: $KNOB_UNIT_OCT"
     },
     "$KNOB_UNIT_PERCENT":
     {
-        "description": "Built-in Variable: KNOB_UNIT_PERCENT"
+        "description": "Built-in Variable: $KNOB_UNIT_PERCENT"
     },
     "$KNOB_UNIT_ST":
     {
-        "description": "Built-in Variable: KNOB_UNIT_ST"
+        "description": "Built-in Variable: $KNOB_UNIT_ST"
     },
     "$KSP_TIMER":
     {
-        "description": "Built-in Variable: KSP_TIMER"
+        "description": "Built-in Variable: $KSP_TIMER"
     },
     "$LFO_TYPE_MULTI":
     {
-        "description": "Built-in Variable: LFO_TYPE_MULTI"
+        "description": "Built-in Variable: $LFO_TYPE_MULTI"
     },
     "$LFO_TYPE_RANDO":
     {
-        "description": "Built-in Variable: LFO_TYPE_RANDO"
+        "description": "Built-in Variable: $LFO_TYPE_RANDO"
     },
     "$LFO_TYPE_RECTANGLE":
     {
-        "description": "Built-in Variable: LFO_TYPE_RECTANGLE"
+        "description": "Built-in Variable: $LFO_TYPE_RECTANGLE"
     },
     "$LFO_TYPE_SAWTOOTH":
     {
-        "description": "Built-in Variable: LFO_TYPE_SAWTOOTH"
+        "description": "Built-in Variable: $LFO_TYPE_SAWTOOTH"
     },
     "$LFO_TYPE_TRIANGLE":
     {
-        "description": "Built-in Variable: LFO_TYPE_TRIANGLE"
+        "description": "Built-in Variable: $LFO_TYPE_TRIANGLE"
     },
     "$MARK_1":
     {
-        "description": "Built-in Variable: MARK_1"
+        "description": "Built-in Variable: $MARK_1"
     },
     "$MARK_2":
     {
-        "description": "Built-in Variable: MARK_2"
+        "description": "Built-in Variable: $MARK_2"
     },
     "$MARK_3":
     {
-        "description": "Built-in Variable: MARK_3"
+        "description": "Built-in Variable: $MARK_3"
     },
     "$MARK_4":
     {
-        "description": "Built-in Variable: MARK_4"
+        "description": "Built-in Variable: $MARK_4"
     },
     "$MARK_5":
     {
-        "description": "Built-in Variable: MARK_5"
+        "description": "Built-in Variable: $MARK_5"
     },
     "$MARK_6":
     {
-        "description": "Built-in Variable: MARK_6"
+        "description": "Built-in Variable: $MARK_6"
     },
     "$MARK_7":
     {
-        "description": "Built-in Variable: MARK_7"
+        "description": "Built-in Variable: $MARK_7"
     },
     "$MARK_8":
     {
-        "description": "Built-in Variable: MARK_8"
+        "description": "Built-in Variable: $MARK_8"
     },
     "$MARK_9":
     {
-        "description": "Built-in Variable: MARK_9"
+        "description": "Built-in Variable: $MARK_9"
     },
     "$MARK_10":
     {
-        "description": "Built-in Variable: MARK_10"
+        "description": "Built-in Variable: $MARK_10"
     },
     "$MARK_11":
     {
-        "description": "Built-in Variable: MARK_11"
+        "description": "Built-in Variable: $MARK_11"
     },
     "$MARK_12":
     {
-        "description": "Built-in Variable: MARK_12"
+        "description": "Built-in Variable: $MARK_12"
     },
     "$MARK_13":
     {
-        "description": "Built-in Variable: MARK_13"
+        "description": "Built-in Variable: $MARK_13"
     },
     "$MARK_14":
     {
-        "description": "Built-in Variable: MARK_14"
+        "description": "Built-in Variable: $MARK_14"
     },
     "$MARK_15":
     {
-        "description": "Built-in Variable: MARK_15"
+        "description": "Built-in Variable: $MARK_15"
     },
     "$MARK_16":
     {
-        "description": "Built-in Variable: MARK_16"
+        "description": "Built-in Variable: $MARK_16"
     },
     "$MARK_17":
     {
-        "description": "Built-in Variable: MARK_17"
+        "description": "Built-in Variable: $MARK_17"
     },
     "$MARK_18":
     {
-        "description": "Built-in Variable: MARK_18"
+        "description": "Built-in Variable: $MARK_18"
     },
     "$MARK_19":
     {
-        "description": "Built-in Variable: MARK_19"
+        "description": "Built-in Variable: $MARK_19"
     },
     "$MARK_20":
     {
-        "description": "Built-in Variable: MARK_20"
+        "description": "Built-in Variable: $MARK_20"
     },
     "$MARK_21":
     {
-        "description": "Built-in Variable: MARK_21"
+        "description": "Built-in Variable: $MARK_21"
     },
     "$MARK_22":
     {
-        "description": "Built-in Variable: MARK_22"
+        "description": "Built-in Variable: $MARK_22"
     },
     "$MARK_23":
     {
-        "description": "Built-in Variable: MARK_23"
+        "description": "Built-in Variable: $MARK_23"
     },
     "$MARK_24":
     {
-        "description": "Built-in Variable: MARK_24"
+        "description": "Built-in Variable: $MARK_24"
     },
     "$MARK_25":
     {
-        "description": "Built-in Variable: MARK_25"
+        "description": "Built-in Variable: $MARK_25"
     },
     "$MARK_26":
     {
-        "description": "Built-in Variable: MARK_26"
+        "description": "Built-in Variable: $MARK_26"
     },
     "$MARK_27":
     {
-        "description": "Built-in Variable: MARK_27"
+        "description": "Built-in Variable: $MARK_27"
     },
     "$MARK_28":
     {
-        "description": "Built-in Variable: MARK_28"
+        "description": "Built-in Variable: $MARK_28"
     },
     "$MIDI_BYTE_1":
     {
-        "description": "Built-in Variable: MIDI_BYTE_1"
+        "description": "Built-in Variable: $MIDI_BYTE_1"
     },
     "$MIDI_BYTE_2":
     {
-        "description": "Built-in Variable: MIDI_BYTE_2"
+        "description": "Built-in Variable: $MIDI_BYTE_2"
     },
     "$MIDI_CHANNEL":
     {
-        "description": "Built-in Variable: MIDI_CHANNEL"
+        "description": "Built-in Variable: $MIDI_CHANNEL"
     },
     "$MIDI_COMMAND":
     {
-        "description": "Built-in Variable: MIDI_COMMAND"
+        "description": "Built-in Variable: $MIDI_COMMAND"
     },
     "$MIDI_COMMAND_CC":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_CC"
+        "description": "Built-in Variable: $MIDI_COMMAND_CC"
     },
     "$MIDI_COMMAND_MONO_AT":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_MONO_AT"
+        "description": "Built-in Variable: $MIDI_COMMAND_MONO_AT"
     },
     "$MIDI_COMMAND_NOTE_OFF":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_NOTE_OFF"
+        "description": "Built-in Variable: $MIDI_COMMAND_NOTE_OFF"
     },
     "$MIDI_COMMAND_NOTE_ON":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_NOTE_ON"
+        "description": "Built-in Variable: $MIDI_COMMAND_NOTE_ON"
     },
     "$MIDI_COMMAND_PITCH_BEND":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_PITCH_BEND"
+        "description": "Built-in Variable: $MIDI_COMMAND_PITCH_BEND"
     },
     "$MIDI_COMMAND_POLY_AT":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_POLY_AT"
+        "description": "Built-in Variable: $MIDI_COMMAND_POLY_AT"
     },
     "$MIDI_COMMAND_PROGRAM_CHANGE":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_PROGRAM_CHANGE"
+        "description": "Built-in Variable: $MIDI_COMMAND_PROGRAM_CHANGE"
     },
     "$MIDI_COMMAND_RPN":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_RPN"
+        "description": "Built-in Variable: $MIDI_COMMAND_RPN"
     },
     "$MIDI_COMMAND_NRPN":
     {
-        "description": "Built-in Variable: MIDI_COMMAND_NRPN"
+        "description": "Built-in Variable: $MIDI_COMMAND_NRPN"
     },
     "$MOD_TARGET_INVERT_SOURCE":
     {
-        "description": "Built-in Variable: MOD_TARGET_INVERT_SOURCE"
+        "description": "Built-in Variable: $MOD_TARGET_INVERT_SOURCE"
     },
     "$NI_ASYNC_EXIT_STATUS":
     {
-        "description": "Built-in Variable: NI_ASYNC_EXIT_STATUS"
+        "description": "Built-in Variable: $NI_ASYNC_EXIT_STATUS"
     },
     "$NI_ASYNC_ID":
     {
-        "description": "Built-in Variable: NI_ASYNC_ID"
+        "description": "Built-in Variable: $NI_ASYNC_ID"
     },
     "$NI_BUS_OFFSET":
     {
-        "description": "Built-in Variable: NI_BUS_OFFSET"
+        "description": "Built-in Variable: $NI_BUS_OFFSET"
     },
     "$NI_CALLBACK_ID":
     {
-        "description": "Built-in Variable: NI_CALLBACK_ID"
+        "description": "Built-in Variable: $NI_CALLBACK_ID"
     },
     "$NI_CALLBACK_TYPE":
     {
-        "description": "Built-in Variable: NI_CALLBACK_TYPE"
+        "description": "Built-in Variable: $NI_CALLBACK_TYPE"
     },
     "$NI_CB_TYPE_ASYNC_OUT":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_ASYNC_OUT"
+        "description": "Built-in Variable: $NI_CB_TYPE_ASYNC_OUT"
     },
     "$NI_CB_TYPE_CONTROLLER":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_CONTROLLER"
+        "description": "Built-in Variable: $NI_CB_TYPE_CONTROLLER"
     },
     "$NI_CB_TYPE_INIT":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_INIT"
+        "description": "Built-in Variable: $NI_CB_TYPE_INIT"
     },
     "$NI_CB_TYPE_LISTENER":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_LISTENER"
+        "description": "Built-in Variable: $NI_CB_TYPE_LISTENER"
     },
     "$NI_CB_TYPE_MIDI_IN":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_MIDI_IN"
+        "description": "Built-in Variable: $NI_CB_TYPE_MIDI_IN"
     },
     "$NI_CB_TYPE_NOTE":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_NOTE"
+        "description": "Built-in Variable: $NI_CB_TYPE_NOTE"
     },
     "$NI_CB_TYPE_PERSISTENCE_CHANGED":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_PERSISTENCE_CHANGED"
+        "description": "Built-in Variable: $NI_CB_TYPE_PERSISTENCE_CHANGED"
     },
     "$NI_CB_TYPE_PGS":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_PGS"
+        "description": "Built-in Variable: $NI_CB_TYPE_PGS"
     },
     "$NI_CB_TYPE_POLY_AT":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_POLY_AT"
+        "description": "Built-in Variable: $NI_CB_TYPE_POLY_AT"
     },
     "$NI_CB_TYPE_RELEASE":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_RELEASE"
+        "description": "Built-in Variable: $NI_CB_TYPE_RELEASE"
     },
     "$NI_CB_TYPE_RPN":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_RPN"
+        "description": "Built-in Variable: $NI_CB_TYPE_RPN"
     },
     "$NI_CB_TYPE_NRPN":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_NRPN"
+        "description": "Built-in Variable: $NI_CB_TYPE_NRPN"
     },
     "$NI_CB_TYPE_UI_CONTROL":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_UI_CONTROL"
+        "description": "Built-in Variable: $NI_CB_TYPE_UI_CONTROL"
     },
     "$NI_CB_TYPE_UI_UPDATE":
     {
-        "description": "Built-in Variable: NI_CB_TYPE_UI_UPDATE"
+        "description": "Built-in Variable: $NI_CB_TYPE_UI_UPDATE"
     },
     "$NI_CONTROL_PAR_IDX":
     {
-        "description": "Built-in Variable: NI_CONTROL_PAR_IDX"
+        "description": "Built-in Variable: $NI_CONTROL_PAR_IDX"
     },
     "$NI_DISTORTION_TYPE_TRANS":
     {
-        "description": "Built-in Variable: NI_DISTORTION_TYPE_TRANS"
+        "description": "Built-in Variable: $NI_DISTORTION_TYPE_TRANS"
     },
     "$NI_DISTORTION_TYPE_TUBE":
     {
-        "description": "Built-in Variable: NI_DISTORTION_TYPE_TUBE"
+        "description": "Built-in Variable: $NI_DISTORTION_TYPE_TUBE"
     },
     "$NI_FILE_TYPE_ARRAY":
     {
-        "description": "Built-in Variable: NI_FILE_TYPE_ARRAY"
+        "description": "Built-in Variable: $NI_FILE_TYPE_ARRAY"
     },
     "$NI_FILE_TYPE_AUDIO":
     {
-        "description": "Built-in Variable: NI_FILE_TYPE_AUDIO"
+        "description": "Built-in Variable: $NI_FILE_TYPE_AUDIO"
     },
     "$NI_FILE_TYPE_MIDI":
     {
-        "description": "Built-in Variable: NI_FILE_TYPE_MIDI"
+        "description": "Built-in Variable: $NI_FILE_TYPE_MIDI"
     },
     "$NI_KEY_TYPE_CONTROL":
     {
-        "description": "Built-in Variable: NI_KEY_TYPE_CONTROL"
+        "description": "Built-in Variable: $NI_KEY_TYPE_CONTROL"
     },
     "$NI_KEY_TYPE_DEFAULT":
     {
-        "description": "Built-in Variable: NI_KEY_TYPE_DEFAULT"
+        "description": "Built-in Variable: $NI_KEY_TYPE_DEFAULT"
     },
     "$NI_KEY_TYPE_NONE":
     {
-        "description": "Built-in Variable: NI_KEY_TYPE_NONE"
+        "description": "Built-in Variable: $NI_KEY_TYPE_NONE"
     },
     "$NI_SHAPE_TYPE_CLASSIC":
     {
-        "description": "Built-in Variable: NI_SHAPE_TYPE_CLASSIC"
+        "description": "Built-in Variable: $NI_SHAPE_TYPE_CLASSIC"
     },
     "$NI_SHAPE_TYPE_DRUMS":
     {
-        "description": "Built-in Variable: NI_SHAPE_TYPE_DRUMS"
+        "description": "Built-in Variable: $NI_SHAPE_TYPE_DRUMS"
     },
     "$NI_SHAPE_TYPE_ENHANCED":
     {
-        "description": "Built-in Variable: NI_SHAPE_TYPE_ENHANCED"
+        "description": "Built-in Variable: $NI_SHAPE_TYPE_ENHANCED"
     },
     "$NI_SIGNAL_TIMER_BEAT":
     {
-        "description": "Built-in Variable: NI_SIGNAL_TIMER_BEAT"
+        "description": "Built-in Variable: $NI_SIGNAL_TIMER_BEAT"
     },
     "$NI_SIGNAL_TIMER_MS":
     {
-        "description": "Built-in Variable: NI_SIGNAL_TIMER_MS"
+        "description": "Built-in Variable: $NI_SIGNAL_TIMER_MS"
     },
     "$NI_SIGNAL_TRANSP_START":
     {
-        "description": "Built-in Variable: NI_SIGNAL_TRANSP_START"
+        "description": "Built-in Variable: $NI_SIGNAL_TRANSP_START"
     },
     "$NI_SIGNAL_TRANSP_STOP":
     {
-        "description": "Built-in Variable: NI_SIGNAL_TRANSP_STOP"
+        "description": "Built-in Variable: $NI_SIGNAL_TRANSP_STOP"
     },
     "$NI_SIGNAL_TYPE":
     {
-        "description": "Built-in Variable: NI_SIGNAL_TYPE"
+        "description": "Built-in Variable: $NI_SIGNAL_TYPE"
     },
     "$NI_SONG_POSITION":
     {
-        "description": "Built-in Variable: NI_SONG_POSITION"
+        "description": "Built-in Variable: $NI_SONG_POSITION"
     },
     "$NI_SYNC_UNIT_8TH":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_8TH"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_8TH"
     },
     "$NI_SYNC_UNIT_8TH_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_8TH_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_8TH_TRIPLET"
     },
     "$NI_SYNC_UNIT_16TH":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_16TH"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_16TH"
     },
     "$NI_SYNC_UNIT_16TH_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_16TH_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_16TH_TRIPLET"
     },
     "$NI_SYNC_UNIT_32ND":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_32ND"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_32ND"
     },
     "$NI_SYNC_UNIT_32ND_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_32ND_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_32ND_TRIPLET"
     },
     "$NI_SYNC_UNIT_64TH":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_64TH"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_64TH"
     },
     "$NI_SYNC_UNIT_64TH_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_64TH_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_64TH_TRIPLET"
     },
     "$NI_SYNC_UNIT_256TH":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_256TH"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_256TH"
     },
     "$NI_SYNC_UNIT_ABS":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_ABS"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_ABS"
     },
     "$NI_SYNC_UNIT_HALF":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_HALF"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_HALF"
     },
     "$NI_SYNC_UNIT_HALF_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_HALF_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_HALF_TRIPLET"
     },
     "$NI_SYNC_UNIT_QUARTER":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_QUARTER"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_QUARTER"
     },
     "$NI_SYNC_UNIT_QUARTER_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_QUARTER_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_QUARTER_TRIPLET"
     },
     "$NI_SYNC_UNIT_WHOLE":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_WHOLE"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_WHOLE"
     },
     "$NI_SYNC_UNIT_WHOLE_TRIPLET":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_WHOLE_TRIPLET"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_WHOLE_TRIPLET"
     },
     "$NI_SYNC_UNIT_ZONE":
     {
-        "description": "Built-in Variable: NI_SYNC_UNIT_ZONE"
+        "description": "Built-in Variable: $NI_SYNC_UNIT_ZONE"
     },
     "$NI_TRANSPORT_RUNNING":
     {
-        "description": "Built-in Variable: NI_TRANSPORT_RUNNING"
+        "description": "Built-in Variable: $NI_TRANSPORT_RUNNING"
     },
     "$NI_VL_TMPRO_STANDARD":
     {
-        "description": "Built-in Variable: NI_VL_TMPRO_STANDARD"
+        "description": "Built-in Variable: $NI_VL_TMPRO_STANDARD"
     },
     "$NI_VL_TMRPO_HQ":
     {
-        "description": "Built-in Variable: NI_VL_TMRPO_HQ"
+        "description": "Built-in Variable: $NI_VL_TMRPO_HQ"
     },
     "$NOTE_HELD":
     {
-        "description": "Built-in Variable: NOTE_HELD"
+        "description": "Built-in Variable: $NOTE_HELD"
     },
     "$NUM_GROUPS":
     {
-        "description": "Built-in Variable: NUM_GROUPS"
+        "description": "Built-in Variable: $NUM_GROUPS"
     },
     "$NUM_OUTPUT_CHANNELS":
     {
-        "description": "Built-in Variable: NUM_OUTPUT_CHANNELS"
+        "description": "Built-in Variable: $NUM_OUTPUT_CHANNELS"
     },
     "$NUM_ZONES":
     {
-        "description": "Built-in Variable: NUM_ZONES"
+        "description": "Built-in Variable: $NUM_ZONES"
     },
     "$PLAYED_VOICES_INST":
     {
-        "description": "Built-in Variable: PLAYED_VOICES_INST"
+        "description": "Built-in Variable: $PLAYED_VOICES_INST"
     },
     "$PLAYED_VOICES_TOTAL":
     {
-        "description": "Built-in Variable: PLAYED_VOICES_TOTAL"
+        "description": "Built-in Variable: $PLAYED_VOICES_TOTAL"
     },
     "$POLY_AT_NUM":
     {
-        "description": "Built-in Variable: POLY_AT_NUM"
+        "description": "Built-in Variable: $POLY_AT_NUM"
     },
     "$REF_GROUP_IDX":
     {
-        "description": "Built-in Variable: REF_GROUP_IDX"
+        "description": "Built-in Variable: $REF_GROUP_IDX"
     },
     "$RPN_ADDRESS":
     {
-        "description": "Built-in Variable: RPN_ADDRESS"
+        "description": "Built-in Variable: $RPN_ADDRESS"
     },
     "$RPN_VALUE":
     {
-        "description": "Built-in Variable: RPN_VALUE"
+        "description": "Built-in Variable: $RPN_VALUE"
     },
     "$SIGNATURE_DENOM":
     {
-        "description": "Built-in Variable: SIGNATURE_DENOM"
+        "description": "Built-in Variable: $SIGNATURE_DENOM"
     },
     "$SIGNATURE_NUM":
     {
-        "description": "Built-in Variable: SIGNATURE_NUM"
+        "description": "Built-in Variable: $SIGNATURE_NUM"
     },
     "$START_CRITERIA_AND_NEXT":
     {
-        "description": "Built-in Variable: START_CRITERIA_AND_NEXT"
+        "description": "Built-in Variable: $START_CRITERIA_AND_NEXT"
     },
     "$START_CRITERIA_AND_NOT_NEXT":
     {
-        "description": "Built-in Variable: START_CRITERIA_AND_NOT_NEXT"
+        "description": "Built-in Variable: $START_CRITERIA_AND_NOT_NEXT"
     },
     "$START_CRITERIA_CYCLE_RANDOM":
     {
-        "description": "Built-in Variable: START_CRITERIA_CYCLE_RANDOM"
+        "description": "Built-in Variable: $START_CRITERIA_CYCLE_RANDOM"
     },
     "$START_CRITERIA_CYCLE_ROUND_ROBIN":
     {
-        "description": "Built-in Variable: START_CRITERIA_CYCLE_ROUND_ROBIN"
+        "description": "Built-in Variable: $START_CRITERIA_CYCLE_ROUND_ROBIN"
     },
     "$START_CRITERIA_NONE":
     {
-        "description": "Built-in Variable: START_CRITERIA_NONE"
+        "description": "Built-in Variable: $START_CRITERIA_NONE"
     },
     "$START_CRITERIA_ON_CONTROLLER":
     {
-        "description": "Built-in Variable: START_CRITERIA_ON_CONTROLLER"
+        "description": "Built-in Variable: $START_CRITERIA_ON_CONTROLLER"
     },
     "$START_CRITERIA_ON_KEY":
     {
-        "description": "Built-in Variable: START_CRITERIA_ON_KEY"
+        "description": "Built-in Variable: $START_CRITERIA_ON_KEY"
     },
     "$START_CRITERIA_OR_NEXT":
     {
-        "description": "Built-in Variable: START_CRITERIA_OR_NEXT"
+        "description": "Built-in Variable: $START_CRITERIA_OR_NEXT"
     },
     "$START_CRITERIA_SLICE_TRIGGER":
     {
-        "description": "Built-in Variable: START_CRITERIA_SLICE_TRIGGER"
+        "description": "Built-in Variable: $START_CRITERIA_SLICE_TRIGGER"
     },
     "$UI_WAVEFORM_TABLE_IS_BIPOLAR":
     {
-        "description": "Built-in Variable: UI_WAVEFORM_TABLE_IS_BIPOLAR"
+        "description": "Built-in Variable: $UI_WAVEFORM_TABLE_IS_BIPOLAR"
     },
     "$UI_WAVEFORM_USE_MIDI_DRAG":
     {
-        "description": "Built-in Variable: UI_WAVEFORM_USE_MIDI_DRAG"
+        "description": "Built-in Variable: $UI_WAVEFORM_USE_MIDI_DRAG"
     },
     "$UI_WAVEFORM_USE_SLICES":
     {
-        "description": "Built-in Variable: UI_WAVEFORM_USE_SLICES"
+        "description": "Built-in Variable: $UI_WAVEFORM_USE_SLICES"
     },
     "$UI_WAVEFORM_USE_TABLE":
     {
-        "description": "Built-in Variable: UI_WAVEFORM_USE_TABLE"
+        "description": "Built-in Variable: $UI_WAVEFORM_USE_TABLE"
     },
     "$UI_WF_PROP_FLAGS":
     {
-        "description": "Built-in Variable: UI_WF_PROP_FLAGS"
+        "description": "Built-in Variable: $UI_WF_PROP_FLAGS"
     },
     "$UI_WF_PROP_MIDI_DRAG_START_NOTE":
     {
-        "description": "Built-in Variable: UI_WF_PROP_MIDI_DRAG_START_NOTE"
+        "description": "Built-in Variable: $UI_WF_PROP_MIDI_DRAG_START_NOTE"
     },
     "$UI_WF_PROP_PLAY_CURSOR":
     {
-        "description": "Built-in Variable: UI_WF_PROP_PLAY_CURSOR"
+        "description": "Built-in Variable: $UI_WF_PROP_PLAY_CURSOR"
     },
     "$UI_WF_PROP_TABLE_IDX_HIGHLIGHT":
     {
-        "description": "Built-in Variable: UI_WF_PROP_TABLE_IDX_HIGHLIGHT"
+        "description": "Built-in Variable: $UI_WF_PROP_TABLE_IDX_HIGHLIGHT"
     },
     "$UI_WF_PROP_TABLE_VAL":
     {
-        "description": "Built-in Variable: UI_WF_PROP_TABLE_VAL"
+        "description": "Built-in Variable: $UI_WF_PROP_TABLE_VAL"
     },
     "$VALUE_EDIT_MODE_NOTE_NAMES":
     {
-        "description": "Built-in Variable: VALUE_EDIT_MODE_NOTE_NAMES"
+        "description": "Built-in Variable: $VALUE_EDIT_MODE_NOTE_NAMES"
     },
     "$VCC_MONO_AT":
     {
-        "description": "Built-in Variable: VCC_MONO_AT"
+        "description": "Built-in Variable: $VCC_MONO_AT"
     },
     "$VCC_PITCH_BEND":
     {
-        "description": "Built-in Variable: VCC_PITCH_BEND"
+        "description": "Built-in Variable: $VCC_PITCH_BEND"
     },
     "%CC":
     {
-        "description": "Built-in Variable: CC"
+        "description": "Built-in Variable: %CC"
     },
     "%CC_TOUCHED":
     {
-        "description": "Built-in Variable: CC_TOUCHED"
+        "description": "Built-in Variable: %CC_TOUCHED"
     },
     "%GROUPS_AFFECTED":
     {
-        "description": "Built-in Variable: GROUPS_AFFECTED"
+        "description": "Built-in Variable: %GROUPS_AFFECTED"
     },
     "%GROUPS_SELECTED":
     {
-        "description": "Built-in Variable: GROUPS_SELECTED"
+        "description": "Built-in Variable: %GROUPS_SELECTED"
     },
     "%KEY_DOWN":
     {
-        "description": "Built-in Variable: KEY_DOWN"
+        "description": "Built-in Variable: %KEY_DOWN"
     },
     "%KEY_DOWN_OCT":
     {
-        "description": "Built-in Variable: KEY_DOWN_OCT"
+        "description": "Built-in Variable: %KEY_DOWN_OCT"
     },
     "%NOTE_DURATION":
     {
-        "description": "Built-in Variable: NOTE_DURATION"
+        "description": "Built-in Variable: %NOTE_DURATION"
     },
     "%POLY_AT":
     {
-        "description": "Built-in Variable: POLY_AT"
+        "description": "Built-in Variable: %POLY_AT"
     },
     "~NI_MATH_E":
     {
-        "description": "Built-in Variable: NI_MATH_E"
+        "description": "Built-in Variable: ~NI_MATH_E"
     },
     "~NI_MATH_PI":
     {
-        "description": "Built-in Variable: NI_MATH_PI"
+        "description": "Built-in Variable: ~NI_MATH_PI"
     },
 };
