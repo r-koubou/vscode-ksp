@@ -201,7 +201,7 @@
             "    ${2:{your code here\\}}",
             "end on"
         ],
-        "description": ""
+        "description": "executed whenever any pgs_set_key_val() command is executed in any script"
     },
     "on poly_at":
     {

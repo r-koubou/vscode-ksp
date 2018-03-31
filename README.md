@@ -45,7 +45,7 @@ Run from command palet
 3. Open command palette and type 'ksp'
 4. Select Obfuscator
 
-![](images/readme/obfuscate_01.gif)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_01.gif)
 
 ### Detail
 
@@ -198,7 +198,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 3. コマンドパレットを開き、'ksp' とタイプする
 4. オブファスケーターを選択する
 
-![](images/readme/obfuscate_01.gif)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_01.gif)
 
 ### 詳細
 
