@@ -38,7 +38,7 @@
         "@types/node": "^6.0.78"
     },
     "categories": [
-        "Languages",
+        "Programming Languages",
         "Snippets",
         "Linters"
     ],
