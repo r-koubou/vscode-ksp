@@ -22,41 +22,45 @@ HEADER = """//
 export var commands = {"""
 FOOTER = "};"
 
-book  = xlrd.open_workbook( 'KSP.xlsx' )
-sheet = book.sheet_by_index( 0 )
-
-rowLength = sheet.nrows
+book       = xlrd.open_workbook( 'KSP.xlsx' )
+sheetNames = book.sheet_names()
 
 fw = open( TARGET, 'w' )
 
 fw.write( HEADER )
-for row in range( 1, rowLength ):
-    name   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
-    sig    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
-    desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
 
-    descArray = desc.split( "\n" )
-    if( len( descArray ) > 1 ):
-        tmp = ""
-        for i in descArray:
-            tmp += i + "\\n"
-        desc = tmp
+for idx in range( len( sheetNames ) ):
 
-    if( len( name ) == 0 or re.match( r"^[^a-z|A-Z|_]", name ) != None ):
-        continue
+    sheet     = book.sheet_by_index( idx )
+    rowLength = sheet.nrows
 
-    desc = desc.replace( "\"", "\\\"" )
-    sig  = sig.replace( "( ", "(" )
-    sig  = sig.replace( " )", ")" )
-    sig  = sig.replace( ", ", "," )
+    for row in range( 1, rowLength ):
+        name   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
+        sig    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
+        desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
 
-    text = TEMPLATE.format(
-        intelliSense = name,
-        signature    = sig,
-        description  = desc
-    )
+        descArray = desc.split( "\n" )
+        if( len( descArray ) > 1 ):
+            tmp = ""
+            for i in descArray:
+                tmp += i + "\\n"
+            desc = tmp
 
-    fw.write( text )
+        if( len( name ) == 0 or re.match( r"^[^a-z|A-Z|_]", name ) != None ):
+            continue
+
+        desc = desc.replace( "\"", "\\\"" )
+        sig  = sig.replace( "( ", "(" )
+        sig  = sig.replace( " )", ")" )
+        sig  = sig.replace( ", ", "," )
+
+        text = TEMPLATE.format(
+            intelliSense = name,
+            signature    = sig,
+            description  = desc
+        )
+
+        fw.write( text )
 
 fw.write( "\n" )
 fw.write( FOOTER )

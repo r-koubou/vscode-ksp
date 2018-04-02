@@ -151,6 +151,19 @@
         ],
         "description": "listener callback, executed at definable time intervals or whenever a transport command is received"
     },
+    "on midi_in":
+    {
+        "prefix": "on midi_in",
+        "body":[
+            "{",
+            "    ${1:midi callback, triggered by every incoming MIDI event}",
+            "}",
+            "on midi_in",
+            "    ${2:{your code here\\}}",
+            "end on"
+        ],
+        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
     "on note":
     {
         "prefix": "on note",
@@ -508,14 +521,6 @@
         ],
         "description": "Boolean Operator: not equal"
     },
-    "in_range":
-    {
-        "prefix": "in_range",
-        "body":[
-            "in_range( ${1:x}, ${2:y}, ${3:z} )"
-        ],
-        "description": "Boolean Operator: true if x is between y and z"
-    },
     "boolean_op_not":
     {
         "prefix": "not",
@@ -539,6 +544,14 @@
             "${1:a} or ${2:b}"
         ],
         "description": "Boolean Operator: true if a is true or b is true"
+    },
+    "in_range":
+    {
+        "prefix": "in_range",
+        "body":[
+            "in_range( ${1:x}, ${2:y}, ${3:z} )"
+        ],
+        "description": "Boolean Operator: true if x is between y and z"
     },
     "inc":
     {
@@ -2194,19 +2207,6 @@
         "prefix": "ignore_midi",
         "body":[
             "ignore_midi"
-        ],
-        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
-    },
-    "on midi_in":
-    {
-        "prefix": "on midi_in",
-        "body":[
-            "{",
-            "    ${1:midi callback, triggered by every incoming MIDI event}",
-            "}",
-            "on midi_in",
-            "    ${2:{your code here\\}}",
-            "end on"
         ],
         "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
     },

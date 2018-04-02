@@ -12,8 +12,8 @@ veriftVariable = False
 
 REPORT_TITLE = "#---------------- {title} ----------------"
 
-book  = xlrd.open_workbook( 'KSP.xlsx' )
-sheet = book.sheet_by_index( 0 )
+book       = xlrd.open_workbook( 'KSP.xlsx' )
+sheetNames = book.sheet_names()
 
 wordList    = []
 xlsxList    = []
@@ -30,8 +30,6 @@ EXCEPT_COMMANDS = [
 if( len( ARGV ) > 1 and ARGV[ 1 ] == "-v" ):
     veriftVariable = True
 
-rowLength   = sheet.nrows
-
 f       = open( ARGV[ 0 ], "r" )
 line    = f.readline()
 while line:
@@ -42,21 +40,25 @@ while line:
     line = f.readline()
 f.close()
 
-for row in range( 1, sheet.nrows ):
-    found = False
-    name  = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
-    sig   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
+for idx in range( len( sheetNames ) ):
 
-    if( veriftVariable ):
-        if( re.match( re.compile( r"^[\$|%|!|\~|@|\?]" ), name ) == None ):
-            continue
+    sheet     = book.sheet_by_index( idx )
+
+    for row in range( 1, sheet.nrows ):
+        found = False
+        name  = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
+        sig   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
+
+        if( veriftVariable ):
+            if( re.match( re.compile( r"^[\$|%|!|\~|@|\?]" ), name ) == None ):
+                continue
+            else:
+                xlsxList.append( name )
         else:
-            xlsxList.append( name )
-    else:
-        if( len( name ) == 0 or len( sig ) == 0 ):
-            continue
+            if( len( name ) == 0 or len( sig ) == 0 ):
+                continue
 
-    xlsxList.append( name )
+        xlsxList.append( name )
 
 # 1: check word in xlsx
 setWordXlsx = set( wordList ) - set( xlsxList )

@@ -22,6 +22,11 @@ export var commands = {
         "signature":   "",
         "description": "listener callback, executed at definable time intervals or whenever a transport command is received"
     },
+    "on midi_in":
+    {
+        "signature":   "",
+        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
+    },
     "on note":
     {
         "signature":   "",
@@ -207,11 +212,6 @@ export var commands = {
         "signature":   "",
         "description": "Boolean Operator: not equal"
     },
-    "in_range":
-    {
-        "signature":   "(x,y,z)",
-        "description": "Boolean Operator: true if x is between y and z"
-    },
     "boolean_op_not":
     {
         "signature":   "",
@@ -226,6 +226,11 @@ export var commands = {
     {
         "signature":   "",
         "description": "Boolean Operator: true if a is true or b is true"
+    },
+    "in_range":
+    {
+        "signature":   "(x,y,z)",
+        "description": "Boolean Operator: true if x is between y and z"
     },
     "inc":
     {
@@ -1253,11 +1258,6 @@ export var commands = {
         "description": "calls a previously declares function"
     },
     "ignore_midi":
-    {
-        "signature":   "",
-        "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
-    },
-    "on midi_in":
     {
         "signature":   "",
         "description": "Like ignore_event(), ignore_midi is a very \"strong\" command. Keep in mind that ignore_midi will ignore all incoming MIDI events. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
