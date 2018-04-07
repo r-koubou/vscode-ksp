@@ -273,6 +273,14 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         final SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
         SymbolDefinition eval = (SymbolDefinition)expr.symbol;
 
+        // 宣言時代入はリテラル・定数値のみ
+        if( !eval.isConstant() || expr.getId() == JJTCALLCOMMAND )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
+            AnalyzeErrorCounter.e();
+           return node;
+        }
+
         // 型の不一致
         if( ( v.type & eval.type ) == 0 )
         {
@@ -381,6 +389,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
 */
 
         final Variable v = variableTable.search( ((SimpleNode)node.jjtGetParent().jjtGetParent()).symbol );
+        boolean result   = true;
 
         //--------------------------------------------------------------------------
         // 型チェック
@@ -474,14 +483,23 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
             final SimpleNode expr = (SimpleNode)node.jjtGetChild( i ).jjtAccept( this, data );
             SymbolDefinition eval = (SymbolDefinition) expr.symbol;
 
+            // 宣言時代入はリテラル・定数値のみ
+            if( !eval.isConstant() )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
+                AnalyzeErrorCounter.e();
+                result = false;
+            }
+
             if( ( v.type & eval.type ) == 0 )
             {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i ) );
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i - 1 ) ); // -1: zero origin
                 AnalyzeErrorCounter.e();
+                result = false;
             }
         }
         v.state = SymbolState.INITIALIZED;
-        return true;
+        return result;
     }
 
     /**
@@ -595,7 +613,7 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         for( ; i < initializer.jjtGetNumChildren(); i++ )
         {
             boolean found = false;
-            SimpleNode n  = (SimpleNode)initializer.jjtGetChild( i );
+            SimpleNode n  = (SimpleNode)initializer.jjtGetChild( i ).jjtAccept( this, jjtVisitorData );
             SymbolDefinition param = n.symbol;
             int nid = n.getId();
             int argT = 0;
@@ -606,6 +624,13 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, n.symbol );
                 AnalyzeErrorCounter.e();
                 continue;
+            }
+
+            // 宣言時代入はリテラル・定数値のみ
+            if( !param.isConstant() )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
+                AnalyzeErrorCounter.e();
             }
 
             // 四則演算等は文法解析時でクリアしているので値だけに絞る
@@ -646,7 +671,7 @@ SEARCH:
                         }
                         if( !var.isConstant() )
                         {
-                            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, n.symbol );
+                            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, n.symbol );
                             AnalyzeErrorCounter.e();
                         }
                         if( var.type == t )
@@ -662,14 +687,14 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     default:
                     {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, n.symbol );
+                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, n.symbol );
                         AnalyzeErrorCounter.e();
                     }
                     break;
                 }
                 if( !SymbolDefinition.isConstant( param.accessFlag ) )
                 {
-                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_CONSTANTONLY, n.symbol );
+                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, n.symbol );
                     AnalyzeErrorCounter.e();
                 }
             } //~for( int t : uiType.initilzerTypeList )
