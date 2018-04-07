@@ -40,7 +40,7 @@ Run from command palet
 
 ### [How to Run]
 
-1. Script file open
+1. Open a Script file
 2. Set language mode to 'ksp'
 3. Open command palette and type 'ksp'
 4. Select Obfuscator

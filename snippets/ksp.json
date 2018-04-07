@@ -302,46 +302,6 @@
         ],
         "description": "declare a user-defined variable"
     },
-    "make_instr_persistent":
-    {
-        "prefix": "make_instr_persistent",
-        "body":[
-            "make_instr_persistent( ${1:variable} )"
-        ],
-        "description": "retain the value of a variable only with the instrument"
-    },
-    "make_instr_persistence":
-    {
-        "prefix": "make_instr_persistence",
-        "body":[
-            "make_instr_persistence( ${1:variable} )"
-        ],
-        "description": "retain the value of a variable only with the instrument"
-    },
-    "make_persistent":
-    {
-        "prefix": "make_persistent",
-        "body":[
-            "make_persistent( ${1:variable} )"
-        ],
-        "description": "retain the value of a variable whith the instrument and snapshot"
-    },
-    "_read_persistent_var":
-    {
-        "prefix": "_read_persistent_var",
-        "body":[
-            "_read_persistent_var( ${1:variable} )"
-        ],
-        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
-    },
-    "read_persistent_var":
-    {
-        "prefix": "read_persistent_var",
-        "body":[
-            "read_persistent_var( ${1:variable} )"
-        ],
-        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
-    },
     "ui_button":
     {
         "prefix": "ui_button",
@@ -544,6 +504,46 @@
             "${1:a} or ${2:b}"
         ],
         "description": "Boolean Operator: true if a is true or b is true"
+    },
+    "make_instr_persistent":
+    {
+        "prefix": "make_instr_persistent",
+        "body":[
+            "make_instr_persistent( ${1:variable} )"
+        ],
+        "description": "retain the value of a variable only with the instrument"
+    },
+    "make_instr_persistence":
+    {
+        "prefix": "make_instr_persistence",
+        "body":[
+            "make_instr_persistence( ${1:variable} )"
+        ],
+        "description": "retain the value of a variable only with the instrument"
+    },
+    "make_persistent":
+    {
+        "prefix": "make_persistent",
+        "body":[
+            "make_persistent( ${1:variable} )"
+        ],
+        "description": "retain the value of a variable whith the instrument and snapshot"
+    },
+    "_read_persistent_var":
+    {
+        "prefix": "_read_persistent_var",
+        "body":[
+            "_read_persistent_var( ${1:variable} )"
+        ],
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
+    },
+    "read_persistent_var":
+    {
+        "prefix": "read_persistent_var",
+        "body":[
+            "read_persistent_var( ${1:variable} )"
+        ],
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
     },
     "in_range":
     {

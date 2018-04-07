@@ -82,31 +82,6 @@ export var commands = {
         "signature":   "",
         "description": "declare a user-defined variable"
     },
-    "make_instr_persistent":
-    {
-        "signature":   "(variable)",
-        "description": "retain the value of a variable only with the instrument"
-    },
-    "make_instr_persistence":
-    {
-        "signature":   "(variable)",
-        "description": "retain the value of a variable only with the instrument"
-    },
-    "make_persistent":
-    {
-        "signature":   "(variable)",
-        "description": "retain the value of a variable whith the instrument and snapshot"
-    },
-    "_read_persistent_var":
-    {
-        "signature":   "(variable)",
-        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
-    },
-    "read_persistent_var":
-    {
-        "signature":   "(variable)",
-        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
-    },
     "ui_button":
     {
         "signature":   "",
@@ -226,6 +201,31 @@ export var commands = {
     {
         "signature":   "",
         "description": "Boolean Operator: true if a is true or b is true"
+    },
+    "make_instr_persistent":
+    {
+        "signature":   "(variable)",
+        "description": "retain the value of a variable only with the instrument"
+    },
+    "make_instr_persistence":
+    {
+        "signature":   "(variable)",
+        "description": "retain the value of a variable only with the instrument"
+    },
+    "make_persistent":
+    {
+        "signature":   "(variable)",
+        "description": "retain the value of a variable whith the instrument and snapshot"
+    },
+    "_read_persistent_var":
+    {
+        "signature":   "(variable)",
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
+    },
+    "read_persistent_var":
+    {
+        "signature":   "(variable)",
+        "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
     },
     "in_range":
     {

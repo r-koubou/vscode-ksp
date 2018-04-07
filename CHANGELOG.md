@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.4.1
+
+* Syntax parser
+
+    * [Improved variavle initializer](https://github.com/r-koubou/KSPSyntaxParser/issues/8)
+
 ## Version 0.4.0
 
 Minor update.
