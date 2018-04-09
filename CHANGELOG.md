@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 0.4.2
+
+* Editor
+
+    * Problems View
+        * Improved showing when validate a script.
+        * Available multiple files showing.
+
 ## Version 0.4.1
 
 * Syntax parser

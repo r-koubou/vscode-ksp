@@ -2,8 +2,9 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "publisher": "rkoubou",
+    "homepage": "https://twitter.com/rz_devel",
     "license": "MIT",
     "keywords": [
         "KONTAKT",
@@ -19,6 +20,9 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/r-koubou/vscode-ksp.git"
+    },
+    "bugs": {
+        "url": "https://github.com/r-koubou/vscode-ksp/issues"
     },
     "icon": "images/icon.png",
     "main": "./out/src/KSPMain",

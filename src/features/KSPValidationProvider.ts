@@ -19,10 +19,8 @@ import * as config          from './KSPConfigurationConstants';
 import { KSPConfigurationManager} from './KSPConfigurationManager';
 import * as kspconst        from './KSPExtensionConstants';
 
-const CHECKED_EXECUTABLE_PATH               = 'ksp.validate.checkedExecutablePath';
 const PARSER_MESSAGE_DELIMITER: string      = "\t";
 const REGEX_PARSER_MESSAGE_NEWLINE: RegExp  = /[\r]?\n/;
-const COMMAND_UNTRUST_VALIDATION_EXECUTABLE = 'ksp.untrustValidationExecutable'
 
 export class KSPValidationProvider
 {
@@ -43,15 +41,16 @@ export class KSPValidationProvider
 
     private onSaveListener: vscode.Disposable;
     private onChangedListener: vscode.Disposable;
-    private diagnosticCollection: vscode.DiagnosticCollection;
-    private delayers: { [key: string]: ThrottledDelayer<void> };
+    private diagnosticsList: { [key: string]: vscode.DiagnosticCollection };
+    private delayersList:    { [key: string]: ThrottledDelayer<void> };
 
     /**
      * ctor
      */
     constructor( private workspaceStore: vscode.Memento )
     {
-        this.delayers = Object.create( null );
+        this.diagnosticsList = Object.create( null );
+        this.delayersList    = Object.create( null );
     }
 
     /**
@@ -59,37 +58,53 @@ export class KSPValidationProvider
      */
     public activate( subscriptions: vscode.Disposable[] )
     {
-        this.diagnosticCollection = vscode.languages.createDiagnosticCollection();
-        subscriptions.push( this );
-
         this.initConfiguration();
         this.loadConfiguration();
         vscode.workspace.onDidChangeConfiguration( this.loadConfiguration, this, subscriptions );
         vscode.workspace.onDidOpenTextDocument( this.triggerValidate, this, subscriptions );
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
-            this.dispose();
-            delete this.delayers[ textDocument.uri.toString() ];
+            this.clearDiagnosticCollection( textDocument );
+            delete this.diagnosticsList[ textDocument.uri.toString() ];
+            delete this.delayersList[ textDocument.uri.toString() ];
         }, null, subscriptions );
+    }
+
+    /**
+     * Get DiagnosticCollection from active TextDocument
+     */
+    private getDiagnosticCollection( textDocument: vscode.TextDocument ): vscode.DiagnosticCollection
+    {
+        if( !textDocument )
+        {
+            throw "textDocument is null";
+        }
+        let key = textDocument.uri.toString();
+        var p: vscode.DiagnosticCollection = this.diagnosticsList[ key ];
+        if( p )
+        {
+            return p;
+        }
+        p = vscode.languages.createDiagnosticCollection();
+        this.diagnosticsList[ key ] = p;
+        return p;
     }
 
     /**
      * Clear diagnosticCollection
      */
-    private clearDiagnosticCollection()
+    private clearDiagnosticCollection( textDocument: vscode.TextDocument )
     {
-        if( this.diagnosticCollection )
+        if( !textDocument )
         {
-            this.diagnosticCollection.clear();
+            return;
         }
-    }
-
-    /**
-     * Release resources
-     */
-    public dispose(): void
-    {
-        this.clearDiagnosticCollection();
+        let key = textDocument.uri.toString();
+        let p   = this.diagnosticsList[ key ];
+        if( p )
+        {
+            p.clear();
+        }
     }
 
     /**
@@ -173,7 +188,6 @@ export class KSPValidationProvider
             }
             this.doDispose( this.onChangedListener );
             this.doDispose( this.onSaveListener );
-            this.diagnosticCollection.clear();
 
             if( !this.validationEnabled )
             {
@@ -181,7 +195,7 @@ export class KSPValidationProvider
             }
             this.onSaveListener = vscode.workspace.onDidSaveTextDocument( (e) => {
                 let key   = e.uri.toString();
-                let delay = this.delayers[ key ];
+                let delay = this.delayersList[ key ];
                 if( delay )
                 {
                     delay.cancel();
@@ -191,12 +205,21 @@ export class KSPValidationProvider
             }, this );
 
             this.onChangedListener = vscode.workspace.onDidChangeTextDocument( (e) => {
-                if( e.document.isDirty )
-                {
-                    this.realtimeTrigger = true;
-                    this.triggerValidate( e.document );
-                }
+                this.realtimeTrigger = true;
+                this.triggerValidate( e.document );
             });
+
+            if( this.validationEnabled )
+            {
+                let documents: vscode.TextDocument[] = vscode.workspace.textDocuments;
+                if( documents )
+                {
+                    documents.forEach( (doc:vscode.TextDocument)=>{
+                        this.triggerValidate( doc );
+                    });
+                }
+            }
+
         }
     }
 
@@ -205,18 +228,18 @@ export class KSPValidationProvider
      */
     private triggerValidate( textDocument: vscode.TextDocument ): void
     {
-        if( textDocument.languageId !== "ksp" || !this.validationEnabled )
+        if( !textDocument || textDocument.languageId !== "ksp" || !this.validationEnabled )
         {
             return;
         }
         let trigger = () =>
         {
             let key = textDocument.uri.toString();
-            let delayer = this.delayers[ key ];
+            let delayer = this.delayersList[ key ];
             if( !delayer )
             {
                 delayer              = new ThrottledDelayer<void>( 0 );
-                this.delayers[ key ] = delayer;
+                this.delayersList[ key ] = delayer;
             }
 
             let delay = this.realtimeTrigger ? this.realtimeValidationDelay : 0;
@@ -235,6 +258,10 @@ export class KSPValidationProvider
      */
     private doValidate( textDocument: vscode.TextDocument ): Promise<void>
     {
+        if( textDocument.isClosed )
+        {
+            return;
+        }
         return new Promise<void>( (resolve, reject) =>
         {
             let exec = this.executable;
@@ -291,12 +318,13 @@ export class KSPValidationProvider
                 }
             }
 
-            let thisExtention       = vscode.extensions.getExtension( kspconst.EXTENSION_ID );
-            let thisExtentionDir    = thisExtention.extensionPath;
-            let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
-            let args: string[]      = [];
-            let src                 = textDocument.fileName;
-            let tmpFile             = undefined;
+            let thisExtention        = vscode.extensions.getExtension( kspconst.EXTENSION_ID );
+            let thisExtentionDir     = thisExtention.extensionPath;
+            let options              = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
+            let args: string[]       = [];
+            let src                  = textDocument.fileName;
+            let tmpFile              = undefined;
+            let diagnosticCollection = this.getDiagnosticCollection( textDocument );
 
             if( this.realtimeValidationEnabled )
             {
@@ -377,7 +405,10 @@ export class KSPValidationProvider
                             tmpFile.removeCallback();
                             tmpFile = undefined;
                         }
-                        this.diagnosticCollection.set( textDocument.uri, diagnostics );
+                        if( diagnosticCollection )
+                        {
+                            diagnosticCollection.set( textDocument.uri, diagnostics );
+                        }
                         resolve();
                     });
                 }
