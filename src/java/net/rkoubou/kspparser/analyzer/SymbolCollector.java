@@ -215,6 +215,10 @@ public class SymbolCollector extends AbstractAnalyzer
                     MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, s );
                     AnalyzeErrorCounter.e();
                 }
+                else
+                {
+                    v.referenced = true;
+                }
             }
         }
 

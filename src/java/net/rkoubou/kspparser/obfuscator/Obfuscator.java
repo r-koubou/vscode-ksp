@@ -10,7 +10,6 @@ package net.rkoubou.kspparser.obfuscator;
 import net.rkoubou.kspparser.analyzer.BasicEvaluationAnalyzerTemplate;
 import net.rkoubou.kspparser.analyzer.Command;
 import net.rkoubou.kspparser.analyzer.SymbolCollector;
-import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
 import net.rkoubou.kspparser.analyzer.UIType;
 import net.rkoubou.kspparser.analyzer.UserFunction;
 import net.rkoubou.kspparser.analyzer.Variable;
@@ -133,14 +132,24 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
                 ]
 */
         Variable v = variableTable.search( node.symbol );
-        if( v.isConstant() || ( !v.referenced && !v.reserved ) )
+        if( !v.referenced && !v.reserved )
+        {
+            return node;
+        }
+
+        // ユーザー定数で、初期化式中に１つもビルトイン変数・コマンドを含んでいない場合
+        if( v.isConstant() && !node.hasNode( null, SimpleNode.ReservedSymbolCondition, true ) )
         {
             return node;
         }
 
         outputCode.append( "declare " );
 
-        if( v.isPolyphonicVariable() )
+        if( v.isConstant() )
+        {
+            outputCode.append( "const " );
+        }
+        else if( v.isPolyphonicVariable() )
         {
             outputCode.append( "polyphonic " );
         }
@@ -218,12 +227,9 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         }
         else
         {
-            // プリミティブ初期値代入。畳み込みで有効な値が格納される
-            if( expr.symbol.symbolType != SymbolType.Command )
-            {
-                outputCode.append( varName ).append( ":=" );
-                expr.jjtAccept( this, data );
-            }
+            // プリミティブ初期値代入。
+            outputCode.append( varName ).append( ":=" );
+            expr.jjtAccept( this, data );
         }
 
         return node;
@@ -748,7 +754,7 @@ public class Obfuscator extends BasicEvaluationAnalyzerTemplate
         Variable v = variableTable.search( node.symbol );
 
         // ユーザー定義定数なら展開
-        if( v.isConstant() && !v.reserved )
+        if( v.isConstant() && !v.reserved && v.value != null )
         {
             outputCode.append( v.value );
         }

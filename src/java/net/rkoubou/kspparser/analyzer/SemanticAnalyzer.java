@@ -273,12 +273,15 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         final SimpleNode expr = (SimpleNode)node.jjtGetChild( 0 ).jjtAccept( this, data );
         SymbolDefinition eval = (SymbolDefinition)expr.symbol;
 
-        // 宣言時代入はリテラル・定数値のみ
-        if( !eval.isConstant() || expr.getId() == JJTCALLCOMMAND )
+        // const 宣言時にコマンドの戻り値は代入できない（戻り値不定のため、動作保証が出来ない可能性が発生する）
+        if( v.isConstant() )
         {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
-            AnalyzeErrorCounter.e();
-           return node;
+            if( node.hasNode( null, SimpleNode.HasNodeIdCondition, JJTCALLCOMMAND ) )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
+                AnalyzeErrorCounter.e();
+                return node;
+            }
         }
 
         // 型の不一致
@@ -483,14 +486,6 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
             final SimpleNode expr = (SimpleNode)node.jjtGetChild( i ).jjtAccept( this, data );
             SymbolDefinition eval = (SymbolDefinition) expr.symbol;
 
-            // 宣言時代入はリテラル・定数値のみ
-            if( !eval.isConstant() )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
-                AnalyzeErrorCounter.e();
-                result = false;
-            }
-
             if( ( v.type & eval.type ) == 0 )
             {
                 MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_ARRAYINITILIZER, v, String.valueOf( i - 1 ) ); // -1: zero origin
@@ -626,13 +621,6 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
                 continue;
             }
 
-            // 宣言時代入はリテラル・定数値のみ
-            if( !param.isConstant() )
-            {
-                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, v );
-                AnalyzeErrorCounter.e();
-            }
-
             // 四則演算等は文法解析時でクリアしているので値だけに絞る
             if( nid != JJTLITERAL && nid != JJTREFVARIABLE )
             {
@@ -665,14 +653,24 @@ SEARCH:
                         Variable var = variableTable.search( n.symbol );
                         if( var == null )
                         {
-                            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, n.symbol );
-                            AnalyzeErrorCounter.e();
-                            break;
-                        }
-                        if( !var.isConstant() )
-                        {
-                            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, n.symbol );
-                            AnalyzeErrorCounter.e();
+                            // コマンドの戻り値の可能性
+                            Command cmd = commandTable.search( n.symbol );
+                            if( cmd == null )
+                            {
+                                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOT_DECLARED, n.symbol );
+                                AnalyzeErrorCounter.e();
+                                break;
+                            }
+                            if( cmd.returnType.contains( t ) )
+                            {
+                                found = true;
+                                break SEARCH;
+                            }
+                            else
+                            {
+                                // 戻り値と要求される型の不一致
+                                break SEARCH;
+                            }
                         }
                         if( var.type == t )
                         {
@@ -687,16 +685,12 @@ SEARCH:
                     //--------------------------------------------------------------------------
                     default:
                     {
-                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, n.symbol );
+                        MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, n.symbol );
                         AnalyzeErrorCounter.e();
                     }
                     break;
                 }
-                if( !SymbolDefinition.isConstant( param.accessFlag ) )
-                {
-                    MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER, n.symbol );
-                    AnalyzeErrorCounter.e();
-                }
+
             } //~for( int t : uiType.initilzerTypeList )
 
             if( !found )
@@ -816,7 +810,8 @@ SEARCH:
             AnalyzeErrorCounter.e();
             return ret;
         }
-        // 変数へのアクセスが確定したので、戻り値に変数のシンボル情報をコピー
+        // 変数へのアクセスが確定したので、AST、戻り値に変数のシンボル情報をコピー
+        SymbolDefinition.copy( v, node.symbol );
         SymbolDefinition.copy( v, ret.symbol );
 
         if( node.jjtGetParent() != null && node.jjtGetParent().getId() == JJTASSIGNMENT )

@@ -209,6 +209,71 @@ Override this method if you want to customize how the node dumps out its childre
                 return false;
         }
     }
+
+//------------------------------------------------------------------------------
+// 特定ノード検索
+//------------------------------------------------------------------------------
+
+    /**
+     * hasNode メソッドに渡すノード検索条件のための基底インタフェース
+     */
+    static interface HasNodeCondition<T>
+    {
+        boolean evalCondition( SimpleNode node, T v );
+    }
+
+    /**
+     * 特定ノードIDを持つノード検索用の条件
+     */
+    static public final HasNodeCondition<Integer> HasNodeIdCondition = new HasNodeCondition<Integer>() {
+        @Override
+        public boolean evalCondition( SimpleNode node, Integer id )
+        {
+            return node.getId() == id;
+        }
+    };
+
+    /**
+     * 特定ノードのシンボルが予約済み変数ノードかどうかの検索用の条件
+     */
+    static public final HasNodeCondition<Boolean> ReservedSymbolCondition = new HasNodeCondition<Boolean>() {
+        @Override
+        public boolean evalCondition( SimpleNode node, Boolean reserved )
+        {
+            return node.symbol.reserved == reserved;
+        }
+    };
+
+    /**
+     * 指定されたノード以下に指定ノードIDを持つノードが存在するかどうかを再帰的に調べる
+     * @param node ノード。自身が起点ノードの場合は null
+     * @param cond 条件インスタンス
+     * @param v 条件比較値
+     */
+    public <T> boolean hasNode( SimpleNode node, HasNodeCondition<T> cond, T v )
+    {
+        int len;
+        SimpleNode root = this;
+        if( node != null )
+        {
+            root = node;
+        }
+        len = root.jjtGetNumChildren();
+        for( int i = 0; i < len; i++ )
+        {
+            SimpleNode n = (SimpleNode)root.jjtGetChild( i );
+            if( cond.evalCondition( n, v ) )
+            {
+                return true;
+            }
+            if( hasNode( n, cond, v ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 /* JavaCC - OriginalChecksum=8c445a9763bc677bca44d000fc9dd06c (do not edit this line) */
