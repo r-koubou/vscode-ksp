@@ -436,8 +436,9 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         final SimpleNode exprR      = (SimpleNode)node.jjtGetChild( 1 ).jjtAccept( jjtVisitor, jjtAcceptData );
         final SymbolDefinition symL = exprL.symbol;
         final SymbolDefinition symR = exprR.symbol;
-        int typeL = symL.type;
-        int typeR = symR.type;
+        int typeL     = symL.type;
+        int typeR     = symR.type;
+        int typeError = TYPE_VOID;
         boolean typeCheckResult = true;
 
         exprR.jjtAccept( jjtVisitor, jjtAcceptData );
@@ -449,16 +450,24 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
         if( numberOp )
         {
             // int と real を個別に判定しているのは、KSP が real から int の暗黙の型変換を持っていないため
-            if( symL.isInt()  && symR.isInt() )
+            if( SymbolDefinition.isInt( symL, symR ) )
             {
                 ret.symbol.type = TYPE_INT;
             }
-            else if( symL.isReal()  && symR.isReal() )
+            else if( SymbolDefinition.isReal( symL, symR ) )
             {
                 ret.symbol.type = TYPE_REAL;
             }
             else
             {
+                if( !symL.isNumeral() )
+                {
+                    typeError = symL.type;
+                }
+                else if( !symR.isNumeral() )
+                {
+                    typeError = symR.type;
+                }
                 typeCheckResult = false;
             }
         }
@@ -467,16 +476,35 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             ret.symbol.type = TYPE_BOOL;
             if( ( typeL & typeR ) == 0 )
             {
+                if( !symL.isBoolean() )
+                {
+                    typeError = symL.type;
+                }
+                else if( !symR.isBoolean() )
+                {
+                    typeError = symR.type;
+                }
                 typeCheckResult = false;
             }
+        }
+        //--------------------------------------------------------------------------
+        // 型チェック失敗
+        //--------------------------------------------------------------------------
+        if( !typeCheckResult )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
+            AnalyzeErrorCounter.e();
+            ret.symbol.type = typeError;
+            ret.symbol.setName( Variable.toKSPTypeCharacter( typeError ) );
+            return ret;
         }
         //--------------------------------------------------------------------------
         // 左辺、右辺共にリテラル、定数なら式の結果に定数フラグを反映
         // このノード自体を式からリテラルに置き換える
         //--------------------------------------------------------------------------
         if( !symL.reserved && !symR.reserved &&
-            !symL.isArray() && !symR.isArray() &&
-            symL.isConstant() && symR.isConstant() )
+            !SymbolDefinition.isArray( symL,symR ) &&
+            SymbolDefinition.isConstant( symL, symR ) )
         {
             Number constValue = null;
             ret.symbol.accessFlag |= ACCESS_ATTR_CONST;
@@ -494,16 +522,6 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             ret.symbol.setName( "" );
             node = node.reset( new ASTLiteral( JJTLITERAL ), null, constValue, ret.symbol );
             ret = ret.reset( new ASTLiteral( JJTLITERAL ), null, constValue, ret.symbol );
-        }
-        //--------------------------------------------------------------------------
-        // 型チェック失敗
-        //--------------------------------------------------------------------------
-        if( !typeCheckResult )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT, node.symbol );
-            AnalyzeErrorCounter.e();
-            ret.symbol.type = TYPE_VOID;
-            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
         }
         // 元のノードに型データ、値のコピー（値の畳み込み用）
         SymbolDefinition.setValue( ret.symbol, node.symbol );
@@ -562,8 +580,18 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             return ret;
         }
 
+        // この式の評価の過程で意味解析エラーを検出している場合、valueに値が存在しない場合がある
+        if( symL.value == null || symR.value == null )
+        {
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, node.symbol );
+            AnalyzeErrorCounter.e();
+            ret.symbol.type = TYPE_VOID;
+            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
+            return ret;
+        }
+
         // 定数、リテラル同士の連結：結合
-        if( symL.isConstant() && symR.isConstant() )
+        if( SymbolDefinition.isConstant( symL, symR ) )
         {
             String v = symL.value.toString() + symR.value.toString();
             v = v.replaceAll( "\\\"", "" );

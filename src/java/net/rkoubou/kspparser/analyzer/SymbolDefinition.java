@@ -304,25 +304,17 @@ public class SymbolDefinition implements AnalyzerConstants
     /**
      * 与えられた属性フラグ情報から定数かどうかを判定する
      */
-    static public boolean isConstant( int accessFlag )
+    static public boolean isConstant( SymbolDefinition sym1, SymbolDefinition sym2 )
     {
-        return ( accessFlag & ACCESS_ATTR_CONST ) != 0;
+        return sym1.isConstant() && sym2.isConstant();
     }
 
     /**
-     * 数値型かどうかを判定する
+     * 与えられた属性フラグ情報から定数かどうかを判定する
      */
-    public boolean isNumeric()
+    static public boolean isConstant( int accessFlag )
     {
-        switch( type & TYPE_MASK )
-        {
-            case TYPE_INT:
-            case TYPE_REAL:
-                return true;
-
-            default:
-                return false;
-        }
+        return ( accessFlag & ACCESS_ATTR_CONST ) != 0;
     }
 
     /**
@@ -331,6 +323,14 @@ public class SymbolDefinition implements AnalyzerConstants
     public boolean isInt()
     {
         return isInt( getPrimitiveType() );
+    }
+
+    /**
+     * 与えられた型識別値がIntegerかどうかを判別する
+     */
+    static public boolean isInt( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isInt() && sym2.isInt();
     }
 
     /**
@@ -352,6 +352,14 @@ public class SymbolDefinition implements AnalyzerConstants
     /**
      * 与えられた型識別値がRealかどうかを判別する
      */
+    static public boolean isReal( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isReal() && sym2.isReal();
+    }
+
+    /**
+     * 与えられた型識別値がRealかどうかを判別する
+     */
     static public boolean isReal( int type )
     {
         return ( type & TYPE_REAL ) != 0;
@@ -366,7 +374,15 @@ public class SymbolDefinition implements AnalyzerConstants
     }
 
     /**
-     * 与えられた型識別値がIntegerかどうかを判別する
+     * 与えられた型識別値がStringかどうかを判別する
+     */
+    static public boolean isString( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isString() && sym2.isString();
+    }
+
+    /**
+     * 与えられた型識別値がStringかどうかを判別する
      */
     static public boolean isString( int type )
     {
@@ -384,6 +400,14 @@ public class SymbolDefinition implements AnalyzerConstants
     /**
      * 与えられた型識別値がbooleanかどうかを判別する
      */
+    static public boolean isBoolean( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isBoolean() && sym2.isBoolean();
+    }
+
+    /**
+     * 与えられた型識別値がbooleanかどうかを判別する
+     */
     static public boolean isBoolean( int type )
     {
         return ( type & TYPE_BOOL ) != 0;
@@ -395,6 +419,14 @@ public class SymbolDefinition implements AnalyzerConstants
     public boolean isArray()
     {
         return isArray( type );
+    }
+
+    /**
+     * 与えられた型識別値が配列属性を含むかどうかを判別する
+     */
+    static public boolean isArray( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isArray() && sym2.isArray();
     }
 
     /**
@@ -448,6 +480,14 @@ public class SymbolDefinition implements AnalyzerConstants
     /**
      * 与えられた型識別値がVoidかどうかを判別する
      */
+    static public boolean isVoid( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isVoid() && sym2.isVoid();
+    }
+
+    /**
+     * 与えられた型識別値がVoidかどうかを判別する
+     */
     static public boolean isVoid( int type )
     {
         return ( type & TYPE_VOID ) != 0;
@@ -459,6 +499,14 @@ public class SymbolDefinition implements AnalyzerConstants
     public boolean isNumeral()
     {
         return isNumeral( type );
+    }
+
+    /**
+     * 与えられた型識別値から数値型かどうかを判定する
+     */
+    static public boolean isNumeral( SymbolDefinition sym1, SymbolDefinition sym2 )
+    {
+        return sym1.isNumeral() && sym2.isNumeral();
     }
 
     /**

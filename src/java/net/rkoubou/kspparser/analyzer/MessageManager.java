@@ -79,7 +79,8 @@ public class MessageManager implements AnalyzerConstants
     static public final String PROPERTY_ERROR_SEMANTIC_BINOPR_DIFFERENT         = "error.semantic.binopr.different";
     static public final String PROPERTY_WARNING_SEMANTIC_VARIABLE_UNKNOWN = "warning.semantic.variable.unknown";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_REQUIRED_INITIALIZER = "error.semantic.variable.required.initializer";
-    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER = "error.semantic.variable.noconstant.initializer";    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER = "error.semantic.variable.invalid.initializer";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_NOCONSTANT_INITIALIZER = "error.semantic.variable.noconstant.initializer";
+    static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER = "error.semantic.variable.invalid.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_STRING_INITIALIZER = "error.semantic.variable.invalid.string.initializer";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_TYPE = "error.semantic.variable.invalid.initializer.type";
     static public final String PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_INITIALIZER_STRINGADD = "error.semantic.variable.invalid.initializer.stringadd";
