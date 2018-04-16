@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.4.4
+
+* Syntax parser
+
+    * Small bug fixes
+
 ## Version 0.4.3
 
 * Syntax parser
@@ -52,7 +58,7 @@ This version contains important bug fixes.
         - Check array subscribe
 
 - Editor
-    - Small bug bug fixes
+    - Small bug fixes
     - Snipet behavior improved
 
 ### 0.4.0 BETA Release note
@@ -77,26 +83,26 @@ This version contains important bug fixes.
 
 * Editor
 
-    * Small bug bug fixes
+    * Small bug fixes
     * Undocumented NI variables / commands added to snipet etc.
 
 ## Version 0.3.14
 
 * Syntax parser
 
-    * Small bug bug fixes
+    * Small bug fixes
 
 ## Version 0.3.13
 
 * Editor, Syntax parser
 
-    * Small bug bug fixes
+    * Small bug fixes
 
 ## Version 0.3.12
 
 * Editor
 
-    * Small bug bug fixes
+    * Small bug fixes
 
 ## Version 0.3.11
 
@@ -183,7 +189,7 @@ Syntax Parser
     * Analysis program has some bugs was FIXED
     * Analysis precision improved (`Semantic Analysis` is `READY`)
 
-* Small bug fixes release.
+* Small bug fixes
 
 ## Version 0.2.7
 
