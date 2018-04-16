@@ -580,19 +580,19 @@ public class EvaluationUtility implements AnalyzerConstants, KSPParserTreeConsta
             return ret;
         }
 
-        // この式の評価の過程で意味解析エラーを検出している場合、valueに値が存在しない場合がある
-        if( symL.value == null || symR.value == null )
-        {
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, node.symbol );
-            AnalyzeErrorCounter.e();
-            ret.symbol.type = TYPE_VOID;
-            ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
-            return ret;
-        }
-
         // 定数、リテラル同士の連結：結合
         if( SymbolDefinition.isConstant( symL, symR ) )
         {
+            // この式の評価の過程で意味解析エラーを検出している場合、valueに値が存在しない場合がある
+            if( symL.value == null || symR.value == null )
+            {
+                MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_EXPRESSION_INVALID, node.symbol );
+                AnalyzeErrorCounter.e();
+                ret.symbol.type = TYPE_VOID;
+                ret.symbol.setName( Variable.toKSPTypeCharacter( TYPE_VOID ) );
+                return ret;
+            }
+
             String v = symL.value.toString() + symR.value.toString();
             v = v.replaceAll( "\\\"", "" );
             v = '"' + v + '"';
