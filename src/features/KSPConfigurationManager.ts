@@ -22,7 +22,7 @@ export class KSPConfigurationManager
     /**
      *
      */
-    static getConfig<T>(key:string, defaultValue:T, callback: ( value:T, userDefined:boolean)=>void ): void
+    static getConfig<T>( key:string, defaultValue:T, callback: ( value:T, userDefined:boolean)=>void ): void
     {
         let section: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration( config.CONFIG_SECTION_NAME );
         let value:T = defaultValue;

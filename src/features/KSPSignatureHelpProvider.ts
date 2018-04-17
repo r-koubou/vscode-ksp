@@ -71,7 +71,7 @@ export class BackwardIterator
             this.lineNumber = -1;
             return BOF;
         }
-        var ch = this.line.charCodeAt( this.offset );
+        let ch = this.line.charCodeAt( this.offset );
         this.offset--;
         return ch;
     }
@@ -91,31 +91,31 @@ export class KSPSignatureHelpProvider
      */
     public provideSignatureHelp( document, position, token )
     {
-        var iterator = new BackwardIterator( document, position.character - 1, position.line );
-        var paramCount = this.readArguments( iterator );
+        let iterator = new BackwardIterator( document, position.character - 1, position.line );
+        let paramCount = this.readArguments( iterator );
         if ( paramCount < 0 )
         {
             return null;
         }
-        var ident = this.readIdent( iterator );
+        let ident = this.readIdent( iterator );
         if ( !ident )
         {
             return null;
         }
-        var entry = kspCommands.commands[ ident ];
+        let entry = kspCommands.commands[ ident ];
         if ( !entry || !entry.signature )
         {
             return null;
         }
-        var paramsString = entry.signature.substring( 0, entry.signature.lastIndexOf( ')' ) + 1 );
-        var signatureInfo = new vscode.SignatureInformation( ident + paramsString, entry.description );
-        var re = /\w*\s*[\w_\.]+|void/g;
-        var match = null;
+        let paramsString = entry.signature.substring( 0, entry.signature.lastIndexOf( ')' ) + 1 );
+        let signatureInfo = new vscode.SignatureInformation( ident + paramsString, entry.description );
+        let re = /\w*\s*[\w_\.]+|void/g;
+        let match = null;
         while ( ( match = re.exec( paramsString ) ) !== null )
         {
             signatureInfo.parameters.push( { label: match[0], documentation: '' } );
         }
-        var ret = new vscode.SignatureHelp();
+        let ret = new vscode.SignatureHelp();
         ret.signatures.push( signatureInfo );
         ret.activeSignature = 0;
         ret.activeParameter = Math.min( paramCount, signatureInfo.parameters.length - 1 );
@@ -124,13 +124,13 @@ export class KSPSignatureHelpProvider
 
     private readArguments( iterator )
     {
-        var parentNesting = 0;
-        var bracketNesting = 0;
-        var curlyNesting = 0;
-        var paramCount = 0;
+        let parentNesting = 0;
+        let bracketNesting = 0;
+        let curlyNesting = 0;
+        let paramCount = 0;
         while ( iterator.hasNext() )
         {
-            var ch = iterator.next();
+            let ch = iterator.next();
             switch ( ch )
             {
                 case _LParent:
@@ -187,11 +187,11 @@ export class KSPSignatureHelpProvider
 
     private readIdent = function ( iterator )
     {
-        var identStarted = false;
-        var ident = '';
+        let identStarted = false;
+        let ident = '';
         while ( iterator.hasNext() )
         {
-            var ch = iterator.next();
+            let ch = iterator.next();
             if ( !identStarted && ( ch === _WSB || ch === _TAB || ch === _NL ) )
             {
                 continue;

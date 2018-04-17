@@ -24,7 +24,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
     let thisExtentionDir    = thisExtention.extensionPath;
     let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
     let args: string[]      = [];
-    var textDocument: vscode.TextDocument;
+    let textDocument: vscode.TextDocument;
     let suffix = config.DEFAULT_OBFUSCATOR_SUFFIX;
     let REG_SUFFIX: RegExp  = /(.*)(?:\.([^.]+$))/;
     let defaultOutputDir: string;

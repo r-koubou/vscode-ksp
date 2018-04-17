@@ -80,7 +80,7 @@ export class KSPValidationProvider
             throw "textDocument is null";
         }
         let key = textDocument.uri.toString();
-        var p: vscode.DiagnosticCollection = this.diagnosticsList[ key ];
+        let p: vscode.DiagnosticCollection = this.diagnosticsList[ key ];
         if( p )
         {
             return p;

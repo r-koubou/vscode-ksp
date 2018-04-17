@@ -29,22 +29,22 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
         context:vscode.ReferenceContext,
         token:vscode.CancellationToken) : Thenable<Array<vscode.Location>>
     {
-        var symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
+        let symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
         if( !symbols )
         {
             return null;
         }
-        var result = [];
-        var symbol : string = KSPSymbolUtil.parseSymbolAt( document, position );
-        var lineCount : number = document.lineCount;
-        for( var i = 0; i < lineCount; i++ )
+        let result = [];
+        let symbol : string = KSPSymbolUtil.parseSymbolAt( document, position );
+        let lineCount : number = document.lineCount;
+        for( let i = 0; i < lineCount; i++ )
         {
-            var text : string = document.lineAt( i ).text.trim();
-            var words : string[] = text.split( /[\s|,|\[|\]|\(|\)]+/ );
+            let text : string = document.lineAt( i ).text.trim();
+            let words : string[] = text.split( /[\s|,|\[|\]|\(|\)]+/ );
 
             // Builtin-Commands?
             words.forEach( w=>{
-                var found : boolean = false;
+                let found : boolean = false;
                 if( w == symbol )
                 {
                     KSPCommandNameList.commandNameList.forEach( cmd=>{
@@ -66,7 +66,7 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
             });
             // Builtin-Variables?
             words.forEach( w=>{
-                var found : boolean = false;
+                let found : boolean = false;
                 if( w == symbol )
                 {
                     KSPBuiltinVariableNameList.builtinVariableNameList.forEach( v=>{
@@ -88,8 +88,8 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
             });
             // User definition
             symbols.forEach( x=>{
-                var sym : KSPSymbol         = x.KspSymbol;
-                var symName : string        = sym.name;
+                let sym : KSPSymbol         = x.KspSymbol;
+                let symName : string        = sym.name;
 
                 // User Function?
                 if( symName == symbol )

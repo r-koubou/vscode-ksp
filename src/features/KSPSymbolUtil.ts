@@ -40,7 +40,7 @@ export class KSPSymbol
 
     public toVariableNameFormat( isUI : boolean = false ) : string
     {
-        var ret = this.name;
+        let ret = this.name;
         if( isUI )
         {
             ret = this.uiVariableName;
@@ -171,11 +171,11 @@ export class KSPSymbolUtil
 
     static startAt( lineText:string, position:vscode.Position ) : number
     {
-        for( var i = position.character - 1; i >= 0; i-- )
+        for( let i = position.character - 1; i >= 0; i-- )
         {
-            var regex : RegExp = new RegExp( KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY );
-            var char  = lineText.charAt( i );
-            var match = regex.exec( char );
+            let regex : RegExp = new RegExp( KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY );
+            let char  = lineText.charAt( i );
+            let match = regex.exec( char );
             if( match )
             {
                 return i + 1;
@@ -186,11 +186,11 @@ export class KSPSymbolUtil
 
     static endAt( lineText:string, position:vscode.Position ) : number
     {
-        for( var i = position.character + 1; i < lineText.length; i++ )
+        for( let i = position.character + 1; i < lineText.length; i++ )
         {
-            var regex : RegExp = new RegExp( KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY );
-            var char  = lineText.charAt( i );
-            var match = regex.exec( char );
+            let regex : RegExp = new RegExp( KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY );
+            let char  = lineText.charAt( i );
+            let match = regex.exec( char );
             if( match )
             {
                 return i - 1;
@@ -201,15 +201,15 @@ export class KSPSymbolUtil
 
     static parseSymbolAt( document: vscode.TextDocument, position: vscode.Position ) : string
     {
-        var textLine : vscode.TextLine = document.lineAt( position.line );
-        var line   : string = textLine.text;
-        var eolPos : number = line.length;
-        var symbol : string = "";
-        for( var i = position.character; i < eolPos; i++ )
+        let textLine : vscode.TextLine = document.lineAt( position.line );
+        let line   : string = textLine.text;
+        let eolPos : number = line.length;
+        let symbol : string = "";
+        for( let i = position.character; i < eolPos; i++ )
         {
-            var regex : RegExp = KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY;
-            var char  = line.charAt( i );
-            var match = regex.exec( char );
+            let regex : RegExp = KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY;
+            let char  = line.charAt( i );
+            let match = regex.exec( char );
             if( match )
             {
                 if( char == '"' )
@@ -221,11 +221,11 @@ export class KSPSymbolUtil
             }
             symbol += char;
         }
-        for( var i = position.character - 1; i >= 0; i-- )
+        for( let i = position.character - 1; i >= 0; i-- )
         {
-            var regex : RegExp = KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY;
-            var char  = line.charAt( i );
-            var match = regex.exec( char );
+            let regex : RegExp = KSPSymbolUtil.REGEX_SYMBOL_BOUNDARY;
+            let char  = line.charAt( i );
+            let match = regex.exec( char );
             if( match )
             {
                 if( char == '"' )
@@ -242,31 +242,32 @@ export class KSPSymbolUtil
 
     static collect( document: vscode.TextDocument, token: vscode.CancellationToken, endLineNumber: number = -1 ) : KSPSymbolInformation[]
     {
-        var result: KSPSymbolInformation[] = [];
+        let result: KSPSymbolInformation[] = [];
 
-        var count = document.lineCount;
+        let count = document.lineCount;
         if( endLineNumber >= 0 )
         {
             count = endLineNumber;
         }
-        for( var i = 0; i < count; i++ )
+        for( let i = 0; i < count; i++ )
         {
+            let isConst: boolean = false;
             //-----------------------------------------------------------------
             // check declare variables
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*declare\s+(ui_[a-zA-Z0-9_]+|const)?\s*([\$%~\?@!][a-zA-Z0-9_]+)/g;
+                let DECLARE_REGEX = /^\s*declare\s+(ui_[a-zA-Z0-9_]+|const)?\s*([\$%~\?@!][a-zA-Z0-9_]+)/g;
 
-                var text  = document.lineAt( i ).text;
-                var match = DECLARE_REGEX.exec( text );
+                let text  = document.lineAt( i ).text;
+                let match = DECLARE_REGEX.exec( text );
                 if( match )
                 {
-                    var isConst                     = match[ 1 ] && match[ 1 ].toString() == "const";
-                    var isUI                        = match[ 1 ] && match[ 1 ].startsWith( "ui_" );
-                    var symKind: vscode.SymbolKind  = vscode.SymbolKind.Variable;
-                    var name : string               = match[ 2 ];
-                    var containerName : string      = "Variable";
-                    var colmn : number              = text.indexOf( name );
+                    isConst                         = match[ 1 ] && match[ 1 ].toString() == "const";
+                    let isUI                        = match[ 1 ] && match[ 1 ].startsWith( "ui_" );
+                    let symKind: vscode.SymbolKind  = vscode.SymbolKind.Variable;
+                    let name : string               = match[ 2 ];
+                    let containerName : string      = "Variable";
+                    let colmn : number              = text.indexOf( name );
 
                     if( isConst )
                     {
@@ -274,9 +275,9 @@ export class KSPSymbolUtil
                         symKind = vscode.SymbolKind.Constant;
                     }
 
-                    var variableTypeChar            = name.charAt( 0 );
-                    var variableType : string       = "(" + KSPSymbol.variableTypeChar2String( variableTypeChar ) + ")";
-                    var symbolType : KSPSymbolType  = KSPSymbol.variableTypeChar2Type( variableTypeChar );
+                    let variableTypeChar            = name.charAt( 0 );
+                    let variableType : string       = "(" + KSPSymbol.variableTypeChar2String( variableTypeChar ) + ")";
+                    let symbolType : KSPSymbolType  = KSPSymbol.variableTypeChar2Type( variableTypeChar );
 
                     if( isUI )
                     {
@@ -284,7 +285,7 @@ export class KSPSymbolUtil
                         variableType  = "(" + match[ 1 ].trim() + ")";
                     }
 
-                    var add = new KSPSymbolInformation(
+                    let add = new KSPSymbolInformation(
                         name.substr( 1 ),
                         symKind, containerName + " " + variableType,
                         new vscode.Location( document.uri, new vscode.Position( i, colmn ) )
@@ -298,18 +299,18 @@ export class KSPSymbolUtil
             // check callback ( on #### )
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*(on\s+)([a-zA-Z0-9_]+)(\s*\(\s*[^\)]+\s*\))?/g;
+                let DECLARE_REGEX = /^\s*(on\s+)([a-zA-Z0-9_]+)(\s*\(\s*[^\)]+\s*\))?/g;
 
-                var text  = document.lineAt( i ).text;
-                var match = DECLARE_REGEX.exec( text );
+                let text  = document.lineAt( i ).text;
+                let match = DECLARE_REGEX.exec( text );
                 if( match )
                 {
-                    var isUI                        = match[ 2 ] != undefined && match[ 3 ] != undefined && match[ 2 ].startsWith( "ui_" );
-                    var uiName                      = null;
-                    var symKind: vscode.SymbolKind  = vscode.SymbolKind.Function;
-                    var name : string               = match[ 2 ];
-                    var containerName : string      = "Callback";
-                    var colmn : number              = text.indexOf( name );
+                    let isUI                        = match[ 2 ] != undefined && match[ 3 ] != undefined && match[ 2 ].startsWith( "ui_" );
+                    let uiName                      = null;
+                    let symKind: vscode.SymbolKind  = vscode.SymbolKind.Function;
+                    let name : string               = match[ 2 ];
+                    let containerName : string      = "Callback";
+                    let colmn : number              = text.indexOf( name );
 
                     if( !match[ 2 ] && !match[ 3 ] )
                     {
@@ -324,7 +325,7 @@ export class KSPSymbolUtil
                         containerName = "UI Callback for " + uiName;
                     }
 
-                    var add = new KSPSymbolInformation(
+                    let add = new KSPSymbolInformation(
                         name,
                         symKind, containerName,
                         new vscode.Location( document.uri, new vscode.Position( i, colmn ) )
@@ -343,24 +344,24 @@ export class KSPSymbolUtil
             // check user function ( function #### )
             //-----------------------------------------------------------------
             {
-                var DECLARE_REGEX = /^\s*(function\s+)([a-zA-Z0-9_]+)/g;
+                let DECLARE_REGEX = /^\s*(function\s+)([a-zA-Z0-9_]+)/g;
 
-                var text  = document.lineAt( i ).text;
-                var match = DECLARE_REGEX.exec( text );
+                let text  = document.lineAt( i ).text;
+                let match = DECLARE_REGEX.exec( text );
                 if( match )
                 {
-                    var symKind: vscode.SymbolKind  = vscode.SymbolKind.Function;
-                    var name : string               = match[ 2 ];
-                    var containerName : string      = "Function";
-                    var colmn : number              = text.indexOf( name );
+                    let symKind: vscode.SymbolKind  = vscode.SymbolKind.Function;
+                    let name : string               = match[ 2 ];
+                    let containerName : string      = "Function";
+                    let colmn : number              = text.indexOf( name );
 
-                    var add = new KSPSymbolInformation(
+                    let add = new KSPSymbolInformation(
                         name,
                         symKind, containerName,
                         new vscode.Location( document.uri, new vscode.Position( i, colmn ) )
                     );
 
-                    add.setKspSymbolValue( i, colmn, isConst, isUI, KSPSymbolType.USER_FUNCTION );
+                    add.setKspSymbolValue( i, colmn, isConst, false, KSPSymbolType.USER_FUNCTION );
                     result.push( add );
                     continue;
                 }

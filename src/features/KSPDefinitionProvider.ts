@@ -26,19 +26,19 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
         position: vscode.Position,
         token: vscode.CancellationToken ) : Thenable<vscode.Location[]>
     {
-        var symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
+        let symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
         if( !symbols )
         {
             return null;
         }
-        var result = [];
-        var textLine : vscode.TextLine = document.lineAt( position.line );
-        var symbol : string            = KSPSymbolUtil.parseSymbolAt( document, position );
+        let result = [];
+        let textLine : vscode.TextLine = document.lineAt( position.line );
+        let symbol : string            = KSPSymbolUtil.parseSymbolAt( document, position );
 
         symbols.forEach( x=>{
-            var sym : KSPSymbol         = x.KspSymbol;
-            var symName : string        = sym.name;
-            var declaredLine : boolean  = sym.lineNumber == textLine.lineNumber;
+            let sym : KSPSymbol         = x.KspSymbol;
+            let symName : string        = sym.name;
+            let declaredLine : boolean  = sym.lineNumber == textLine.lineNumber;
 
             // User Function?
             if( !declaredLine && symName == symbol )

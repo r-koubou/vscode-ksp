@@ -28,22 +28,21 @@ export class KSPHoverProvider
     /**
      * Implementation of Hover behaviour
      */
-    public provideHover( doc, pos, token ) : vscode.Hover
+    public provideHover( textDocument: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken ) : vscode.Hover
     {
-        var wordRange = doc.getWordRangeAtPosition( pos );
+        let wordRange: vscode.Range = textDocument.getWordRangeAtPosition( position );
         if( !wordRange )
         {
             return null;
         }
 
-        var name  = doc.getText( wordRange );
-        var entry = kspCommands.commands[ name ] ||
-                    kspBuiltinVariables.builtinVariables[ name ];
+        let name: string = textDocument.getText( wordRange );
+        let entry : any  = kspCommands.commands[ name ] || kspBuiltinVariables.builtinVariables[ name ];
 
         if( entry && entry.description )
         {
-            var signature = name + ( entry.signature || '' );
-            var contents  = [ entry.description, { language: 'ksp', value: signature } ];
+            let signature = name + ( entry.signature || '' );
+            let contents  = [ entry.description, { language: 'ksp', value: signature } ];
             return new vscode.Hover( contents, wordRange );
         }
         return null;

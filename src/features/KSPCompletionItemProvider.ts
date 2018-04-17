@@ -17,9 +17,9 @@ import vscode = require( 'vscode' );
 var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
 var kspCommands         = require( './generated/KSPCommandsInfo' );
 
-const VARIABLE_PREFIX_LIST    = [ '$', '%', '~', '?', '@', '!' ];
-const VARIABLE_REGEX          = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
-const FUNCTION_REGEX          = /function\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
+export const VARIABLE_PREFIX_LIST: string[]    = [ '$', '%', '~', '?', '@', '!' ];
+export const VARIABLE_REGEX: RegExp            = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
+export const FUNCTION_REGEX: RegExp            = /function\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
 
 export class KSPCompletionItemProvider
 {
@@ -36,24 +36,25 @@ export class KSPCompletionItemProvider
     /**
      * Implementation of Completion behaviour
      */
-    public provideCompletionItems( doc, pos, token )
+    public provideCompletionItems( textDocument: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken )
     {
-        var result = [];
-        var range  = doc.getWordRangeAtPosition( pos );
-        var prefix = range ? doc.getText( range ) : '';
+        let result = [];
+        let range  = textDocument.getWordRangeAtPosition( position );
+        let prefix = range ? textDocument.getText( range ) : '';
+        let text   = textDocument.getText();
 
         if( !range )
         {
-            range = new vscode.Range( pos, pos );
+            range = new vscode.Range( position, position );
         }
-        var added = {};
+        let added = {};
 
         //----------------------------------------------------------------------
         // proposal component
         //----------------------------------------------------------------------
-        var createNewProposal = function( kind, name, entry )
+        let createNewProposal = function( kind: vscode.CompletionItemKind, name: string, entry: any )
         {
-            var proposal  = new vscode.CompletionItem( name );
+            let proposal  = new vscode.CompletionItem( name );
             proposal.kind = kind;
             if( entry )
             {
@@ -72,7 +73,7 @@ export class KSPCompletionItemProvider
         //----------------------------------------------------------------------
         // matcher
         //----------------------------------------------------------------------
-        var matches = function( name )
+        let matches = function( name: string )
         {
             return prefix.length === 0 ||
                    name.length >= prefix.length &&
@@ -82,7 +83,7 @@ export class KSPCompletionItemProvider
         //----------------------------------------------------------------------
         // Key-Value Validate
         //----------------------------------------------------------------------
-        var validateProposal = function( name, table, kind )
+        let validateProposal = function( name: string, table: any, kind: vscode.CompletionItemKind )
         {
             if( table.hasOwnProperty( name ) && matches( name ) )
             {
@@ -93,14 +94,14 @@ export class KSPCompletionItemProvider
         //----------------------------------------------------------------------
         // Built-In Variables
         //----------------------------------------------------------------------
-        for( var name in kspBuiltinVariables.builtinVariables )
+        for( let name in kspBuiltinVariables.builtinVariables )
         {
             validateProposal( name, kspBuiltinVariables.builtinVariables, vscode.CompletionItemKind.Variable );
         }
         //----------------------------------------------------------------------
         // Commands
         //----------------------------------------------------------------------
-        for( var name in kspCommands.commands )
+        for( let name in kspCommands.commands )
         {
             validateProposal( name, kspCommands.commands, vscode.CompletionItemKind.Function );
         }
@@ -108,8 +109,7 @@ export class KSPCompletionItemProvider
         // User Variables in File
         //----------------------------------------------------------------------
         {
-            var text          = doc.getText();
-            var prefixMatched = false;
+            let prefixMatched = false;
 
             VARIABLE_PREFIX_LIST.forEach( function( element ){
                 if( prefixMatched ) return;
@@ -121,11 +121,11 @@ export class KSPCompletionItemProvider
 
             if( prefixMatched )
             {
-                var variableMatch = VARIABLE_REGEX;
-                var match = null;
+                let variableMatch = VARIABLE_REGEX;
+                let match = null;
                 while( match = variableMatch.exec( text ) )
                 {
-                    var word = match[ 0 ];
+                    let word = match[ 0 ];
                     if( !added[ word ] )
                     {
                         added[ word ] = true;
@@ -138,11 +138,11 @@ export class KSPCompletionItemProvider
         // User Functions in File
         //----------------------------------------------------------------------
         {
-            var functionMatch = FUNCTION_REGEX;
-            var match = null;
+            let functionMatch = FUNCTION_REGEX;
+            let match = null;
             while( match = functionMatch.exec( text ) )
             {
-                var word = match[ 1 ];
+                let word = match[ 1 ];
                 if( !added[ word ] )
                 {
                     added[ word ] = true;
