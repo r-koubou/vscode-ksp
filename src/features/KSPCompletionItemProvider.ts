@@ -18,8 +18,8 @@ var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
 var kspCommands         = require( './generated/KSPCommandsInfo' );
 
 export const VARIABLE_PREFIX_LIST: string[]    = [ '$', '%', '~', '?', '@', '!' ];
-export const VARIABLE_REGEX: RegExp            = /([\$%~\?@!][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
-export const FUNCTION_REGEX: RegExp            = /function\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
+export const VARIABLE_REGEX: RegExp            = /([\$%~\?@!][0-9a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
+export const FUNCTION_REGEX: RegExp            = /function\s+([0-9a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
 
 export class KSPCompletionItemProvider
 {
