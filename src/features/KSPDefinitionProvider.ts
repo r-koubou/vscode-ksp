@@ -31,7 +31,7 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
         {
             return null;
         }
-        let result = [];
+        let result: vscode.Location[]  = [];
         let textLine : vscode.TextLine = document.lineAt( position.line );
         let symbol : string            = KSPSymbolUtil.parseSymbolAt( document, position );
 

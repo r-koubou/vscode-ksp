@@ -11,6 +11,9 @@
 import * as vscode          from 'vscode';
 import * as cp              from 'child_process';
 import * as path            from 'path';
+import * as fs              from 'fs';
+import * as tmp             from 'tmp';
+import * as clipboard       from 'clipboardy';
 
 import * as kspconst        from './KSPExtensionConstants';
 import * as config          from './KSPConfigurationConstants';
@@ -30,9 +33,14 @@ export function doObfuscate( context: vscode.ExtensionContext )
     let defaultOutputDir: string;
     let defaultOutputName: string;
     let defaultOutputPath: string;
+    let toClipboard: boolean = config.DEFAULT_DEST_CLIPBOARD;
 
     KSPConfigurationManager.getConfig<string>( config.KEY_OBFUSCATOR_SUFFIX, config.DEFAULT_OBFUSCATOR_SUFFIX, (v, user) =>{
         suffix = v;
+    });
+
+    KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD, (v, user) =>{
+        toClipboard = v;
     });
 
 
@@ -77,7 +85,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
     //--------------------------------------------------------------------------
     // Run Obfuscator function
     //--------------------------------------------------------------------------
-    function obfuscate( output:string ){
+    function obfuscate( output:string, callback?: (exitCode: number)=>void ){
 
         let inline: boolean = config.DEFAULT_INLINE_FUNCTION;
         KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION, (v, user) =>{
@@ -133,6 +141,11 @@ export function doObfuscate( context: vscode.ExtensionContext )
                 // process finished with exit code
                 childProcess.on( 'exit', (exitCode) =>
                 {
+                    if( callback )
+                    {
+                        callback( exitCode );
+                    }
+
                     if( exitCode != 0 )
                     {
                         vscode.window.showErrorMessage( "KSP Obfuscator: Failed. Please check your script." );
@@ -151,13 +164,31 @@ export function doObfuscate( context: vscode.ExtensionContext )
 
     }; //~function obfuscate
 
-    vscode.window.showSaveDialog({
-        defaultUri: vscode.Uri.file( defaultOutputPath ),
-        filters:{ 'KSP Script': [ 'txt', 'ksp' ] }
-    }).then( result=>{
-        if( result )
-        {
-            obfuscate( result.path );
-        }
-    });
+    // Output to Clipboard
+    if( toClipboard )
+    {
+        let tmpFile: tmp.SynchrounousResult;
+        tmpFile = tmp.fileSync();
+        obfuscate( tmpFile.name, ( exitCode )=>{
+            if( exitCode == 0 )
+            {
+                let txt: string = fs.readFileSync( tmpFile.name ).toString();
+                clipboard.writeSync( txt );
+                try { tmpFile.removeCallback(); }catch( e ){}
+            }
+        });
+    }
+    // Output to File
+    else
+    {
+        vscode.window.showSaveDialog({
+            defaultUri: vscode.Uri.file( defaultOutputPath ),
+            filters:{ 'KSP Script': [ 'txt', 'ksp' ] }
+        }).then( result=>{
+            if( result )
+            {
+                obfuscate( result.path );
+            }
+        });
+    }
 }

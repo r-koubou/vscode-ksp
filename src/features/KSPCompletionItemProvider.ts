@@ -36,9 +36,9 @@ export class KSPCompletionItemProvider
     /**
      * Implementation of Completion behaviour
      */
-    public provideCompletionItems( textDocument: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken )
+    public provideCompletionItems( textDocument: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken ) : Promise<any[]>
     {
-        let result = [];
+        let result: vscode.CompletionItem[] = [];
         let range  = textDocument.getWordRangeAtPosition( position );
         let prefix = range ? textDocument.getText( range ) : '';
         let text   = textDocument.getText();

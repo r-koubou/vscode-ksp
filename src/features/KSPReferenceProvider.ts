@@ -34,7 +34,7 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
         {
             return null;
         }
-        let result = [];
+        let result: vscode.Location[] = [];
         let symbol : string = KSPSymbolUtil.parseSymbolAt( document, position );
         let lineCount : number = document.lineCount;
         for( let i = 0; i < lineCount; i++ )

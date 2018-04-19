@@ -20,6 +20,7 @@ import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 import { KSPRenameProvider }            from './features/KSPRenameProvider';
+import { KSPCodeLensProvider }          from './features/KSPCodeLensProvider';
 
 import KSPObfuscatorCommand =           require( './features/KSPObfuscatorCommand' );
 
@@ -56,6 +57,10 @@ export function activate( context:vscode.ExtensionContext ) : any
     context.subscriptions.push(
         vscode.languages.registerRenameProvider( 'ksp', new KSPRenameProvider() )
     );
+
+    // context.subscriptions.push(
+    //     vscode.languages.registerCodeLensProvider( 'ksp', new KSPCodeLensProvider() )
+    // );
 
     context.subscriptions.push(
         vscode.commands.registerCommand( 'ksp.obfuscate', KSPObfuscatorCommand.doObfuscate )
