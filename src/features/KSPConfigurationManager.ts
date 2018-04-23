@@ -10,7 +10,6 @@
 
 import * as vscode          from 'vscode';
 import * as config          from './KSPConfigurationConstants';
-import * as kspconst        from './KSPExtensionConstants';
 
 export class KSPConfigurationManager
 {

@@ -137,7 +137,16 @@
                 "command": "ksp.obfuscate",
                 "title": "%command.obfuscate%"
             }
-        ]
+        ],
+        "menus":{
+            "editor/context": [
+                {
+                    "when": "editorLangId == ksp",
+                    "command": "ksp.obfuscate",
+                    "group": "kspgroup@1"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",

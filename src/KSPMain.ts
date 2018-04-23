@@ -12,6 +12,8 @@
 
 import vscode  = require( 'vscode' );
 
+import * as Constants                   from './features/KSPExtensionConstants';
+
 import { KSPCompletionItemProvider }    from './features/KSPCompletionItemProvider';
 import { KSPHoverProvider }             from './features/KSPHoverProvider';
 import { KSPSignatureHelpProvider }     from './features/KSPSignatureHelpProvider';
@@ -20,53 +22,48 @@ import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 import { KSPRenameProvider }            from './features/KSPRenameProvider';
-import { KSPCodeLensProvider }          from './features/KSPCodeLensProvider';
 
 import KSPObfuscatorCommand =           require( './features/KSPObfuscatorCommand' );
 
 export function activate( context:vscode.ExtensionContext ) : any
 {
     let validator = new KSPValidationProvider( context.workspaceState );
-    validator.activate( context.subscriptions );
+    validator.activate( context );
 
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
-            'ksp', new KSPCompletionItemProvider(), '$', '%', '~', '?', '@', '!' )
+            Constants.LANG_ID, new KSPCompletionItemProvider(), '$', '%', '~', '?', '@', '!' )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerHoverProvider( 'ksp', new KSPHoverProvider() )
+        vscode.languages.registerHoverProvider( Constants.LANG_ID, new KSPHoverProvider() )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerSignatureHelpProvider( 'ksp', new KSPSignatureHelpProvider(), '(', ',' )
+        vscode.languages.registerSignatureHelpProvider( Constants.LANG_ID, new KSPSignatureHelpProvider(), '(', ',' )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerDocumentSymbolProvider( 'ksp', new KSPDocumentSymbolProvider() )
+        vscode.languages.registerDocumentSymbolProvider( Constants.LANG_ID, new KSPDocumentSymbolProvider() )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerDefinitionProvider( 'ksp', new KSPDefinitionProvider() )
+        vscode.languages.registerDefinitionProvider( Constants.LANG_ID, new KSPDefinitionProvider() )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerReferenceProvider( 'ksp', new KSPReferenceProvider() )
+        vscode.languages.registerReferenceProvider( Constants.LANG_ID, new KSPReferenceProvider() )
     );
 
     context.subscriptions.push(
-        vscode.languages.registerRenameProvider( 'ksp', new KSPRenameProvider() )
+        vscode.languages.registerRenameProvider( Constants.LANG_ID, new KSPRenameProvider() )
     );
-
-    // context.subscriptions.push(
-    //     vscode.languages.registerCodeLensProvider( 'ksp', new KSPCodeLensProvider() )
-    // );
 
     context.subscriptions.push(
         vscode.commands.registerCommand( 'ksp.obfuscate', KSPObfuscatorCommand.doObfuscate )
     );
 
-    vscode.languages.setLanguageConfiguration( 'ksp', {
+    vscode.languages.setLanguageConfiguration( Constants.LANG_ID, {
         wordPattern: /(-?\d*\.\d\w*)|([^\-\`\#\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
     });
 

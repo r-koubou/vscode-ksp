@@ -56,8 +56,10 @@ export class KSPValidationProvider
     /**
      * provider activated
      */
-    public activate( subscriptions: vscode.Disposable[] )
+    public activate( context:vscode.ExtensionContext )
     {
+        const subscriptions: vscode.Disposable[] = context.subscriptions;
+
         this.initConfiguration();
         this.loadConfiguration();
         vscode.workspace.onDidChangeConfiguration( this.loadConfiguration, this, subscriptions );

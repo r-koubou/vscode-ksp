@@ -5,8 +5,12 @@
 * Editor
 
     * Refactoring
-    * Obfuscated code write to clipboard is available.
-        * Default is disabled. See vscode preference **"ksp.obfuscator.dest.clipboard"**. Value is true, it works. Otherwie write to given filepath.
+    * Obfuscator
+
+        * Supported: Call command from context menu.
+        * Obfuscated code write to clipboard is available.
+
+            Default is disabled. See vscode preference **"ksp.obfuscator.dest.clipboard"**. Value is true, it works. Otherwie write to given filepath.
 
 
 ## Version 0.4.4

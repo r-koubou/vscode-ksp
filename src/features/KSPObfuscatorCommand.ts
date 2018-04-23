@@ -148,7 +148,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
 
                     if( exitCode != 0 )
                     {
-                        vscode.window.showErrorMessage( "KSP Obfuscator: Failed. Please check your script." );
+                        vscode.window.showErrorMessage( "KSP Obfuscator: Failed. Please check your script : " + path.basename( textDocument.fileName ) );
                     }
                     else
                     {
@@ -159,7 +159,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
         }
         catch( e )
         {
-            vscode.window.showErrorMessage( "Obfuscation failed : " + path.basename( textDocument.fileName ) );
+            vscode.window.showErrorMessage( "KSP Obfuscator: Failed : " + path.basename( textDocument.fileName ) );
         }
 
     }; //~function obfuscate
