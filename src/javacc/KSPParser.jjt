@@ -25,6 +25,7 @@ import java.math.BigInteger;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.KSPLanguageLimitations;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
@@ -51,32 +52,7 @@ public class KSPParser implements AnalyzerConstants
     {
         this( new BufferedReader( new InputStreamReader( new FileInputStream( file ), "UTF-8" ) ) );
         this.file = file.getAbsoluteFile();
-        loadLineOverflowLimit();
    }
-
-    /**
-     * コールバック・ユーザー関数の行数オーバーフローのしきい値の定義ファイルから数値の読み込み
-     */
-    private void loadLineOverflowLimit() throws IOException
-    {
-        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
-        if( dir == null )
-        {
-            dir = "data";
-        }
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( dir + "/overflow.txt" ), "UTF-8" ) );
-        try
-        {
-            this.lineOverflowLimit = Integer.parseInt( br.readLine() );
-        }
-        finally
-        {
-            if( br != null )
-            {
-                try { br.close(); } catch( Throwable e ){}
-            }
-        }
-    }
 
     /**
      * パース対象ファイルのFileを取得する
@@ -550,7 +526,7 @@ void CallbackDeclaration() #CallbackDeclaration:
         jjtThis.symbol.position.endLine   = end.endLine;
         jjtThis.symbol.position.endColumn = end.endColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
-        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
+        if( this.currentScopeLineCounter >= KSPLanguageLimitations.OVERFLOW_LINES )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
@@ -616,7 +592,7 @@ void UserFunctionDeclaration() #UserFunctionDeclaration:
         jjtThis.symbol.position.endLine   = end.endLine;
         jjtThis.symbol.position.endColumn = end.endColumn;
         jjtThis.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
-        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
+        if( this.currentScopeLineCounter >= KSPLanguageLimitations.OVERFLOW_LINES )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,

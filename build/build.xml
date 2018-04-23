@@ -68,7 +68,8 @@
             srcdir    = "${kspsyntaxparser.src.main}"
             destdir   = "${kspsyntaxparser.classes.dir}"
             debug     = "${kspsyntaxparser.javac.debug-option}"
-            encoding  = "${kspsyntaxparser.javac.encoding-option}" >
+            encoding  = "${kspsyntaxparser.javac.encoding-option}"
+            includeantruntime = "false">
 
             <classpath>
                 <fileset dir = "${kspsyntaxparser.depends.dir}" includes = "${kspsyntaxparser.depends}" />

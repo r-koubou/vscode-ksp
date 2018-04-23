@@ -9,6 +9,7 @@ package net.rkoubou.kspparser.analyzer;
 
 import java.io.IOException;
 
+import net.rkoubou.kspparser.analyzer.data.reserved.ReservedSymbolManager;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTRootNode;

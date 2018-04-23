@@ -455,10 +455,10 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
 
         }
 
-        if( v.arraySize > MAX_KSP_ARRAY_SIZE )
+        if( v.arraySize > KSPLanguageLimitations.MAX_KSP_ARRAY_SIZE )
         {
             // 要素数が上限を超えた
-            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE, v, String.valueOf( MAX_KSP_ARRAY_SIZE ) );
+            MessageManager.printlnE( MessageManager.PROPERTY_ERROR_SEMANTIC_VARIABLE_INVALID_MAXARRAYSIZE, v, String.valueOf( KSPLanguageLimitations.MAX_KSP_ARRAY_SIZE ) );
             AnalyzeErrorCounter.e();
             return false;
         }

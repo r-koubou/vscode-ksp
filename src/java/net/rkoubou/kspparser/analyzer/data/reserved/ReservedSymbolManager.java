@@ -5,22 +5,34 @@
 
    ======================================================================== */
 
-package net.rkoubou.kspparser.analyzer;
+package net.rkoubou.kspparser.analyzer.data.reserved;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.rkoubou.kspparser.ApplicationConstants;
+import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.Argument;
+import net.rkoubou.kspparser.analyzer.Callback;
+import net.rkoubou.kspparser.analyzer.CallbackTable;
+import net.rkoubou.kspparser.analyzer.Command;
+import net.rkoubou.kspparser.analyzer.CommandArgument;
+import net.rkoubou.kspparser.analyzer.CommandTable;
+import net.rkoubou.kspparser.analyzer.ReturnType;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
+import net.rkoubou.kspparser.analyzer.UIType;
+import net.rkoubou.kspparser.analyzer.UITypeTable;
+import net.rkoubou.kspparser.analyzer.Variable;
+import net.rkoubou.kspparser.analyzer.VariableTable;
 import net.rkoubou.kspparser.javacc.generated.ASTCallCommand;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackArgumentList;
 import net.rkoubou.kspparser.javacc.generated.ASTCallbackDeclaration;
 import net.rkoubou.kspparser.javacc.generated.ASTVariableDeclaration;
 import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
+import net.rkoubou.kspparser.util.table.Row;
+import net.rkoubou.kspparser.util.table.StringParser;
 
 /**
  * data/reserved に配備した予約済み変数、コマンド、コールバック、関数など各種シンボルの定義ファイルからデシリアライズする
@@ -28,13 +40,7 @@ import net.rkoubou.kspparser.javacc.generated.KSPParserTreeConstants;
 public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerConstants
 {
     /** 定義ファイルの場所 */
-    static public final String BASE_DIR;
-
-    /** 定義ファイルのデリミタ */
-    static public final String DELIMITER= "\t";
-
-    /** 行コメント文字 */
-    static public final String LINE_COMMENT = "#";
+    static public final String BASE_DIR = ApplicationConstants.DATA_DIR + "/symbols";
 
     /** split処理で使用する、条件式ORの文字列表現 */
     static public final String SPLIT_COND_OR = "||";
@@ -59,23 +65,6 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
 
     /** 予約済みコールバック */
     private HashMap<String,Callback> callbacks = new HashMap<String,Callback>();
-
-    /**
-     * static initializer
-     */
-    static
-    {
-        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
-        if( dir == null )
-        {
-            dir = "data/symbols";
-        }
-        else
-        {
-            dir += "/symbols";
-        }
-        BASE_DIR = dir;
-    }
 
     /**
      * ctor
@@ -153,163 +142,120 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadUITypes() throws IOException
     {
-        File f            = new File( BASE_DIR, "uitypes.txt" );
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
-        try
-        {
-            String line;
-            uiTypes.clear();
+        File f = new File( BASE_DIR, "uitypes.txt" );
+        StringParser parser = new StringParser();
+        parser.parse( f );
 
-            while( ( line = br.readLine() ) != null )
+        uiTypes.clear();
+        for( Row row : parser.getTable() )
+        {
+            String name                 = row.stringValue( 0 );
+            boolean constant            = "Y".equals( row.stringValue( 1 ) );
+            boolean initializerRequired = "Y".equals( row.stringValue( 2 ) );
+            int type                    = toVariableType( row.stringValue( 3 ) ).type;
+            int[] typeList = UIType.EMPTY_INITIALIZER_TYPE_LIST;
+
+            //--------------------------------------------------------------------------
+            // 初期値代入式が必須の場合
+            //--------------------------------------------------------------------------
+            if( row.length() >= 5 )
             {
-                line = line.trim();
-                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
+                typeList = new int[ row.length() - 4 ];
+                for( int i = 4, x = 0; i < row.length(); i++, x++ )
                 {
-                    continue;
+                    typeList[ x ] = toVariableType( row.stringValue( i ) ).type;
                 }
-
-                String[] data = line.split( DELIMITER );
-                String name                 = data[ 0 ];
-                boolean constant            = "Y".equals( data[ 1 ] );
-                boolean initializerRequired = "Y".equals( data[ 2 ] );
-                int type                    = toVariableType( data[ 3 ] ).type;
-                int[] typeList = UIType.EMPTY_INITIALIZER_TYPE_LIST;
-
-                //--------------------------------------------------------------------------
-                // 初期値代入式が必須の場合
-                //--------------------------------------------------------------------------
-                if( data.length >= 5 )
-                {
-                    typeList = new int[ data.length - 4 ];
-                    for( int i = 4, x = 0; i < data.length; i++, x++ )
-                    {
-                        typeList[ x ] = toVariableType( data[ i ] ).type;
-                    }
-                }
-                UIType ui = new UIType( name, true, type, constant, initializerRequired, typeList );
-                uiTypes.put( name, ui );
             }
-        }
-        finally
-        {
-            try { br.close(); } catch( Throwable e ) {}
+            UIType ui = new UIType( name, true, type, constant, initializerRequired, typeList );
+            uiTypes.put( name, ui );
         }
     }
-
 
     /**
      * 変数の予約済み定義ファイルから Variable クラスインスタンスを生成する
      */
     private void loadVariables() throws IOException
     {
-        File f            = new File( BASE_DIR, "variables.txt" );
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
-        try
+        File f = new File( BASE_DIR, "variables.txt" );
+        StringParser parser = new StringParser();
+        parser.parse( f );
+
+        variables.clear();
+        for( Row row : parser.getTable() )
         {
-            String line;
-            variables.clear();
+            Variable v                  = toVariableType( row.stringValue( 0 ) );
+            String name                 = v.toKSPTypeCharacter() + row.stringValue( 1 );
+            boolean availableOnInit     = "Y".equals( row.stringValue( 2 ) );
 
-            while( ( line = br.readLine() ) != null )
-            {
-                line = line.trim();
-                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
-                {
-                    continue;
-                }
-
-                String[] data               = line.split( DELIMITER );
-                Variable v                  = toVariableType( data[ 0 ] );
-                String name                 = v.toKSPTypeCharacter() + data[ 1 ];
-                boolean availableOnInit     = "Y".equals( data[ 2 ] );
-
-                v.setName( name );
-                v.accessFlag        = ACCESS_ATTR_CONST;      // ビルトイン変数に代入を許可させない
-                v.availableOnInit   = availableOnInit;        // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
-                v.reserved          = true;                   // 予約変数
-                v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                v.state             = SymbolState.LOADED;     // 予約変数につき、値代入済みマーク
-                v.value             = v.getDefaultValue();
-                variables.put( name, v );
-            }
-        }
-        finally
-        {
-            try { br.close(); } catch( Throwable e ) {}
+            v.setName( name );
+            v.accessFlag        = ACCESS_ATTR_CONST;      // ビルトイン変数に代入を許可させない
+            v.availableOnInit   = availableOnInit;        // on init 内で使用可能な変数かどうか。一部のビルトイン定数ではそれを許可していない。
+            v.reserved          = true;                   // 予約変数
+            v.referenced        = true;                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
+            v.state             = SymbolState.LOADED;     // 予約変数につき、値代入済みマーク
+            v.value             = v.getDefaultValue();
+            variables.put( name, v );
         }
     }
 
     /**
-     * コールバックの予約済み定義ファイルから Variable クラスインスタンスを生成する
+     * コマンドのの予約済み定義ファイルから Command クラスインスタンスを生成する
      */
     private void loadCommands() throws IOException
     {
-        File f            = new File( BASE_DIR, "commands.txt" );
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
-        try
-        {
-            String line;
-            commands.clear();
+        File f = new File( BASE_DIR, "commands.txt" );
+        StringParser parser = new StringParser();
+        parser.parse( f );
 
-            while( ( line = br.readLine() ) != null )
+        commands.clear();
+        for( Row row : parser.getTable() )
+        {
+            String returnType           = row.stringValue( 0 );
+            String name                 = row.stringValue( 1 );
+            String availableCallback    = row.stringValue( 2 );
+            boolean hasParenthesis      = false;
+
+            //--------------------------------------------------------------------------
+            // data[3] 以降：引数を含む場合
+            // 引数のAST、変数を生成
+            //--------------------------------------------------------------------------
+            ArrayList<CommandArgument> args = new ArrayList<CommandArgument>();
+            if( row.length() >= 4 )
             {
-                line = line.trim();
-                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
+                hasParenthesis = true;
+                final int len = row.length();
+                for( int i = 3; i < len; i++ )
                 {
-                    continue;
+                    //--------------------------------------------------------------------------
+                    // 複数のデータ型を許容するコマンドがあるので単一にせずにリストにストックしていく
+                    //--------------------------------------------------------------------------
+                    String typeString = row.stringValue( i );
+                    args.add( toVariableTypeForArgument( typeString ) );
                 }
+            }
+            //--------------------------------------------------------------------------
+            // コマンドのAST、変数を生成
+            //--------------------------------------------------------------------------
+            {
+                Command newItem;
+                ASTCallCommand ast = new ASTCallCommand( JJTCALLCOMMAND );
+                ast.symbol.setName( name );
+                newItem = new Command( ast );
 
-                String[] data               = line.split( DELIMITER );
-                String returnType           = data[ 0 ];
-                String name                 = data[ 1 ];
-                String availableCallback    = data[ 2 ];
-                boolean hasParenthesis      = false;
-
-                //--------------------------------------------------------------------------
-                // data[3] 以降：引数を含む場合
-                // 引数のAST、変数を生成
-                //--------------------------------------------------------------------------
-                ArrayList<CommandArgument> args = new ArrayList<CommandArgument>();
-                if( data.length >= 4 )
+                if( args.size() > 0 )
                 {
-                    hasParenthesis = true;
-                    final int len = data.length;
-                    for( int i = 3; i < len; i++ )
-                    {
-                        //--------------------------------------------------------------------------
-                        // 複数のデータ型を許容するコマンドがあるので単一にせずにリストにストックしていく
-                        //--------------------------------------------------------------------------
-                        String typeString = data[ i ];
-                        args.add( toVariableTypeForArgument( typeString ) );
-                    }
+                    newItem.argList.addAll( args );
                 }
-                //--------------------------------------------------------------------------
-                // コマンドのAST、変数を生成
-                //--------------------------------------------------------------------------
-                {
-                    Command newItem;
-                    ASTCallCommand ast = new ASTCallCommand( JJTCALLCOMMAND );
-                    ast.symbol.setName( name );
-                    newItem = new Command( ast );
+                newItem.hasParenthesis          = hasParenthesis;
+                toReturnTypeForCommand( returnType, newItem.returnType );
+                newItem.symbolType              = SymbolType.Command;
+                newItem.reserved                = true;
+                newItem.availableCallbackList.clear();
+                toAvailableCommandOnCallbackList( availableCallback, newItem.availableCallbackList );
+                commands.put( name, newItem );
+            }
 
-                    if( args.size() > 0 )
-                    {
-                        newItem.argList.addAll( args );
-                    }
-                    newItem.hasParenthesis          = hasParenthesis;
-                    toReturnTypeForCommand( returnType, newItem.returnType );
-                    newItem.symbolType              = SymbolType.Command;
-                    newItem.reserved                = true;
-                    newItem.availableCallbackList.clear();
-                    toAvailableCommandOnCallbackList( availableCallback, newItem.availableCallbackList );
-                    commands.put( name, newItem );
-                }
-
-            } //~while( ( line = br.readLine() ) != null )
-        }
-        finally
-        {
-            try { br.close(); } catch( Throwable e ) {}
-        }
+        } //~for( Column<String> col : parser.getTable() )
     }
 
     /**
@@ -317,90 +263,76 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
      */
     private void loadCallbacks() throws IOException
     {
-        File f            = new File( BASE_DIR, "callbacks.txt" );
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( f ), "UTF-8" ) );
-        try
-        {
-            String line;
-            callbacks.clear();
+        File f = new File( BASE_DIR, "callbacks.txt" );
+        StringParser parser = new StringParser();
+        parser.parse( f );
 
-            while( ( line = br.readLine() ) != null )
+        callbacks.clear();
+        for( Row row : parser.getTable() )
+        {
+            String name   = row.stringValue( 0 );
+            boolean dup   = "Y".equals( row.stringValue( 1 ) );
+
+            //--------------------------------------------------------------------------
+            // data[2] 以降：引数を含む場合
+            // 引数のAST、変数を生成
+            //--------------------------------------------------------------------------
+            ArrayList<Argument> args = new ArrayList<Argument>();
+            if( row.length() >= 3 )
             {
-                line = line.trim();
-                if( line.startsWith( LINE_COMMENT ) || line.length() == 0 )
+                final int len = row.length();
+                for( int i = 2; i < len; i++ )
                 {
-                    continue;
+                    String typeString = row.stringValue( i );
+                    boolean requireDeclarationOnInit = false;
+
+                    if( typeString.startsWith( "&" ) )
+                    {
+                        // ui_control など引数==宣言した変数の場合
+                        requireDeclarationOnInit = true;
+                        typeString =typeString.substring( 1 );
+                    }
+
+                    Variable v    = toVariableType( typeString );
+                    Argument a    = new Argument( v );
+                    a.setName( "<undefined>" );                             // シンボル収集時にマージ
+                    a.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
+                    a.reserved    = true;                                   // 予約変数
+                    a.referenced  = true;                                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
+                    a.state       = SymbolState.LOADED;                     // 予約変数につき、値代入済みマーク
+                    args.add( a );
                 }
-
-                String[] data = line.split( DELIMITER );
-                String name   = data[ 0 ];
-                boolean dup   = "Y".equals( data[ 1 ] );
-
-                //--------------------------------------------------------------------------
-                // data[2] 以降：引数を含む場合
-                // 引数のAST、変数を生成
-                //--------------------------------------------------------------------------
-                ArrayList<Argument> args = new ArrayList<Argument>();
-                if( data.length >= 3 )
+            }
+            //--------------------------------------------------------------------------
+            // コールバックのAST、変数を生成
+            //--------------------------------------------------------------------------
+            {
+                Callback newItem;
+                ASTCallbackDeclaration ast = new ASTCallbackDeclaration( JJTCALLBACKDECLARATION );
+                ast.symbol.setName( name );
+                if( args.size() > 0 )
                 {
-                    final int len            = data.length;
-                    for( int i = 2; i < len; i++ )
+                    ASTCallbackArgumentList astList = new ASTCallbackArgumentList( JJTCALLBACKARGUMENTLIST );
+                    for( Argument a : args )
                     {
-                        String typeString = data[ i ];
-                        boolean requireDeclarationOnInit = false;
-
-                        if( typeString.startsWith( "&" ) )
-                        {
-                            // ui_control など引数==宣言した変数の場合
-                            requireDeclarationOnInit = true;
-                            typeString =typeString.substring( 1 );
-                        }
-
-                        Variable v    = toVariableType( typeString );
-                        Argument a    = new Argument( v );
-                        a.setName( "<undefined>" );                             // シンボル収集時にマージ
-                        a.requireDeclarationOnInit = requireDeclarationOnInit;  // 引数の変数が on init で宣言した変数かどうか
-                        a.reserved    = true;                                   // 予約変数
-                        a.referenced  = true;                                   // 予約変数につき、使用・未使用に関わらず参照済みマーク
-                        a.state       = SymbolState.LOADED;                     // 予約変数につき、値代入済みマーク
-                        args.add( a );
+                        astList.args.add( a.getName() );
                     }
+                    ast.jjtAddChild( astList, 0 );
+                    newItem = new Callback( ast );
                 }
-                //--------------------------------------------------------------------------
-                // コールバックのAST、変数を生成
-                //--------------------------------------------------------------------------
+                else
                 {
-                    Callback newItem;
-                    ASTCallbackDeclaration ast = new ASTCallbackDeclaration( JJTCALLBACKDECLARATION );
-                    ast.symbol.setName( name );
-                    if( args.size() > 0 )
-                    {
-                        ASTCallbackArgumentList astList = new ASTCallbackArgumentList( JJTCALLBACKARGUMENTLIST );
-                        for( Argument a : args )
-                        {
-                            astList.args.add( a.getName() );
-                        }
-                        ast.jjtAddChild( astList, 0 );
-                        newItem = new Callback( ast );
-                    }
-                    else
-                    {
-                        newItem = new Callback( ast );
-                    }
-                    newItem.setName( name );
-                    newItem.symbolType     = SymbolType.Callback;
-                    newItem.reserved       = true;
-                    newItem.declared       = false;
-                    newItem.setAllowDuplicate( dup );
-                    callbacks.put( name, newItem );
+                    newItem = new Callback( ast );
                 }
+                newItem.setName( name );
+                newItem.symbolType     = SymbolType.Callback;
+                newItem.reserved       = true;
+                newItem.declared       = false;
+                newItem.setAllowDuplicate( dup );
+                callbacks.put( name, newItem );
+            }
 
-            } //~while( ( line = br.readLine() ) != null )
-        }
-        finally
-        {
-            try { br.close(); } catch( Throwable e ) {}
-        }
+        } //~for( Column<String> col : parser.getTable() )
     }
 
     /**

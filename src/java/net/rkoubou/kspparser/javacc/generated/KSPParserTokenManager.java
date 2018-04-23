@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.KSPLanguageLimitations;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;

@@ -14,13 +14,15 @@ import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.Properties;
 
+import net.rkoubou.kspparser.ApplicationConstants;
 import net.rkoubou.kspparser.javacc.generated.ParseException;
+import net.rkoubou.kspparser.util.StreamCloser;
 
 /**
  * パース中処理中のメッセージ処理出力に関するマネージャー。
  * I18Nや変数展開機能を提供する。
  */
-public class MessageManager implements AnalyzerConstants
+public class MessageManager
 {
 
     //--------------------------------------------------------------------------
@@ -134,15 +136,7 @@ public class MessageManager implements AnalyzerConstants
      */
     static
     {
-        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
-        if( dir == null )
-        {
-            dir = "data/lang";
-        }
-        else
-        {
-            dir += "/lang";
-        }
+        String dir = ApplicationConstants.DATA_DIR + "/lang";
         PROPERTIES_PATH = dir + "/message";
         properties = new Properties();
         try
@@ -193,10 +187,7 @@ public class MessageManager implements AnalyzerConstants
         }
         finally
         {
-            if( reader != null )
-            {
-                try { reader.close(); } catch( Throwable e ) {}
-            }
+            StreamCloser.close( reader );
         }
     }
 

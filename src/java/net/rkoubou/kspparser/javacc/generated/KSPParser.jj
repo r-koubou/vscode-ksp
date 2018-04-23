@@ -26,6 +26,7 @@ import java.math.BigInteger;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.KSPLanguageLimitations;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
@@ -55,32 +56,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     {
         this( new BufferedReader( new InputStreamReader( new FileInputStream( file ), "UTF-8" ) ) );
         this.file = file.getAbsoluteFile();
-        loadLineOverflowLimit();
    }
-
-    /**
-     * \u30b3\u30fc\u30eb\u30d0\u30c3\u30af\u30fb\u30e6\u30fc\u30b6\u30fc\u95a2\u6570\u306e\u884c\u6570\u30aa\u30fc\u30d0\u30fc\u30d5\u30ed\u30fc\u306e\u3057\u304d\u3044\u5024\u306e\u5b9a\u7fa9\u30d5\u30a1\u30a4\u30eb\u304b\u3089\u6570\u5024\u306e\u8aad\u307f\u8fbc\u307f
-     */
-    private void loadLineOverflowLimit() throws IOException
-    {
-        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
-        if( dir == null )
-        {
-            dir = "data";
-        }
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( dir + "/overflow.txt" ), "UTF-8" ) );
-        try
-        {
-            this.lineOverflowLimit = Integer.parseInt( br.readLine() );
-        }
-        finally
-        {
-            if( br != null )
-            {
-                try { br.close(); } catch( Throwable e ){}
-            }
-        }
-    }
 
     /**
      * \u30d1\u30fc\u30b9\u5bfe\u8c61\u30d5\u30a1\u30a4\u30eb\u306eFile\u3092\u53d6\u5f97\u3059\u308b
@@ -720,7 +696,7 @@ void CallbackDeclaration()                     :
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
-        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
+        if( this.currentScopeLineCounter >= KSPLanguageLimitations.OVERFLOW_LINES )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
@@ -843,7 +819,7 @@ void UserFunctionDeclaration()                         :
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
-        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
+        if( this.currentScopeLineCounter >= KSPLanguageLimitations.OVERFLOW_LINES )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,

@@ -15,9 +15,6 @@ import java.util.regex.Pattern;
 public interface AnalyzerConstants
 {
 
-    /** VM引数 -D dataフォルダの明示的指定時のプロパティ名 */
-    String SYSTEM_PROPERTY_DATADIR = "kspparser.datadir";
-
     /** アトリビュート：なし */
     int ACCESS_ATTR_NONE = 0x00;
 
@@ -108,9 +105,6 @@ public interface AnalyzerConstants
     float KSP_REAL_MIN = Float.MIN_VALUE;
     /** 浮動小数値の上限 */
     float KSP_REAL_MAX = Float.MAX_VALUE;
-
-    /** 配列変数宣言時の要素数の上限 */
-    int MAX_KSP_ARRAY_SIZE = 32768;
 
     /*
      * 変数の状態を示す識別子。

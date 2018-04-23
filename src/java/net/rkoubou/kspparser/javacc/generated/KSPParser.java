@@ -11,6 +11,7 @@ import java.math.BigInteger;
 
 import net.rkoubou.kspparser.analyzer.AnalyzeErrorCounter;
 import net.rkoubou.kspparser.analyzer.AnalyzerConstants;
+import net.rkoubou.kspparser.analyzer.KSPLanguageLimitations;
 import net.rkoubou.kspparser.analyzer.MessageManager;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition;
 import net.rkoubou.kspparser.analyzer.SymbolDefinition.SymbolType;
@@ -36,32 +37,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,Analyz
     {
         this( new BufferedReader( new InputStreamReader( new FileInputStream( file ), "UTF-8" ) ) );
         this.file = file.getAbsoluteFile();
-        loadLineOverflowLimit();
    }
-
-    /**
-     * コールバック・ユーザー関数の行数オーバーフローのしきい値の定義ファイルから数値の読み込み
-     */
-    private void loadLineOverflowLimit() throws IOException
-    {
-        String dir = System.getProperty( SYSTEM_PROPERTY_DATADIR );
-        if( dir == null )
-        {
-            dir = "data";
-        }
-        BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( dir + "/overflow.txt" ), "UTF-8" ) );
-        try
-        {
-            this.lineOverflowLimit = Integer.parseInt( br.readLine() );
-        }
-        finally
-        {
-            if( br != null )
-            {
-                try { br.close(); } catch( Throwable e ){}
-            }
-        }
-    }
 
     /**
      * パース対象ファイルのFileを取得する
@@ -688,7 +664,7 @@ jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.Callback;
-        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
+        if( this.currentScopeLineCounter >= KSPLanguageLimitations.OVERFLOW_LINES )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
@@ -836,7 +812,7 @@ jjtn000.symbol.setName( symbol.image );
         jjtn000.symbol.position.endLine   = end.endLine;
         jjtn000.symbol.position.endColumn = end.endColumn;
         jjtn000.symbol.symbolType = SymbolDefinition.SymbolType.UserFunction;
-        if( this.currentScopeLineCounter >= this.lineOverflowLimit )
+        if( this.currentScopeLineCounter >= KSPLanguageLimitations.OVERFLOW_LINES )
         {
             MessageManager.println(
                 MessageManager.PROPERTY_WARNING_TOOMUCH_LINECOUNT,
@@ -2916,6 +2892,107 @@ if (jjtc000) {
     finally { jj_save(23, xla); }
   }
 
+  private boolean jj_3_11()
+ {
+    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_86()
+ {
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_11()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_3R_96()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_115()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_120()
+ {
+    if (jj_scan_token(PREPROCESSOR_CODE_IF_NOT)) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_scan_token(15)) { jj_scanpos = xsp; break; }
+    }
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3_18()
+ {
+    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
+    return false;
+  }
+
+  private boolean jj_3_17()
+ {
+    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_106()
+ {
+    if (jj_scan_token(STRING_ADD)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_127()
+ {
+    if (jj_scan_token(LPAREN)) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_17()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_3R_65()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_126()
+ {
+    if (jj_3R_132()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_121()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_126()) {
+    jj_scanpos = xsp;
+    if (jj_3R_127()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3_10()
+ {
+    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_78()
+ {
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_10()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_3R_86()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_106()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
   private boolean jj_3R_156()
  {
     if (jj_scan_token(BOOL_NOT)) return true;
@@ -3500,15 +3577,15 @@ if (jjtc000) {
     return false;
   }
 
-  private boolean jj_3R_74()
- {
-    if (jj_3R_80()) return true;
-    return false;
-  }
-
   private boolean jj_3_3()
  {
     if (jj_3R_64()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_74()
+ {
+    if (jj_3R_80()) return true;
     return false;
   }
 
@@ -3868,107 +3945,6 @@ if (jjtc000) {
     if (jj_3R_123()) {
     jj_scanpos = xsp;
     if (jj_3R_124()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3_11()
- {
-    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_86()
- {
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_11()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_3R_96()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_115()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_120()
- {
-    if (jj_scan_token(PREPROCESSOR_CODE_IF_NOT)) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_scan_token(15)) { jj_scanpos = xsp; break; }
-    }
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3_18()
- {
-    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
-    return false;
-  }
-
-  private boolean jj_3_17()
- {
-    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_106()
- {
-    if (jj_scan_token(STRING_ADD)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_127()
- {
-    if (jj_scan_token(LPAREN)) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_17()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_3R_65()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_126()
- {
-    if (jj_3R_132()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_121()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_126()) {
-    jj_scanpos = xsp;
-    if (jj_3R_127()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3_10()
- {
-    if (jj_scan_token(MULTI_LINE_DELIMITER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_78()
- {
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_10()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_3R_86()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_106()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
