@@ -138,7 +138,7 @@
                 "title": "%command.obfuscate%"
             }
         ],
-        "menus":{
+        "menus": {
             "editor/context": [
                 {
                     "when": "editorLangId == ksp",

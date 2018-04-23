@@ -28,6 +28,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
     let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
     let args: string[]      = [];
     let textDocument: vscode.TextDocument;
+    let baseName: string;
     let suffix = config.DEFAULT_OBFUSCATOR_SUFFIX;
     let REG_SUFFIX: RegExp  = /(.*)(?:\.([^.]+$))/;
     let defaultOutputDir: string;
@@ -42,6 +43,11 @@ export function doObfuscate( context: vscode.ExtensionContext )
     KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD, (v, user) =>{
         toClipboard = v;
     });
+
+    const MESSAGE_PREFIX: string        = "KSP Obfuscator";
+    const MESSAGE_SUCCESSFULLY: string  = "Successfully";
+    const MESSAGE_FAILED: string        = "Failed";
+    const MESSAGE_CLIPBOARD: string     = "Obfuscated code on the clipboard";
 
 
     //--------------------------------------------------------------------------
@@ -58,13 +64,15 @@ export function doObfuscate( context: vscode.ExtensionContext )
     textDocument = editor.document;
     if( textDocument.languageId !== "ksp" )
     {
-        vscode.window.showErrorMessage( "Language mode is not 'ksp'" );
+        vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: Language mode is not 'ksp'` );
         return;
     }
 
+    baseName = path.basename( textDocument.fileName );
+
     if( textDocument.isUntitled || textDocument.isDirty )
     {
-        vscode.window.showErrorMessage( "File is not saved." );
+        vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${baseName} - File is not saved.` );
         return;
     }
 
@@ -85,7 +93,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
     //--------------------------------------------------------------------------
     // Run Obfuscator function
     //--------------------------------------------------------------------------
-    function obfuscate( output:string, callback?: (exitCode: number)=>void ){
+    function obfuscate( output:string, outputToClipboard: boolean, callback?: (exitCode: number)=>void ){
 
         let inline: boolean = config.DEFAULT_INLINE_FUNCTION;
         KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION, (v, user) =>{
@@ -148,18 +156,25 @@ export function doObfuscate( context: vscode.ExtensionContext )
 
                     if( exitCode != 0 )
                     {
-                        vscode.window.showErrorMessage( "KSP Obfuscator: Failed. Please check your script : " + path.basename( textDocument.fileName ) );
+                        vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED}. Please check your script : ${baseName}` );
                     }
                     else
                     {
-                        vscode.window.showInformationMessage( "KSP Obfuscator: Successfully : " + path.basename( textDocument.fileName ) );
+                        if( toClipboard )
+                        {
+                            vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY}. ${MESSAGE_CLIPBOARD}` );
+                        }
+                        else
+                        {
+                            vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY} : ${baseName}` );
+                        }
                     }
                 });
             }
         }
         catch( e )
         {
-            vscode.window.showErrorMessage( "KSP Obfuscator: Failed : " + path.basename( textDocument.fileName ) );
+            vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
         }
 
     }; //~function obfuscate
@@ -169,7 +184,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
     {
         let tmpFile: tmp.SynchrounousResult;
         tmpFile = tmp.fileSync();
-        obfuscate( tmpFile.name, ( exitCode )=>{
+        obfuscate( tmpFile.name, true, ( exitCode )=>{
             if( exitCode == 0 )
             {
                 let txt: string = fs.readFileSync( tmpFile.name ).toString();
@@ -187,7 +202,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
         }).then( result=>{
             if( result )
             {
-                obfuscate( result.path );
+                obfuscate( result.path, false );
             }
         });
     }

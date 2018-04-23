@@ -13,6 +13,11 @@
             Default is disabled. See vscode preference **"ksp.obfuscator.dest.clipboard"**. Value is true, it works. Otherwie write to given filepath.
 
 
+* Syntax parser
+
+        * Allow maximum array size has been changed 1000000 from 32768 that according to KONTAKT 5.8.0's updated.
+
+
 ## Version 0.4.4
 
 * Syntax parser

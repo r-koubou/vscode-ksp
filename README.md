@@ -88,7 +88,7 @@ Run from command palet
 
 ## KSP Compatibility
 
-- KONTAKT 5.7.x
+- KONTAKT 5.8.x
 
 ## TODO
 
@@ -241,7 +241,7 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ## KSP互換
 
-- KONTAKT 5.7.x のKSPに対応しています
+- KONTAKT 5.8.x のKSPに対応しています
 
 ## TODO
 
