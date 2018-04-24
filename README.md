@@ -47,6 +47,10 @@ Run from command palet
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_01.gif)
 
+or Run from context menu in editor.
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_ctx_en.png)
+
 ### Detail
 
 * Expand constant variable / literal
@@ -58,13 +62,13 @@ Run from command palet
     declare $i
     declare @s
     $i := $MAX * 10
-    @a := "MAX is" & $MAX & " always $MAX is 100"
+    @a := "MAX is" & $MAX & ". $MAX is always 100"
 
     [After]
     declare $_geug
     declare @_sxhd
     $_geug := 1000
-    @_sxhd := "MAX is 100 always $MAX is 100"
+    @_sxhd := "MAX is 100. $MAX is always 100"
 ~~~
 
 * Rename
@@ -200,6 +204,10 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_01.gif)
 
+またはエディタ内で右クリックで項目を選択
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_ctx_ja.png)
+
 ### 詳細
 
 * 定数、リテラルの展開
@@ -211,13 +219,13 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
     declare $i
     declare @s
     $i := $MAX * 10
-    @a := "MAX is" & $MAX & " always $MAX is 100"
+    @a := "MAX is" & $MAX & ". $MAX is always 100"
 
     [After]
     declare $_geug
     declare @_sxhd
     $_geug := 1000
-    @_sxhd := "MAX is 100 always $MAX is 100"
+    @_sxhd := "MAX is 100. $MAX is always 100"
 ~~~
 
 * リネーム

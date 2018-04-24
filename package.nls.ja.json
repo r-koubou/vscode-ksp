@@ -11,6 +11,6 @@
     "configuration.obfuscator.inline.function": "true の場合、オブファスケーター実行時に全てのユーザー定義関数をインライン展開します",
     "configuration.obfuscator.dest.clipboard": "true の場合、オブファスケートされたコードをファイルではなく、クリップボードにコピーします。falseの場合は指定されたファイルに保存します。",
 
-    "command.obfuscate": "NI KSP: オブファスケーターの実行"
+    "command.obfuscate": "NI KSP オブファスケーターの実行"
 
 }

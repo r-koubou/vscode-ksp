@@ -15,7 +15,8 @@
 
 * Syntax parser
 
-        * Allow maximum array size has been changed 1000000 from 32768 that according to KONTAKT 5.8.0's updated.
+    * Refactoring
+    * Allow maximum array size has been changed 1000000 from 32768 that according to KONTAKT 5.8.0's updated.
 
 
 ## Version 0.4.4
