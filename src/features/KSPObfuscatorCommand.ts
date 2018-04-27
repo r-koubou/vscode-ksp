@@ -19,6 +19,7 @@ import * as kspconst        from './KSPExtensionConstants';
 import * as config          from './KSPConfigurationConstants';
 
 import { KSPConfigurationManager} from './KSPConfigurationManager';
+import { KSPCompileBuilder}       from './KSPCompileBuilder';
 
 export function doObfuscate( context: vscode.ExtensionContext )
 {
@@ -36,13 +37,8 @@ export function doObfuscate( context: vscode.ExtensionContext )
     let defaultOutputPath: string;
     let toClipboard: boolean = config.DEFAULT_DEST_CLIPBOARD;
 
-    KSPConfigurationManager.getConfig<string>( config.KEY_OBFUSCATOR_SUFFIX, config.DEFAULT_OBFUSCATOR_SUFFIX, (v, user) =>{
-        suffix = v;
-    });
-
-    KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD, (v, user) =>{
-        toClipboard = v;
-    });
+    suffix      = KSPConfigurationManager.getConfig<string>( config.KEY_OBFUSCATOR_SUFFIX, config.DEFAULT_OBFUSCATOR_SUFFIX );
+    toClipboard = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD );
 
     const MESSAGE_PREFIX: string        = "KSP Obfuscator";
     const MESSAGE_SUCCESSFULLY: string  = "Successfully";
@@ -95,36 +91,14 @@ export function doObfuscate( context: vscode.ExtensionContext )
     //--------------------------------------------------------------------------
     function obfuscate( output:string, outputToClipboard: boolean, callback?: (exitCode: number)=>void ){
 
-        let inline: boolean = config.DEFAULT_INLINE_FUNCTION;
-        KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION, (v, user) =>{
-            inline = v;
-        });
+        let inline: boolean = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION );
 
-        // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
-        args.push( "-Dkspparser.stdout.encoding=UTF-8" )
-        args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data" )
-        // launch en-US mode
-        //            args.push( "-Duser.language=en" );
-        //            args.push( "-Duser.country=US" );
-        args.push( "-jar" );
-        args.push( thisExtentionDir + "/kspparser/KSPSyntaxParser.jar" );
-        args.push( "--strict" );
-        args.push( "--obfuscate" );
-        if( inline )
-        {
-            args.push( "--inline-userfunction" )
-        }
-        args.push( "--output" );
-        args.push( output );
-        args.push( textDocument.fileName );
+        let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( thisExtention, textDocument.fileName, null, true, inline, output );
+        args = argBuilder.build();
 
         try
         {
-            let exec = config.DEFAULT_JAVA_LOCATION;
-            KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION, (v, user) =>{
-                exec = v;
-            });
-
+            let exec         = KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION );
             let childProcess = cp.spawn( exec, args, undefined );
 
             childProcess.on( 'error', (error: Error) =>

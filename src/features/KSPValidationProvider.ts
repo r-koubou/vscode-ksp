@@ -18,6 +18,8 @@ import { ThrottledDelayer } from './libs/async';
 import * as config          from './KSPConfigurationConstants';
 import { KSPConfigurationManager} from './KSPConfigurationManager';
 import * as kspconst        from './KSPExtensionConstants';
+import { KSPCompileBuilder} from './KSPCompileBuilder';
+
 
 const PARSER_MESSAGE_DELIMITER: string      = "\t";
 const REGEX_PARSER_MESSAGE_NEWLINE: RegExp  = /[\r]?\n/;
@@ -152,16 +154,10 @@ export class KSPValidationProvider
         if( section )
         {
             // Get configurations
-            KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE, (v, user) =>{
-                this.validationEnabled = v;
-            });
-            KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION, (v, user) =>{
-                this.executable = v;
-            });
-            KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, config.DEFAULT_REALTIME_VALIDATE, (v, user) =>{
-                this.realtimeValidationEnabled = v;
-            });
-            KSPConfigurationManager.getConfig<number>( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, (v, user) =>{
+            this.validationEnabled          = KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE );
+            this.executable                 = KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION );
+            this.realtimeValidationEnabled  = KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_REALTIME_VALIDATE, config.DEFAULT_REALTIME_VALIDATE );
+            KSPConfigurationManager.getConfigComplex<number>( config.KEY_REALTIME_VALIDATE_DELAY, config.DEFAULT_VALIDATE_DELAY, (v, user) =>{
                 if( v < 16 )
                 {
                     this.realtimeValidationDelay = config.DEFAULT_VALIDATE_DELAY;
@@ -173,15 +169,9 @@ export class KSPValidationProvider
                     this.realtimeValidationDelay = v;
                 }
             });
-            KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY, config.DEFAULT_PARSE_SYNTAX_ONLY, (v, user) =>{
-                this.validateParseSyntaxOnly = v;
-            });
-            KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_STRICT, config.DEFAULT_PARSE_STRICT, (v, user) =>{
-                this.validateParseStrict = v;
-            });
-            KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_UNUSED, config.DEFAULT_PARSE_UNUSED, (v, user) =>{
-                this.validateParseUnused = v;
-            });
+            this.validateParseSyntaxOnly    = KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY, config.DEFAULT_PARSE_SYNTAX_ONLY );
+            this.validateParseStrict        = KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_STRICT, config.DEFAULT_PARSE_STRICT );
+            this.validateParseUnused        = KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_UNUSED, config.DEFAULT_PARSE_UNUSED );
             // ~Get configurations
 
             if( this.pauseValidation )
@@ -323,10 +313,15 @@ export class KSPValidationProvider
             let thisExtention        = vscode.extensions.getExtension( kspconst.EXTENSION_ID );
             let thisExtentionDir     = thisExtention.extensionPath;
             let options              = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
-            let args: string[]       = [];
             let src                  = textDocument.fileName;
             let tmpFile              = undefined;
             let diagnosticCollection = this.getDiagnosticCollection( textDocument );
+            let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( thisExtention, src );
+
+// launch en-US mode
+//          argBuilder.forceUseEn_US = true;
+
+            let args: string[]       = argBuilder.build();
 
             if( this.realtimeValidationEnabled )
             {
@@ -334,28 +329,6 @@ export class KSPValidationProvider
                 fs.writeFileSync( tmpFile.name, textDocument.getText() );
                 src = tmpFile.name;
             }
-
-            // java -Dkspparser.stdout.encoding=UTF-8 -Dkspparser.datadir=path/to/data -jar kspsyntaxparser.jar <document.fileName>
-            args.push( "-Dkspparser.stdout.encoding=UTF-8" )
-            args.push( "-Dkspparser.datadir=" + thisExtentionDir + "/kspparser/data" )
-// launch en-US mode
-//            args.push( "-Duser.language=en" );
-//            args.push( "-Duser.country=US" );
-            args.push( "-jar" );
-            args.push( thisExtentionDir + "/kspparser/KSPSyntaxParser.jar" );
-            if( this.validateParseSyntaxOnly )
-            {
-                args.push( "--parseonly" );
-            }
-            if( this.validateParseStrict )
-            {
-                args.push( "--strict" );
-            }
-            if( this.validateParseUnused )
-            {
-                args.push( "--unused" );
-            }
-            args.push( src );
 
             try
             {

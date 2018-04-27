@@ -19,9 +19,21 @@ export class KSPConfigurationManager
     private constructor(){}
 
     /**
-     *
+     * Get a user configuration value
      */
-    static getConfig<T>( key:string, defaultValue:T, callback: ( value:T, userDefined:boolean)=>void ): void
+    static getConfig<T>( key:string, defaultValue:T ): T
+    {
+        let ret:T = defaultValue;
+        KSPConfigurationManager.getConfigComplex( key, defaultValue, (v,u)=>{
+            ret = v;
+        });
+        return ret;
+    }
+
+    /**
+     * Get a user configuration value
+     */
+    static getConfigComplex<T>( key:string, defaultValue:T, callback: ( value:T, userDefined:boolean)=>void ): void
     {
         let section: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration( config.CONFIG_SECTION_NAME );
         let value:T = defaultValue;
