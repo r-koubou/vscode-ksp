@@ -1,10 +1,14 @@
 # Changelog
 
+## Version 0.4.6
+
+* Code refactoring
+
 ## Version 0.4.5
 
 * Editor
 
-    * Refactoring
+    * Code refactoring
     * Obfuscator
 
         * Supported: Call command from context menu.
@@ -15,7 +19,7 @@
 
 * Syntax parser
 
-    * Refactoring
+    * Code refactoring
     * Allow maximum array size has been changed 1000000 from 32768 that according to KONTAKT 5.8.0's updated.
 
 
