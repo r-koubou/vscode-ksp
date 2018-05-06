@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.4.7
+
+* Editor
+
+    * Bug fixes
+
 ## Version 0.4.6
 
 * Code refactoring
