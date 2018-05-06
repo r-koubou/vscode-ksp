@@ -21,7 +21,7 @@ export const VARIABLE_PREFIX_LIST: string[]    = [ '$', '%', '~', '?', '@', '!' 
 export const VARIABLE_REGEX: RegExp            = /([\$%~\?@!][0-9a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
 export const FUNCTION_REGEX: RegExp            = /function\s+([0-9a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*/g
 
-export class KSPCompletionItemProvider
+export class KSPCompletionItemProvider implements vscode.CompletionItemProvider
 {
     private triggerCharacters : string[];
 
@@ -152,5 +152,14 @@ export class KSPCompletionItemProvider
         }
 
         return Promise.resolve( result );
+    }
+
+    /**
+     * Given a completion item fill in more data
+     */
+    public resolveCompletionItem?( item: vscode.CompletionItem, token: vscode.CancellationToken ): vscode.ProviderResult<vscode.CompletionItem>
+    {
+        // No additional information
+        return item;
     }
 }

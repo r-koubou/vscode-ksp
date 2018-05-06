@@ -77,7 +77,7 @@ export class BackwardIterator
     }
 }
 
-export class KSPSignatureHelpProvider
+export class KSPSignatureHelpProvider implements vscode.SignatureHelpProvider
 {
     /**
      * Ctor.

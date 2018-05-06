@@ -17,7 +17,7 @@ import vscode = require( 'vscode' );
 var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
 var kspCommands         = require( './generated/KSPCommandsInfo' );
 
-export class KSPHoverProvider
+export class KSPHoverProvider implements vscode.HoverProvider
 {
     /**
      * Ctor.

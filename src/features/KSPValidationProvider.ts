@@ -321,14 +321,16 @@ export class KSPValidationProvider
 // launch en-US mode
 //          argBuilder.forceUseEn_US = true;
 
-            let args: string[]       = argBuilder.build();
+            let args: string[];
 
             if( this.realtimeValidationEnabled )
             {
                 tmpFile = tmp.fileSync();
                 fs.writeFileSync( tmpFile.name, textDocument.getText() );
-                src = tmpFile.name;
+                argBuilder.inputFile = tmpFile.name;
             }
+
+            args = argBuilder.build();
 
             try
             {
