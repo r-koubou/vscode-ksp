@@ -62,8 +62,8 @@ export function activate( context:vscode.ExtensionContext ) : any
         vscode.languages.registerRenameProvider( Constants.LANG_ID, new KSPRenameProvider() )
     );
 
-    //const outlineProvider: KSPOutlineProvider = new KSPOutlineProvider();
-    //vscode.window.registerTreeDataProvider(  Constants.LANG_ID, outlineProvider )
+    const outlineProvider: KSPOutlineProvider = new KSPOutlineProvider( context );
+    vscode.window.registerTreeDataProvider( Constants.VIEW_ID_OUTLINE, outlineProvider )
 
 //------------------------------------------------------------------------------
 // Commands

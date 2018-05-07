@@ -29,7 +29,7 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
         context:vscode.ReferenceContext,
         token:vscode.CancellationToken) : Thenable<Array<vscode.Location>>
     {
-        let symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
+        let symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document );
         if( !symbols )
         {
             return null;

@@ -28,7 +28,8 @@
     "main": "./out/src/KSPMain",
     "activationEvents": [
         "onLanguage:ksp",
-        "onCommand:ksp.obfuscate"
+        "onCommand:ksp.obfuscate",
+        "onView:kspOutline"
     ],
     "engines": {
         "vscode": "^1.17.0"
@@ -76,6 +77,14 @@
                 "path": "./snippets/ksp.json"
             }
         ],
+        "views": {
+            "explorer": [
+                {
+                    "id": "kspOutLine",
+                    "name": "KSP OutLine"
+                }
+            ]
+        },
         "configuration": {
             "title": "%configuration.title%",
             "type": "object",

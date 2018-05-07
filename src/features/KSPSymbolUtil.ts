@@ -13,12 +13,14 @@ import vscode = require( 'vscode' );
 export enum KSPSymbolType
 {
     UNKNOWN,
-    VARIABLE_INTEGR,
+    VARIABLE_TYPE_BEGIN,
+    VARIABLE_INTEGR = VARIABLE_TYPE_BEGIN,
     VARIABLE_REAL,
     VARIABLE_STRING,
     VARIABLE_INTEGR_ARRAY,
     VARIABLE_REAL_ARRAY,
     VARIABLE_STRING_ARRAY,
+    VARIABLE_TYPE_END = VARIABLE_STRING_ARRAY,
 
     CALLBACK,
     USER_FUNCTION
@@ -240,7 +242,7 @@ export class KSPSymbolUtil
         return symbol.trim();
     }
 
-    static collect( document: vscode.TextDocument, token: vscode.CancellationToken, endLineNumber: number = -1 ) : KSPSymbolInformation[]
+    static collect( document: vscode.TextDocument, endLineNumber: number = -1 ) : KSPSymbolInformation[]
     {
         let result: KSPSymbolInformation[] = [];
 

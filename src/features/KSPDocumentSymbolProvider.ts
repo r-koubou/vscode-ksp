@@ -22,6 +22,6 @@ export class KSPDocumentSymbolProvider implements vscode.DocumentSymbolProvider
         document: vscode.TextDocument,
         token: vscode.CancellationToken ) : Thenable<vscode.SymbolInformation[]>
     {
-        return Promise.resolve( KSPSymbolUtil.collect( document, token ) );
+        return Promise.resolve( KSPSymbolUtil.collect( document ) );
     }
 }
