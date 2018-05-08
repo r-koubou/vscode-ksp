@@ -10,15 +10,39 @@
 
 import vscode                   = require( 'vscode' );
 
+import * as path                from 'path';
 import * as Constants           from './KSPExtensionConstants';
 
 import { KSPSymbolUtil }        from './KSPSymbolUtil';
 import { KSPSymbolType }        from './KSPSymbolUtil';
 import { KSPSymbol }            from './KSPSymbolUtil';
 import { KSPSymbolInformation } from './KSPSymbolUtil';
+import { resolve } from 'dns';
 
-export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolInformation>
+const TREE_ITEM_NONE: vscode.TreeItemCollapsibleState       = vscode.TreeItemCollapsibleState.None;
+const TREE_ITEM_EXPANDED: vscode.TreeItemCollapsibleState   = vscode.TreeItemCollapsibleState.Expanded;
+const TREE_ITEM_COLLAPSED: vscode.TreeItemCollapsibleState  = vscode.TreeItemCollapsibleState.Collapsed;
+
+class KSPSymbolNode extends vscode.TreeItem
 {
+    public parrent: KSPSymbolNode       = null;
+    public children: KSPSymbolNode[]    = [];
+    public value: KSPSymbolInformation  = null;
+
+    constructor( label: string, collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None, parrent?: KSPSymbolNode, value?: KSPSymbolInformation )
+    {
+        super( label, collapsibleState );
+        this.parrent            = parrent;
+        this.value              = value;
+    }
+}
+
+export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode>
+{
+    private _onDidChangeTreeData: vscode.EventEmitter<KSPSymbolNode | undefined> = new vscode.EventEmitter<KSPSymbolNode | undefined>();
+    readonly onDidChangeTreeData: vscode.Event<KSPSymbolNode | undefined> = this._onDidChangeTreeData.event;
+
+    private rootNode: KSPSymbolNode;
 
     /**
      * ctor.
@@ -27,10 +51,11 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolInfo
     {
         vscode.window.onDidChangeActiveTextEditor( (e) => { this.onDidChangedTextEditor( e ) } );
         vscode.workspace.onDidChangeTextDocument(  (e) => { this.onDidChangeTextDocument( e ); } );
+        this.rootNode = new KSPSymbolNode( 'root' );
     }
 
     /**
-     * Get a TextDocument instance which langid is this extention
+     * Get a current TextDocument instance which langid is this extention
      */
     private getCurrentTextDocument(): vscode.TextDocument
     {
@@ -82,13 +107,16 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolInfo
         {
             return;
         }
+        this.refresh();
     }
 
     /**
      * Refresh outline nodetree
      */
     private refresh(): void
-    {}
+    {
+        this._onDidChangeTreeData.fire();
+    }
 
     /**
      * Get [TreeItem](#TreeItem) representation of the `element`
@@ -96,14 +124,14 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolInfo
      * @param element The element for which [TreeItem](#TreeItem) representation is asked for.
      * @return [TreeItem](#TreeItem) representation of the element
      */
-    public getTreeItem( element: KSPSymbolInformation ): vscode.TreeItem | Thenable<vscode.TreeItem>
+    public getTreeItem( element: KSPSymbolNode ): vscode.TreeItem | Thenable<vscode.TreeItem>
     {
         const document: vscode.TextDocument = this.getCurrentTextDocument();
         if( !document || !element )
         {
             return null;
         }
-        return null;
+        return element;
     }
 
     /**
@@ -112,56 +140,110 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolInfo
      * @param element The element from which the provider gets children. Can be `undefined`.
      * @return Children of `element` or root if no element is passed.
      */
-    public getChildren( element?: KSPSymbolInformation ): Thenable<KSPSymbolInformation[]>
+    public getChildren( element?: KSPSymbolNode ): Thenable<KSPSymbolNode[]>
     {
         const document: vscode.TextDocument = this.getCurrentTextDocument();
         let result: KSPSymbolInformation[] = [];
         if( !document )
         {
-            return;
+            return Promise.resolve( [] );
         }
-        if( !element )
-        {
-            const tree: KSPSymbolInformation[] = KSPSymbolUtil.collect( document );
-            let variableTree = [];
-            let callbackTree = [];
-            let functionTree = [];
-
-            tree.sort( ( a: KSPSymbolInformation, b: KSPSymbolInformation ): number => {
-                const typeA: KSPSymbolType = a.KspSymbol.kspSymbolType;
-                const typeB: KSPSymbolType = b.KspSymbol.kspSymbolType;
-                if( typeA < typeB )
-                {
-                    return -1;
-                }
-                if( typeA > typeB )
-                {
-                    return 1;
-                }
-                return 0;
-            });
-
-            for( let i of tree )
+        return new Promise( resolve => {
+            if( element )
             {
-                const t = i.KspSymbol.kspSymbolType;
-                if( t >= KSPSymbolType.VARIABLE_TYPE_BEGIN && t <= KSPSymbolType.VARIABLE_TYPE_END )
-                {
-                    variableTree.push( i );
-                }
-                else if( t == KSPSymbolType.CALLBACK )
-                {
-                    callbackTree.push( i );
-                }
-                else if( t == KSPSymbolType.USER_FUNCTION )
-                {
-                    functionTree.push( i );
-                }
+                resolve( this.getSymbolInformations( document, element ) );
             }
-            return Promise.resolve( result );
+            else
+            {
+                resolve( this.getSymbolInformations( document ) );
+            }
+        });
+    }
+
+    /**
+     * Collect Symbol Informations
+     */
+    private getSymbolInformations( document: vscode.TextDocument, parrent?: KSPSymbolNode ): KSPSymbolNode[]
+    {
+        if( !document )
+        {
+            return [];
+        }
+
+        const result: KSPSymbolNode[]        = [];
+        const table: KSPSymbolInformation[]  = KSPSymbolUtil.collect( document );
+
+        if( parrent )
+        {
+            for( const v of parrent.children )
+            {
+                result.push( v );
+            }
         }
         else
         {
-            return null;
+            const root: KSPSymbolNode = this.rootNode;
+
+            let variableTree: KSPSymbolNode = new KSPSymbolNode( 'Variables', TREE_ITEM_COLLAPSED, root, null );
+            let callbackTree: KSPSymbolNode = new KSPSymbolNode( 'Callbacks', TREE_ITEM_COLLAPSED, root, null );
+            let functionTree: KSPSymbolNode = new KSPSymbolNode( 'Functions', TREE_ITEM_COLLAPSED, root, null );
+
+            variableTree.iconPath = vscode.ThemeIcon.Folder;
+            callbackTree.iconPath = vscode.ThemeIcon.Folder;
+            functionTree.iconPath = vscode.ThemeIcon.Folder;
+
+            for( const v of table )
+            {
+                const type: KSPSymbolType = v.KspSymbol.kspSymbolType;
+                const child: KSPSymbolNode = new KSPSymbolNode( v.name, TREE_ITEM_NONE, null, v );
+
+                // primitive type
+                if( type >= KSPSymbolType.VARIABLE_TYPE_BEGIN && type <= KSPSymbolType.VARIABLE_TYPE_END )
+                {
+                    child.parrent  = variableTree;
+                    child.label    = v.KspSymbol.toVariableNameFormat();
+                    child.iconPath = {
+                        light: path.join( Constants.EXTENTION_DIR, 'resources', 'variable.png' ),
+                        dark:  path.join( Constants.EXTENTION_DIR, 'resources', 'variable.png' )
+                    };
+
+                    if( v.KspSymbol.isUI )
+                    {
+                        child.label += " - " + v.KspSymbol.variableTypeName;
+                    }
+                }
+                else if( type == KSPSymbolType.CALLBACK )
+                {
+                    child.parrent = callbackTree;
+                    child.iconPath = {
+                        light: path.join( Constants.EXTENTION_DIR, 'resources', 'callback.png' ),
+                        dark:  path.join( Constants.EXTENTION_DIR, 'resources', 'callback.png' )
+                    };
+
+                    if( v.KspSymbol.uiVariableName )
+                    {
+                        child.label   += " - for " + v.KspSymbol.uiVariableName;
+                    }
+                }
+                else if( type == KSPSymbolType.USER_FUNCTION )
+                {
+                    child.parrent = functionTree;
+                    child.iconPath = {
+                        light: path.join( Constants.EXTENTION_DIR, 'resources', 'function.png' ),
+                        dark:  path.join( Constants.EXTENTION_DIR, 'resources', 'function.png' )
+                    };
+                }
+
+                if( child.parrent )
+                {
+                    child.parrent.children.push( child );
+                }
+            }
+            result.push( variableTree );
+            result.push( callbackTree );
+            result.push( functionTree );
         }
+        return result;
     }
+
 }

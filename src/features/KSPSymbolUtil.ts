@@ -33,6 +33,7 @@ export class KSPSymbol
 {
     public name                 : string = "";
     public kspSymbolType        : KSPSymbolType = KSPSymbolType.UNKNOWN;
+    public variableTypeName     : string  = "";
     public isConst              : boolean = false;
     public isUI                 : boolean = false;
     public uiVariableName       : string  = ""; // if isUI == true and type == callback, set a uiVariable Name
@@ -125,7 +126,7 @@ export class KSPSymbolInformation extends vscode.SymbolInformation
         this.kspSymbol.description      = containerName;
     }
 
-    public setKspSymbolValue( lineNumber : number, colmn : number, isConst : boolean, isUI : boolean, type : KSPSymbolType )
+    public setKspSymbolValue( lineNumber : number, colmn : number, isConst : boolean, isUI : boolean, type : KSPSymbolType, vaiableTypeName: string = "" )
     {
         this.KspSymbol.name          = this.name;
         this.KspSymbol.lineNumber    = lineNumber;
@@ -133,6 +134,7 @@ export class KSPSymbolInformation extends vscode.SymbolInformation
         this.KspSymbol.isConst       = isConst;
         this.KspSymbol.isUI          = isUI;
         this.KspSymbol.kspSymbolType = type;
+        this.KspSymbol.variableTypeName = vaiableTypeName;
     }
 
     public isVariable() : boolean
@@ -278,21 +280,21 @@ export class KSPSymbolUtil
                     }
 
                     let variableTypeChar            = name.charAt( 0 );
-                    let variableType : string       = "(" + KSPSymbol.variableTypeChar2String( variableTypeChar ) + ")";
+                    let variableTypeName : string   = KSPSymbol.variableTypeChar2String( variableTypeChar );
                     let symbolType : KSPSymbolType  = KSPSymbol.variableTypeChar2Type( variableTypeChar );
 
                     if( isUI )
                     {
                         containerName = "UI Variable";
-                        variableType  = "(" + match[ 1 ].trim() + ")";
+                        variableTypeName  = match[ 1 ].trim();
                     }
 
                     let add = new KSPSymbolInformation(
                         name.substr( 1 ),
-                        symKind, containerName + " " + variableType,
+                        symKind, containerName + " " + "(" + variableTypeName + ")",
                         new vscode.Location( document.uri, new vscode.Position( i, colmn ) )
                     );
-                    add.setKspSymbolValue( i, text.indexOf( name ), isConst, isUI, symbolType );
+                    add.setKspSymbolValue( i, text.indexOf( name ), isConst, isUI, symbolType, variableTypeName );
                     result.push( add );
                     continue;
                 }

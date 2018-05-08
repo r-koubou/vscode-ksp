@@ -316,7 +316,7 @@ export class KSPValidationProvider
             let src                  = textDocument.fileName;
             let tmpFile              = undefined;
             let diagnosticCollection = this.getDiagnosticCollection( textDocument );
-            let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( thisExtention, src );
+            let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( src );
 
 // launch en-US mode
 //          argBuilder.forceUseEn_US = true;
