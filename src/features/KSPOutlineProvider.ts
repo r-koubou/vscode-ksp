@@ -23,6 +23,8 @@ const TREE_ITEM_NONE: vscode.TreeItemCollapsibleState       = vscode.TreeItemCol
 const TREE_ITEM_EXPANDED: vscode.TreeItemCollapsibleState   = vscode.TreeItemCollapsibleState.Expanded;
 const TREE_ITEM_COLLAPSED: vscode.TreeItemCollapsibleState  = vscode.TreeItemCollapsibleState.Collapsed;
 
+export const COMMAND_JUMP:string = "ksp.outline.jump";
+
 class KSPSymbolNode extends vscode.TreeItem
 {
     public parrent: KSPSymbolNode       = null;
@@ -41,6 +43,7 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
 {
     private _onDidChangeTreeData: vscode.EventEmitter<KSPSymbolNode | undefined> = new vscode.EventEmitter<KSPSymbolNode | undefined>();
     readonly onDidChangeTreeData: vscode.Event<KSPSymbolNode | undefined> = this._onDidChangeTreeData.event;
+	private editor: vscode.TextEditor;
 
     private rootNode: KSPSymbolNode;
 
@@ -51,6 +54,7 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
     {
         vscode.window.onDidChangeActiveTextEditor( (e) => { this.onDidChangedTextEditor( e ) } );
         vscode.workspace.onDidChangeTextDocument(  (e) => { this.onDidChangeTextDocument( e ); } );
+        vscode.workspace.onDidOpenTextDocument( (e) => { this.onDidOpenTextDocument( e ); } );
         this.rootNode = new KSPSymbolNode( 'root' );
     }
 
@@ -80,20 +84,20 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
     }
 
     /**
+     * Jump to symbol from outline item selected
+     */
+    public jumpTo( range: vscode.Range )
+    {
+		this.editor.selection = new vscode.Selection( range.start, range.end );
+        this.editor.revealRange( range, vscode.TextEditorRevealType.InCenterIfOutsideViewport );
+        vscode.window.showTextDocument( this.editor.document, vscode.ViewColumn.Active );
+    }
+
+    /**
      * Handling of window.onDidChangeActiveTextEditor
      */
     private onDidChangedTextEditor( textEditor:vscode.TextEditor ): void
     {
-        const document: vscode.TextDocument = this.getCurrentTextDocument();
-
-        if( !vscode.window.activeTextEditor )
-        {
-            return;
-        }
-        if( !document )
-        {
-            return;
-        }
         this.refresh();
     }
 
@@ -102,11 +106,11 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
      */
     private onDidChangeTextDocument( event:vscode.TextDocumentChangeEvent ): void
     {
-        const document: vscode.TextDocument = event.document;
-        if( !this.validateTextDocument( document ) )
-        {
-            return;
-        }
+        this.refresh();
+    }
+
+    public onDidOpenTextDocument( document: vscode.TextDocument ): void
+    {
         this.refresh();
     }
 
@@ -115,6 +119,7 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
      */
     private refresh(): void
     {
+        this.editor = vscode.window.activeTextEditor;
         this._onDidChangeTreeData.fire();
     }
 
@@ -130,6 +135,14 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
         if( !document || !element )
         {
             return null;
+        }
+        if( element.value )
+        {
+            element.command = {
+                command: COMMAND_JUMP,
+                title: '',
+                arguments: [ element.value.location.range ]
+            };
         }
         return element;
     }
@@ -184,13 +197,19 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
         {
             const root: KSPSymbolNode = this.rootNode;
 
-            let variableTree: KSPSymbolNode = new KSPSymbolNode( 'Variables', TREE_ITEM_COLLAPSED, root, null );
-            let callbackTree: KSPSymbolNode = new KSPSymbolNode( 'Callbacks', TREE_ITEM_COLLAPSED, root, null );
-            let functionTree: KSPSymbolNode = new KSPSymbolNode( 'Functions', TREE_ITEM_COLLAPSED, root, null );
+            let variableTree: KSPSymbolNode = new KSPSymbolNode( 'Variables', TREE_ITEM_EXPANDED, root, null );
+            let callbackTree: KSPSymbolNode = new KSPSymbolNode( 'Callbacks', TREE_ITEM_EXPANDED, root, null );
+            let functionTree: KSPSymbolNode = new KSPSymbolNode( 'Functions', TREE_ITEM_EXPANDED, root, null );
 
-            variableTree.iconPath = vscode.ThemeIcon.Folder;
-            callbackTree.iconPath = vscode.ThemeIcon.Folder;
-            functionTree.iconPath = vscode.ThemeIcon.Folder;
+            const RES_BASEDIR = path.join( Constants.EXTENTION_DIR, 'resources', 'icon' );
+            const FOLDER_ICON = {
+                light: path.join( RES_BASEDIR, 'folder.svg' ),
+                dark:  path.join( RES_BASEDIR, 'folder.svg' )
+            };
+
+            variableTree.iconPath = FOLDER_ICON;
+            callbackTree.iconPath = FOLDER_ICON;
+            functionTree.iconPath = FOLDER_ICON;
 
             for( const v of table )
             {
@@ -201,36 +220,45 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
                 if( type >= KSPSymbolType.VARIABLE_TYPE_BEGIN && type <= KSPSymbolType.VARIABLE_TYPE_END )
                 {
                     child.parrent  = variableTree;
-                    child.label    = v.KspSymbol.toVariableNameFormat();
+                    child.label    = v.KspSymbol.toVariableNameFormat() + " : " + v.KspSymbol.variableTypeName;
                     child.iconPath = {
-                        light: path.join( Constants.EXTENTION_DIR, 'resources', 'variable.png' ),
-                        dark:  path.join( Constants.EXTENTION_DIR, 'resources', 'variable.png' )
+                        light: path.join( RES_BASEDIR, 'variable.svg' ),
+                        dark:  path.join( RES_BASEDIR, 'variable.svg' )
                     };
-
+                    if( v.KspSymbol.isConst )
+                    {
+                        child.iconPath = {
+                            light: path.join( RES_BASEDIR, 'constant_variable.svg' ),
+                            dark:  path.join( RES_BASEDIR, 'constant_variable.svg' )
+                        };
+                    }
                     if( v.KspSymbol.isUI )
                     {
-                        child.label += " - " + v.KspSymbol.variableTypeName;
+                        child.iconPath = {
+                            light: path.join( RES_BASEDIR, 'ui_variable.svg' ),
+                            dark:  path.join( RES_BASEDIR, 'ui_variable.svg' )
+                        };
                     }
                 }
                 else if( type == KSPSymbolType.CALLBACK )
                 {
                     child.parrent = callbackTree;
                     child.iconPath = {
-                        light: path.join( Constants.EXTENTION_DIR, 'resources', 'callback.png' ),
-                        dark:  path.join( Constants.EXTENTION_DIR, 'resources', 'callback.png' )
+                        light: path.join( RES_BASEDIR, 'callback.svg' ),
+                        dark:  path.join( RES_BASEDIR, 'callback.svg' )
                     };
 
                     if( v.KspSymbol.uiVariableName )
                     {
-                        child.label   += " - for " + v.KspSymbol.uiVariableName;
+                        child.label   += " : " + v.KspSymbol.uiVariableName;
                     }
                 }
                 else if( type == KSPSymbolType.USER_FUNCTION )
                 {
                     child.parrent = functionTree;
                     child.iconPath = {
-                        light: path.join( Constants.EXTENTION_DIR, 'resources', 'function.png' ),
-                        dark:  path.join( Constants.EXTENTION_DIR, 'resources', 'function.png' )
+                        light: path.join( RES_BASEDIR, 'function.svg' ),
+                        dark:  path.join( RES_BASEDIR, 'function.svg' )
                     };
                 }
 

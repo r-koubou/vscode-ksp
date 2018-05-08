@@ -9,6 +9,7 @@
    ======================================================================== */
 
 import * as vscode from 'vscode';
+import * as path   from 'path';
 
 import * as configkey from './KSPConfigurationConstants';
 import { KSPConfigurationManager } from './KSPConfigurationManager';
@@ -69,9 +70,9 @@ export class KSPCompileBuilder
             args.push( "-Duser.country=US" );
         }
         args.push( "-Dkspparser.stdout.encoding=UTF-8" )
-        args.push( "-Dkspparser.datadir=" + EXTENTION_DIR + "/kspparser/data" )
+        args.push( "-Dkspparser.datadir=" + path.join( EXTENTION_DIR, "kspparser", "data" ) );
         args.push( "-jar" );
-        args.push( EXTENTION_DIR + "/kspparser/KSPSyntaxParser.jar" );
+        args.push( path.join( EXTENTION_DIR, "kspparser", "KSPSyntaxParser.jar" ) );
 
         if( this.obfuscate )
         {

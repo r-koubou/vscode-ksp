@@ -24,7 +24,6 @@ import { KSPCompileBuilder}       from './KSPCompileBuilder';
 export function doObfuscate( context: vscode.ExtensionContext )
 {
     let editor              = vscode.window.activeTextEditor;
-    let thisExtentionDir    = kspconst.EXTENTION_DIR;
     let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
     let args: string[]      = [];
     let textDocument: vscode.TextDocument;

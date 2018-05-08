@@ -23,6 +23,7 @@ import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 import { KSPRenameProvider }            from './features/KSPRenameProvider';
 import { KSPOutlineProvider }           from './features/KSPOutlineProvider';
+import * as KSPOutlineConstants         from './features/KSPOutlineProvider';
 
 import KSPObfuscatorCommand =           require( './features/KSPObfuscatorCommand' );
 
@@ -63,7 +64,8 @@ export function activate( context:vscode.ExtensionContext ) : any
     );
 
     const outlineProvider: KSPOutlineProvider = new KSPOutlineProvider( context );
-    vscode.window.registerTreeDataProvider( Constants.VIEW_ID_OUTLINE, outlineProvider )
+    vscode.window.registerTreeDataProvider( Constants.VIEW_ID_OUTLINE, outlineProvider );
+    vscode.commands.registerCommand( KSPOutlineConstants.COMMAND_JUMP, range => outlineProvider.jumpTo( range ) );
 
 //------------------------------------------------------------------------------
 // Commands

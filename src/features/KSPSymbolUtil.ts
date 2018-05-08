@@ -321,8 +321,6 @@ export class KSPSymbolUtil
                         continue;
                     }
 
-                    name = "on " + name;
-
                     if( isUI )
                     {
                         uiName = match[ 3 ].replace( "(", "" ).replace( ")", "" ).trim();
