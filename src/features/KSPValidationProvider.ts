@@ -321,6 +321,11 @@ export class KSPValidationProvider
 // launch en-US mode
 //          argBuilder.forceUseEn_US = true;
 
+            if( vscode.env.language.startsWith( "en" ) )
+            {
+                argBuilder.forceUseEn_US = true;
+            }
+
             let args: string[];
 
             if( this.realtimeValidationEnabled )
