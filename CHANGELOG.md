@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 0.5.0
+
+* Editor
+
+    * **[New]** Outline view is avaiable
+    * Code refactoring
+    * Small bug fixes
+
+
 ## Version 0.4.6
 
 * Code refactoring

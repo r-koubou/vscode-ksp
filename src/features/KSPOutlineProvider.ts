@@ -58,7 +58,8 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
 {
     private _onDidChangeTreeData: vscode.EventEmitter<KSPSymbolNode | undefined> = new vscode.EventEmitter<KSPSymbolNode | undefined>();
     readonly onDidChangeTreeData: vscode.Event<KSPSymbolNode | undefined> = this._onDidChangeTreeData.event;
-	private editor: vscode.TextEditor;
+    private editor: vscode.TextEditor;
+    private refreshing: boolean = false;
 
     /**
      * ctor.
@@ -73,9 +74,9 @@ TODO
         vscode.commands.registerCommand( COMMAND_EXPAND_ALL, () => this.expandAllNode() );
 */
 
-        vscode.window.onDidChangeActiveTextEditor( (e) => { this.onDidChangedTextEditor( e ) } );
+        vscode.window.onDidChangeActiveTextEditor( () => { this.onDidChangedTextEditor(); } );
         vscode.workspace.onDidChangeTextDocument(  (e) => { this.onDidChangeTextDocument( e ); } );
-        vscode.workspace.onDidOpenTextDocument( (e) => { this.onDidOpenTextDocument( e ); } );
+        this.refresh();
     }
 
     /**
@@ -112,8 +113,12 @@ TODO
     /**
      * Handling of window.onDidChangeActiveTextEditor
      */
-    private onDidChangedTextEditor( textEditor:vscode.TextEditor ): void
+    private onDidChangedTextEditor(): void
     {
+        if( !vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId !== Constants.LANG_ID )
+        {
+            return;
+        }
         this.refresh();
     }
 
@@ -122,7 +127,19 @@ TODO
      */
     private onDidChangeTextDocument( event:vscode.TextDocumentChangeEvent ): void
     {
-        this.refresh();
+        if( event.document.uri.toString() === this.editor.document.uri.toString() )
+        {
+            if( !this.refreshing )
+            {
+                this.refreshing = true;
+                new Promise( (resolve) => {
+                    setTimeout(() => {
+                        this.refresh();
+                        this.refreshing = false;
+                    }, 500 );
+                });
+            }
+        }
     }
 
     public onDidOpenTextDocument( document: vscode.TextDocument ): void
@@ -278,56 +295,9 @@ TODO
                             }
                         );
                     }
-                    //     const key: string = v.KspSymbol.variableTypeName;
-                    //     if( !uiVariableTreeChild[ key ] )
-                    //     {
-                    //         uiVariableTreeChild[ key ] = new KSPSymbolNode( key, TREE_ITEM_COLLAPSED, uiVariableTree, v );
-                    //         uiVariableTreeChild[ key ].iconPath = FOLDER_ICON;
-                    //     }
-                    //     child.label    = nameLabel;
-                    //     child.tooltip  = typeLabel;
-                    //     child.parrent  = uiVariableTree;
-                    //     child.iconPath = {
-                    //         light: path.join( Constants.RES_BASEDIR, 'ui_variable.svg' ),
-                    //         dark:  path.join( Constants.RES_BASEDIR, 'ui_variable.svg' )
-                    //     };
-                    //     uiVariableTreeChild[ key ].children.push( child );
-                    //     // no longer reference parrent this case ( managed on uiVariableTreeChild )
-                    //     child.parrent = null;
-                    // }
                 }
                 else if( type == KSPSymbolType.CALLBACK )
                 {
-                    // const key: string = v.KspSymbol.name;
-                    // child.label = v.KspSymbol.uiVariableName;
-
-                    // // If allowed multiple definitions (e.g. on ui_control)
-                    // // Create a sub tree and children add to there.
-                    // if( key && v.KspSymbol.uiVariableName && !callbackTreeTreeChild[ key ] )
-                    // {
-                    //     callbackTreeTreeChild[ key ] = new KSPSymbolNode( key, TREE_ITEM_COLLAPSED, callbackTree, v );
-                    //     callbackTreeTreeChild[ key ].iconPath = FOLDER_ICON;
-                    //     callbackTreeTreeChild[ key ].children.push( child );
-                    //     child.label += " : " + v.KspSymbol.uiVariableType;
-                    // }
-                    // // Already tree created
-                    // else if( callbackTreeTreeChild[ key ] )
-                    // {
-                    //     child.label += " : " + v.KspSymbol.uiVariableType;
-                    //     callbackTreeTreeChild[ key ].children.push( child );
-                    // }
-                    // // Not allowed multiple definitions
-                    // else
-                    // {
-                    //     child.label = v.KspSymbol.name;
-                    //     callbackTree.children.push( child );
-                    // }
-
-                    // child.iconPath = {
-                    //     light: path.join( Constants.RES_BASEDIR, 'callback.svg' ),
-                    //     dark:  path.join( Constants.RES_BASEDIR, 'callback.svg' )
-                    // };
-
                     const key: string = v.KspSymbol.name;
                     child.label = v.KspSymbol.uiVariableName;
 
@@ -377,23 +347,8 @@ TODO
 
             } //  ~for( const v of table )
 
-            // Sorting node which has children (depth>=2)
-            // Adding subtree to parrent TreeItem node
-            function sortAndAddChildTreeTo( tree:{[key:string]: KSPSymbolNode}, destTree: KSPSymbolNode )
-            {
-                 const sortedKeys: string[] = Object.keys( tree ).sort( (a:string, b:string) => {
-                    if( a > b )
-                    {
-                        return 1;
-                    }
-                    return -1;
-                });
-                sortedKeys.forEach( (k) =>{
-                    destTree.children.push( tree[ k ] );
-                });
-            }
-            sortAndAddChildTreeTo( uiVariableTreeChild, uiVariableTree );
-            sortAndAddChildTreeTo( callbackTreeChild, callbackTree );
+            this.sortAndAddChildrenTo( uiVariableTreeChild, uiVariableTree );
+            this.sortAndAddChildrenTo( callbackTreeChild, callbackTree, true );
 
             result.push( variableTree );
             result.push( uiVariableTree );
@@ -419,7 +374,7 @@ TODO
     {
         if( key && !subTree[ key ] && extCond() )
         {
-            subTree[ key ] = new KSPSymbolNode( key, TREE_ITEM_COLLAPSED, parrent, value );
+            subTree[ key ] = new KSPSymbolNode( key, TREE_ITEM_COLLAPSED, parrent, null );
             subTree[ key ].iconPath = FOLDER_ICON;
             subTree[ key ].children.push( child );
             child.parrent = subTree[ key ];
@@ -449,6 +404,40 @@ TODO
         if( finalize )
         {
             finalize();
+        }
+    }
+
+    /**
+     * Sort a node which has children (depth>=2), Add subtree to parrent TreeItem node
+     */
+    public sortAndAddChildrenTo( tree:{[key:string]: KSPSymbolNode}, destTree: KSPSymbolNode, insert?: boolean ): void
+    {
+        const sortedKeys: string[] = Object.keys( tree ).sort( (a:string, b:string) => {
+            if( a > b )
+            {
+                return 1;
+            }
+            return -1;
+        });
+        if( insert )
+        {
+            sortedKeys.forEach( (k) => {
+                const n = tree[ k ];
+                if( n.iconPath == FOLDER_ICON )
+                {
+                    destTree.children.unshift( n );
+                }
+                else
+                {
+                    destTree.children.push( n );
+                }
+            });
+        }
+        else
+        {
+            sortedKeys.forEach( (k) => {
+                destTree.children.push( tree[ k ] );
+            });
         }
     }
 

@@ -6,10 +6,11 @@
 
 ### NEW
 
-* Obfuscate and Optimize a Script **(BETA)**
+* Outline view
 
 ### Other Features
 
+* Obfuscate and Optimize a Script **(BETA)**
 * Syntax highlighting
 * Autocomplete
 * Snippet
@@ -18,6 +19,18 @@
 * Find symbols and find references in script
 * Syntax validation
 * Rename Identifiers
+
+## Outline view
+
+Outline view is available.
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_01.png)
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_02.png)
+
+If you want hide a view, right click -> uncheck from context menu.
+
+![](outlie_off.png)
 
 ## Syntax validation (BETA)
 
@@ -161,11 +174,11 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 ### 新機能
 
-* スクリプトのオブファスケートとオプティマイザ **(BETA)**
-
+* アウトラインビューの追加
 
 ### その他機能
 
+* スクリプトのオブファスケートとオプティマイザ **(BETA)**
 * シンタックスハイライト
 * 補完入力
 * スニペット
@@ -174,6 +187,18 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 * スクリプト内のシンボル参照箇所の検索
 * 文法解析機能
 * リネーム機能
+
+## アウトラインビュー
+
+エクスプローラビューに追加しました。
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_01.png)
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_02.png)
+
+非表示にしたい場合は、右クリック→コンテキストメニューからチェックを外して下さい。
+
+![](outlie_off.png)
 
 ## 文法解析機能 (BETA)
 
