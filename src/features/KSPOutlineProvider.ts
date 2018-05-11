@@ -12,11 +12,13 @@ import vscode                   = require( 'vscode' );
 
 import * as path                from 'path';
 import * as Constants           from './KSPExtensionConstants';
+import * as ConfigConstants     from './KSPConfigurationConstants';
 
 import { KSPSymbolUtil }        from './KSPSymbolUtil';
 import { KSPSymbolType }        from './KSPSymbolUtil';
 import { KSPSymbol }            from './KSPSymbolUtil';
 import { KSPSymbolInformation } from './KSPSymbolUtil';
+import { KSPConfigurationManager } from './KSPConfigurationManager';
 
 const TREE_ITEM_NONE: vscode.TreeItemCollapsibleState       = vscode.TreeItemCollapsibleState.None;
 const TREE_ITEM_EXPANDED: vscode.TreeItemCollapsibleState   = vscode.TreeItemCollapsibleState.Expanded;
@@ -28,6 +30,7 @@ const FOLDER_ICON = {
 };
 
 export const COMMAND_JUMP: string            = "ksp.outline.jump";
+export const COMMAND_REFRESH: string         = "ksp.outline.refresh";
 /*
 TODO
 export const COMMAND_COLLAPSE_ALL: string    = "ksp.outline.collapse";
@@ -59,7 +62,9 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
     private _onDidChangeTreeData: vscode.EventEmitter<KSPSymbolNode | undefined> = new vscode.EventEmitter<KSPSymbolNode | undefined>();
     readonly onDidChangeTreeData: vscode.Event<KSPSymbolNode | undefined> = this._onDidChangeTreeData.event;
     private editor: vscode.TextEditor;
-    private refreshing: boolean = false;
+
+    private autoRefresh: boolean = ConfigConstants.DEFAULT_OUTLINE_AUTOREFRESH;
+    private refreshing: boolean  = false;
 
     /**
      * ctor.
@@ -68,6 +73,7 @@ export class KSPOutlineProvider implements vscode.TreeDataProvider<KSPSymbolNode
     {
         vscode.window.registerTreeDataProvider( Constants.VIEW_ID_OUTLINE, this );
         vscode.commands.registerCommand( COMMAND_JUMP, range => this.jumpTo( range ) );
+        vscode.commands.registerCommand( COMMAND_REFRESH, () => this.refresh() );
 /*
 TODO
         vscode.commands.registerCommand( COMMAND_COLLAPSE_ALL, () => this.collapseAllNode() );
@@ -76,6 +82,12 @@ TODO
 
         vscode.window.onDidChangeActiveTextEditor( () => { this.onDidChangedTextEditor(); } );
         vscode.workspace.onDidChangeTextDocument(  (e) => { this.onDidChangeTextDocument( e ); } );
+
+        this.autoRefresh = KSPConfigurationManager.getConfig<boolean>( ConfigConstants.KEY_OUTLINE_AUTOREFRESH, ConfigConstants.DEFAULT_OUTLINE_AUTOREFRESH );
+        vscode.workspace.onDidChangeConfiguration( ()=>{
+            this.autoRefresh = KSPConfigurationManager.getConfig<boolean>( ConfigConstants.KEY_OUTLINE_AUTOREFRESH, ConfigConstants.DEFAULT_OUTLINE_AUTOREFRESH );
+        });
+
         this.refresh();
     }
 
@@ -115,10 +127,6 @@ TODO
      */
     private onDidChangedTextEditor(): void
     {
-        if( !vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId !== Constants.LANG_ID )
-        {
-            return;
-        }
         this.refresh();
     }
 
@@ -127,6 +135,10 @@ TODO
      */
     private onDidChangeTextDocument( event:vscode.TextDocumentChangeEvent ): void
     {
+        if( !this.autoRefresh )
+        {
+            return;
+        }
         if( event.document.uri.toString() === this.editor.document.uri.toString() )
         {
             if( !this.refreshing )
@@ -140,11 +152,6 @@ TODO
                 });
             }
         }
-    }
-
-    public onDidOpenTextDocument( document: vscode.TextDocument ): void
-    {
-        this.refresh();
     }
 
     /**
@@ -190,7 +197,7 @@ TODO
     {
         const document: vscode.TextDocument = this.getCurrentTextDocument();
         let result: KSPSymbolInformation[] = [];
-        if( !document )
+        if( !document || document.languageId !== Constants.LANG_ID )
         {
             return Promise.resolve( [] );
         }

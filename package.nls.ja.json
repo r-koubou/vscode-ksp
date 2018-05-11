@@ -10,6 +10,7 @@
     "configuration.obfuscator.suffix": "コマンドパレットでオブファスケーターを実行することによって生成される、デフォルトのファイル拡張子",
     "configuration.obfuscator.inline.function": "true の場合、オブファスケーター実行時に全てのユーザー定義関数をインライン展開します",
     "configuration.obfuscator.dest.clipboard": "true の場合、オブファスケートされたコードをファイルではなく、クリップボードにコピーします。falseの場合は指定されたファイルに保存します。",
+    "configuration.outline.autorefresh": "trueの場合、アウトラインは自動で更新を行います。もしCPU負荷が高い場合は値を false に設定し、手動で更新ボタンを押して下さい。",
 
     "command.obfuscate": "NI KSP オブファスケーターの実行"
 

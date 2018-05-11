@@ -32,6 +32,12 @@ If you want hide a view, right click -> uncheck from context menu.
 
 ![](outlie_off.png)
 
+### If Very high CPU load
+
+Please turn off autorefresh outline function.
+
+You can change setting at Preferences -> **"ksp.obfuscator.inline.function"**
+
 ## Syntax validation (BETA)
 
 * Syntax Analysis
@@ -199,6 +205,12 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 非表示にしたい場合は、右クリック→コンテキストメニューからチェックを外して下さい。
 
 ![](outlie_off.png)
+
+### CPU負荷がとても高くなる場合
+
+アウトラインの自動更新機能をオフにしてください。
+
+VSCode の設定から変更できます -> **"ksp.obfuscator.inline.function"**
 
 ## 文法解析機能 (BETA)
 

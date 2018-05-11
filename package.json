@@ -85,6 +85,36 @@
                 }
             ]
         },
+        "commands": [
+            {
+                "command": "ksp.obfuscate",
+                "title": "%command.obfuscate%"
+            },
+            {
+                "command": "ksp.outline.refresh",
+                "title": "Refresh Outline manually",
+                "icon":{
+                    "light": "resources/icon/refresh.svg",
+                    "dark": "resources/icon/refresh.svg"
+                }
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "when": "editorLangId == ksp",
+                    "command": "ksp.obfuscate",
+                    "group": "kspgroup@1"
+                }
+            ],
+            "view/title": [
+                {
+                    "when": "view == kspOutLine",
+                    "command": "ksp.outline.refresh",
+                    "group": "navigation"
+                }
+            ]
+        },
         "configuration": {
             "title": "%configuration.title%",
             "type": "object",
@@ -138,23 +168,13 @@
                     "type": "boolean",
                     "default": false,
                     "description": "%configuration.obfuscator.dest.clipboard%"
+                },
+                "ksp.outline.autorefresh": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "%configuration.outline.autorefresh%"
                 }
             }
-        },
-        "commands": [
-            {
-                "command": "ksp.obfuscate",
-                "title": "%command.obfuscate%"
-            }
-        ],
-        "menus": {
-            "editor/context": [
-                {
-                    "when": "editorLangId == ksp",
-                    "command": "ksp.obfuscate",
-                    "group": "kspgroup@1"
-                }
-            ]
         }
     },
     "scripts": {
