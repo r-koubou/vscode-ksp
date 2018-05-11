@@ -38,6 +38,7 @@ export class KSPSymbol
     public isPolyphonic         : boolean = false;
     public isUI                 : boolean = false;
     public uiVariableName       : string  = ""; // if isUI == true and type == callback, set a uiVariable Name
+    public uiVariableType       : string  = ""; // if isUI == true and type == callback, set a UI type Name
     public description          : string  = "";
     public lineNumber           : number  = -1;
     public colmn                : number  = -1;
@@ -250,6 +251,9 @@ export class KSPSymbolUtil
     {
         let result: KSPSymbolInformation[] = [];
 
+        // store for "on ui_control( <variable> )"
+        let callBackUITypeNameTable: {[key:string]: string } = {}; // key: variable name, value: type
+
         let count = document.lineCount;
         if( endLineNumber >= 0 )
         {
@@ -293,6 +297,7 @@ export class KSPSymbolUtil
                     {
                         containerName = "UI Variable";
                         variableTypeName  = match[ 1 ].trim();
+                        callBackUITypeNameTable[ name ] = variableTypeName;
                     }
 
                     let add = new KSPSymbolInformation(
@@ -340,6 +345,10 @@ export class KSPSymbolUtil
                     );
                     if( uiName )
                     {
+                        if( callBackUITypeNameTable[ uiName ] )
+                        {
+                            add.KspSymbol.uiVariableType = callBackUITypeNameTable[ uiName ];
+                        }
                         add.KspSymbol.uiVariableName = uiName.substr( 1 ) // [0] == variable type character
                     }
 
