@@ -24,9 +24,34 @@ const TREE_ITEM_NONE: vscode.TreeItemCollapsibleState       = vscode.TreeItemCol
 const TREE_ITEM_EXPANDED: vscode.TreeItemCollapsibleState   = vscode.TreeItemCollapsibleState.Expanded;
 const TREE_ITEM_COLLAPSED: vscode.TreeItemCollapsibleState  = vscode.TreeItemCollapsibleState.Collapsed;
 
-const FOLDER_ICON = {
+const ICON_FOLDER = {
     light: path.join( Constants.RES_BASEDIR, 'folder.svg' ),
     dark:  path.join( Constants.RES_BASEDIR, 'folder_dark.svg' )
+};
+
+const ICON_VARIABLE = {
+    light: path.join( Constants.RES_BASEDIR, 'variable.svg' ),
+    dark:  path.join( Constants.RES_BASEDIR, 'variable.svg' )
+};
+
+const ICON_CONSTANT_VARIABLE = {
+    light: path.join( Constants.RES_BASEDIR, 'constant_variable.svg' ),
+    dark:  path.join( Constants.RES_BASEDIR, 'constant_variable.svg' )
+};
+
+const ICON_UI_VARIABLE = {
+    light: path.join( Constants.RES_BASEDIR, 'ui_variable.svg' ),
+    dark:  path.join( Constants.RES_BASEDIR, 'ui_variable.svg' )
+};
+
+const ICON_CALLBACK = {
+    light: path.join( Constants.RES_BASEDIR, 'callback.svg' ),
+    dark:  path.join( Constants.RES_BASEDIR, 'callback.svg' )
+};
+
+const ICON_FUNCTION = {
+    light: path.join( Constants.RES_BASEDIR, 'function.svg' ),
+    dark:  path.join( Constants.RES_BASEDIR, 'function.svg' )
 };
 
 export const COMMAND_JUMP: string            = "ksp.outline.jump";
@@ -46,7 +71,7 @@ class KSPSymbolNode extends vscode.TreeItem
     public children: KSPSymbolNode[]    = [];
     public value: KSPSymbolInformation  = null;
 
-    constructor( label: string, collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None, parrent?: KSPSymbolNode, value?: KSPSymbolInformation )
+    constructor( label: string = '', collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None, parrent?: KSPSymbolNode, value?: KSPSymbolInformation )
     {
         super( label, collapsibleState );
         this.parrent = parrent;
@@ -238,17 +263,17 @@ TODO
             const rootNode: KSPSymbolNode       = new KSPSymbolNode( 'root' );
             const variableTree: KSPSymbolNode   = new KSPSymbolNode( 'Variables', TREE_ITEM_COLLAPSED, rootNode, null );
             const uiVariableTree: KSPSymbolNode = new KSPSymbolNode( 'UI Variables', TREE_ITEM_COLLAPSED, rootNode, null );
-            const uiVariableTreeChild: { [key:string]: KSPSymbolNode } = {};
+            const uiVariableTreeChildren: { [key:string]: KSPSymbolNode } = {};
 
             const callbackTree: KSPSymbolNode   = new KSPSymbolNode( 'Callbacks', TREE_ITEM_COLLAPSED, rootNode, null );
-            const callbackTreeChild: { [key:string]: KSPSymbolNode } = {};
+            const callbackTreeChildren: { [key:string]: KSPSymbolNode } = {};
 
             const functionTree: KSPSymbolNode   = new KSPSymbolNode( 'Functions', TREE_ITEM_COLLAPSED, rootNode, null );
 
-            variableTree.iconPath      = FOLDER_ICON;
-            uiVariableTree.iconPath    = FOLDER_ICON;
-            callbackTree.iconPath      = FOLDER_ICON;
-            functionTree.iconPath      = FOLDER_ICON;
+            variableTree.iconPath      = ICON_FOLDER;
+            uiVariableTree.iconPath    = ICON_FOLDER;
+            callbackTree.iconPath      = ICON_FOLDER;
+            functionTree.iconPath      = ICON_FOLDER;
 
             for( const v of table )
             {
@@ -262,88 +287,74 @@ TODO
                     const typeLabel: string = v.KspSymbol.variableTypeName + ( v.KspSymbol.isPolyphonic ? ", Polyphonic" : "" );
                     child.parrent           = variableTree;
                     child.label             = nameLabel + " : " + typeLabel;
-                    child.iconPath = {
-                        light: path.join( Constants.RES_BASEDIR, 'variable.svg' ),
-                        dark:  path.join( Constants.RES_BASEDIR, 'variable.svg' )
-                    };
+                    child.iconPath          = ICON_VARIABLE;
                     if( v.KspSymbol.isConst )
                     {
-                        child.iconPath = {
-                            light: path.join( Constants.RES_BASEDIR, 'constant_variable.svg' ),
-                            dark:  path.join( Constants.RES_BASEDIR, 'constant_variable.svg' )
-                        };
+                        child.iconPath = ICON_CONSTANT_VARIABLE;
                     }
                     if( v.KspSymbol.isUI )
                     {
                         const key: string = v.KspSymbol.variableTypeName;
-                        this.addNodeToSubTree( v, key, child, uiVariableTree, uiVariableTreeChild,
-                            // extCond
-                            () => {
-                                return true;
-                            },
-                            // onKeyAdded
-                            null,
-                            // onKeyExists
-                            null,
-                            // onKeyNotExists
-                            null,
-                            // finalize
+                        this.addNodeToSubTree({
+                            value: v,
+                            key: key,
+                            child: child,
+                            parrent: uiVariableTree,
+                            subTree: uiVariableTreeChildren,
+                            finalize:
                             ()=>
                             {
                                 child.label    = nameLabel;
                                 child.tooltip  = typeLabel;
                                 child.parrent  = uiVariableTree;
-                                child.iconPath = {
-                                    light: path.join( Constants.RES_BASEDIR, 'ui_variable.svg' ),
-                                    dark:  path.join( Constants.RES_BASEDIR, 'ui_variable.svg' )
-                                };
+                                child.iconPath = ICON_UI_VARIABLE;
                                 // no longer reference parrent this case ( managed on callbackTreeTreeChild )
                                 child.parrent = null;
                             }
-                        );
+                        });
                     }
                 }
                 else if( type == KSPSymbolType.CALLBACK )
                 {
                     const key: string = v.KspSymbol.name;
                     child.label = v.KspSymbol.uiVariableName;
+                    child.iconPath = ICON_CALLBACK;
 
-                    this.addNodeToSubTree( v, key, child, callbackTree, callbackTreeChild,
-                        // extCond
+                    this.addNodeToSubTree({
+                        value: v,
+                        key: key,
+                        child: child,
+                        parrent: callbackTree,
+                        subTree: callbackTreeChildren,
+                        extCond:
                         () => {
                             return v.KspSymbol.uiVariableName ? true : false;
                         },
-                        // onKeyAdded
+                        onKeyAdded:
                         () => {
                             child.label += " : " + v.KspSymbol.uiVariableType;
                         },
-                        // onKeyExists
+                        onKeyExists:
                         () => {
                             child.label += " : " + v.KspSymbol.uiVariableType;
                         },
-                        // onKeyNotExists
+                        onKeyNotExists:
                         () => {
                             child.label = v.KspSymbol.name;
                         },
-                        // finalize
+                        finalize:
                         ()=>
                         {
-                            child.iconPath = {
-                                light: path.join( Constants.RES_BASEDIR, 'callback.svg' ),
-                                dark:  path.join( Constants.RES_BASEDIR, 'callback.svg' )
-                            };
-                            // no longer reference parrent this case ( managed on callbackTreeTreeChild )
-                            child.parrent = null;
+                            child.iconPath = ICON_CALLBACK;
                         }
-                    );
+                    });
+                    // no longer reference parrent this case ( managed on callbackTreeTreeChild )
+                    child.parrent = null;
                 }
                 else if( type == KSPSymbolType.USER_FUNCTION )
                 {
-                    child.parrent = functionTree;
-                    child.iconPath = {
-                        light: path.join( Constants.RES_BASEDIR, 'function.svg' ),
-                        dark:  path.join( Constants.RES_BASEDIR, 'function.svg' )
-                    };
+                    child.parrent  = functionTree;
+                    child.iconPath = ICON_FUNCTION;
                 }
 
                 // append parrent node( Add to Folder node as child )
@@ -354,8 +365,8 @@ TODO
 
             } //  ~for( const v of table )
 
-            this.sortAndAddChildrenTo( uiVariableTreeChild, uiVariableTree );
-            this.sortAndAddChildrenTo( callbackTreeChild, callbackTree, true );
+            this.sortAndAddChildrenTo( uiVariableTreeChildren, uiVariableTree );
+            this.sortAndAddChildrenTo( callbackTreeChildren, callbackTree, true );
 
             result.push( variableTree );
             result.push( uiVariableTree );
@@ -368,32 +379,51 @@ TODO
     /**
      * General adding child to subtree
      */
-    public addNodeToSubTree( value: KSPSymbolInformation,
-                             key: string,
-                             child: KSPSymbolNode,
-                             parrent: KSPSymbolNode,
-                             subTree:{ [key:string]: KSPSymbolNode },
-                             extCond:()=>boolean,
-                             onKeyAdded:()=>void,
-                             onKeyExists:()=>void,
-                             onKeyNotExists:()=>void,
-                             finalize?:()=>void ): void
+    public addNodeToSubTree( args:{
+        value: KSPSymbolInformation,
+        key: string,
+        child?: KSPSymbolNode,
+        parrent?: KSPSymbolNode,
+        subTree:{ [key:string]: KSPSymbolNode },
+        extCond?:()=>boolean,
+        onKeyAdded?:()=>void,
+        onKeyExists?:()=>void,
+        onKeyNotExists?:()=>void,
+        finalize?:()=>void
+    }): void
     {
+        const value             = args.value;
+        const key               = args.key;
+        const child             =args.child;
+        const parrent           = args.parrent;
+        const subTree           = args.subTree;
+        const extCond           = args.extCond ? args.extCond : ()=>{return true;};
+        const onKeyAdded        = args.onKeyAdded;
+        const onKeyExists       = args.onKeyExists;
+        const onKeyNotExists    = args.onKeyNotExists;
+        const finalize          = args.finalize;
+
         if( key && !subTree[ key ] && extCond() )
         {
             subTree[ key ] = new KSPSymbolNode( key, TREE_ITEM_COLLAPSED, parrent, null );
-            subTree[ key ].iconPath = FOLDER_ICON;
-            subTree[ key ].children.push( child );
-            child.parrent = subTree[ key ];
-            if( onKeyAdded )
+            subTree[ key ].iconPath = ICON_FOLDER;
+            if( child )
             {
-                onKeyAdded();
+                subTree[ key ].children.push( child );
+                child.parrent = subTree[ key ];
+                if( onKeyAdded )
+                {
+                    onKeyAdded();
+                }
             }
         }
         else if( subTree[ key ] )
         {
-            subTree[ key ].children.push( child );
-            child.parrent = subTree[ key ];
+            if( child )
+            {
+                subTree[ key ].children.push( child );
+                child.parrent = subTree[ key ];
+            }
             if( onKeyExists )
             {
                 onKeyExists();
@@ -402,7 +432,10 @@ TODO
         else
         {
             child.parrent = parrent;
-            parrent.children.push( child );
+            if( parrent )
+            {
+                parrent.children.push( child );
+            }
             if( onKeyNotExists )
             {
                 onKeyNotExists();
@@ -430,7 +463,7 @@ TODO
         {
             sortedKeys.forEach( (k) => {
                 const n = tree[ k ];
-                if( n.iconPath == FOLDER_ICON )
+                if( n.iconPath == ICON_FOLDER )
                 {
                     destTree.children.unshift( n );
                 }

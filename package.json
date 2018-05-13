@@ -93,7 +93,7 @@
             {
                 "command": "ksp.outline.refresh",
                 "title": "Refresh Outline manually",
-                "icon":{
+                "icon": {
                     "light": "resources/icon/refresh.svg",
                     "dark": "resources/icon/refresh.svg"
                 }

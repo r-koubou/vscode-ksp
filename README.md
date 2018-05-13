@@ -22,7 +22,7 @@
 
 ## Outline view
 
-Outline view is available.
+Outline view is available in Exolorer.
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_01.png)
 
