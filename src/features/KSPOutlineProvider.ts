@@ -266,13 +266,16 @@ TODO
             const uiVariableTreeChildren: { [key:string]: KSPSymbolNode } = {};
 
             const callbackTree: KSPSymbolNode   = new KSPSymbolNode( 'Callbacks', TREE_ITEM_COLLAPSED, rootNode, null );
-            const callbackTreeChildren: { [key:string]: KSPSymbolNode } = {};
+            const callbackTreeChildren: { [key:string]: KSPSymbolNode }   = {};
+            const callbackUiTree: KSPSymbolNode   = new KSPSymbolNode( 'UI Callbacks', TREE_ITEM_COLLAPSED, callbackTree, null );
+            const callbackTreeUiChildren: { [key:string]: KSPSymbolNode } = {};
 
             const functionTree: KSPSymbolNode   = new KSPSymbolNode( 'Functions', TREE_ITEM_COLLAPSED, rootNode, null );
 
             variableTree.iconPath      = ICON_FOLDER;
             uiVariableTree.iconPath    = ICON_FOLDER;
             callbackTree.iconPath      = ICON_FOLDER;
+            callbackUiTree.iconPath    = ICON_FOLDER;
             functionTree.iconPath      = ICON_FOLDER;
 
             for( const v of table )
@@ -319,37 +322,25 @@ TODO
                     const key: string = v.KspSymbol.name;
                     child.label = v.KspSymbol.uiVariableName;
                     child.iconPath = ICON_CALLBACK;
+                    child.parrent  = callbackTree;
 
-                    this.addNodeToSubTree({
-                        value: v,
-                        key: key,
-                        child: child,
-                        parrent: callbackTree,
-                        subTree: callbackTreeChildren,
-                        extCond:
-                        () => {
-                            return v.KspSymbol.uiVariableName ? true : false;
-                        },
-                        onKeyAdded:
-                        () => {
-                            child.label += " : " + v.KspSymbol.uiVariableType;
-                        },
-                        onKeyExists:
-                        () => {
-                            child.label += " : " + v.KspSymbol.uiVariableType;
-                        },
-                        onKeyNotExists:
-                        () => {
-                            child.label = v.KspSymbol.name;
-                        },
-                        finalize:
-                        ()=>
-                        {
-                            child.iconPath = ICON_CALLBACK;
-                        }
-                    });
-                    // no longer reference parrent this case ( managed on callbackTreeTreeChild )
-                    child.parrent = null;
+                    if( v.KspSymbol.uiVariableName )
+                    {
+                        this.addNodeToSubTree({
+                            value: v,
+                            key: v.KspSymbol.uiVariableType,
+                            child: child,
+                            parrent: callbackUiTree,
+                            subTree: callbackTreeUiChildren,
+                        });
+                        // no longer reference parrent this case ( managed on callbackTreeTreeChild )
+                        child.parrent = null;
+                    }
+                    else
+                    {
+                        child.label = v.name;
+                    }
+
                 }
                 else if( type == KSPSymbolType.USER_FUNCTION )
                 {
@@ -366,7 +357,10 @@ TODO
             } //  ~for( const v of table )
 
             this.sortAndAddChildrenTo( uiVariableTreeChildren, uiVariableTree );
-            this.sortAndAddChildrenTo( callbackTreeChildren, callbackTree, true );
+            this.sortAndAddChildrenTo( callbackTreeUiChildren, callbackUiTree );
+            this.sortAndAddChildrenTo( callbackTreeChildren, callbackTree );
+
+            callbackTree.children.unshift( callbackUiTree );
 
             result.push( variableTree );
             result.push( uiVariableTree );
