@@ -9,3 +9,4 @@ data/**
 .temp/**
 .gitignore
 package-lock.json
+./*.sh

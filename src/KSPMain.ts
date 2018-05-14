@@ -22,13 +22,17 @@ import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 import { KSPRenameProvider }            from './features/KSPRenameProvider';
+import { KSPOutlineProvider }           from './features/KSPOutlineProvider';
+import * as KSPOutlineConstants         from './features/KSPOutlineProvider';
 
 import KSPObfuscatorCommand =           require( './features/KSPObfuscatorCommand' );
 
 export function activate( context:vscode.ExtensionContext ) : any
 {
-    let validator = new KSPValidationProvider( context.workspaceState );
-    validator.activate( context );
+
+//------------------------------------------------------------------------------
+// Providers
+//------------------------------------------------------------------------------
 
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
@@ -59,6 +63,12 @@ export function activate( context:vscode.ExtensionContext ) : any
         vscode.languages.registerRenameProvider( Constants.LANG_ID, new KSPRenameProvider() )
     );
 
+    new KSPOutlineProvider( context );
+
+//------------------------------------------------------------------------------
+// Commands
+//------------------------------------------------------------------------------
+
     context.subscriptions.push(
         vscode.commands.registerCommand( 'ksp.obfuscate', KSPObfuscatorCommand.doObfuscate )
     );
@@ -66,5 +76,12 @@ export function activate( context:vscode.ExtensionContext ) : any
     vscode.languages.setLanguageConfiguration( Constants.LANG_ID, {
         wordPattern: /(-?\d*\.\d\w*)|([^\-\`\#\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
     });
+
+//------------------------------------------------------------------------------
+// Other setup
+//------------------------------------------------------------------------------
+
+    const validator = new KSPValidationProvider( context.workspaceState );
+    validator.activate( context );
 
 }

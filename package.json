@@ -2,9 +2,9 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.4.7",
+    "version": "0.5.0",
     "publisher": "rkoubou",
-    "homepage": "https://twitter.com/rz_devel",
+    "homepage": "https://r-koubou.net",
     "license": "MIT",
     "keywords": [
         "KONTAKT",
@@ -24,19 +24,20 @@
     "bugs": {
         "url": "https://github.com/r-koubou/vscode-ksp/issues"
     },
-    "icon": "images/icon.png",
+    "icon": "resources/icon.png",
     "main": "./out/src/KSPMain",
     "activationEvents": [
         "onLanguage:ksp",
-        "onCommand:ksp.obfuscate"
+        "onCommand:ksp.obfuscate",
+        "onView:kspOutline"
     ],
     "engines": {
-        "vscode": "^1.17.0"
+        "vscode": "^1.21.0"
     },
     "dependencies": {
         "tmp": "^0.0.33",
         "clipboardy": "^1.2.3",
-        "vscode": "^1.1.0",
+        "vscode": "^1.1.17",
         "vscode-nls": "^3.2.1"
     },
     "devDependencies": {
@@ -76,6 +77,44 @@
                 "path": "./snippets/ksp.json"
             }
         ],
+        "views": {
+            "explorer": [
+                {
+                    "id": "kspOutLine",
+                    "name": "KSP OutLine"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "ksp.obfuscate",
+                "title": "%command.obfuscate%"
+            },
+            {
+                "command": "ksp.outline.refresh",
+                "title": "Refresh Outline manually",
+                "icon": {
+                    "light": "resources/icon/refresh.svg",
+                    "dark": "resources/icon/refresh.svg"
+                }
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "when": "editorLangId == ksp",
+                    "command": "ksp.obfuscate",
+                    "group": "kspgroup@1"
+                }
+            ],
+            "view/title": [
+                {
+                    "when": "view == kspOutLine",
+                    "command": "ksp.outline.refresh",
+                    "group": "navigation"
+                }
+            ]
+        },
         "configuration": {
             "title": "%configuration.title%",
             "type": "object",
@@ -129,23 +168,13 @@
                     "type": "boolean",
                     "default": false,
                     "description": "%configuration.obfuscator.dest.clipboard%"
+                },
+                "ksp.outline.autorefresh": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "%configuration.outline.autorefresh%"
                 }
             }
-        },
-        "commands": [
-            {
-                "command": "ksp.obfuscate",
-                "title": "%command.obfuscate%"
-            }
-        ],
-        "menus": {
-            "editor/context": [
-                {
-                    "when": "editorLangId == ksp",
-                    "command": "ksp.obfuscate",
-                    "group": "kspgroup@1"
-                }
-            ]
         }
     },
     "scripts": {

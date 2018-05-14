@@ -43,7 +43,7 @@ export class KSPRenameProvider implements vscode.RenameProvider
             }
 
             const result : WorkspaceEdit = new WorkspaceEdit();
-            const symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
+            const symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document );
             const org    : string = KSPSymbolUtil.parseSymbolAt( document, position );
             let renamed : boolean = false;
             let regex : RegExp = undefined;

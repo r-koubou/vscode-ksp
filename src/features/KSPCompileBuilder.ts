@@ -9,9 +9,11 @@
    ======================================================================== */
 
 import * as vscode from 'vscode';
+import * as path   from 'path';
 
 import * as configkey from './KSPConfigurationConstants';
 import { KSPConfigurationManager } from './KSPConfigurationManager';
+import { EXTENTION_DIR } from './KSPExtensionConstants';
 
 /**
  * Build a internal compiler's commandline option.
@@ -32,15 +34,11 @@ export class KSPCompileBuilder
     public jvmArgs: string[]            = [];
     public forceUseEn_US                = false;
 
-    /** for resolving compiler's path */
-    private extentionDir: string;
-
     /**
      * Commandline options initialized by configuration
      */
-    constructor( extention: vscode.Extension<any>, inputFile:string, jvmArgs:string[] = [], obfuscate:boolean = false, obfuscateInline:boolean = false, obfuscatedOutputFile:string = undefined )
+    constructor( inputFile:string, jvmArgs:string[] = [], obfuscate:boolean = false, obfuscateInline:boolean = false, obfuscatedOutputFile:string = undefined )
     {
-        this.extentionDir       = extention.extensionPath;
         // Compile options
         this.inputFile          = inputFile;
         this.parseOnly          = KSPConfigurationManager.getConfig<boolean>( configkey.KEY_PARSE_SYNTAX_ONLY, configkey.DEFAULT_PARSE_SYNTAX_ONLY );
@@ -72,9 +70,9 @@ export class KSPCompileBuilder
             args.push( "-Duser.country=US" );
         }
         args.push( "-Dkspparser.stdout.encoding=UTF-8" )
-        args.push( "-Dkspparser.datadir=" + this.extentionDir + "/kspparser/data" )
+        args.push( "-Dkspparser.datadir=" + path.join( EXTENTION_DIR, "kspparser", "data" ) );
         args.push( "-jar" );
-        args.push( this.extentionDir + "/kspparser/KSPSyntaxParser.jar" );
+        args.push( path.join( EXTENTION_DIR, "kspparser", "KSPSyntaxParser.jar" ) );
 
         if( this.obfuscate )
         {

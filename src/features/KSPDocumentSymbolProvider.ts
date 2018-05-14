@@ -10,7 +10,7 @@
 
 import vscode = require( 'vscode' );
 
-import { KSPSymbolUtil } from './KSPSymbolUtil';
+import { KSPSymbolUtil, KSPSymbolInformation, KSPSymbolType } from './KSPSymbolUtil';
 
 export class KSPDocumentSymbolProvider implements vscode.DocumentSymbolProvider
 {
@@ -22,6 +22,14 @@ export class KSPDocumentSymbolProvider implements vscode.DocumentSymbolProvider
         document: vscode.TextDocument,
         token: vscode.CancellationToken ) : Thenable<vscode.SymbolInformation[]>
     {
-        return Promise.resolve( KSPSymbolUtil.collect( document, token ) );
+        const result: KSPSymbolInformation[] = KSPSymbolUtil.collect( document );
+        for( const v of result )
+        {
+            if( v.KspSymbol.kspSymbolType == KSPSymbolType.CALLBACK )
+            {
+                v.name = "on " + v.name;
+            }
+        }
+        return Promise.resolve( result );
     }
 }

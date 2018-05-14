@@ -10,6 +10,7 @@
     "configuration.obfuscator.suffix": "Default file suffix which generate by Obfuscator from command palette",
     "configuration.obfuscator.inline.function": "If true, all user defined functions will be expanded (=inline expansion) when run Obfuscator",
     "configuration.obfuscator.dest.clipboard": "If true, obfuscated code will write to clipboard. Otherwise write to given filepath.",
+    "configuration.outline.autorefresh": "If true, outline will auto refresh. If Very high CPU load, set to false and refresh manually from refresh button",
 
     "command.obfuscate": "NI KSP Run Obfuscator"
 }

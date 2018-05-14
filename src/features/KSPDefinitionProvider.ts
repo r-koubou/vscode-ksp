@@ -26,7 +26,7 @@ export class KSPDefinitionProvider implements vscode.DefinitionProvider
         position: vscode.Position,
         token: vscode.CancellationToken ) : Thenable<vscode.Location[]>
     {
-        let symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document, token );
+        let symbols: KSPSymbolInformation[] = KSPSymbolUtil.collect( document );
         if( !symbols )
         {
             return null;

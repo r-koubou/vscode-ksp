@@ -24,8 +24,6 @@ import { KSPCompileBuilder}       from './KSPCompileBuilder';
 export function doObfuscate( context: vscode.ExtensionContext )
 {
     let editor              = vscode.window.activeTextEditor;
-    let thisExtention       = vscode.extensions.getExtension( kspconst.EXTENSION_ID );
-    let thisExtentionDir    = thisExtention.extensionPath;
     let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
     let args: string[]      = [];
     let textDocument: vscode.TextDocument;
@@ -93,7 +91,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
 
         let inline: boolean = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION );
 
-        let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( thisExtention, textDocument.fileName, null, true, inline, output );
+        let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( textDocument.fileName, null, true, inline, output );
         args = argBuilder.build();
 
         try

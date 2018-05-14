@@ -1,16 +1,16 @@
 {
 	"configuration.title": "KONTAKT Script Processor (KSP)",
+    "configuration.java.location": "javaコマンドの場所。デフォルトでは環境変数PATHに通しているものとして動作します。",
 	"configuration.validate.enable": "文法チェック機能の有効/無効を設定します。（※ベータバージョン）実行には Java 1.6 以上をインストールされている必要があります。推奨は1.8以上です。注意：可能な限り多くのエラー検出を試みますが、スクリプト内容の文法がKSPの仕様を逸脱している場合、正常に機能しません。",
 	"configuration.realtime.validate.enable": "文法チェックをリアルタイムに実行します。trueの場合はタイピング毎とファイル保存時のタイミングでチェックを行います。falseの場合は、ファイル保存時にのみチェックを行います。",
 	"configuration.realtime.validate.delay": "リアルタイムチェック有効時：タイピング後、文法チェック開始までの時間を設定します。単位：ミリ秒。500ms程度を推奨します。",
 	"configuration.validate.syntax.only": "true の場合、パーサーは構文解析のみを行います（意味解析を行いません）",
 	"configuration.validate.strict": "true の場合、パーサーは厳格モードとして動作します (ksp.validate.syntax.only=falseの場合のみ有効)",
 	"configuration.validate.unused": "true の場合、パーサーは未使用変数と未使用のユーザー関数を検知します (ksp.validate.syntax.only=falseの場合のみ有効)",
-    "configuration.java.location": "javaコマンドの場所。デフォルトでは環境変数PATHに通しているものとして動作します。",
     "configuration.obfuscator.suffix": "コマンドパレットでオブファスケーターを実行することによって生成される、デフォルトのファイル拡張子",
     "configuration.obfuscator.inline.function": "true の場合、オブファスケーター実行時に全てのユーザー定義関数をインライン展開します",
     "configuration.obfuscator.dest.clipboard": "true の場合、オブファスケートされたコードをファイルではなく、クリップボードにコピーします。falseの場合は指定されたファイルに保存します。",
+    "configuration.outline.autorefresh": "trueの場合、アウトラインは自動で更新を行います。もしCPU負荷が高い場合は値を false に設定し、手動で更新ボタンを押して下さい。",
 
     "command.obfuscate": "NI KSP オブファスケーターの実行"
-
 }

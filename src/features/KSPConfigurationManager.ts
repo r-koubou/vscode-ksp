@@ -48,12 +48,12 @@ export class KSPConfigurationManager
 
         if( inspect )
         {
-            if( inspect.workspaceValue )
+            if( inspect.workspaceValue !== undefined && inspect.workspaceValue !== null )
             {
                 value       = inspect.workspaceValue;
                 userDefined = true;
             }
-            else if( inspect.globalValue )
+            else if( inspect.globalValue !== undefined && inspect.globalValue !== null )
             {
                 value = inspect.globalValue;
             }
