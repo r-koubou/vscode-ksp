@@ -276,7 +276,7 @@ See also: [https://github.com/r-koubou/vscode-ksp/issues/1]()
 1. Modified some snippet.
 2. **NEW!: Syntax validation ( ALPHA VERSION! ). Semantic analysis not yet.**
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/syntaxparser.gif)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxparser.gif)
 
 ### NOTE
 
@@ -305,7 +305,7 @@ See also: [https://github.com/r-koubou/vscode-ksp/issues/1]()
     - Go to definition
 
         Ctrl(Command)+Shift+O or F2 or Ctrl(Command)+Mouse Click
-        ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto1.png)
+        ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto1.png)
 
         - Variable
 
@@ -314,7 +314,7 @@ See also: [https://github.com/r-koubou/vscode-ksp/issues/1]()
                 1. Callback definition
                 2. Variable definition
 
-                ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto2.png)
+                ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto2.png)
 
         - User function
 

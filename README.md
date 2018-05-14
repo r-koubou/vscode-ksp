@@ -24,9 +24,9 @@
 
 Outline view is available in Exolorer.
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_01.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_01.png)
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_02.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_02.png)
 
 If you want hide a view, right click -> uncheck from context menu.
 
@@ -36,7 +36,11 @@ If you want hide a view, right click -> uncheck from context menu.
 
 Please turn off autorefresh outline function.
 
-You can change setting at Preferences -> **"ksp.obfuscator.inline.function"**
+You can change setting at Preferences -> **"ksp.outline.autorefresh"**
+
+#### How to refresh manually
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_refresh.png)
 
 ## Syntax validation (BETA)
 
@@ -64,11 +68,11 @@ Run from command palet
 3. Open command palette and type 'ksp'
 4. Select Obfuscator
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_01.gif)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/obfuscate_01.gif)
 
 or Run from context menu in editor.
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_ctx_en.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/obfuscate_ctx_en.png)
 
 ### Detail
 
@@ -135,29 +139,29 @@ or Run from context menu in editor.
 
 * Syntax highlighting
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/syntaxhilghting.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxhilghting.png)
 
 * Syntax check (*Option)
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/syntaxparser.gif)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxparser.gif)
 
 * Autocomplete
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/completion.gif)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/completion.gif)
 
 * Snippet
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/snippet.gif)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/snippet.gif)
 
 * Hover
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/hover.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/hover.png)
 
 * Go to Definition
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto1.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto1.png)
 
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/goto2.png)
+    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto2.png)
 
 ## Author
 
@@ -198,9 +202,9 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 エクスプローラビューに追加しました。
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_01.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_01.png)
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/outline_02.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_02.png)
 
 非表示にしたい場合は、右クリック→コンテキストメニューからチェックを外して下さい。
 
@@ -210,7 +214,11 @@ KONTAKT is registered trademarks of Native Instruments GmbH.
 
 アウトラインの自動更新機能をオフにしてください。
 
-VSCode の設定から変更できます -> **"ksp.obfuscator.inline.function"**
+VSCode の設定から変更できます -> **"ksp.outline.autorefresh"**
+
+#### 手動でアウトラインを更新する方法
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_refresh.png)
 
 ## 文法解析機能 (BETA)
 
@@ -239,11 +247,11 @@ VSCode の設定から変更できます -> **"ksp.obfuscator.inline.function"**
 3. コマンドパレットを開き、'ksp' とタイプする
 4. オブファスケーターを選択する
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_01.gif)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/obfuscate_01.gif)
 
 またはエディタ内で右クリックで項目を選択
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/images/readme/obfuscate_ctx_ja.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/obfuscate_ctx_ja.png)
 
 ### 詳細
 
