@@ -1,3 +1,7 @@
+![](https://vsmarketplacebadge.apphb.com/version/rkoubou.ksp.svg
+) ![](https://vsmarketplacebadge.apphb.com/installs-short/rkoubou.ksp.svg
+)
+
 # Language support for NI KONTAKT(TM) Script Processor (KSP)
 
 <small>※日本語の説明は英語の後に書いています</small>
