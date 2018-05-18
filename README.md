@@ -32,7 +32,7 @@ Outline view is available in Exolorer.
 
 If you want hide a view, right click -> uncheck from context menu.
 
-![](outlie_off.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_off.png)
 
 ### If Very high CPU load
 

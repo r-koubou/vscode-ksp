@@ -32,7 +32,7 @@
 
 非表示にしたい場合は、右クリック→コンテキストメニューからチェックを外して下さい。
 
-![](outlie_off.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_off.png)
 
 ### CPU負荷がとても高くなる場合
 
