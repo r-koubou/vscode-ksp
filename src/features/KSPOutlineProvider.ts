@@ -113,7 +113,7 @@ TODO
             this.autoRefresh = KSPConfigurationManager.getConfig<boolean>( ConfigConstants.KEY_OUTLINE_AUTOREFRESH, ConfigConstants.DEFAULT_OUTLINE_AUTOREFRESH );
         });
 
-        this.refresh();
+        this.onDidChangedTextEditor();
     }
 
     /**
@@ -152,7 +152,25 @@ TODO
      */
     private onDidChangedTextEditor(): void
     {
-        this.refresh();
+        if( vscode.window.activeTextEditor )
+        {
+            const document = vscode.window.activeTextEditor.document;
+            if( document && document.uri.scheme === 'file' )
+            {
+                const enabled = document.languageId === Constants.LANG_ID;
+                vscode.commands.executeCommand( 'setContext', 'kspOutlineEnabled', enabled );
+                if( enabled )
+                {
+                    this.refresh();
+                }
+            }
+        }
+        else
+        {
+            // Lang mode is not ksp or active editor not exists
+            // -> hide a view
+            vscode.commands.executeCommand( 'setContext', 'kspOutlineEnabled', false );
+        }
     }
 
     /**

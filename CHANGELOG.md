@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 0.5.1
+
+* Editor 
+    * Changed a valid file extension for activate KSP language mode.
+        * Before: \*.ksp, \*.txt
+        * After: \*.ksp, **\*.ksp.txt**
+    * Improved KSP Outline view
+        * If language mode is KSP, outline view will be active. Otherwise will be inactive.
+
 ## Version 0.5.0
 
 * Editor

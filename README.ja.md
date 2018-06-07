@@ -6,12 +6,7 @@
 
 ## 機能
 
-### 新機能
-
-* アウトラインビューの追加
-
-### その他機能
-
+* アウトラインビューの追加(KSPに最適化したツリー)
 * スクリプトのオブファスケートとオプティマイザ **(BETA)**
 * シンタックスハイライト
 * 補完入力
@@ -30,7 +25,7 @@
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_02.png)
 
-非表示にしたい場合は、右クリック→コンテキストメニューからチェックを外して下さい。
+非表示にしたい場合、または[VSCode 1.24.0 からサポートされた標準のアウトライン機能を使用する場合](https://code.visualstudio.com/updates/v1_24#_outline-view)は、右クリック→コンテキストメニューからチェックを外して下さい。
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_off.png)
 

@@ -6,12 +6,7 @@
 
 ## Features
 
-### NEW
-
-* Outline view
-
-### Other Features
-
+* Outline view (Optimized for KSP)
 * Obfuscate and Optimize a Script **(BETA)**
 * Syntax highlighting
 * Autocomplete
@@ -30,7 +25,7 @@ Outline view is available in Exolorer.
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_02.png)
 
-If you want hide a view, right click -> uncheck from context menu.
+If you want to hide a view or use [VSCode standard outline view (Supported since v1.24.0)](https://code.visualstudio.com/updates/v1_24#_outline-view), right click -> uncheck from context menu.
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_off.png)
 
