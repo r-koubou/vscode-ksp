@@ -25,8 +25,8 @@ const TREE_ITEM_EXPANDED: vscode.TreeItemCollapsibleState   = vscode.TreeItemCol
 const TREE_ITEM_COLLAPSED: vscode.TreeItemCollapsibleState  = vscode.TreeItemCollapsibleState.Collapsed;
 
 const ICON_FOLDER = {
-    light: path.join( Constants.RES_BASEDIR, 'folder.svg' ),
-    dark:  path.join( Constants.RES_BASEDIR, 'folder_dark.svg' )
+    light: path.join( Constants.RES_BASEDIR, 'light', 'folder.svg' ),
+    dark:  path.join( Constants.RES_BASEDIR, 'dark', 'folder.svg' )
 };
 
 const ICON_VARIABLE = {
@@ -191,7 +191,7 @@ TODO
                     setTimeout(() => {
                         this.refresh();
                         this.refreshing = false;
-                    }, 500 );
+                    }, 750 );
                 });
             }
         }

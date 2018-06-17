@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.5.2
+
+* Editor
+    * Outline 
+        * Replaced refresh icon
+        * Imploved CPU load
+
 ## Version 0.5.1
 
 * Editor 

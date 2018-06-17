@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
     "license": "MIT",
@@ -95,8 +95,8 @@
                 "command": "ksp.outline.refresh",
                 "title": "Refresh Outline manually",
                 "icon": {
-                    "light": "resources/icon/refresh.svg",
-                    "dark": "resources/icon/refresh.svg"
+                    "light": "resources/icon/light/refresh.svg",
+                    "dark": "resources/icon/dark/refresh.svg"
                 }
             }
         ],
