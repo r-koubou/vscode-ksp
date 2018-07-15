@@ -22,8 +22,6 @@ import { KSPDefinitionProvider }        from './features/KSPDefinitionProvider';
 import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 import { KSPRenameProvider }            from './features/KSPRenameProvider';
-import { KSPOutlineProvider }           from './features/KSPOutlineProvider';
-import * as KSPOutlineConstants         from './features/KSPOutlineProvider';
 
 import KSPObfuscatorCommand =           require( './features/KSPObfuscatorCommand' );
 
@@ -62,8 +60,6 @@ export function activate( context:vscode.ExtensionContext ) : any
     context.subscriptions.push(
         vscode.languages.registerRenameProvider( Constants.LANG_ID, new KSPRenameProvider() )
     );
-
-    new KSPOutlineProvider( context );
 
 //------------------------------------------------------------------------------
 // Commands

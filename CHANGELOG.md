@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.5.3
+
+* Editor
+    * Outline 
+        * Migrated from Custom view to VSCode Standard Outline view
+
 ## Version 0.5.2
 
 * Editor

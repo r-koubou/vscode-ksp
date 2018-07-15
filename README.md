@@ -6,7 +6,7 @@
 
 ## Features
 
-* Outline view (Optimized for KSP)
+* Outline view **(New)**
 * Obfuscate and Optimize a Script **(BETA)**
 * Syntax highlighting
 * Autocomplete
@@ -17,27 +17,13 @@
 * Syntax validation
 * Rename Identifiers
 
-## Outline view
+## Outline view (New)
 
-Outline view is available in Exolorer.
+Outline view is available in Explorer.
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_01.png)
+> [INFO] KSP Custom Outline view has migrated to VSCode Standard Outline view since v0.5.3.
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_02.png)
-
-If you want to hide a view or use [VSCode standard outline view (Supported since v1.24.0)](https://code.visualstudio.com/updates/v1_24#_outline-view), right click -> uncheck from context menu.
-
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_off.png)
-
-### If Very high CPU load
-
-Please turn off autorefresh outline function.
-
-You can change setting at Preferences -> **"ksp.outline.autorefresh"**
-
-#### How to refresh manually
-
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_refresh.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_vscode.png)
 
 ## Syntax validation (BETA)
 

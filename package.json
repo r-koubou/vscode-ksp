@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
     "license": "MIT",
@@ -28,11 +28,10 @@
     "main": "./out/src/KSPMain",
     "activationEvents": [
         "onLanguage:ksp",
-        "onCommand:ksp.obfuscate",
-        "onView:kspOutline"
+        "onCommand:ksp.obfuscate"
     ],
     "engines": {
-        "vscode": "^1.21.0"
+        "vscode": "^1.25.0"
     },
     "dependencies": {
         "clipboardy": "^1.2.3",
@@ -77,27 +76,10 @@
                 "path": "./snippets/ksp.json"
             }
         ],
-        "views": {
-            "explorer": [
-                {
-                    "id": "kspOutLine",
-                    "name": "KSP OutLine",
-                    "when": "kspOutlineEnabled"
-                }
-            ]
-        },
         "commands": [
             {
                 "command": "ksp.obfuscate",
                 "title": "%command.obfuscate%"
-            },
-            {
-                "command": "ksp.outline.refresh",
-                "title": "Refresh Outline manually",
-                "icon": {
-                    "light": "resources/icon/light/refresh.svg",
-                    "dark": "resources/icon/dark/refresh.svg"
-                }
             }
         ],
         "menus": {
@@ -106,13 +88,6 @@
                     "when": "editorLangId == ksp",
                     "command": "ksp.obfuscate",
                     "group": "kspgroup@1"
-                }
-            ],
-            "view/title": [
-                {
-                    "when": "view == kspOutLine",
-                    "command": "ksp.outline.refresh",
-                    "group": "navigation"
                 }
             ]
         },
@@ -169,11 +144,6 @@
                     "type": "boolean",
                     "default": false,
                     "description": "%configuration.obfuscator.dest.clipboard%"
-                },
-                "ksp.outline.autorefresh": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "%configuration.outline.autorefresh%"
                 }
             }
         }

@@ -6,7 +6,7 @@
 
 ## 機能
 
-* アウトラインビューの追加(KSPに最適化したツリー)
+* アウトラインビュー**(New)**
 * スクリプトのオブファスケートとオプティマイザ **(BETA)**
 * シンタックスハイライト
 * 補完入力
@@ -19,25 +19,11 @@
 
 ## アウトラインビュー
 
-エクスプローラビューに追加しました。
+VSCode標準のアウトラインビューに対応し、使用可能になりました。
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_01.png)
+> v0.5.3 から、独自に実装していたカスタムビューからVSCodeの標準アウトラインビューへ移行しました。
 
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_02.png)
-
-非表示にしたい場合、または[VSCode 1.24.0 からサポートされた標準のアウトライン機能を使用する場合](https://code.visualstudio.com/updates/v1_24#_outline-view)は、右クリック→コンテキストメニューからチェックを外して下さい。
-
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_off.png)
-
-### CPU負荷がとても高くなる場合
-
-アウトラインの自動更新機能をオフにしてください。
-
-VSCode の設定から変更できます -> **"ksp.outline.autorefresh"**
-
-#### 手動でアウトラインを更新する方法
-
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_refresh.png)
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_vscode.png)
 
 ## 文法解析機能 (BETA)
 
