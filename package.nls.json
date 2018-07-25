@@ -11,5 +11,6 @@
     "configuration.obfuscator.inline.function": "If true, all user defined functions will be expanded (=inline expansion) when run Obfuscator",
     "configuration.obfuscator.dest.clipboard": "If true, obfuscated code will write to clipboard. Otherwise write to given filepath.",
 
-    "command.obfuscate": "NI KSP Run Obfuscator"
+    "command.obfuscate": "NI KSP: Run Obfuscator",
+    "command.parse.syntax": "NI KSP: Parse script & copy script to clipboard"
 }

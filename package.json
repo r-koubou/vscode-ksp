@@ -78,8 +78,24 @@
         ],
         "commands": [
             {
+                "command": "ksp.parse.syntax",
+                "title": "%command.parse.syntax%"
+            },
+            {
                 "command": "ksp.obfuscate",
                 "title": "%command.obfuscate%"
+            }
+        ],
+        "keybindings":[
+            {
+                "command": "ksp.parse.syntax",
+                "key": "f5",
+                "when": "editorLangId == ksp"
+            },
+            {
+                "command": "ksp.obfuscate",
+                "key": "shift+f5",
+                "when": "editorLangId == ksp"
             }
         ],
         "menus": {

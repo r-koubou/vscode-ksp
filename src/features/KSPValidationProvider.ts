@@ -310,9 +310,6 @@ export class KSPValidationProvider
                 }
             }
 
-            let thisExtention        = vscode.extensions.getExtension( kspconst.EXTENSION_ID );
-            let thisExtentionDir     = thisExtention.extensionPath;
-            let options              = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
             let src                  = textDocument.fileName;
             let tmpFile              = undefined;
             let diagnosticCollection = this.getDiagnosticCollection( textDocument );

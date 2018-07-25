@@ -23,7 +23,7 @@ import { KSPReferenceProvider }         from './features/KSPReferenceProvider';
 import { KSPValidationProvider }        from './features/KSPValidationProvider';
 import { KSPRenameProvider }            from './features/KSPRenameProvider';
 
-import KSPObfuscatorCommand =           require( './features/KSPObfuscatorCommand' );
+import KSPCommandSetup                  = require( './features/commands/KSPCommandSetup' );
 
 export function activate( context:vscode.ExtensionContext ) : any
 {
@@ -65,9 +65,11 @@ export function activate( context:vscode.ExtensionContext ) : any
 // Commands
 //------------------------------------------------------------------------------
 
-    context.subscriptions.push(
-        vscode.commands.registerCommand( 'ksp.obfuscate', KSPObfuscatorCommand.doObfuscate )
-    );
+    KSPCommandSetup.setupCommands( context );
+
+//------------------------------------------------------------------------------
+// Language Configuration
+//------------------------------------------------------------------------------
 
     vscode.languages.setLanguageConfiguration( Constants.LANG_ID, {
         wordPattern: /(-?\d*\.\d\w*)|([^\-\`\#\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g

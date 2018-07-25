@@ -15,11 +15,10 @@ import * as fs              from 'fs';
 import * as tmp             from 'tmp';
 import * as clipboard       from 'clipboardy';
 
-import * as kspconst        from './KSPExtensionConstants';
-import * as config          from './KSPConfigurationConstants';
+import * as config          from '../KSPConfigurationConstants';
 
-import { KSPConfigurationManager} from './KSPConfigurationManager';
-import { KSPCompileBuilder}       from './KSPCompileBuilder';
+import { KSPConfigurationManager} from '../KSPConfigurationManager';
+import { KSPCompileBuilder}       from '../KSPCompileBuilder';
 
 export function doObfuscate( context: vscode.ExtensionContext )
 {
@@ -38,10 +37,10 @@ export function doObfuscate( context: vscode.ExtensionContext )
     suffix      = KSPConfigurationManager.getConfig<string>( config.KEY_OBFUSCATOR_SUFFIX, config.DEFAULT_OBFUSCATOR_SUFFIX );
     toClipboard = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD );
 
-    const MESSAGE_PREFIX: string        = "KSP Obfuscator";
+    const MESSAGE_PREFIX: string        = "KSP Obfuscator(BETA)";
     const MESSAGE_SUCCESSFULLY: string  = "Successfully";
     const MESSAGE_FAILED: string        = "Failed";
-    const MESSAGE_CLIPBOARD: string     = "Obfuscated code on the clipboard";
+    const MESSAGE_CLIPBOARD: string     = "Obfuscated code has been copied to clipboard";
 
 
     //--------------------------------------------------------------------------
@@ -116,7 +115,6 @@ export function doObfuscate( context: vscode.ExtensionContext )
                 childProcess.stderr.on( 'data', (data: Buffer) =>
                 {
                     hasError = true;
-                    console.log( data.toString() );
                 });
                 // process finished with exit code
                 childProcess.on( 'exit', (exitCode) =>
