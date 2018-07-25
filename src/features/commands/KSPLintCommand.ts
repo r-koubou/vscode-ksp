@@ -64,7 +64,7 @@ export function doLint( context: vscode.ExtensionContext )
         let parser: KSPSyntaxParserExecutor = new KSPSyntaxParserExecutor();
         args = argBuilder.build();
 
-        parser.onExit = (exitCode:number)=> {
+        parser.onExit = (exitCode:number) => {
             if( exitCode != 0 )
             {
                 vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED}. Please check your script : ${baseName}` );
@@ -77,10 +77,10 @@ export function doLint( context: vscode.ExtensionContext )
             {
                 callback( exitCode );
             }
-        }
+        };
         parser.onException = (e:Error) => {
             vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
-        }
+        };
 
         parser.execSyntaxParser( args );
 

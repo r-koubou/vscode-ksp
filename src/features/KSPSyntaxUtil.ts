@@ -13,7 +13,6 @@ import vscode = require( 'vscode' );
 import * as cp                      from 'child_process';
 import * as config                  from './KSPConfigurationConstants';
 import { KSPConfigurationManager}   from './KSPConfigurationManager';
-import { KSPCompileBuilder}         from './KSPCompileBuilder';
 
 export const BASIC_KEYWORDS : string[] = [
     "on",
@@ -131,6 +130,12 @@ export class KSPSyntaxParserExecutor
      */
     public execSyntaxParser( args:string[] ) : void
     {
+        if( !KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE ) )
+        {
+            vscode.window.showErrorMessage( 'KSP: Validate is disabled. See Preference of KSP' );
+            return;
+        }
+
         try
         {
             let exec         = KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION );
@@ -138,10 +143,10 @@ export class KSPSyntaxParserExecutor
 
             childProcess.on( 'error', (error: Error) =>
             {
-                vscode.window.showErrorMessage( 'Command "java" not found' );
+                vscode.window.showErrorMessage( 'KSP: Command "java" not found' );
                 if( this._onError )
                 {
-                    this._onError( 'Command "java" not found' );
+                    this._onError( 'KSP: Command "java" not found' );
                 }
             });
 

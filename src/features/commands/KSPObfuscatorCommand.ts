@@ -19,6 +19,7 @@ import * as config          from '../KSPConfigurationConstants';
 
 import { KSPConfigurationManager} from '../KSPConfigurationManager';
 import { KSPCompileBuilder}       from '../KSPCompileBuilder';
+import { KSPSyntaxParserExecutor} from '../KSPSyntaxUtil';
 
 export function doObfuscate( context: vscode.ExtensionContext )
 {
@@ -89,63 +90,38 @@ export function doObfuscate( context: vscode.ExtensionContext )
     function obfuscate( output:string, outputToClipboard: boolean, callback?: (exitCode: number)=>void ){
 
         let inline: boolean = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION );
-
-        let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( textDocument.fileName, null, true, inline, output );
+        let parser: KSPSyntaxParserExecutor = new KSPSyntaxParserExecutor();
+        let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( textDocument.fileName, null, true, inline, output );
         args = argBuilder.build();
 
-        try
-        {
-            let exec         = KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION );
-            let childProcess = cp.spawn( exec, args, undefined );
+        parser.onExit = (exitCode:number) => {
 
-            childProcess.on( 'error', (error: Error) =>
+            if( exitCode != 0 )
             {
-                vscode.window.showErrorMessage( 'Command "java" not found' );
-            });
-
-            if( childProcess.pid )
-            {
-                let hasError: boolean = false;
-
-                // handling stdout
-                childProcess.stdout.on( 'data', (data: Buffer) =>
-                {
-                });
-                // handling stderr
-                childProcess.stderr.on( 'data', (data: Buffer) =>
-                {
-                    hasError = true;
-                });
-                // process finished with exit code
-                childProcess.on( 'exit', (exitCode) =>
-                {
-                    if( callback )
-                    {
-                        callback( exitCode );
-                    }
-
-                    if( exitCode != 0 )
-                    {
-                        vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED}. Please check your script : ${baseName}` );
-                    }
-                    else
-                    {
-                        if( toClipboard )
-                        {
-                            vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY}. ${MESSAGE_CLIPBOARD}` );
-                        }
-                        else
-                        {
-                            vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY} : ${baseName}` );
-                        }
-                    }
-                });
+                vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED}. Please check your script : ${baseName}` );
             }
-        }
-        catch( e )
-        {
+            else
+            {
+                if( toClipboard )
+                {
+                    vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY}. ${MESSAGE_CLIPBOARD}` );
+                }
+                else
+                {
+                    vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY} : ${baseName}` );
+                }
+            }
+
+            if( callback )
+            {
+                callback( exitCode );
+            }
+        };
+        parser.onException = (error:Error) => {
             vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
         }
+
+        parser.execSyntaxParser( args );
 
     }; //~function obfuscate
 

@@ -86,7 +86,7 @@
                 "title": "%command.obfuscate%"
             }
         ],
-        "keybindings":[
+        "keybindings": [
             {
                 "command": "ksp.parse.syntax",
                 "key": "f5",
