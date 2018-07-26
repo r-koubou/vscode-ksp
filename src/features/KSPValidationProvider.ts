@@ -16,9 +16,9 @@ import * as tmp             from 'tmp';
 import * as fs              from 'fs';
 import { ThrottledDelayer } from './libs/async';
 import * as config          from './KSPConfigurationConstants';
-import { KSPConfigurationManager} from './KSPConfigurationManager';
-import * as kspconst        from './KSPExtensionConstants';
-import { KSPCompileBuilder} from './KSPCompileBuilder';
+import { KSPConfigurationManager}   from './KSPConfigurationManager';
+import { KSPCompileExecutor }       from './KSPCompileExecutor';
+import { KSPCompileBuilder}         from './KSPCompileBuilder';
 
 
 const PARSER_MESSAGE_DELIMITER: string      = "\t";
@@ -32,9 +32,6 @@ export class KSPValidationProvider
 
     private validationEnabled: boolean          = config.DEFAULT_ENABLE_VALIDATE;
     private realtimeValidationEnabled: boolean  = config.DEFAULT_REALTIME_VALIDATE;
-    private validateParseSyntaxOnly:boolean     = config.DEFAULT_PARSE_SYNTAX_ONLY;
-    private validateParseStrict:boolean         = config.DEFAULT_PARSE_STRICT;
-    private validateParseUnused:boolean         = config.DEFAULT_PARSE_UNUSED;
     private realtimeValidationDelay:number      = config.DEFAULT_VALIDATE_DELAY;
 
     private executable: string                  = config.DEFAULT_JAVA_LOCATION;
@@ -43,7 +40,7 @@ export class KSPValidationProvider
 
     private onSaveListener: vscode.Disposable;
     private onChangedListener: vscode.Disposable;
-    private diagnosticsList: { [key: string]: vscode.DiagnosticCollection };
+    private compilerList:    { [key: string]: KSPCompileExecutor };
     private delayersList:    { [key: string]: ThrottledDelayer<void> };
 
     /**
@@ -51,8 +48,8 @@ export class KSPValidationProvider
      */
     constructor( private workspaceStore: vscode.Memento )
     {
-        this.diagnosticsList = Object.create( null );
-        this.delayersList    = Object.create( null );
+        this.compilerList = Object.create( null );
+        this.delayersList = Object.create( null );
     }
 
     /**
@@ -69,7 +66,7 @@ export class KSPValidationProvider
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
             this.clearDiagnosticCollection( textDocument );
-            delete this.diagnosticsList[ textDocument.uri.toString() ];
+            delete this.compilerList[ textDocument.uri.toString() ];
             delete this.delayersList[ textDocument.uri.toString() ];
         }, null, subscriptions );
     }
@@ -77,20 +74,20 @@ export class KSPValidationProvider
     /**
      * Get DiagnosticCollection from active TextDocument
      */
-    private getDiagnosticCollection( textDocument: vscode.TextDocument ): vscode.DiagnosticCollection
+    private getCompiler( textDocument: vscode.TextDocument ): KSPCompileExecutor
     {
         if( !textDocument )
         {
             throw "textDocument is null";
         }
         let key = textDocument.uri.toString();
-        let p: vscode.DiagnosticCollection = this.diagnosticsList[ key ];
+        let p: KSPCompileExecutor = this.compilerList[ key ];
         if( p )
         {
             return p;
         }
-        p = vscode.languages.createDiagnosticCollection();
-        this.diagnosticsList[ key ] = p;
+        p = new KSPCompileExecutor();
+        this.compilerList[ key ] = p;
         return p;
     }
 
@@ -104,10 +101,10 @@ export class KSPValidationProvider
             return;
         }
         let key = textDocument.uri.toString();
-        let p   = this.diagnosticsList[ key ];
+        let p   = this.compilerList[ key ];
         if( p )
         {
-            p.clear();
+            p.diagnosticCollection.clear();
         }
     }
 
@@ -169,9 +166,6 @@ export class KSPValidationProvider
                     this.realtimeValidationDelay = v;
                 }
             });
-            this.validateParseSyntaxOnly    = KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_SYNTAX_ONLY, config.DEFAULT_PARSE_SYNTAX_ONLY );
-            this.validateParseStrict        = KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_STRICT, config.DEFAULT_PARSE_STRICT );
-            this.validateParseUnused        = KSPConfigurationManager.getConfig<boolean>( config.KEY_PARSE_UNUSED, config.DEFAULT_PARSE_UNUSED );
             // ~Get configurations
 
             if( this.pauseValidation )
@@ -230,8 +224,8 @@ export class KSPValidationProvider
             let delayer = this.delayersList[ key ];
             if( !delayer )
             {
-                delayer              = new ThrottledDelayer<void>( 0 );
-                this.delayersList[ key ] = delayer;
+                delayer                     = new ThrottledDelayer<void>( 0 );
+                this.delayersList[ key ]    = delayer;
             }
 
             let delay = this.realtimeTrigger ? this.realtimeValidationDelay : 0;
@@ -256,175 +250,33 @@ export class KSPValidationProvider
         }
         return new Promise<void>( (resolve, reject) =>
         {
-            let exec = this.executable;
-            let diagnostics: vscode.Diagnostic[] = [];
+            let src: string                     = textDocument.fileName;
+            let compiler: KSPCompileExecutor    = this.getCompiler( textDocument );
+            let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( src );
 
-            let processLine = (lineText: string) =>
-            {
-                let msg: string[] = lineText.split( PARSER_MESSAGE_DELIMITER );
-                if( msg.length >= 3 )
-                {
-                    let level   = msg[ 0 ].toUpperCase();
-                    let line    = Number.parseInt( msg[ 1 ] ) - 1; // zero origin
-                    let message = "[KSP] " + msg[ 2 ];
-                    let range   = new vscode.Range( line, 0, line, Number.MAX_VALUE );
-                    let diagnostic: vscode.Diagnostic = new vscode.Diagnostic( range, message );
-
-                    if( level === "ERROR" )
-                    {
-                        diagnostic.severity = vscode.DiagnosticSeverity.Error;
-                    }
-                    else if( level === "WARNING" )
-                    {
-                        diagnostic.severity = vscode.DiagnosticSeverity.Warning;
-                    }
-                    else if( level === "INFO" || level === "DEBUG" )
-                    {
-                        diagnostic.severity = vscode.DiagnosticSeverity.Information;
-                    }
-                    else
-                    {
-                        diagnostic.severity = vscode.DiagnosticSeverity.Error;
-                    }
-                    diagnostics.push( diagnostic );
-                }
-            }; //~ processLine
-            let processLineStdErr = (lineText: string) =>
-            {
-                // net.rkoubou.kspparser.javacc.generated.TokenMgrError: Lexical error at line <number>,
-                let matches = lineText.match( KSPValidationProvider.REGEX_TOKEN_MGR_ERROR );
-                let line: number = 0;
-                if( !matches )
-                {
-                    matches = lineText.match( KSPValidationProvider.REGEX_PARSE_EXCEPTION );
-                }
-                if( matches )
-                {
-                    let message = "[KSP Parser] FATAL : Check your script carefully again.";
-                    let line = Number.parseInt( matches[ 1 ] ) - 1; // zero origin
-                    let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
-                        new vscode.Range( line, 0, line, Number.MAX_VALUE ),
-                        message
-                    );
-                    diagnostics.push( diagnostic );
-                }
-            }
-
-            let src                  = textDocument.fileName;
-            let tmpFile              = undefined;
-            let diagnosticCollection = this.getDiagnosticCollection( textDocument );
-            let argBuilder: KSPCompileBuilder = new KSPCompileBuilder( src );
-
-// launch en-US mode
-//          argBuilder.forceUseEn_US = true;
-
-            if( vscode.env.language.startsWith( "en" ) )
-            {
-                argBuilder.forceUseEn_US = true;
-            }
-
-            let args: string[];
-
-            if( this.realtimeValidationEnabled )
-            {
-                tmpFile = tmp.fileSync();
-                fs.writeFileSync( tmpFile.name, textDocument.getText() );
-                argBuilder.inputFile = tmpFile.name;
-            }
-
-            args = argBuilder.build();
-
-            try
-            {
-                let childProcess = cp.spawn( exec, args, undefined );
-
-                childProcess.on( 'error', (error: Error) =>
-                {
-                    if( tmpFile )
-                    {
-                        tmpFile.removeCallback();
-                        tmpFile = undefined;
-                    }
-
-                    if( this.pauseValidation )
-                    {
-                        resolve();
-                        return;
-                    }
-                    this.showFatal( 'Command "java" not found' );
-                    this.pauseValidation = true;
-                    resolve();
-                });
-
-                if( childProcess.pid )
-                {
-                    // handling stdout
-                    childProcess.stdout.on( 'data', (data: Buffer) =>
-                    {
-                        //console.log( data.toString() );
-                        data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
-                            processLine( x );
-                        });
-                        resolve();
-                    });
-                    // handling stderr
-                    childProcess.stderr.on( 'data', (data: Buffer) =>
-                    {
-                        //console.log( data.toString() );
-                        data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
-                            processLineStdErr( x );
-                        });
-                        resolve();
-                    });
-                    // process finished
-                    childProcess.stdout.on( 'end', () =>
-                    {
-                        if( tmpFile )
-                        {
-                            tmpFile.removeCallback();
-                            tmpFile = undefined;
-                        }
-                        if( diagnosticCollection )
-                        {
-                            diagnosticCollection.set( textDocument.uri, diagnostics );
-                        }
-                        resolve();
-                    });
-                }
-                else
+            compiler.onError = (text:string) => {
+                if( this.pauseValidation )
                 {
                     resolve();
+                    return;
                 }
-            }
-            catch( e )
-            {
-                this.showException( e, exec );
-            }
+                this.pauseValidation = true;
+                resolve();
+            };
+
+            compiler.onStdout = (text:string) => {
+                resolve();
+            };
+
+            compiler.onStderr = (text:string) => {
+                resolve();
+            };
+
+            compiler.onEnd = () => {
+                resolve();
+            };
+
+            compiler.execute( textDocument, argBuilder, this.realtimeValidationEnabled, true );
         });
-    }
-
-    private showException( error: any, executable: string ): void
-    {
-        let message: string = "KSP Syntax Parser: FATAL ERROR";
-        if( error.message )
-        {
-            message = error.message;
-        }
-        this.showFatal( message );
-    }
-
-    private showInfo( message: string ): void
-    {
-        vscode.window.showInformationMessage( message );
-    }
-
-    private showWarn( message: string ): void
-    {
-        vscode.window.showWarningMessage( message );
-    }
-
-    private showFatal( message: string ): void
-    {
-        vscode.window.showErrorMessage( message );
     }
 }

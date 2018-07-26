@@ -56,6 +56,11 @@ export class KSPCompileBuilder
                 this.jvmArgs.push( a );
             }
         }
+        // Language option
+        if( vscode.env.language.startsWith( "en" ) )
+        {
+            this.forceUseEn_US = true;
+        }
     }
 
     /**

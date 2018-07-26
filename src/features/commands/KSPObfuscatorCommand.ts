@@ -9,7 +9,6 @@
    ======================================================================== */
 
 import * as vscode          from 'vscode';
-import * as cp              from 'child_process';
 import * as path            from 'path';
 import * as fs              from 'fs';
 import * as tmp             from 'tmp';
@@ -17,15 +16,13 @@ import * as clipboard       from 'clipboardy';
 
 import * as config          from '../KSPConfigurationConstants';
 
-import { KSPConfigurationManager} from '../KSPConfigurationManager';
-import { KSPCompileBuilder}       from '../KSPCompileBuilder';
-import { KSPSyntaxParserExecutor} from '../KSPSyntaxUtil';
+import { KSPConfigurationManager }  from '../KSPConfigurationManager';
+import { KSPCompileBuilder }        from '../KSPCompileBuilder';
+import { KSPCompileExecutor }       from '../KSPCompileExecutor';
 
 export function doObfuscate( context: vscode.ExtensionContext )
 {
     let editor              = vscode.window.activeTextEditor;
-    let options             = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath } : undefined;
-    let args: string[]      = [];
     let textDocument: vscode.TextDocument;
     let baseName: string;
     let suffix = config.DEFAULT_OBFUSCATOR_SUFFIX;
@@ -39,7 +36,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
     toClipboard = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD );
 
     const MESSAGE_PREFIX: string        = "KSP Obfuscator(BETA)";
-    const MESSAGE_SUCCESSFULLY: string  = "Successfully";
+    const MESSAGE_SUCCESSFULLY: string  = "No error";
     const MESSAGE_FAILED: string        = "Failed";
     const MESSAGE_CLIPBOARD: string     = "Obfuscated code has been copied to clipboard";
 
@@ -90,9 +87,8 @@ export function doObfuscate( context: vscode.ExtensionContext )
     function obfuscate( output:string, outputToClipboard: boolean, callback?: (exitCode: number)=>void ){
 
         let inline: boolean = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION );
-        let parser: KSPSyntaxParserExecutor = new KSPSyntaxParserExecutor();
+        let parser: KSPCompileExecutor      = new KSPCompileExecutor();
         let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( textDocument.fileName, null, true, inline, output );
-        args = argBuilder.build();
 
         parser.onExit = (exitCode:number) => {
 
@@ -121,7 +117,7 @@ export function doObfuscate( context: vscode.ExtensionContext )
             vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
         }
 
-        parser.execSyntaxParser( args );
+        parser.execute( textDocument, argBuilder, false );
 
     }; //~function obfuscate
 

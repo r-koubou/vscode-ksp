@@ -13,13 +13,12 @@ import * as fs              from 'fs';
 import * as path            from 'path';
 import * as clipboard       from 'clipboardy';
 
-import { KSPCompileBuilder}       from '../KSPCompileBuilder';
-import { KSPSyntaxParserExecutor} from '../KSPSyntaxUtil';
+import { KSPCompileBuilder }    from '../KSPCompileBuilder';
+import { KSPCompileExecutor }   from '../KSPCompileExecutor';
 
 export function doLint( context: vscode.ExtensionContext )
 {
-    let editor              = vscode.window.activeTextEditor;
-    let args: string[]      = [];
+    let editor: vscode.TextEditor = vscode.window.activeTextEditor;
     let textDocument: vscode.TextDocument;
     let baseName: string;
     let scriptFilePath: string;
@@ -58,13 +57,12 @@ export function doLint( context: vscode.ExtensionContext )
     //--------------------------------------------------------------------------
     // Run Syntax parser
     //--------------------------------------------------------------------------
-    function runParser( callback?: (exitCode: number)=>void ){
+    function runCompiler( callback?: (exitCode: number)=>void ){
 
         let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( scriptFilePath, null, false, false );
-        let parser: KSPSyntaxParserExecutor = new KSPSyntaxParserExecutor();
-        args = argBuilder.build();
+        let compiler: KSPCompileExecutor    = new KSPCompileExecutor();
 
-        parser.onExit = (exitCode:number) => {
+        compiler.onExit = (exitCode:number) => {
             if( exitCode != 0 )
             {
                 vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED}. Please check your script : ${baseName}` );
@@ -78,17 +76,17 @@ export function doLint( context: vscode.ExtensionContext )
                 callback( exitCode );
             }
         };
-        parser.onException = (e:Error) => {
+        compiler.onException = (e:Error) => {
             vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
         };
 
-        parser.execSyntaxParser( args );
+        compiler.execute( textDocument, argBuilder );
 
     }; //~function runParser
 
     // Output to Clipboard
     {
-        runParser( ( exitCode )=>{
+        runCompiler( ( exitCode )=>{
             if( exitCode == 0 )
             {
                 let txt: string = fs.readFileSync( scriptFilePath ).toString();
