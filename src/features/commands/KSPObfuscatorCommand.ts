@@ -61,12 +61,6 @@ export function doObfuscate( context: vscode.ExtensionContext )
 
     baseName = path.basename( textDocument.fileName );
 
-    if( textDocument.isUntitled || textDocument.isDirty )
-    {
-        vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${baseName} - File is not saved.` );
-        return;
-    }
-
     //--------------------------------------------------------------------------
     // Initialize from context
     //--------------------------------------------------------------------------
@@ -87,10 +81,10 @@ export function doObfuscate( context: vscode.ExtensionContext )
     function obfuscate( output:string, outputToClipboard: boolean, callback?: (exitCode: number)=>void ){
 
         let inline: boolean = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_INLINE_FUNCTION, config.DEFAULT_INLINE_FUNCTION );
-        let parser: KSPCompileExecutor      = new KSPCompileExecutor();
+        let parser: KSPCompileExecutor      = KSPCompileExecutor.getCompiler( textDocument ).init();
         let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( textDocument.fileName, null, true, inline, output );
 
-        parser.onExit = (exitCode:number) => {
+        parser.OnExit = (exitCode:number) => {
 
             if( exitCode != 0 )
             {
@@ -113,11 +107,11 @@ export function doObfuscate( context: vscode.ExtensionContext )
                 callback( exitCode );
             }
         };
-        parser.onException = (error:Error) => {
+        parser.OnException = (error:Error) => {
             vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
         }
 
-        parser.execute( textDocument, argBuilder, false );
+        parser.execute( textDocument, argBuilder );
 
     }; //~function obfuscate
 

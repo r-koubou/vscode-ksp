@@ -48,21 +48,15 @@ export function doLint( context: vscode.ExtensionContext )
     scriptFilePath = textDocument.fileName;
     baseName       = path.basename( textDocument.fileName );
 
-    if( textDocument.isUntitled || textDocument.isDirty )
-    {
-        vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${baseName} - File is not saved.` );
-        return;
-    }
-
     //--------------------------------------------------------------------------
     // Run Syntax parser
     //--------------------------------------------------------------------------
     function runCompiler( callback?: (exitCode: number)=>void ){
 
-        let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( scriptFilePath, null, false, false );
-        let compiler: KSPCompileExecutor    = new KSPCompileExecutor();
+        let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( scriptFilePath );
+        let compiler: KSPCompileExecutor    = KSPCompileExecutor.getCompiler( textDocument ).init();
 
-        compiler.onExit = (exitCode:number) => {
+        compiler.OnExit = (exitCode:number) => {
             if( exitCode != 0 )
             {
                 vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED}. Please check your script : ${baseName}` );
@@ -76,7 +70,7 @@ export function doLint( context: vscode.ExtensionContext )
                 callback( exitCode );
             }
         };
-        compiler.onException = (e:Error) => {
+        compiler.OnException = (e:Error) => {
             vscode.window.showErrorMessage( `${MESSAGE_PREFIX}: ${MESSAGE_FAILED} : ${baseName}` );
         };
 

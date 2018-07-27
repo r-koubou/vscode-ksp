@@ -11,25 +11,14 @@
 // Implemented based on Part of PHP Validation Provider implementation. (validationProvider.ts)
 
 import * as vscode          from 'vscode';
-import * as cp              from 'child_process';
-import * as tmp             from 'tmp';
-import * as fs              from 'fs';
 import { ThrottledDelayer } from './libs/async';
 import * as config          from './KSPConfigurationConstants';
 import { KSPConfigurationManager}   from './KSPConfigurationManager';
 import { KSPCompileExecutor }       from './KSPCompileExecutor';
 import { KSPCompileBuilder}         from './KSPCompileBuilder';
 
-
-const PARSER_MESSAGE_DELIMITER: string      = "\t";
-const REGEX_PARSER_MESSAGE_NEWLINE: RegExp  = /[\r]?\n/;
-
 export class KSPValidationProvider
 {
-    private static REGEX_VARIABLE_SYMBOL: RegExp = /[\$|%|\~|\?|@|!]/;
-    private static REGEX_TOKEN_MGR_ERROR: RegExp = /.*?TokenMgrError\: Lexical error at line (\d+)/;
-    private static REGEX_PARSE_EXCEPTION: RegExp = /.*?ParseException\:.*?at line (\d+)/;
-
     private validationEnabled: boolean          = config.DEFAULT_ENABLE_VALIDATE;
     private realtimeValidationEnabled: boolean  = config.DEFAULT_REALTIME_VALIDATE;
     private realtimeValidationDelay:number      = config.DEFAULT_VALIDATE_DELAY;
@@ -41,7 +30,6 @@ export class KSPValidationProvider
     private onSaveListener: vscode.Disposable;
     private onChangedListener: vscode.Disposable;
     private compilerList:    { [key: string]: KSPCompileExecutor };
-    private delayersList:    { [key: string]: ThrottledDelayer<void> };
 
     /**
      * ctor
@@ -49,7 +37,6 @@ export class KSPValidationProvider
     constructor( private workspaceStore: vscode.Memento )
     {
         this.compilerList = Object.create( null );
-        this.delayersList = Object.create( null );
     }
 
     /**
@@ -62,33 +49,12 @@ export class KSPValidationProvider
         this.initConfiguration();
         this.loadConfiguration();
         vscode.workspace.onDidChangeConfiguration( this.loadConfiguration, this, subscriptions );
-        vscode.workspace.onDidOpenTextDocument( this.triggerValidate, this, subscriptions );
+        vscode.workspace.onDidOpenTextDocument( this.doValidate, this, subscriptions );
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
             this.clearDiagnosticCollection( textDocument );
             delete this.compilerList[ textDocument.uri.toString() ];
-            delete this.delayersList[ textDocument.uri.toString() ];
         }, null, subscriptions );
-    }
-
-    /**
-     * Get DiagnosticCollection from active TextDocument
-     */
-    private getCompiler( textDocument: vscode.TextDocument ): KSPCompileExecutor
-    {
-        if( !textDocument )
-        {
-            throw "textDocument is null";
-        }
-        let key = textDocument.uri.toString();
-        let p: KSPCompileExecutor = this.compilerList[ key ];
-        if( p )
-        {
-            return p;
-        }
-        p = new KSPCompileExecutor();
-        this.compilerList[ key ] = p;
-        return p;
     }
 
     /**
@@ -104,7 +70,7 @@ export class KSPValidationProvider
         let p   = this.compilerList[ key ];
         if( p )
         {
-            p.diagnosticCollection.clear();
+            p.DiagnosticCollection.clear();
         }
     }
 
@@ -180,19 +146,13 @@ export class KSPValidationProvider
                 return;
             }
             this.onSaveListener = vscode.workspace.onDidSaveTextDocument( (e) => {
-                let key   = e.uri.toString();
-                let delay = this.delayersList[ key ];
-                if( delay )
-                {
-                    delay.cancel();
-                }
                 this.realtimeTrigger = false;
-                this.triggerValidate( e );
+                this.doValidate( e );
             }, this );
 
             this.onChangedListener = vscode.workspace.onDidChangeTextDocument( (e) => {
                 this.realtimeTrigger = true;
-                this.triggerValidate( e.document );
+                this.doValidate( e.document );
             });
 
             if( this.validationEnabled )
@@ -201,7 +161,7 @@ export class KSPValidationProvider
                 if( documents )
                 {
                     documents.forEach( (doc:vscode.TextDocument)=>{
-                        this.triggerValidate( doc );
+                        this.doValidate( doc );
                     });
                 }
             }
@@ -210,73 +170,51 @@ export class KSPValidationProvider
     }
 
     /**
-     * Handling for validation
+     * Execute syntax parser program
      */
-    private triggerValidate( textDocument: vscode.TextDocument ): void
+    private doValidate( textDocument: vscode.TextDocument ): void//Promise<void>
     {
-        if( !textDocument || textDocument.languageId !== "ksp" || !this.validationEnabled )
+        if( !this.validationEnabled )
         {
             return;
         }
-        let trigger = () =>
-        {
-            let key = textDocument.uri.toString();
-            let delayer = this.delayersList[ key ];
-            if( !delayer )
-            {
-                delayer                     = new ThrottledDelayer<void>( 0 );
-                this.delayersList[ key ]    = delayer;
-            }
 
+        //return new Promise<void>( (resolve, reject) =>
+        {
+            let src: string                     = textDocument.fileName;
+            let compiler: KSPCompileExecutor    = KSPCompileExecutor.getCompiler( textDocument ).init();
+            let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( src );
+            let delayer: ThrottledDelayer<void> = compiler.Delayer;
             let delay = this.realtimeTrigger ? this.realtimeValidationDelay : 0;
+
             if( this.realtimeValidationEnabled )
             {
                 delayer.defaultDelay = delay;
             }
-            // Exec syntax parser
-            delayer.trigger( () => this.doValidate( textDocument ) );
-        };
-        trigger();
-    }
 
-    /**
-     * Execute syntax parser program
-     */
-    private doValidate( textDocument: vscode.TextDocument ): Promise<void>
-    {
-        if( textDocument.isClosed )
-        {
-            return;
-        }
-        return new Promise<void>( (resolve, reject) =>
-        {
-            let src: string                     = textDocument.fileName;
-            let compiler: KSPCompileExecutor    = this.getCompiler( textDocument );
-            let argBuilder: KSPCompileBuilder   = new KSPCompileBuilder( src );
-
-            compiler.onError = (text:string) => {
+            compiler.OnError = (text:string) => {
                 if( this.pauseValidation )
                 {
-                    resolve();
+                    //resolve();
                     return;
                 }
                 this.pauseValidation = true;
-                resolve();
+                //resolve();
             };
 
-            compiler.onStdout = (text:string) => {
-                resolve();
+            compiler.OnStdout = (text:string) => {
+                //resolve();
             };
 
-            compiler.onStderr = (text:string) => {
-                resolve();
+            compiler.OnStderr = (text:string) => {
+                //resolve();
             };
 
-            compiler.onEnd = () => {
-                resolve();
+            compiler.OnEnd = () => {
+                //resolve();
             };
 
             compiler.execute( textDocument, argBuilder, this.realtimeValidationEnabled, true );
-        });
+        }//);
     }
 }

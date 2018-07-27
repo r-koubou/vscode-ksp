@@ -1,12 +1,15 @@
+<small>[English is here](https://github.com/r-koubou/vscode-ksp/blob/master/README.md)</small>
+
 ![](https://vsmarketplacebadge.apphb.com/version/rkoubou.ksp.svg
 ) ![](https://vsmarketplacebadge.apphb.com/installs-short/rkoubou.ksp.svg
-) <small>[English](https://github.com/r-koubou/vscode-ksp/blob/master/README.md)</small>
+)
 
 # Language support for NI KONTAKT(TM) Script Processor (KSP)
 
 ## 機能
 
-* アウトラインビュー**(New)**
+* 文法解析後、スクリプトをクリップボードにコピー **(NEW)**
+* アウトラインビュー
 * スクリプトのオブファスケートとオプティマイザ **(BETA)**
 * シンタックスハイライト
 * 補完入力
@@ -16,6 +19,17 @@
 * スクリプト内のシンボル参照箇所の検索
 * 文法解析機能
 * リネーム機能
+
+## 文法解析後、スクリプトをクリップボードにコピー **(NEW)**
+
+`F7` キーを押し、スクリプトの内容に問題がない場合、スクリプトをクリップボードにコピーします。
+
+または、コマンドパレットからも実行できます。
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/parse_cmd_ja.png)
+
+* 文法解析機能が使用可能である必要があります。
+* `Shift+F7` キーを押した場合、オブファスケータを実行します。
 
 ## アウトラインビュー
 
@@ -27,11 +41,11 @@ VSCode標準のアウトラインビューに対応し、使用可能になり�
 
 ## 文法解析機能 (BETA)
 
-* 文法解析
-* 意味解析（論理チェック）
+* 文法解析
+* 意味解析（論理チェック）
     - 配列変数宣言時の要素数をチェック
     - コマンドや、UI変数へ渡すパラメータのチェック
-    - 未使用の変数、ユーザー定義関数の検出
+    - 未使用の変数、ユーザー定義関数の検出
 
     など
 

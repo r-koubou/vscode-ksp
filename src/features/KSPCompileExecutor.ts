@@ -12,7 +12,9 @@ import vscode = require( 'vscode' );
 
 import * as tmp                     from 'tmp';
 import * as fs                      from 'fs';
+import * as path                    from 'path';
 import * as cp                      from 'child_process';
+import { ThrottledDelayer }         from './libs/async';
 import * as config                  from './KSPConfigurationConstants';
 import { KSPConfigurationManager }  from './KSPConfigurationManager';
 import { KSPCompileBuilder }        from './KSPCompileBuilder';
@@ -28,6 +30,8 @@ const REGEX_PARSE_EXCEPTION: RegExp         = /.*?ParseException\:.*?at line (\d
 export class KSPCompileExecutor
 {
 
+    private static pool: { [key: string]: KSPCompileExecutor } = {};
+
     private _onError:(txt:string)=>void = undefined;
     private _onException:(e:Error)=>void = undefined;
     private _onStdout:(txt:string)=>void = undefined;
@@ -35,49 +39,99 @@ export class KSPCompileExecutor
     private _onEnd:()=>void = undefined;
     private _onExit:(exitCode:number)=>void = undefined;
 
-    private document: vscode.TextDocument;
+    private running: boolean = false;
     private tempFile;
     private _diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection();
     private diagnostics: vscode.Diagnostic[] = [];
 
+    private _delayer: ThrottledDelayer<void> = new ThrottledDelayer<void>( 0 );
+
     /**
      * ctor.
      */
-    constructor()
+    private constructor()
     {
+        this._delayer.defaultDelay = config.DEFAULT_VALIDATE_DELAY;
+    }
+
+    /**
+     * Create the unique instance per document
+     */
+    static getCompiler( document: vscode.TextDocument )
+    {
+        if( !document )
+        {
+            throw "textDocument is null";
+        }
+        let key = document.uri.toString();
+        let p: KSPCompileExecutor = KSPCompileExecutor.pool[ key ];
+        if( p )
+        {
+            return p;
+        }
+        p = new KSPCompileExecutor();
+        KSPCompileExecutor.pool[ key ] = p;
+        return p;
+    }
+
+    /**
+     * Remove all callback events
+     */
+    private unsetllEvents(): void
+    {
+        this.OnEnd          = undefined;
+        this.OnError        = undefined;
+        this.OnException    = undefined;
+        this.OnExit         = undefined;
+        this.OnStderr       = undefined;
+        this.OnStdout       = undefined;
+    }
+
+    /**
+     * Must call before when parser program do run
+     */
+    public init(): KSPCompileExecutor
+    {
+        this.unsetllEvents();
+        return this;
     }
 
     //--------------------------------------------------------------------------
     // setter for callbacks
     //--------------------------------------------------------------------------
-    set onError( error:(txt:string)=>void )
+    set OnError( error:(txt:string)=>void )
     {
         this._onError = error;
     }
-    set onException( exception:(e:Error)=>void )
+    set OnException( exception:(e:Error)=>void )
     {
         this._onException = exception;
     }
-    set onStdout( stdout:(txt:string)=>void )
+    set OnStdout( stdout:(txt:string)=>void )
     {
         this._onStdout = stdout;
     }
-    set onStderr( stderr:(txt:string)=>void )
+    set OnStderr( stderr:(txt:string)=>void )
     {
         this._onStderr = stderr;
     }
-    set onEnd( end:()=>void )
+    set OnEnd( end:()=>void )
     {
         this._onEnd = end;
     }
-    set onExit( exit:(exitCode:number)=>void )
+    set OnExit( exit:(exitCode:number)=>void )
     {
         this._onExit = exit;
     }
 
-    get diagnosticCollection(): vscode.DiagnosticCollection
+    get DiagnosticCollection(): vscode.DiagnosticCollection
     {
         return this._diagnosticCollection;
+    }
+
+    get Delayer(): ThrottledDelayer<void>
+    {
+        return this._delayer;
     }
 
     /**
@@ -151,134 +205,175 @@ export class KSPCompileExecutor
     }
 
     /**
+     * Execute KSP syntax parser program (async)
+     */
+    private executeImpl( document:vscode.TextDocument, argBuilder:KSPCompileBuilder, useTmpFile: Boolean = false, useDiagnostics: boolean = true ) : Promise<void>
+    {
+        return new Promise<void>( (resolve, reject ) => {
+
+            if( !KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE ) )
+            {
+                vscode.window.showErrorMessage( 'KSP: Validate is disabled. See Preference of KSP' );
+                this.running  = false;
+                resolve();
+                return;
+            }
+
+            this.diagnostics = [];
+
+// launch en-US mode
+            // argBuilder.forceUseEn_US = true;
+
+            this.removeTempfile();
+
+            if( useTmpFile )
+            {
+                this.tempFile = tmp.fileSync();
+                fs.writeFileSync( this.tempFile.name, document.getText() );
+                argBuilder.inputFile = this.tempFile.name;
+            }
+
+            let processFailed: boolean = false;
+
+            try
+            {
+                let args: string[] = argBuilder.build();
+                let exec         = KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION );
+                let childProcess = cp.spawn( exec, args, undefined );
+
+                childProcess.on( 'error', (error: Error) =>
+                {
+                    this.removeTempfile();
+                    this._diagnosticCollection.set( document.uri, undefined );
+
+                    vscode.window.showErrorMessage( 'KSP: Command "java" not found' );
+                    if( this._onError )
+                    {
+                        this._onError( 'KSP: Command "java" not found' );
+                    }
+                    this.running = false;
+                    resolve();
+                });
+
+                if( childProcess.pid )
+                {
+                    this.running  = true;
+                    processFailed = false;
+
+                    // handling stdout
+                    childProcess.stdout.on( 'data', (data: Buffer) =>
+                    {
+                        if( useDiagnostics )
+                        {
+                            data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
+                                this.parseStdOut( x );
+                            });
+                        }
+
+                        if( this._onStdout )
+                        {
+                            this._onStdout( data.toString() );
+                        }
+                        resolve();
+                    });
+                    // handling stderr
+                    childProcess.stderr.on( 'data', (data: Buffer) =>
+                    {
+                        if( useDiagnostics )
+                        {
+                            data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
+                                this.parseStdErr( x );
+                            });
+                        }
+
+                        if( this._onStderr )
+                        {
+                            this._onStderr( data.toString() );
+                        }
+                        resolve();
+                    });
+                    // process finished with exit code
+                    childProcess.on( 'exit', (exitCode) =>
+                    {
+                        if( this._onExit )
+                        {
+                            this._onExit( exitCode );
+                        }
+                        resolve();
+                    });
+                    // process finished
+                    childProcess.stdout.on( 'end', () =>
+                    {
+                        this.removeTempfile();
+
+                        if( useDiagnostics )
+                        {
+                            if( this._diagnosticCollection )
+                            {
+                                this._diagnosticCollection.set( document.uri, this.diagnostics );
+                            }
+                        }
+
+                        if( this._onEnd )
+                        {
+                            this._onEnd();
+                        }
+                        this.running = false;
+                        resolve();
+                    });
+                }
+                else
+                {
+                    if( this.OnError )
+                    {
+                        this._onError( "childProcess is invalid" )
+                    }
+                    this.running  = false;
+                    processFailed = true;
+                }
+            }
+            catch( e )
+            {
+                this._diagnosticCollection.set( document.uri, undefined );
+                if( this._onException )
+                {
+                    this._onException( e );
+                }
+                this.running = false;
+                reject( e )
+            }
+            finally
+            {
+                if( processFailed )
+                {
+                    this.removeTempfile();
+                }
+            }
+        });
+    }
+
+    /**
      * Execute KSP syntax parser program
      */
     public execute( document:vscode.TextDocument, argBuilder:KSPCompileBuilder, useTmpFile: Boolean = false, useDiagnostics: boolean = true ) : void
     {
-        if( !KSPConfigurationManager.getConfig<boolean>( config.KEY_ENABLE_VALIDATE, config.DEFAULT_ENABLE_VALIDATE ) )
+        if( document.languageId !== "ksp" )
         {
-            vscode.window.showErrorMessage( 'KSP: Validate is disabled. See Preference of KSP' );
             return;
         }
 
-        this.diagnostics = [];
-        this.document    = document;
-
-// launch en-US mode
-        // argBuilder.forceUseEn_US = true;
-
-        this.removeTempfile();
-
-        if( useTmpFile )
+        if( this.running || document.isClosed )
         {
-            this.tempFile = tmp.fileSync();
-            fs.writeFileSync( this.tempFile.name, document.getText() );
-            argBuilder.inputFile = this.tempFile.name;
+            return;
         }
 
-        let processFailed: boolean = false;
-
-        try
+        if( !useTmpFile && ( document.isUntitled || document.isDirty ) )
         {
-            let args: string[] = argBuilder.build();
-            let exec         = KSPConfigurationManager.getConfig<string>( config.KEY_JAVA_LOCATION, config.DEFAULT_JAVA_LOCATION );
-            let childProcess = cp.spawn( exec, args, undefined );
-
-            childProcess.on( 'error', (error: Error) =>
-            {
-                this.removeTempfile();
-                this._diagnosticCollection.set( document.uri, undefined );
-
-                vscode.window.showErrorMessage( 'KSP: Command "java" not found' );
-                if( this._onError )
-                {
-                    this._onError( 'KSP: Command "java" not found' );
-                }
-            });
-
-            if( childProcess.pid )
-            {
-                processFailed = false;
-
-                // handling stdout
-                childProcess.stdout.on( 'data', (data: Buffer) =>
-                {
-                    if( useDiagnostics )
-                    {
-                        data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
-                            this.parseStdOut( x );
-                        });
-                    }
-
-                    if( this._onStdout )
-                    {
-                        this._onStdout( data.toString() );
-                    }
-                });
-                // handling stderr
-                childProcess.stderr.on( 'data', (data: Buffer) =>
-                {
-                    if( useDiagnostics )
-                    {
-                        data.toString().split( REGEX_PARSER_MESSAGE_NEWLINE ).forEach( x=>{
-                            this.parseStdErr( x );
-                        });
-                    }
-
-                    if( this._onStderr )
-                    {
-                        this._onStderr( data.toString() );
-                    }
-                });
-                // process finished with exit code
-                childProcess.on( 'exit', (exitCode) =>
-                {
-                    if( this._onExit )
-                    {
-                        this._onExit( exitCode );
-                    }
-                });
-                // process finished
-                childProcess.stdout.on( 'end', () =>
-                {
-                    this.removeTempfile();
-
-                    if( useDiagnostics )
-                    {
-                        if( this._diagnosticCollection )
-                        {
-                            this._diagnosticCollection.set( document.uri, this.diagnostics );
-                        }
-                    }
-
-                    if( this._onEnd )
-                    {
-                        this._onEnd();
-                    }
-                });
-            }
-            else
-            {
-                if( this.onError )
-                {
-                    this._onError( "childProcess is invalid" )
-                }
-            }
+            let baseName: string = path.basename( document.fileName );
+            vscode.window.showErrorMessage( `KSP: ${baseName} - File is not saved.` );
+            return;
         }
-        catch( e )
-        {
-            this._diagnosticCollection.set( document.uri, undefined );
-            if( this._onException )
-            {
-                this._onException( e );
-            }
-        }
-        finally
-        {
-            if( processFailed )
-            {
-                this.removeTempfile();
-            }
-        }
+
+        this._delayer.trigger( () => this.executeImpl( document, argBuilder, useTmpFile, useDiagnostics ) );
     }
 }

@@ -37,7 +37,7 @@ export class KSPCompileBuilder
     /**
      * Commandline options initialized by configuration
      */
-    constructor( inputFile:string, jvmArgs:string[] = [], obfuscate:boolean = false, obfuscateInline:boolean = false, obfuscatedOutputFile:string = undefined )
+    constructor( inputFile:string, jvmArgs:string[] = undefined, obfuscate:boolean = false, obfuscateInline:boolean = false, obfuscatedOutputFile:string = undefined )
     {
         // Compile options
         this.inputFile          = inputFile;

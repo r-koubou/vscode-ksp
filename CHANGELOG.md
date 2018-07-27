@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.6.0
+
+* Editor
+    * Syntax check and script copy to clipboard has been supported (See also Readme) 
+
 ## Version 0.5.3
 
 * Editor

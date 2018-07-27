@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.5.3",
+    "version": "0.6.0",
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
     "license": "MIT",
@@ -28,7 +28,8 @@
     "main": "./out/src/KSPMain",
     "activationEvents": [
         "onLanguage:ksp",
-        "onCommand:ksp.obfuscate"
+        "onCommand:ksp.obfuscate",
+        "onCommand:ksp.parse.syntax"
     ],
     "engines": {
         "vscode": "^1.25.0"
@@ -89,12 +90,12 @@
         "keybindings": [
             {
                 "command": "ksp.parse.syntax",
-                "key": "f5",
+                "key": "f7",
                 "when": "editorLangId == ksp"
             },
             {
                 "command": "ksp.obfuscate",
-                "key": "shift+f5",
+                "key": "shift+f7",
                 "when": "editorLangId == ksp"
             }
         ],

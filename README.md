@@ -1,12 +1,15 @@
+<small>[日本語はコチラ](https://github.com/r-koubou/vscode-ksp/blob/master/README.ja.md)</small>
+
 ![](https://vsmarketplacebadge.apphb.com/version/rkoubou.ksp.svg
 ) ![](https://vsmarketplacebadge.apphb.com/installs-short/rkoubou.ksp.svg
-) <small>[日本語](https://github.com/r-koubou/vscode-ksp/blob/master/README.ja.md)</small>
+)
 
 # Language support for NI KONTAKT(TM) Script Processor (KSP)
 
 ## Features
 
-* Outline view **(New)**
+* Syntax check and script copy to clipboard **(NEW)**
+* Outline view
 * Obfuscate and Optimize a Script **(BETA)**
 * Syntax highlighting
 * Autocomplete
@@ -17,7 +20,18 @@
 * Syntax validation
 * Rename Identifiers
 
-## Outline view (New)
+## Syntax check and script copy to clipboard **(NEW)**
+
+If `F7` key pressed and your script has no problem, script will copy to clip board.
+
+or run from command palette.
+
+![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/parse_cmd_en.png)
+
+- **You need to ready for "Syntax validation" function.**
+- If `Shift+F7` pressed, run obfuscator.
+
+## Outline view
 
 Outline view is available in Explorer.
 
