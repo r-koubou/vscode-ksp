@@ -31,11 +31,6 @@ public class CommandlineOptions
         CmdLineParser parser = new CmdLineParser( options );
         parser.parseArgument( args );
 
-        if( options.obfuscate )
-        {
-            // 警告メッセージ出力を抑制＆オブファスケート時にシュリンクする
-            options.strict = false;
-        }
         if( options.strict )
         {
             options.unused = true;
