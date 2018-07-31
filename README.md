@@ -22,7 +22,7 @@
 
 ## Syntax check and script copy to clipboard **(NEW)**
 
-If `F7` key pressed and your script has no problem, script will copy to clip board.
+If `F7` key pressed and your script has no problem, your script will copy to clip board.
 
 or run from command palette.
 

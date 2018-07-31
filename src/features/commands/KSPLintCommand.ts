@@ -25,7 +25,7 @@ export function doLint( context: vscode.ExtensionContext )
 
     const MESSAGE_PREFIX: string        = "KSP";
     const MESSAGE_FAILED: string        = "Failed";
-    const MESSAGE_CLIPBOARD: string     = "No error. Script has been copied to clipboard";
+    const MESSAGE_CLIPBOARD: string     = "Script has been copied to clipboard";
 
     //--------------------------------------------------------------------------
     // Preverify

@@ -27,7 +27,7 @@ const REGEX_PARSE_EXCEPTION: RegExp         = /.*?ParseException\:.*?at line (\d
 /**
  * Execute KSP Compile program
  */
-export class KSPCompileExecutor
+export class KSPCompileExecutor implements vscode.Disposable
 {
 
     private static pool: { [key: string]: KSPCompileExecutor } = {};
@@ -63,7 +63,7 @@ export class KSPCompileExecutor
         {
             throw "textDocument is null";
         }
-        let key = document.uri.toString();
+        let key = document.fileName;
         let p: KSPCompileExecutor = KSPCompileExecutor.pool[ key ];
         if( p )
         {
@@ -77,7 +77,7 @@ export class KSPCompileExecutor
     /**
      * Remove all callback events
      */
-    private unsetllEvents(): void
+    protected unsetllEvents(): void
     {
         this.OnEnd          = undefined;
         this.OnError        = undefined;
@@ -88,12 +88,43 @@ export class KSPCompileExecutor
     }
 
     /**
+     * Clear diagnostics from problems view
+     */
+    protected clearaDiagnostics(): void
+    {
+        this.DiagnosticCollection.clear();
+    }
+
+    /**
      * Must call before when parser program do run
      */
     public init(): KSPCompileExecutor
     {
         this.unsetllEvents();
         return this;
+    }
+
+    /**
+     * Dispose resourves
+     */
+    public dispose(): void
+    {
+        this.clearaDiagnostics();
+        this.unsetllEvents();
+    }
+
+    /**
+     * Dispose resourves
+     */
+    public static dispose( document: vscode.TextDocument ): void
+    {
+        const key = document.fileName;
+        const p   = this.pool[ key ];
+        if( p )
+        {
+            p.dispose();
+            delete this.pool[ key ];
+        }
     }
 
     //--------------------------------------------------------------------------
@@ -308,9 +339,13 @@ export class KSPCompileExecutor
 
                         if( useDiagnostics )
                         {
-                            if( this._diagnosticCollection )
+                            if( !document.isClosed )
                             {
-                                this._diagnosticCollection.set( document.uri, this.diagnostics );
+                                this.DiagnosticCollection.set( document.uri, this.diagnostics );
+                            }
+                            else
+                            {
+                                this.clearaDiagnostics();
                             }
                         }
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.6.1
+
+* Editor
+    * Small bug fixes
+
 ## Version 0.6.0
 
 * Editor

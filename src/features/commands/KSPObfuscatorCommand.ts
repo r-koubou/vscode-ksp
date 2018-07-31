@@ -36,7 +36,6 @@ export function doObfuscate( context: vscode.ExtensionContext )
     toClipboard = KSPConfigurationManager.getConfig<boolean>( config.KEY_OBFUSCATOR_DEST_CLIPBOARD, config.DEFAULT_DEST_CLIPBOARD );
 
     const MESSAGE_PREFIX: string        = "KSP Obfuscator(BETA)";
-    const MESSAGE_SUCCESSFULLY: string  = "No error";
     const MESSAGE_FAILED: string        = "Failed";
     const MESSAGE_CLIPBOARD: string     = "Obfuscated code has been copied to clipboard";
 
@@ -94,11 +93,11 @@ export function doObfuscate( context: vscode.ExtensionContext )
             {
                 if( toClipboard )
                 {
-                    vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY}. ${MESSAGE_CLIPBOARD}` );
+                    vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_CLIPBOARD}` );
                 }
                 else
                 {
-                    vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: ${MESSAGE_SUCCESSFULLY} : ${baseName}` );
+                    vscode.window.showInformationMessage( `${MESSAGE_PREFIX}: Saved to ${baseName}` );
                 }
             }
 

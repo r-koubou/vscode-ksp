@@ -29,14 +29,12 @@ export class KSPValidationProvider
 
     private onSaveListener: vscode.Disposable;
     private onChangedListener: vscode.Disposable;
-    private compilerList:    { [key: string]: KSPCompileExecutor };
 
     /**
      * ctor
      */
     constructor( private workspaceStore: vscode.Memento )
     {
-        this.compilerList = Object.create( null );
     }
 
     /**
@@ -52,26 +50,8 @@ export class KSPValidationProvider
         vscode.workspace.onDidOpenTextDocument( this.doValidate, this, subscriptions );
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
-            this.clearDiagnosticCollection( textDocument );
-            delete this.compilerList[ textDocument.uri.toString() ];
+             KSPCompileExecutor.dispose( textDocument );
         }, null, subscriptions );
-    }
-
-    /**
-     * Clear diagnosticCollection
-     */
-    private clearDiagnosticCollection( textDocument: vscode.TextDocument )
-    {
-        if( !textDocument )
-        {
-            return;
-        }
-        let key = textDocument.uri.toString();
-        let p   = this.compilerList[ key ];
-        if( p )
-        {
-            p.DiagnosticCollection.clear();
-        }
     }
 
     /**
