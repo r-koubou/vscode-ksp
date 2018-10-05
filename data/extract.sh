@@ -1,5 +1,7 @@
 #!/bin/bash
 
-python3 ExtractCallbackFromManual.py > extract_callback.txt
-python3 ExtractCommandFromManual.py > extract_command.txt
-python3 ExtractVariableFromManual.py > extract_variables.txt
+MANUAL="KSP Reference Manual(6.0.2).txt"
+
+python3 ExtractCallbackFromManual.py "$MANUAL" > extract_callback.txt
+python3 ExtractCommandFromManual.py "$MANUAL" > extract_command.txt
+python3 ExtractVariableFromManual.py "$MANUAL" > extract_variables.txt

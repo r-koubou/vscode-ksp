@@ -58,6 +58,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $CONTROL_PAR_DEFAULT_VALUE"
     },
+    "$CONTROL_PAR_DISABLE_TEXT_SHIFTING":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_DISABLE_TEXT_SHIFTING"
+    },
     "$CONTROL_PAR_DND_BEHAVIOUR":
     {
         "description": "Built-in Variable: $CONTROL_PAR_DND_BEHAVIOUR"
@@ -73,6 +77,26 @@ export var builtinVariables = {
     "$CONTROL_PAR_FONT_TYPE":
     {
         "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE"
+    },
+    "$CONTROL_PAR_FONT_TYPE_ON":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_ON"
+    },
+    "$CONTROL_PAR_FONT_TYPE_OFF_PRESSED":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_OFF_PRESSED"
+    },
+    "$CONTROL_PAR_FONT_TYPE_ON_PRESSED":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_ON_PRESSED"
+    },
+    "$CONTROL_PAR_FONT_TYPE_OFF_HOVER":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_OFF_HOVER"
+    },
+    "$CONTROL_PAR_FONT_TYPE_ON_HOVER":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_ON_HOVER"
     },
     "$CONTROL_PAR_GRID_HEIGHT":
     {
@@ -162,6 +186,14 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $CONTROL_PAR_OVERLOAD_COLOR"
     },
+    "$CONTROL_PAR_PARALLAX_X":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_PARALLAX_X"
+    },
+    "$CONTROL_PAR_PARALLAX_Y":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_PARALLAX_Y"
+    },
     "$CONTROL_PAR_PEAK_COLOR":
     {
         "description": "Built-in Variable: $CONTROL_PAR_PEAK_COLOR"
@@ -222,9 +254,37 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $CONTROL_PAR_VERTICAL"
     },
+    "$CONTROL_PAR_WAVE_ALPHA":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_ALPHA"
+    },
     "$CONTROL_PAR_WAVE_COLOR":
     {
         "description": "Built-in Variable: $CONTROL_PAR_WAVE_COLOR"
+    },
+    "$CONTROL_PAR_WAVE_END_ALPHA":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_END_ALPHA"
+    },
+    "$CONTROL_PAR_WAVE_END_COLOR":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_END_COLOR"
+    },
+    "$CONTROL_PAR_WAVETABLE_ALPHA":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_ALPHA"
+    },
+    "$CONTROL_PAR_WAVETABLE_COLOR":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_COLOR"
+    },
+    "$CONTROL_PAR_WAVETABLE_END_ALPHA":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_END_ALPHA"
+    },
+    "$CONTROL_PAR_WAVETABLE_END_COLOR":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_END_COLOR"
     },
     "$CONTROL_PAR_WAVE_CURSOR_COLOR":
     {
@@ -233,6 +293,18 @@ export var builtinVariables = {
     "$CONTROL_PAR_WIDTH":
     {
         "description": "Built-in Variable: $CONTROL_PAR_WIDTH"
+    },
+    "$CONTROL_PAR_WT_VIS_MODE":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WT_VIS_MODE"
+    },
+    "$CONTROL_PAR_WT_VIS_2D":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WT_VIS_2D"
+    },
+    "$CONTROL_PAR_WT_VIS_3D":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WT_VIS_3D"
     },
     "$CONTROL_PAR_ZERO_LINE_COLOR":
     {
@@ -561,6 +633,14 @@ export var builtinVariables = {
     "$ENGINE_PAR_CT_VOLUME":
     {
         "description": "Built-in Variable: $ENGINE_PAR_CT_VOLUME"
+    },
+    "$ENGINE_PAR_CW_MONO":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_CW_MONO"
+    },
+    "$ENGINE_PAR_CW_PEDAL":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_CW_PEDAL"
     },
     "$ENGINE_PAR_CUTOFF":
     {
@@ -1066,9 +1146,21 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $ENGINE_PAR_PH_SPEED_UNIT"
     },
+    "$ENGINE_PAR_PR_STEREO":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_PR_STEREO"
+    },
     "$ENGINE_PAR_RATIO":
     {
         "description": "Built-in Variable: $ENGINE_PAR_RATIO"
+    },
+    "$ENGINE_PAR_RDL_BBDTYPE":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_BBDTYPE"
+    },
+    "$ENGINE_PAR_RDL_TYPE":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_TYPE"
     },
     "$ENGINE_PAR_RELEASE":
     {
@@ -1125,6 +1217,10 @@ export var builtinVariables = {
     "$ENGINE_PAR_RV_STEREO":
     {
         "description": "Built-in Variable: $ENGINE_PAR_RV_STEREO"
+    },
+    "$ENGINE_PAR_RV2_TYPE":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_RV2_TYPE"
     },
     "$ENGINE_PAR_SCOMP_ATTACK":
     {
@@ -1502,6 +1598,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
     },
+    "$ENGINE_PAR_WT_PHASE_RAND":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_WT_PHASE_RAND"
+    },
     "$ENGINE_UPTIME":
     {
         "description": "Built-in Variable: $ENGINE_UPTIME"
@@ -1605,6 +1705,10 @@ export var builtinVariables = {
     "$EVENT_PAR_VOLUME":
     {
         "description": "Built-in Variable: $EVENT_PAR_VOLUME"
+    },
+    "$EVENT_PAR_VOL":
+    {
+        "description": "Built-in Variable: $EVENT_PAR_VOL"
     },
     "$EVENT_PAR_ZONE_ID":
     {
@@ -2270,10 +2374,6 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $NI_CB_TYPE_LISTENER"
     },
-    "$NI_CB_TYPE_MIDI_IN":
-    {
-        "description": "Built-in Variable: $NI_CB_TYPE_MIDI_IN"
-    },
     "$NI_CB_TYPE_NOTE":
     {
         "description": "Built-in Variable: $NI_CB_TYPE_NOTE"
@@ -2310,6 +2410,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $NI_CB_TYPE_UI_UPDATE"
     },
+    "$NI_CB_TYPE_MIDI_IN":
+    {
+        "description": "Built-in Variable: $NI_CB_TYPE_MIDI_IN"
+    },
     "$NI_CONTROL_PAR_IDX":
     {
         "description": "Built-in Variable: $NI_CONTROL_PAR_IDX"
@@ -2345,6 +2449,54 @@ export var builtinVariables = {
     "$NI_KEY_TYPE_NONE":
     {
         "description": "Built-in Variable: $NI_KEY_TYPE_NONE"
+    },
+    "$NI_LOG_MESSAGE":
+    {
+        "description": "Built-in Variable: $NI_LOG_MESSAGE"
+    },
+    "$NI_LOG_WARNING":
+    {
+        "description": "Built-in Variable: $NI_LOG_WARNING"
+    },
+    "$NI_LOG_WATCHING":
+    {
+        "description": "Built-in Variable: $NI_LOG_WATCHING"
+    },
+    "$NI_MOUSE_EVENT_TYPE":
+    {
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE"
+    },
+    "$NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN":
+    {
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN"
+    },
+    "$NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP":
+    {
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP"
+    },
+    "$NI_MOUSE_EVENT_TYPE_DRAG":
+    {
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DRAG"
+    },
+    "$NI_REPLIKA_TYPE_DIFFUSION":
+    {
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_DIFFUSION"
+    },
+    "$NI_REPLIKA_TYPE_MODERN":
+    {
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_MODERN"
+    },
+    "$NI_REPLIKA_TYPE_TAPE":
+    {
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_TAPE"
+    },
+    "$NI_REPLIKA_TYPE_VINTAGE":
+    {
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_VINTAGE"
+    },
+    "$NI_REVERB2_TYPE_ROOM":
+    {
+        "description": "Built-in Variable: $NI_REVERB2_TYPE_ROOM"
     },
     "$NI_SHAPE_TYPE_CLASSIC":
     {
@@ -2461,6 +2613,22 @@ export var builtinVariables = {
     "$NI_VL_TMRPO_HQ":
     {
         "description": "Built-in Variable: $NI_VL_TMRPO_HQ"
+    },
+    "$NI_WT_FORM_QUANTIZE":
+    {
+        "description": "Built-in Variable: $NI_WT_FORM_QUANTIZE"
+    },
+    "$NI_WT_QUALITY_BEST":
+    {
+        "description": "Built-in Variable: $NI_WT_QUALITY_BEST"
+    },
+    "$NI_WT_VIS_2D":
+    {
+        "description": "Built-in Variable: $NI_WT_VIS_2D"
+    },
+    "$NI_WT_VIS_3D":
+    {
+        "description": "Built-in Variable: $NI_WT_VIS_3D"
     },
     "$NOTE_HELD":
     {

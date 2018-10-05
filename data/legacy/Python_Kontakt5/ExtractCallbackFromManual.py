@@ -1,12 +1,12 @@
 # coding: utf-8
 
-import sys
 import re
 from natsort import natsorted
+import ExtractManualNameConfig
 
-INPUT = sys.argv[ 1 ]
+INPUT = ExtractManualNameConfig.name
 
-# NOTE: This script for Kontakt6!
+# NOTE:
 # KSP Reference Manual.txt created by Acrobat DC (Windows version & locale cp932) and re-save on vscode as utf-8 encoding.
 # If created by different locale, change encoding name.
 ENCODING = 'utf-8'

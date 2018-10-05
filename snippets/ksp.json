@@ -1409,6 +1409,14 @@
         ],
         "description": "sets different properties for the waveform control"
     },
+    "get_font_id":
+    {
+        "prefix": "get_font_id",
+        "body":[
+            "get_font_id( ${1:id} )"
+        ],
+        "description": "Enables use of custom dynamic fonts"
+    },
     "get_key_color":
     {
         "prefix": "get_key_color",
@@ -2218,6 +2226,30 @@
         ],
         "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
     },
+    "watch_var":
+    {
+        "prefix": "watch_var",
+        "body":[
+            "watch_var( ${1:var} )"
+        ],
+        "description": "Variable watching through Creator Tools"
+    },
+    "watch_array_idx":
+    {
+        "prefix": "watch_array_idx",
+        "body":[
+            "watch_array_idx( ${1:arr}, ${2:idx} )"
+        ],
+        "description": "Variable watching through Creator Tools"
+    },
+    "disable_logging":
+    {
+        "prefix": "disable_logging",
+        "body":[
+            "disable_logging( ${1:type} )"
+        ],
+        "description": "Quickly disabling emission of messages, warnings or watched variable\nevents to both the Kontakt Status Bar\n$NI_LOG_MESSAGE, $NI_LOG_WARNING, $NI_LOG_WATCHING\n"
+    },
     "_delay_event_for_loading_slots":
     {
         "prefix": "_delay_event_for_loading_slots",
@@ -2239,6 +2271,14 @@
         "prefix": "change_time_with_pitch",
         "body":[
             "change_time_with_pitch( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "connect_view":
+    {
+        "prefix": "connect_view",
+        "body":[
+            "connect_view()"
         ],
         "description": "Undocumented"
     },
@@ -2290,6 +2330,38 @@
         ],
         "description": "Undocumented"
     },
+    "mf_get_byte_one":
+    {
+        "prefix": "mf_get_byte_one",
+        "body":[
+            "mf_get_byte_one()"
+        ],
+        "description": "Undocumented"
+    },
+    "mf_get_byte_two":
+    {
+        "prefix": "mf_get_byte_two",
+        "body":[
+            "mf_get_byte_two()"
+        ],
+        "description": "Undocumented"
+    },
+    "mf_get_channel":
+    {
+        "prefix": "mf_get_channel",
+        "body":[
+            "mf_get_channel()"
+        ],
+        "description": "Undocumented"
+    },
+    "mf_get_command":
+    {
+        "prefix": "mf_get_command",
+        "body":[
+            "mf_get_command()"
+        ],
+        "description": "Undocumented"
+    },
     "mf_get_note_length":
     {
         "prefix": "mf_get_note_length",
@@ -2314,6 +2386,14 @@
         ],
         "description": "Undocumented"
     },
+    "mf_set_channel":
+    {
+        "prefix": "mf_set_channel",
+        "body":[
+            "mf_set_channel()"
+        ],
+        "description": "Undocumented"
+    },
     "_num_slices":
     {
         "prefix": "_num_slices",
@@ -2327,6 +2407,14 @@
         "prefix": "num_slices",
         "body":[
             "num_slices( ${1:arg1} )"
+        ],
+        "description": "Undocumented"
+    },
+    "pgs_get_str_key_val":
+    {
+        "prefix": "pgs_get_str_key_val",
+        "body":[
+            "pgs_get_str_key_val()"
         ],
         "description": "Undocumented"
     },
@@ -2530,6 +2618,14 @@
         ],
         "description": "Built-in Variable: $CONTROL_PAR_DEFAULT_VALUE"
     },
+    "CONTROL_PAR_DISABLE_TEXT_SHIFTING":
+    {
+        "prefix": "CONTROL_PAR_DISABLE_TEXT_SHIFTING",
+        "body":[
+            "\\$CONTROL_PAR_DISABLE_TEXT_SHIFTING"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_DISABLE_TEXT_SHIFTING"
+    },
     "CONTROL_PAR_DND_BEHAVIOUR":
     {
         "prefix": "CONTROL_PAR_DND_BEHAVIOUR",
@@ -2561,6 +2657,46 @@
             "\\$CONTROL_PAR_FONT_TYPE"
         ],
         "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE"
+    },
+    "CONTROL_PAR_FONT_TYPE_ON":
+    {
+        "prefix": "CONTROL_PAR_FONT_TYPE_ON",
+        "body":[
+            "\\$CONTROL_PAR_FONT_TYPE_ON"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_ON"
+    },
+    "CONTROL_PAR_FONT_TYPE_OFF_PRESSED":
+    {
+        "prefix": "CONTROL_PAR_FONT_TYPE_OFF_PRESSED",
+        "body":[
+            "\\$CONTROL_PAR_FONT_TYPE_OFF_PRESSED"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_OFF_PRESSED"
+    },
+    "CONTROL_PAR_FONT_TYPE_ON_PRESSED":
+    {
+        "prefix": "CONTROL_PAR_FONT_TYPE_ON_PRESSED",
+        "body":[
+            "\\$CONTROL_PAR_FONT_TYPE_ON_PRESSED"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_ON_PRESSED"
+    },
+    "CONTROL_PAR_FONT_TYPE_OFF_HOVER":
+    {
+        "prefix": "CONTROL_PAR_FONT_TYPE_OFF_HOVER",
+        "body":[
+            "\\$CONTROL_PAR_FONT_TYPE_OFF_HOVER"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_OFF_HOVER"
+    },
+    "CONTROL_PAR_FONT_TYPE_ON_HOVER":
+    {
+        "prefix": "CONTROL_PAR_FONT_TYPE_ON_HOVER",
+        "body":[
+            "\\$CONTROL_PAR_FONT_TYPE_ON_HOVER"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_FONT_TYPE_ON_HOVER"
     },
     "CONTROL_PAR_GRID_HEIGHT":
     {
@@ -2738,6 +2874,22 @@
         ],
         "description": "Built-in Variable: $CONTROL_PAR_OVERLOAD_COLOR"
     },
+    "CONTROL_PAR_PARALLAX_X":
+    {
+        "prefix": "CONTROL_PAR_PARALLAX_X",
+        "body":[
+            "\\$CONTROL_PAR_PARALLAX_X"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_PARALLAX_X"
+    },
+    "CONTROL_PAR_PARALLAX_Y":
+    {
+        "prefix": "CONTROL_PAR_PARALLAX_Y",
+        "body":[
+            "\\$CONTROL_PAR_PARALLAX_Y"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_PARALLAX_Y"
+    },
     "CONTROL_PAR_PEAK_COLOR":
     {
         "prefix": "CONTROL_PAR_PEAK_COLOR",
@@ -2858,6 +3010,14 @@
         ],
         "description": "Built-in Variable: $CONTROL_PAR_VERTICAL"
     },
+    "CONTROL_PAR_WAVE_ALPHA":
+    {
+        "prefix": "CONTROL_PAR_WAVE_ALPHA",
+        "body":[
+            "\\$CONTROL_PAR_WAVE_ALPHA"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_ALPHA"
+    },
     "CONTROL_PAR_WAVE_COLOR":
     {
         "prefix": "CONTROL_PAR_WAVE_COLOR",
@@ -2865,6 +3025,54 @@
             "\\$CONTROL_PAR_WAVE_COLOR"
         ],
         "description": "Built-in Variable: $CONTROL_PAR_WAVE_COLOR"
+    },
+    "CONTROL_PAR_WAVE_END_ALPHA":
+    {
+        "prefix": "CONTROL_PAR_WAVE_END_ALPHA",
+        "body":[
+            "\\$CONTROL_PAR_WAVE_END_ALPHA"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_END_ALPHA"
+    },
+    "CONTROL_PAR_WAVE_END_COLOR":
+    {
+        "prefix": "CONTROL_PAR_WAVE_END_COLOR",
+        "body":[
+            "\\$CONTROL_PAR_WAVE_END_COLOR"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVE_END_COLOR"
+    },
+    "CONTROL_PAR_WAVETABLE_ALPHA":
+    {
+        "prefix": "CONTROL_PAR_WAVETABLE_ALPHA",
+        "body":[
+            "\\$CONTROL_PAR_WAVETABLE_ALPHA"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_ALPHA"
+    },
+    "CONTROL_PAR_WAVETABLE_COLOR":
+    {
+        "prefix": "CONTROL_PAR_WAVETABLE_COLOR",
+        "body":[
+            "\\$CONTROL_PAR_WAVETABLE_COLOR"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_COLOR"
+    },
+    "CONTROL_PAR_WAVETABLE_END_ALPHA":
+    {
+        "prefix": "CONTROL_PAR_WAVETABLE_END_ALPHA",
+        "body":[
+            "\\$CONTROL_PAR_WAVETABLE_END_ALPHA"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_END_ALPHA"
+    },
+    "CONTROL_PAR_WAVETABLE_END_COLOR":
+    {
+        "prefix": "CONTROL_PAR_WAVETABLE_END_COLOR",
+        "body":[
+            "\\$CONTROL_PAR_WAVETABLE_END_COLOR"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE_END_COLOR"
     },
     "CONTROL_PAR_WAVE_CURSOR_COLOR":
     {
@@ -2881,6 +3089,30 @@
             "\\$CONTROL_PAR_WIDTH"
         ],
         "description": "Built-in Variable: $CONTROL_PAR_WIDTH"
+    },
+    "CONTROL_PAR_WT_VIS_MODE":
+    {
+        "prefix": "CONTROL_PAR_WT_VIS_MODE",
+        "body":[
+            "\\$CONTROL_PAR_WT_VIS_MODE"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WT_VIS_MODE"
+    },
+    "CONTROL_PAR_WT_VIS_2D":
+    {
+        "prefix": "CONTROL_PAR_WT_VIS_2D",
+        "body":[
+            "\\$CONTROL_PAR_WT_VIS_2D"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WT_VIS_2D"
+    },
+    "CONTROL_PAR_WT_VIS_3D":
+    {
+        "prefix": "CONTROL_PAR_WT_VIS_3D",
+        "body":[
+            "\\$CONTROL_PAR_WT_VIS_3D"
+        ],
+        "description": "Built-in Variable: $CONTROL_PAR_WT_VIS_3D"
     },
     "CONTROL_PAR_ZERO_LINE_COLOR":
     {
@@ -3537,6 +3769,22 @@
             "\\$ENGINE_PAR_CT_VOLUME"
         ],
         "description": "Built-in Variable: $ENGINE_PAR_CT_VOLUME"
+    },
+    "ENGINE_PAR_CW_MONO":
+    {
+        "prefix": "ENGINE_PAR_CW_MONO",
+        "body":[
+            "\\$ENGINE_PAR_CW_MONO"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_CW_MONO"
+    },
+    "ENGINE_PAR_CW_PEDAL":
+    {
+        "prefix": "ENGINE_PAR_CW_PEDAL",
+        "body":[
+            "\\$ENGINE_PAR_CW_PEDAL"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_CW_PEDAL"
     },
     "ENGINE_PAR_CUTOFF":
     {
@@ -4546,6 +4794,14 @@
         ],
         "description": "Built-in Variable: $ENGINE_PAR_PH_SPEED_UNIT"
     },
+    "ENGINE_PAR_PR_STEREO":
+    {
+        "prefix": "ENGINE_PAR_PR_STEREO",
+        "body":[
+            "\\$ENGINE_PAR_PR_STEREO"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_PR_STEREO"
+    },
     "ENGINE_PAR_RATIO":
     {
         "prefix": "ENGINE_PAR_RATIO",
@@ -4553,6 +4809,22 @@
             "\\$ENGINE_PAR_RATIO"
         ],
         "description": "Built-in Variable: $ENGINE_PAR_RATIO"
+    },
+    "ENGINE_PAR_RDL_BBDTYPE":
+    {
+        "prefix": "ENGINE_PAR_RDL_BBDTYPE",
+        "body":[
+            "\\$ENGINE_PAR_RDL_BBDTYPE"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_BBDTYPE"
+    },
+    "ENGINE_PAR_RDL_TYPE":
+    {
+        "prefix": "ENGINE_PAR_RDL_TYPE",
+        "body":[
+            "\\$ENGINE_PAR_RDL_TYPE"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_TYPE"
     },
     "ENGINE_PAR_RELEASE":
     {
@@ -4665,6 +4937,14 @@
             "\\$ENGINE_PAR_RV_STEREO"
         ],
         "description": "Built-in Variable: $ENGINE_PAR_RV_STEREO"
+    },
+    "ENGINE_PAR_RV2_TYPE":
+    {
+        "prefix": "ENGINE_PAR_RV2_TYPE",
+        "body":[
+            "\\$ENGINE_PAR_RV2_TYPE"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_RV2_TYPE"
     },
     "ENGINE_PAR_SCOMP_ATTACK":
     {
@@ -5418,6 +5698,14 @@
         ],
         "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
     },
+    "ENGINE_PAR_WT_PHASE_RAND":
+    {
+        "prefix": "ENGINE_PAR_WT_PHASE_RAND",
+        "body":[
+            "\\$ENGINE_PAR_WT_PHASE_RAND"
+        ],
+        "description": "Built-in Variable: $ENGINE_PAR_WT_PHASE_RAND"
+    },
     "ENGINE_UPTIME":
     {
         "prefix": "ENGINE_UPTIME",
@@ -5625,6 +5913,14 @@
             "\\$EVENT_PAR_VOLUME"
         ],
         "description": "Built-in Variable: $EVENT_PAR_VOLUME"
+    },
+    "EVENT_PAR_VOL":
+    {
+        "prefix": "EVENT_PAR_VOL",
+        "body":[
+            "\\$EVENT_PAR_VOL"
+        ],
+        "description": "Built-in Variable: $EVENT_PAR_VOL"
     },
     "EVENT_PAR_ZONE_ID":
     {
@@ -6954,14 +7250,6 @@
         ],
         "description": "Built-in Variable: $NI_CB_TYPE_LISTENER"
     },
-    "NI_CB_TYPE_MIDI_IN":
-    {
-        "prefix": "NI_CB_TYPE_MIDI_IN",
-        "body":[
-            "\\$NI_CB_TYPE_MIDI_IN"
-        ],
-        "description": "Built-in Variable: $NI_CB_TYPE_MIDI_IN"
-    },
     "NI_CB_TYPE_NOTE":
     {
         "prefix": "NI_CB_TYPE_NOTE",
@@ -7034,6 +7322,14 @@
         ],
         "description": "Built-in Variable: $NI_CB_TYPE_UI_UPDATE"
     },
+    "NI_CB_TYPE_MIDI_IN":
+    {
+        "prefix": "NI_CB_TYPE_MIDI_IN",
+        "body":[
+            "\\$NI_CB_TYPE_MIDI_IN"
+        ],
+        "description": "Built-in Variable: $NI_CB_TYPE_MIDI_IN"
+    },
     "NI_CONTROL_PAR_IDX":
     {
         "prefix": "NI_CONTROL_PAR_IDX",
@@ -7105,6 +7401,102 @@
             "\\$NI_KEY_TYPE_NONE"
         ],
         "description": "Built-in Variable: $NI_KEY_TYPE_NONE"
+    },
+    "NI_LOG_MESSAGE":
+    {
+        "prefix": "NI_LOG_MESSAGE",
+        "body":[
+            "\\$NI_LOG_MESSAGE"
+        ],
+        "description": "Built-in Variable: $NI_LOG_MESSAGE"
+    },
+    "NI_LOG_WARNING":
+    {
+        "prefix": "NI_LOG_WARNING",
+        "body":[
+            "\\$NI_LOG_WARNING"
+        ],
+        "description": "Built-in Variable: $NI_LOG_WARNING"
+    },
+    "NI_LOG_WATCHING":
+    {
+        "prefix": "NI_LOG_WATCHING",
+        "body":[
+            "\\$NI_LOG_WATCHING"
+        ],
+        "description": "Built-in Variable: $NI_LOG_WATCHING"
+    },
+    "NI_MOUSE_EVENT_TYPE":
+    {
+        "prefix": "NI_MOUSE_EVENT_TYPE",
+        "body":[
+            "\\$NI_MOUSE_EVENT_TYPE"
+        ],
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE"
+    },
+    "NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN":
+    {
+        "prefix": "NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN",
+        "body":[
+            "\\$NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN"
+        ],
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN"
+    },
+    "NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP":
+    {
+        "prefix": "NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP",
+        "body":[
+            "\\$NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP"
+        ],
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP"
+    },
+    "NI_MOUSE_EVENT_TYPE_DRAG":
+    {
+        "prefix": "NI_MOUSE_EVENT_TYPE_DRAG",
+        "body":[
+            "\\$NI_MOUSE_EVENT_TYPE_DRAG"
+        ],
+        "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DRAG"
+    },
+    "NI_REPLIKA_TYPE_DIFFUSION":
+    {
+        "prefix": "NI_REPLIKA_TYPE_DIFFUSION",
+        "body":[
+            "\\$NI_REPLIKA_TYPE_DIFFUSION"
+        ],
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_DIFFUSION"
+    },
+    "NI_REPLIKA_TYPE_MODERN":
+    {
+        "prefix": "NI_REPLIKA_TYPE_MODERN",
+        "body":[
+            "\\$NI_REPLIKA_TYPE_MODERN"
+        ],
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_MODERN"
+    },
+    "NI_REPLIKA_TYPE_TAPE":
+    {
+        "prefix": "NI_REPLIKA_TYPE_TAPE",
+        "body":[
+            "\\$NI_REPLIKA_TYPE_TAPE"
+        ],
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_TAPE"
+    },
+    "NI_REPLIKA_TYPE_VINTAGE":
+    {
+        "prefix": "NI_REPLIKA_TYPE_VINTAGE",
+        "body":[
+            "\\$NI_REPLIKA_TYPE_VINTAGE"
+        ],
+        "description": "Built-in Variable: $NI_REPLIKA_TYPE_VINTAGE"
+    },
+    "NI_REVERB2_TYPE_ROOM":
+    {
+        "prefix": "NI_REVERB2_TYPE_ROOM",
+        "body":[
+            "\\$NI_REVERB2_TYPE_ROOM"
+        ],
+        "description": "Built-in Variable: $NI_REVERB2_TYPE_ROOM"
     },
     "NI_SHAPE_TYPE_CLASSIC":
     {
@@ -7337,6 +7729,38 @@
             "\\$NI_VL_TMRPO_HQ"
         ],
         "description": "Built-in Variable: $NI_VL_TMRPO_HQ"
+    },
+    "NI_WT_FORM_QUANTIZE":
+    {
+        "prefix": "NI_WT_FORM_QUANTIZE",
+        "body":[
+            "\\$NI_WT_FORM_QUANTIZE"
+        ],
+        "description": "Built-in Variable: $NI_WT_FORM_QUANTIZE"
+    },
+    "NI_WT_QUALITY_BEST":
+    {
+        "prefix": "NI_WT_QUALITY_BEST",
+        "body":[
+            "\\$NI_WT_QUALITY_BEST"
+        ],
+        "description": "Built-in Variable: $NI_WT_QUALITY_BEST"
+    },
+    "NI_WT_VIS_2D":
+    {
+        "prefix": "NI_WT_VIS_2D",
+        "body":[
+            "\\$NI_WT_VIS_2D"
+        ],
+        "description": "Built-in Variable: $NI_WT_VIS_2D"
+    },
+    "NI_WT_VIS_3D":
+    {
+        "prefix": "NI_WT_VIS_3D",
+        "body":[
+            "\\$NI_WT_VIS_3D"
+        ],
+        "description": "Built-in Variable: $NI_WT_VIS_3D"
     },
     "NOTE_HELD":
     {

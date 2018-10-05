@@ -767,6 +767,11 @@ export var commands = {
         "signature":   "(variable,property,index,value)",
         "description": "sets different properties for the waveform control"
     },
+    "get_font_id":
+    {
+        "signature":   "(id)",
+        "description": "Enables use of custom dynamic fonts"
+    },
     "get_key_color":
     {
         "signature":   "(noteNr)",
@@ -1267,6 +1272,21 @@ export var commands = {
         "signature":   "(channel,command,byte1,byte2)",
         "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
     },
+    "watch_var":
+    {
+        "signature":   "(variable)",
+        "description": "Variable watching through Creator Tools"
+    },
+    "watch_array_idx":
+    {
+        "signature":   "(array,index)",
+        "description": "Variable watching through Creator Tools"
+    },
+    "disable_logging":
+    {
+        "signature":   "(type)",
+        "description": "Quickly disabling emission of messages, warnings or watched variable\nevents to both the Kontakt Status Bar\n$NI_LOG_MESSAGE, $NI_LOG_WARNING, $NI_LOG_WATCHING\n"
+    },
     "_delay_event_for_loading_slots":
     {
         "signature":   "(arg1)",
@@ -1280,6 +1300,11 @@ export var commands = {
     "change_time_with_pitch":
     {
         "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "connect_view":
+    {
+        "signature":   "",
         "description": "Undocumented"
     },
     "get_control_par_arr":
@@ -1312,6 +1337,26 @@ export var commands = {
         "signature":   "${1:arg1},${2:arg2}",
         "description": "Undocumented"
     },
+    "mf_get_byte_one":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "mf_get_byte_two":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "mf_get_channel":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
+    "mf_get_command":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
     "mf_get_note_length":
     {
         "signature":   "",
@@ -1327,6 +1372,11 @@ export var commands = {
         "signature":   "",
         "description": "Undocumented"
     },
+    "mf_set_channel":
+    {
+        "signature":   "",
+        "description": "Undocumented"
+    },
     "_num_slices":
     {
         "signature":   "(arg1)",
@@ -1335,6 +1385,11 @@ export var commands = {
     "num_slices":
     {
         "signature":   "(arg1)",
+        "description": "Undocumented"
+    },
+    "pgs_get_str_key_val":
+    {
+        "signature":   "",
         "description": "Undocumented"
     },
     "redirect_midi":

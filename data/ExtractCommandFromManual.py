@@ -1,54 +1,64 @@
 # coding: utf-8
 
+import sys
 import re
 from natsort import natsorted
-import ExtractManualNameConfig
 
-INPUT = ExtractManualNameConfig.name
+INPUT = sys.argv[ 1 ]
 
-# NOTE:
+# NOTE: This script for Kontakt6!
 # KSP Reference Manual.txt created by Acrobat DC (Windows version & locale cp932) and re-save on vscode as utf-8 encoding.
 # If created by different locale, change encoding name.
 ENCODING = 'utf-8'
 
-REGEX    = r"[a-z|A-Z|_]+\(\).*"
-REGEX2   = r"(.*)\/(.*)"
+REGEX    = r"(\s*[a-z|A-Z|_]+\(\)\s*)+"
 wordList = []
 
 IGNORE_WORD_LIST = [
     "select",
     "while",
     "ui_waveform",
+    # in Explain, Examples
+    "array",
+    "by_mark", # miss?
+    "change_xxx",
+    "get_keyrange_xxx",
+    "if",
+    "it",
+    "ray_idx",
+    "set_condition", #lower
+    "range", # not exist
+    "tach_zone", # line separated (-> attach_zone() )
+    "ui_control", # It is callback
 ]
 
 def appendWord( word, targetList ):
-    if( not word in IGNORE_WORD_LIST and not word in targetList ) :
+    if( len( word ) > 0 and not word in IGNORE_WORD_LIST and not word in targetList ) :
         targetList.append( word )
 
 
 f = open( INPUT, 'r', encoding = ENCODING )
 
-line = f.readline()
-while( line ):
+while( True ):
     line = f.readline()
-    m = re.match( re.compile( REGEX ), line )
+    if( not line ):
+        break
+
+    m = re.findall( REGEX, line )
+
     if( m == None ):
         continue
 
-    word = m.group( 0 ).strip()
-    word = re.sub( r".*?\s+.*", "", word )
-    word = re.sub( r"\s*\(\s*", "", word )
-    word = re.sub( r"\s*\)\s*", "", word )
+    for i in m:
+        word = i.strip()
+        word = re.sub( r".*?\s+.*", "", word )
+        word = re.sub( r"\s*\(\s*", "", word )
+        word = re.sub( r"\s*\)\s*", "", word )
 
-    if( len( word ) == 0 ):
-        continue
+        if word.find( "-" ) >= 0:
+            continue
 
-    m = re.match( re.compile( REGEX2 ), word )
-    if( m == None ):
-        appendWord( word, wordList )
-    else:
-        for i in m.groups():
-            appendWord( i.strip(), wordList )
+        appendWord( word.lower(), wordList )
 
 f.close()
 

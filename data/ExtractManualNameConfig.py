@@ -1,2 +1,2 @@
 # coding: utf-8
-name = "KSP Reference Manual(5.7.1).txt"
+name = "KSP Reference Manual(6.0.2).txt"
