@@ -936,6 +936,7 @@ SEARCH:
     public Object visit( ASTCallCommand node, Object data )
     {
         final Command cmd = commandTable.search( node.symbol );
+        boolean undocumentedCmd = false;
 
         // 上位ノードの型評価式用
         SimpleNode ret = createEvalNode( node, JJTREFVARIABLE );
@@ -943,11 +944,26 @@ SEARCH:
 
         if( cmd == null )
         {
+            // シンボルテーブルに定義なし
             // ドキュメントに記載のない隠しコマンドの可能性
             // エラーにせず、警告に留める
             // 戻り値不定のため、全てを許可する
             ret.symbol.type = TYPE_MULTIPLE;
             MessageManager.printlnW( MessageManager.PROPERTY_WARNING_SEMANTIC_COMMAND_UNKNOWN, node.symbol );
+            AnalyzeErrorCounter.w();
+            return ret;
+        }
+
+        // 未知のコマンド（戻り値Xタイプ）はチェックをスキップ
+        undocumentedCmd = cmd.unknownCommand();
+        if( undocumentedCmd )
+        {
+            // シンボルテーブルに定義はあるけど
+            // ドキュメントに記載のない、引数・戻り値不明の隠しコマンド
+            // エラーにせず、警告に留める
+            // 戻り値不定のため、全てを許可する
+            ret.symbol.type = TYPE_MULTIPLE;
+            MessageManager.printlnW( MessageManager.PROPERTY_WARN_COMMAND_UNKNOWN, node.symbol );
             AnalyzeErrorCounter.w();
             return ret;
         }
@@ -979,8 +995,9 @@ SEARCH:
         if( node.jjtGetNumChildren() == 0 && cmd.argList.size() > 0 )
         {
             boolean valid = false;
+
             // void(引数なしの括弧だけ)ならエラーの対象外
-            if( cmd.argList.size() == 1 )
+            if( valid == false && cmd.argList.size() == 1 )
             {
 SEARCH:
                 for( CommandArgument a1 : cmd.argList )

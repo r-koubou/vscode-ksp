@@ -350,6 +350,10 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             type = TYPE_ALL;
         }
+        else if( t == "X" )
+        {
+            type = TYPE_UNKOWN;
+        }
         else if( t == "*[]" )
         {
             type = TYPE_MULTIPLE | TYPE_ATTR_ARRAY;

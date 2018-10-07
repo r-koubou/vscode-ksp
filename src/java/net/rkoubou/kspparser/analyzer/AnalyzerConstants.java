@@ -68,11 +68,12 @@ public interface AnalyzerConstants
     int TYPE_BOOL                   = 0x100;
     int TYPE_VOID                   = 0x200;
     int TYPE_PREPROCESSOR_SYMBOL    = 0x400;
-    int TYPE_KEYID                  = 0x800; // e.g. PGS <key-id>
+    int TYPE_KEYID                  = 0x800;    // e.g. PGS <key-id>
+    int TYPE_UNKOWN                 = 0x800000; // If undocumented command arguments
 
     int TYPE_NUMERICAL              = TYPE_INT | TYPE_REAL;
     int TYPE_NON_VARIABLE           = TYPE_PREPROCESSOR_SYMBOL | TYPE_KEYID;
-    int TYPE_MULTIPLE               = 0xffffff; // 型識別全ビット ON
+    int TYPE_MULTIPLE               = 0xffffff & ~TYPE_UNKOWN; // 型識別全ビット ON
 
     //--------------------------------------------------------------------------
     // 配列などの情報フラグ (0x01000000~0xff000000)

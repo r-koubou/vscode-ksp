@@ -45,4 +45,20 @@ public class Command extends SymbolDefinition implements KSPParserTreeConstants
         this.astNode = node;
         this.astNode.symbol.symbolType = SymbolType.Command;
     }
+
+    /**
+     * ドキュメント化されていないコマンドで引数リストが不明なコマンドかどうか
+     */
+    public boolean unknownCommand()
+    {
+        for( int t : this.returnType.typeList )
+        {
+            if( t == TYPE_UNKOWN )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
