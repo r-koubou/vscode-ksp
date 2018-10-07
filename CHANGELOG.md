@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 0.7.0
+
+* KONTAKT 6 ready (PREVIEW)
+    * Syntax hilighting
+    * Syntax check
+        * If unknown command detected, report as warning.
+
+### Unknown command informations that added from Kontakt6
+
+* connect_view
+* mf_get_byte_one
+* mf_get_byte_two
+* mf_get_channel
+* mf_get_command
+* mf_set_channel
+* pgs_get_str_key_val
+
+
 ## Version 0.6.1
 
 * Editor

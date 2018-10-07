@@ -6,9 +6,13 @@
 
 # Language support for NI KONTAKT(TM) Script Processor (KSP)
 
+## KSP Compatibility
+
+- KONTAKT 6.0.x (**NEW**) / 5.x
+
 ## Features
 
-* Syntax check and script copy to clipboard **(NEW)**
+* Syntax check and script copy to clipboard
 * Outline view
 * Obfuscate and Optimize a Script **(BETA)**
 * Syntax highlighting
@@ -109,11 +113,6 @@ or Run from context menu in editor.
     `Recomended: 1.8 or higher to work it`
 
 * `[NOTE] Although the parser will attempt as much error detection as possible, if the grammar of the your script content deviates from the KSP specification, it will not function properly.`
-
-## KSP Compatibility
-
-- KONTAKT 5.8.x
-
 
 ## Screenshots
 
