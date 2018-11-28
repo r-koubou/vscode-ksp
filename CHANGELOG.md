@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 0.7.2
+
+* FIXES package.json
+    * vscode module version update 1.1.21 to 1.1.22
+
+## Version 0.7.1
+
+* HOTFIX
+    * FIXED package.json according to [Event-Stream Package Security Update](https://code.visualstudio.com/blogs/2018/11/26/event-stream)
+
 ## Version 0.7.0
 
 * KONTAKT 6 ready (PREVIEW)
@@ -26,24 +36,24 @@
 ## Version 0.6.0
 
 * Editor
-    * Syntax check and script copy to clipboard has been supported (See also Readme) 
+    * Syntax check and script copy to clipboard has been supported (See also Readme)
 
 ## Version 0.5.3
 
 * Editor
-    * Outline 
+    * Outline
         * Migrated from Custom view to VSCode Standard Outline view
 
 ## Version 0.5.2
 
 * Editor
-    * Outline 
+    * Outline
         * Replaced refresh icon
         * Imploved CPU load
 
 ## Version 0.5.1
 
-* Editor 
+* Editor
     * Changed a valid file extension for activate KSP language mode.
         * Before: \*.ksp, \*.txt
         * After: \*.ksp, **\*.ksp.txt**
