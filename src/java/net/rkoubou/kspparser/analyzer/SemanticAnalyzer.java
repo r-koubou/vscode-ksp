@@ -811,8 +811,8 @@ SEARCH:
             return ret;
         }
         // 変数へのアクセスが確定したので、AST、戻り値に変数のシンボル情報をコピー
-        SymbolDefinition.copy( v, node.symbol );
-        SymbolDefinition.copy( v, ret.symbol );
+        SymbolDefinition.copy( v, node.symbol, false );
+        SymbolDefinition.copy( v, ret.symbol, false );
 
         if( node.jjtGetParent() != null && node.jjtGetParent().getId() == JJTASSIGNMENT )
         {
@@ -910,7 +910,8 @@ SEARCH:
             {
                 int index = Integer.parseInt( sym.value.toString() );
                 int size  = v.arraySize;
-                if( index < 0 || index >= size )
+                if( ( !v.reserved && ( index < 0 || index >= size ) ) || // ユーザー変数は配列サイズが分かっている
+                    ( v.reserved && index < 0 ) )                        // ビルトイン変数は配列サイズが不定なのでネガティブチェックのみ
                 {
                     // 行番号を合わせるため、行番号をマージした一時シンボルを生成
                     SymbolDefinition s = new SymbolDefinition( v );

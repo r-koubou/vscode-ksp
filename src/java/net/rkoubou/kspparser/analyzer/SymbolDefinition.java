@@ -70,9 +70,17 @@ public class SymbolDefinition implements AnalyzerConstants
     }
 
     /**
-     * 値コピー
+     * 値コピー(行番号もコピー)
      */
     static public void copy( SymbolDefinition src, SymbolDefinition dest )
+    {
+        copy( src, dest, true );
+    }
+
+    /**
+     * 値コピー
+     */
+    static public void copy( SymbolDefinition src, SymbolDefinition dest, boolean copyPosition )
     {
         if( src == dest )
         {
@@ -87,7 +95,10 @@ public class SymbolDefinition implements AnalyzerConstants
         dest.name           = src.name;
         dest.uiTypeName     = src.uiTypeName;
         dest.value          = src.value;
-        dest.position.copy( src.position );
+        if( copyPosition )
+        {
+            dest.position.copy( src.position );
+        }
     }
 
     /**
