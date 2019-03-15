@@ -2,8 +2,8 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.7.2",
-    "preview": true,
+    "version": "0.7.3",
+    "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
     "license": "MIT",
@@ -44,7 +44,7 @@
         "@types/node": "^6.0.78",
         "typescript": "^3.1.1",
         "vsce": "^1.51.1",
-        "vscode": "^1.1.22"
+        "vscode": "^1.1.30"
     },
     "categories": [
         "Programming Languages",

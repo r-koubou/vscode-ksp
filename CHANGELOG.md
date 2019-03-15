@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.7.3
+
+* Editor
+    * Compiler
+        * Bug fixes
+
 ## Version 0.7.2
 
 * FIXES package.json

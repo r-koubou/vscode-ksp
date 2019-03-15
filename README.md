@@ -8,7 +8,7 @@
 
 ## KSP Compatibility
 
-- KONTAKT 6.0.x (**NEW**) / 5.x
+- KONTAKT 6.0.x / 5.x
 
 ## Features
 
@@ -24,7 +24,7 @@
 * Syntax validation
 * Rename Identifiers
 
-## Syntax check and script copy to clipboard **(NEW)**
+## Syntax check and script copy to clipboard
 
 If `F7` key pressed and your script has no problem, your script will copy to clip board.
 
@@ -38,8 +38,6 @@ or run from command palette.
 ## Outline view
 
 Outline view is available in Explorer.
-
-> [INFO] KSP Custom Outline view has migrated to VSCode Standard Outline view since v0.5.3.
 
 ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_vscode.png)
 
@@ -162,7 +160,7 @@ or Run from context menu in editor.
 
 R-Koubou
 
-* Twitter: [@rz_devel](https://twitter.com/rz_devel)
+* Twitter: [@rkoubou_jp](https://twitter.com/rkoubou_jp)
 * GitHub:  [https://github.com/r-koubou/](https://github.com/r-koubou/)
 
 ## About KONTAKT
