@@ -199,7 +199,7 @@ export class KSPValidationProvider
                 //resolve();
             };
 
-            compiler.execute( textDocument, argBuilder, this.realtimeValidationEnabled, true );
+            compiler.execute( textDocument, argBuilder, false );
         }//);
     }
 }

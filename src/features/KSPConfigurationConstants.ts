@@ -26,12 +26,12 @@ export const KEY_OBFUSCATOR_DEST_CLIPBOARD  = 'obfuscator.dest.clipboard';
 
 export const DEFAULT_JAVA_LOCATION          = 'java';
 export const DEFAULT_ENABLE_VALIDATE        = false;
-export const DEFAULT_REALTIME_VALIDATE      = false;
+export const DEFAULT_REALTIME_VALIDATE      = true;
 export const DEFAULT_VALIDATE_DELAY         = 500;
 export const DEFAULT_PARSE_SYNTAX_ONLY      = false;
-export const DEFAULT_PARSE_STRICT           = false;
-export const DEFAULT_PARSE_UNUSED           = false;
+export const DEFAULT_PARSE_STRICT           = true;
+export const DEFAULT_PARSE_UNUSED           = true;
 export const DEFAULT_OBFUSCATOR_SUFFIX      = '.out.txt';
 export const DEFAULT_INLINE_FUNCTION        = false;
-export const DEFAULT_DEST_CLIPBOARD         = false;
+export const DEFAULT_DEST_CLIPBOARD         = true;
 

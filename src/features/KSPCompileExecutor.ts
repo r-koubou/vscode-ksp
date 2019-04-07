@@ -238,7 +238,7 @@ export class KSPCompileExecutor implements vscode.Disposable
     /**
      * Execute KSP syntax parser program (async)
      */
-    private executeImpl( document:vscode.TextDocument, argBuilder:KSPCompileBuilder, useTmpFile: Boolean = false, useDiagnostics: boolean = true ) : Promise<void>
+    private executeImpl( document:vscode.TextDocument, argBuilder:KSPCompileBuilder, useDiagnostics: boolean = true ) : Promise<void>
     {
         return new Promise<void>( (resolve, reject ) => {
 
@@ -257,12 +257,9 @@ export class KSPCompileExecutor implements vscode.Disposable
 
             this.removeTempfile();
 
-            if( useTmpFile )
-            {
-                this.tempFile = tmp.fileSync();
-                fs.writeFileSync( this.tempFile.name, document.getText() );
-                argBuilder.inputFile = this.tempFile.name;
-            }
+            this.tempFile = tmp.fileSync();
+            fs.writeFileSync( this.tempFile.name, document.getText() );
+            argBuilder.inputFile = this.tempFile.name;
 
             let processFailed: boolean = false;
 
@@ -390,7 +387,7 @@ export class KSPCompileExecutor implements vscode.Disposable
     /**
      * Execute KSP syntax parser program
      */
-    public execute( document:vscode.TextDocument, argBuilder:KSPCompileBuilder, useTmpFile: Boolean = false, useDiagnostics: boolean = true ) : void
+    public execute( document:vscode.TextDocument, argBuilder:KSPCompileBuilder, preSave: Boolean = true, useDiagnostics: boolean = true ) : void
     {
         if( document.languageId !== "ksp" )
         {
@@ -402,24 +399,18 @@ export class KSPCompileExecutor implements vscode.Disposable
             return;
         }
 
-        if( !useTmpFile && ( document.isUntitled || document.isDirty ) )
-        //if( !useTmpFile && document.isUntitled && document.isDirty )
-        {
-            let baseName: string = path.basename( document.fileName );
-            vscode.window.showErrorMessage( `KSP: ${baseName} - File is not saved.` );
-            return;
-        }
-        else if( !useTmpFile && document.isDirty )
-        {
-            document.save().then((result)=>{
-                if( result )
-                {
-                    this._delayer.trigger( () => this.executeImpl( document, argBuilder, useDiagnostics ) );
-                }
-            });
-            return;
-        }
-
-        this._delayer.trigger( () => this.executeImpl( document, argBuilder, useTmpFile, useDiagnostics ) );
+        // Pre-Save.
+        // TODO Conflict: Save Document Event handling@KSPValidationProvider
+        // if( preSave && ( !document.isUntitled && document.isDirty ) )
+        // {
+        //     document.save().then((fulfilled)=>{
+        //         if( fulfilled )
+        //         {
+        //             this._delayer.trigger( () => this.executeImpl( document, argBuilder, useDiagnostics ) );
+        //         }
+        //     });
+        //     return;
+        // }
+        this._delayer.trigger( () => this.executeImpl( document, argBuilder, useDiagnostics ) );
     }
 }

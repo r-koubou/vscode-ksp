@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.7.3",
+    "version": "0.7.4",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
@@ -127,7 +127,7 @@
                 },
                 "ksp.validate.realtime.enable": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "%configuration.realtime.validate.enable%"
                 },
                 "ksp.validate.realtime.delay": {
@@ -142,12 +142,12 @@
                 },
                 "ksp.validate.strict": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "%configuration.validate.strict%"
                 },
                 "ksp.validate.unused": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "%configuration.validate.unused%"
                 },
                 "ksp.obfuscator.suffix": {
@@ -162,7 +162,7 @@
                 },
                 "ksp.obfuscator.dest.clipboard": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "%configuration.obfuscator.dest.clipboard%"
                 }
             }
