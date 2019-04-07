@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.7.4
+
+* Editor
+    * Improved, Bug fixes ([Detail](https://github.com/r-koubou/vscode-ksp/issues/8))
+
 ## Version 0.7.3
 
 * Editor
