@@ -47,7 +47,9 @@ export class KSPValidationProvider
         this.initConfiguration();
         this.loadConfiguration();
         vscode.workspace.onDidChangeConfiguration( this.loadConfiguration, this, subscriptions );
-        vscode.workspace.onDidOpenTextDocument( this.doValidate, this, subscriptions );
+        vscode.workspace.onDidOpenTextDocument( (document) => {
+            this.doValidate( document );
+        }, null, subscriptions );
         vscode.workspace.onDidCloseTextDocument( (textDocument) =>
         {
              KSPCompileExecutor.dispose( textDocument );
@@ -131,8 +133,11 @@ export class KSPValidationProvider
             }, this );
 
             this.onChangedListener = vscode.workspace.onDidChangeTextDocument( (e) => {
-                this.realtimeTrigger = true;
-                this.doValidate( e.document );
+                if( this.realtimeValidationEnabled )
+                {
+                    this.realtimeTrigger = true;
+                    this.doValidate( e.document );
+                }
             });
 
             if( this.validationEnabled )

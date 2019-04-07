@@ -403,9 +403,20 @@ export class KSPCompileExecutor implements vscode.Disposable
         }
 
         if( !useTmpFile && ( document.isUntitled || document.isDirty ) )
+        //if( !useTmpFile && document.isUntitled && document.isDirty )
         {
             let baseName: string = path.basename( document.fileName );
             vscode.window.showErrorMessage( `KSP: ${baseName} - File is not saved.` );
+            return;
+        }
+        else if( !useTmpFile && document.isDirty )
+        {
+            document.save().then((result)=>{
+                if( result )
+                {
+                    this._delayer.trigger( () => this.executeImpl( document, argBuilder, useDiagnostics ) );
+                }
+            });
             return;
         }
 
