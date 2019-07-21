@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 0.7.5
+
+* KONTAKT 6 ready (PREVIEW)
+    * Syntax hilighting
+        * $CONTROL_PAR_PARENT_PANEL
+        * $CONTROL_PAR_WF_VIS_MODE
+        * $ENGINE_$PAR_INTMOD_RETRIGGER
+        * $ENGINE_PAR_WT_INHARMONIC_MODE
+        * $NI_WF_VIS_MODE_1
+        * $NI_WF_VIS_MODE_2
+        * $NI_WF_VIS_MODE_3
+        * $CONTROL_PAR_PARENT_PANEL
+        * ui_panel
+        * load_performance_view()
+
 ## Version 0.7.4
 
 * Editor

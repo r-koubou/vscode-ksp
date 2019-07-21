@@ -161,7 +161,7 @@
             "patterns":[
                 {
                     "name":  "keyword.other.ui.ksp",
-                    "match": "(ui_button|ui_knob|ui_file_selector|ui_label|ui_level_meter|ui_menu|ui_slider|ui_switch|ui_table|ui_text_edit|ui_value_edit|ui_waveform)\\b"
+                    "match": "(ui_button|ui_knob|ui_file_selector|ui_label|ui_level_meter|ui_menu|ui_panel|ui_slider|ui_switch|ui_table|ui_text_edit|ui_value_edit|ui_waveform)\\b"
                 }
             ]
         },

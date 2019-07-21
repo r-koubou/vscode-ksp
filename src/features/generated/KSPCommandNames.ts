@@ -108,6 +108,7 @@ export var commandNameList : string[] = [
     "load_ir_sample_m",
     "load_midi_file",
     "load_patch",
+    "load_performance_view",
     "log",
     "lsb",
     "make_instr_persistence",

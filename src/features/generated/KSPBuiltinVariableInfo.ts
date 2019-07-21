@@ -194,6 +194,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $CONTROL_PAR_PARALLAX_Y"
     },
+    "$CONTROL_PAR_PARENT_PANEL":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_PARENT_PANEL"
+    },
     "$CONTROL_PAR_PEAK_COLOR":
     {
         "description": "Built-in Variable: $CONTROL_PAR_PEAK_COLOR"
@@ -289,6 +293,10 @@ export var builtinVariables = {
     "$CONTROL_PAR_WAVE_CURSOR_COLOR":
     {
         "description": "Built-in Variable: $CONTROL_PAR_WAVE_CURSOR_COLOR"
+    },
+    "$CONTROL_PAR_WF_VIS_MODE":
+    {
+        "description": "Built-in Variable: $CONTROL_PAR_WF_VIS_MODE"
     },
     "$CONTROL_PAR_WIDTH":
     {
@@ -998,6 +1006,10 @@ export var builtinVariables = {
     {
         "description": "Built-in Variable: $ENGINE_PAR_INTMOD_PULSEWIDTH"
     },
+    "$ENGINE_$PAR_INTMOD_RETRIGGER":
+    {
+        "description": "Built-in Variable: $ENGINE_$PAR_INTMOD_RETRIGGER"
+    },
     "$ENGINE_PAR_INTMOD_SUBTYPE":
     {
         "description": "Built-in Variable: $ENGINE_PAR_INTMOD_SUBTYPE"
@@ -1597,6 +1609,10 @@ export var builtinVariables = {
     "$ENGINE_PAR_VOLUME":
     {
         "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
+    },
+    "$ENGINE_PAR_WT_INHARMONIC_MODE":
+    {
+        "description": "Built-in Variable: $ENGINE_PAR_WT_INHARMONIC_MODE"
     },
     "$ENGINE_PAR_WT_PHASE_RAND":
     {
@@ -2629,6 +2645,18 @@ export var builtinVariables = {
     "$NI_WT_VIS_3D":
     {
         "description": "Built-in Variable: $NI_WT_VIS_3D"
+    },
+    "$NI_WF_VIS_MODE_1":
+    {
+        "description": "Built-in Variable: $NI_WF_VIS_MODE_1"
+    },
+    "$NI_WF_VIS_MODE_2":
+    {
+        "description": "Built-in Variable: $NI_WF_VIS_MODE_2"
+    },
+    "$NI_WF_VIS_MODE_3":
+    {
+        "description": "Built-in Variable: $NI_WF_VIS_MODE_3"
     },
     "$NOTE_HELD":
     {

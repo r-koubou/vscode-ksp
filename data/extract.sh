@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MANUAL="KSP Reference Manual(6.0.2).txt"
+MANUAL="KSP Reference Manual(6.1.0).txt"
 
 python3 ExtractCallbackFromManual.py "$MANUAL" > extract_callback.txt
 python3 ExtractCommandFromManual.py "$MANUAL" > extract_command.txt

@@ -112,6 +112,11 @@ export var commands = {
         "signature":   "",
         "description": "create a user interface drop-down menu"
     },
+    "ui_panel":
+    {
+        "signature":   "",
+        "description": "create a user interface panel"
+    },
     "ui_slider":
     {
         "signature":   "(min,max)",
@@ -644,8 +649,13 @@ export var commands = {
     },
     "get_ui_wf_property":
     {
-        "signature":   "(variable,property>},index)",
+        "signature":   "(variable,property,index)",
         "description": "returns the value of the waveform's different properties."
+    },
+    "load_performance_view":
+    {
+        "signature":   "(filename)",
+        "description": "Loads a performance view file (NCKP) that was created in the Creator Tools GUI Designer <filename>. The filename of the NCKP file, without extension, as a string (in quotation marks)"
     },
     "make_perfview":
     {

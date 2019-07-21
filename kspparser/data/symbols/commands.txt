@@ -113,6 +113,7 @@ I||S	get_menu_item_value	*	@I	@I
 I||S	get_menu_item_visibility	*	@I	@I
 I||S	get_ui_id	*	ui_*
 I||S	get_ui_wf_property	*	ui_waveform	@I	@I
+V	load_performance_view	*	@S
 V	make_perfview	*
 V	move_control	*	ui_*	@I	@I
 V	move_control_px	*	ui_*	@I	@I
