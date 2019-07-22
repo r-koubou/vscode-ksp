@@ -2,7 +2,7 @@
 
 ## Version 0.7.5
 
-* KONTAKT 6 ready (PREVIEW)
+* KONTAKT 6.1.0 ready
     * Syntax hilighting
         * $CONTROL_PAR_PARENT_PANEL
         * $CONTROL_PAR_WF_VIS_MODE
