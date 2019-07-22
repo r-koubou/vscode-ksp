@@ -10,9 +10,19 @@
     ],
     "autoClosingPairs":
 	[
-        { "open": "{", "close": "}", "notIn": [ "comment" ] },
         { "open": "[", "close": "]", "notIn": [ "string"]  },
         { "open": "(", "close": ")", "notIn": [ "string"]  },
         { "open": "\"", "close": "\"", "notIn": ["string", "comment"] }
-    ]
+    ],
+    "surroundingPairs": [
+        ["[", "]"],
+        ["(", ")"],
+        ["\"", "\""],
+    ],
+    "folding": {
+        "markers": {
+          "start": "^\\s*(on|function)\\s+\\b",
+          "end": "^\\s*end\\s+(on|function)"
+        }
+    }
 }
