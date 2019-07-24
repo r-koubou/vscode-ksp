@@ -7,11 +7,12 @@ import xlrd
 
 import KspExcelUtil
 
-TARGET  = "../src/features/generated/KSPCommandsInfo.ts"
+TARGET  = "../src/features/generated/KSPCommandsCompletion.ts"
 
 TEMPLATE = """
     "{intelliSense}":
     {{
+        "snippet_string": "{snippet_string}",
         "signature":   "{signature}",
         "description": "{description}"
     }},"""
@@ -22,29 +23,25 @@ HEADER = """//
 export var commands = {"""
 FOOTER = "};"
 
-book       = xlrd.open_workbook( 'KSP.xlsx' )
-sheetNames = book.sheet_names()
+def main():
+    book       = xlrd.open_workbook( 'KSP_Completion.xlsx' )
+    sheetNames = book.sheet_names()
 
-fw = open( TARGET, 'w' )
+    fw = open( TARGET, 'w' )
 
-fw.write( HEADER )
+    fw.write( HEADER )
 
-for idx in range( len( sheetNames ) ):
-
-    sheet     = book.sheet_by_index( idx )
+    sheet     = book.sheet_by_index( 0 )
     rowLength = sheet.nrows
 
     for row in range( 1, rowLength ):
-        name   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
-        sig    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
-        desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
+        name    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
+        snippet = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_BODY ).value.strip()
+        sig     = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
+        desc    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
 
-        descArray = desc.split( "\n" )
-        if( len( descArray ) > 1 ):
-            tmp = ""
-            for i in descArray:
-                tmp += i + "\\n"
-            desc = tmp
+        desc = KspExcelUtil.append_newline( desc )
+        snippet = KspExcelUtil.append_newline( snippet )
 
         if( len( name ) == 0 or re.match( r"^[^a-z|A-Z|_]", name ) != None ):
             continue
@@ -56,14 +53,19 @@ for idx in range( len( sheetNames ) ):
 
         text = TEMPLATE.format(
             intelliSense = name,
+            snippet_string = snippet,
             signature    = sig,
             description  = desc
         )
 
         fw.write( text )
 
-fw.write( "\n" )
-fw.write( FOOTER )
-fw.write( "\n" )
-fw.close()
-print( "Done: " + TARGET )
+    fw.write( "\n" )
+    fw.write( FOOTER )
+    fw.write( "\n" )
+    fw.close()
+    print( "Done: " + TARGET )
+
+
+if __name__ == "__main__":
+    main()

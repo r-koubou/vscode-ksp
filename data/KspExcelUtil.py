@@ -34,3 +34,16 @@ def getCellFromColmnName( sheet, rowIndex, colmnName ):
             return sheet.cell( rowIndex, c )
 
     return ""
+
+"""
+All new line will be replaced to escaped (\\n)
+"""
+def append_newline(text):
+    array = text.split( "\n" )
+    if( len( array ) > 1 ):
+        tmp = ""
+        for i in array:
+            tmp += i + "\\n"
+        text = tmp
+
+    return text
