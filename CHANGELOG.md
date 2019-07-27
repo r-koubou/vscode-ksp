@@ -1,5 +1,22 @@
 # Changelog
 
+## Version 0.8.0
+
+### Improved Completion input
+
+* Refactor data management
+* Removed unnecessary snipetts
+
+### Supporting to collapse region markers
+
+~~~
+{ #region }
+your script
+:
+:
+{ #endregion }
+~~~
+
 ## Version 0.7.5
 
 * KONTAKT 6.1.0 ready

@@ -47,7 +47,7 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
                 let found : boolean = false;
                 if( w == symbol )
                 {
-                    KSPCommandNameList.commandNameList.forEach( cmd=>{
+                    KSPCommandNameList.CommandNames.forEach( cmd=>{
                         if( cmd == symbol )
                         {
                             result.push( new vscode.Location(
@@ -69,7 +69,7 @@ export class KSPReferenceProvider implements vscode.ReferenceProvider
                 let found : boolean = false;
                 if( w == symbol )
                 {
-                    KSPBuiltinVariableNameList.builtinVariableNameList.forEach( v=>{
+                    KSPBuiltinVariableNameList.BuiltinVariableNames.forEach( v=>{
                         if( v == symbol )
                         {
                             result.push( new vscode.Location(

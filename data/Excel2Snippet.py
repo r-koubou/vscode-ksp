@@ -26,7 +26,7 @@ HEADER = """{
 
 FOOTER = "}"
 
-book       = xlrd.open_workbook( 'KSP.xlsx' )
+book       = xlrd.open_workbook( 'KSP_Snippet.xlsx' )
 sheetNames = book.sheet_names()
 
 fw = open( TARGET, 'w' )

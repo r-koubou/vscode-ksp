@@ -21,8 +21,8 @@
     ],
     "folding": {
         "markers": {
-          "start": "^\\s*(on|function)\\s+\\b",
-          "end": "^\\s*end\\s+(on|function)"
+          "start": "^\\s*\\{\\s*#?region[^\\}]*\\}",
+          "end":   "^\\s*\\{\\s*#?endregion[^\\}]*\\}",
         }
     }
 }

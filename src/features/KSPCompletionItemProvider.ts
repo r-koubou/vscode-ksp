@@ -14,8 +14,8 @@
 
 import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
-var kspCommands         = require( './generated/KSPCommandsInfo' );
+import * as KSPVariables from "./generated/KSPCompletionVariable";
+import * as KSPCommands  from "./generated/KSPCompletionCommand";
 
 export const VARIABLE_PREFIX_LIST: string[]    = [ '$', '%', '~', '?', '@', '!' ];
 export const VARIABLE_REGEX: RegExp            = /([\$%~\?@!][0-9a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/g;
@@ -49,6 +49,7 @@ export class KSPCompletionItemProvider implements vscode.CompletionItemProvider
         }
         let added = {};
 
+    // #region - local functions
         //----------------------------------------------------------------------
         // proposal component
         //----------------------------------------------------------------------
@@ -65,6 +66,10 @@ export class KSPCompletionItemProvider implements vscode.CompletionItemProvider
                 if( entry.signature )
                 {
                     proposal.detail = entry.signature;
+                }
+                if( entry.snippet_string )
+                {
+                    proposal.insertText = new vscode.SnippetString( entry.snippet_string );
                 }
             }
             return proposal;
@@ -91,19 +96,22 @@ export class KSPCompletionItemProvider implements vscode.CompletionItemProvider
                 result.push( createNewProposal( kind, name, table[ name ] ) ) ;
             }
         }
+
+    // #endregion
+
         //----------------------------------------------------------------------
         // Built-In Variables
         //----------------------------------------------------------------------
-        for( let name in kspBuiltinVariables.builtinVariables )
+        for( let name in KSPVariables.CompletionList )
         {
-            validateProposal( name, kspBuiltinVariables.builtinVariables, vscode.CompletionItemKind.Variable );
+            validateProposal( name, KSPVariables.CompletionList, vscode.CompletionItemKind.Variable );
         }
         //----------------------------------------------------------------------
         // Commands
         //----------------------------------------------------------------------
-        for( let name in kspCommands.commands )
+        for( let name in KSPCommands.CompletionList )
         {
-            validateProposal( name, kspCommands.commands, vscode.CompletionItemKind.Function );
+            validateProposal( name, KSPCommands.CompletionList, vscode.CompletionItemKind.Function );
         }
         //----------------------------------------------------------------------
         // User Variables in File
@@ -153,7 +161,6 @@ export class KSPCompletionItemProvider implements vscode.CompletionItemProvider
 
         return Promise.resolve( result );
     }
-
     /**
      * Given a completion item fill in more data
      */
