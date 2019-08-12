@@ -12,7 +12,7 @@ veriftVariable = False
 
 REPORT_TITLE = "#---------------- {title} ----------------"
 
-book       = xlrd.open_workbook( 'KSP.xlsx' )
+book       = xlrd.open_workbook( 'KSP_Completion.xlsx' )
 sheetNames = book.sheet_names()
 
 wordList    = []

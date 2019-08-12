@@ -13,8 +13,7 @@
 'use strict';
 import vscode = require( 'vscode' );
 
-const kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
-const kspCommands         = require( './generated/KSPCommandsInfo' );
+const kspCommands         = require( './generated/KSPCompletionCommand' );
 
 const _NL       = '\n'.charCodeAt( 0 );
 const _TAB      = '\t'.charCodeAt( 0 );
@@ -102,7 +101,7 @@ export class KSPSignatureHelpProvider implements vscode.SignatureHelpProvider
         {
             return null;
         }
-        let entry = kspCommands.commands[ ident ];
+        let entry = kspCommands.CompletionList[ ident ];
         if ( !entry || !entry.signature )
         {
             return null;

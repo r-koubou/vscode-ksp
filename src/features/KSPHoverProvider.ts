@@ -14,8 +14,8 @@
 
 import vscode = require( 'vscode' );
 
-var kspBuiltinVariables = require( './generated/KSPBuiltinVariableInfo' );
-var kspCommands         = require( './generated/KSPCommandsInfo' );
+var kspBuiltinVariables = require( './generated/KSPCompletionVariable' );
+var kspCommands         = require( './generated/KSPCompletionCommand' );
 
 export class KSPHoverProvider implements vscode.HoverProvider
 {
@@ -37,7 +37,7 @@ export class KSPHoverProvider implements vscode.HoverProvider
         }
 
         let name: string = textDocument.getText( wordRange );
-        let entry : any  = kspCommands.commands[ name ] || kspBuiltinVariables.builtinVariables[ name ];
+        let entry : any  = kspCommands.CompletionList[ name ] || kspBuiltinVariables.CompletionList[ name ];
 
         if( entry && entry.description )
         {

@@ -468,5 +468,5 @@
             "${1:a} or ${2:b}"
         ],
         "description": "Boolean Operator: true if a is true or b is true"
-    },
+    }
 }

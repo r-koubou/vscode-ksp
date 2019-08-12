@@ -173,13 +173,13 @@
         "int_to_real":
         {
             "snippet_string": "int_to_real( ${1:integer value} )",
-            "signature":   "int_to_real(${1:integer value})",
+            "signature":   "int_to_real(integer)",
             "description": "converts an integer value into a real number"
         },
         "real_to_int":
         {
             "snippet_string": "real_to_int( ${1:real value} )",
-            "signature":   "real_to_int(${1:real value})",
+            "signature":   "real_to_int(real)",
             "description": "converts a real number into an integer"
         },
         "msb":
@@ -209,7 +209,7 @@
         "message":
         {
             "snippet_string": "message( ${1:variable/text} )",
-            "signature":   "message(${1:variable/text})",
+            "signature":   "message(variable/text)",
             "description": "display text in the status line of KONTAKT"
         },
         "note_off":
@@ -227,7 +227,7 @@
         "set_controller":
         {
             "snippet_string": "set_controller( ${1:MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO}, ${2:value} )",
-            "signature":   "set_controller(${1:MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO},value)",
+            "signature":   "set_controller(MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO,value)",
             "description": "send a MIDI CC, pitchbend or channel pressure value"
         },
         "set_rpn":
@@ -935,7 +935,7 @@
         "mf_insert_event":
         {
             "snippet_string": "mf_insert_event( ${1:track}, ${2:pos}, ${3:command}, ${4:byte1}, ${5:byte2} )",
-            "signature":   "mf_insert_event(track,pos,command,${4:byte1},${5:byte2})",
+            "signature":   "mf_insert_event(track,pos,command,byte1,byte2)",
             "description": "activates an inactive MIDI event in the MIDI object. However, because the command and position are defined in this command, it can be considered as an insertion."
         },
         "mf_remove_event":
@@ -1289,7 +1289,7 @@
         "set_midi":
         {
             "snippet_string": "set_midi( ${1:channel}, ${2:command}, ${3:byte-1}, ${4:byte-2} )",
-            "signature":   "set_midi(channel,command,${3:byte-1},${4:byte-2})",
+            "signature":   "set_midi(channel,command,byte1,byte2)",
             "description": "create any type of MIDI event. If you simply want to change the MIDI channel and/or any of the MIDI bytes, you can also use set_event_par()."
         },
         "watch_var":
@@ -1313,19 +1313,19 @@
         "_delay_event_for_loading_slots":
         {
             "snippet_string": "_delay_event_for_loading_slots( ${1:arg1} )",
-            "signature":   "_delay_event_for_loading_slots(${1:arg1})",
+            "signature":   "_delay_event_for_loading_slots(arg1)",
             "description": "Undocumented"
         },
         "cc_delivery_request":
         {
             "snippet_string": "cc_delivery_request( ${1:arg1} )",
-            "signature":   "cc_delivery_request(${1:arg1})",
+            "signature":   "cc_delivery_request(arg1)",
             "description": "Undocumented"
         },
         "change_time_with_pitch":
         {
             "snippet_string": "change_time_with_pitch( ${1:arg1} )",
-            "signature":   "change_time_with_pitch(${1:arg1})",
+            "signature":   "change_time_with_pitch(arg1)",
             "description": "Undocumented"
         },
         "connect_view":
@@ -1337,37 +1337,37 @@
         "get_control_par_arr":
         {
             "snippet_string": "get_control_par_arr( ${1:arg1}, ${2:arg2}, ${3:arg3} )",
-            "signature":   "get_control_par_arr(${1:arg1},${2:arg2},${3:arg3})",
+            "signature":   "get_control_par_arr(arg1,arg2},arg3)",
             "description": "Undocumented"
         },
         "get_control_par_str":
         {
             "snippet_string": "get_control_par_str( ${1:arg1}, ${2:arg2} )",
-            "signature":   "get_control_par_str(${1:arg1},${2:arg2})",
+            "signature":   "get_control_par_str(arg1},arg2)",
             "description": "Undocumented"
         },
         "get_engine_par_disp_m":
         {
             "snippet_string": "get_engine_par_disp_m( ${1:arg1}, ${2:arg2}, ${3:arg3}, ${4:arg4} )",
-            "signature":   "get_engine_par_disp_m(${1:arg1},${2:arg2},${3:arg3},${4:arg4})",
+            "signature":   "get_engine_par_disp_m(arg1,arg2},arg3,arg4)",
             "description": "Undocumented"
         },
         "get_engine_par_m":
         {
             "snippet_string": "get_engine_par_m( ${1:arg1}, ${2:arg2}, ${3:arg3}, ${4:arg4} )",
-            "signature":   "get_engine_par_m(${1:arg1},${2:arg2},${3:arg3},${4:arg4})",
+            "signature":   "get_engine_par_m(arg1,arg2,arg3,arg4)",
             "description": "Undocumented"
         },
         "load_ir_sample_m":
         {
             "snippet_string": "load_ir_sample_m( ${1:arg1} )",
-            "signature":   "load_ir_sample_m(${1:arg1})",
+            "signature":   "load_ir_sample_m(arg1)",
             "description": "Undocumented"
         },
         "load_patch":
         {
             "snippet_string": "load_patch( ${1:arg1}, ${2:arg2} )",
-            "signature":   "load_patch(${1:arg1},${2:arg2})",
+            "signature":   "load_patch(arg1,arg2)",
             "description": "Undocumented"
         },
         "mf_get_byte_one":
@@ -1421,13 +1421,13 @@
         "_num_slices":
         {
             "snippet_string": "_num_slices( ${1:arg1} )",
-            "signature":   "_num_slices(${1:arg1})",
+            "signature":   "_num_slices(arg1)",
             "description": "Undocumented"
         },
         "num_slices":
         {
             "snippet_string": "num_slices( ${1:arg1} )",
-            "signature":   "num_slices(${1:arg1})",
+            "signature":   "num_slices(arg1)",
             "description": "Undocumented"
         },
         "pgs_get_str_key_val":
@@ -1439,13 +1439,13 @@
         "redirect_midi":
         {
             "snippet_string": "redirect_midi( ${1:arg1} )",
-            "signature":   "redirect_midi(${1:arg1})",
+            "signature":   "redirect_midi(arg1)",
             "description": "Undocumented"
         },
         "redirect_output":
         {
             "snippet_string": "redirect_output( ${1:arg1} )",
-            "signature":   "redirect_output(${1:arg1})",
+            "signature":   "redirect_output(arg1)",
             "description": "Undocumented"
         },
         "reset_engine":
@@ -1457,7 +1457,7 @@
         "set_engine_par_m":
         {
             "snippet_string": "set_engine_par_m( ${1:arg1}, ${2:arg2}, ${3:arg3}, ${4:arg4}, ${5:arg5} )",
-            "signature":   "set_engine_par_m(${1:arg1},${2:arg2},${3:arg3},${4:arg4},${5:arg5})",
+            "signature":   "set_engine_par_m(arg1,arg2,arg3,arg4,arg5)",
             "description": "Undocumented"
         },
         "show_library_tab":
@@ -1469,37 +1469,37 @@
         "slice_idx_loop_end":
         {
             "snippet_string": "slice_idx_loop_end( ${1:arg1}, ${2:arg2} )",
-            "signature":   "slice_idx_loop_end(${1:arg1},${2:arg2})",
+            "signature":   "slice_idx_loop_end(arg1,arg2)",
             "description": "Undocumented"
         },
         "slice_idx_loop_start":
         {
             "snippet_string": "slice_idx_loop_start( ${1:arg1}, ${2:arg2} )",
-            "signature":   "slice_idx_loop_start(${1:arg1},${2:arg2})",
+            "signature":   "slice_idx_loop_start(arg1,arg2)",
             "description": "Undocumented"
         },
         "slice_length":
         {
             "snippet_string": "slice_length( ${1:arg1}, ${2:arg2} )",
-            "signature":   "slice_length(${1:arg1},${2:arg2})",
+            "signature":   "slice_length(arg1,arg2)",
             "description": "Undocumented"
         },
         "slice_loop_count":
         {
             "snippet_string": "slice_loop_count( ${1:arg1}, ${2:arg2} )",
-            "signature":   "slice_loop_count(${1:arg1},${2:arg2})",
+            "signature":   "slice_loop_count(arg1,arg2)",
             "description": "Undocumented"
         },
         "slice_start":
         {
             "snippet_string": "slice_start( ${1:arg1}, ${2:arg2} )",
-            "signature":   "slice_start(${1:arg1},${2:arg2})",
+            "signature":   "slice_start(arg1,arg2)",
             "description": "Undocumented"
         },
         "unload_slot":
         {
             "snippet_string": "unload_slot( ${1:arg1} )",
-            "signature":   "unload_slot(${1:arg1})",
+            "signature":   "unload_slot(arg1)",
             "description": "Undocumented"
         },
 };
