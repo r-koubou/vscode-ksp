@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.8.0 (Preview)
+## Version 0.7.6 (Preview)
 
 ### Improved Completion input
 
