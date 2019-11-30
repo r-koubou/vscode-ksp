@@ -96,6 +96,7 @@ V	stop_wait	!init	@I	@I
 V	reset_ksp_timer	*
 I||S	ticks_to_ms	*	@I
 V	wait	!init	@I
+V	wait_async	!init	@I
 V	wait_ticks	!init	@I
 #-------------------------------------------------------------------------------------------------------
 # User Interface Commands
@@ -170,6 +171,17 @@ I||S	_set_engine_par	*	@I	@I	@I	@I	@I
 I||S	set_engine_par	*	@I	@I	@I	@I	@I
 I||S	set_voice_limit	*	@I	@I
 #-------------------------------------------------------------------------------------------------------
+# Zone Commands
+#-------------------------------------------------------------------------------------------------------
+I||S	get_loop_par	*	@I	@I	@I
+I||S	get_loop_sample	*	@I	@I
+I||S	get_zone_par	*	@I	@I
+I||S	is_zone_empty	*	@I
+I||S	set_loop_par	*	@I	@I	@I	@I
+I||S	set_num_user_zones	*	@I
+I||S	set_sample	*	@I	@S
+I||S	set_zone_par	*	@I	@I	@I
+#-------------------------------------------------------------------------------------------------------
 # Load/Save Commands
 #-------------------------------------------------------------------------------------------------------
 S	_get_folder	*	@I
@@ -182,6 +194,15 @@ I||S	load_midi_file	*	@S
 I||S	save_array	persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
 I||S	save_array_str	persistence_changed||pgs_changed||ui_control	I[]||S[]	@S||@I
 I||S	save_midi_file	*	@S
+#-------------------------------------------------------------------------------------------------------
+# Music Information Retrieval
+#-------------------------------------------------------------------------------------------------------
+I||S	detect_pitch	*	@I	@I
+I||S	detect_loudness	*	@I	@R
+I||S	detect_peak	*	@I	@R
+I||S	detect_rms	*	@I	@R
+I||S	detect_sample_type	*	@I	@I
+I||S	detect_drum_type	*	@I	@I
 #-------------------------------------------------------------------------------------------------------
 # MIDI Object Commands
 #-------------------------------------------------------------------------------------------------------

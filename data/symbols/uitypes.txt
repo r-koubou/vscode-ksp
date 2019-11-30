@@ -4,6 +4,7 @@ ui_file_selector	N	N	I
 ui_label	N	Y	I	I	I
 ui_level_meter	N	N	I
 ui_menu	N	N	I
+ui_mouse_area	N	N	I
 ui_panel	N	N	I
 ui_slider	N	Y	I	I	I
 ui_switch	N	N	I
