@@ -9,7 +9,7 @@
 
 ## KSP互換
 
-- KONTAKT 6.1.0 / 5.x のKSPに対応しています
+- KONTAKT 6.2.0 / 5.x のKSPに対応しています
 
 ## 機能
 
@@ -25,6 +25,12 @@
 * 文法解析機能
 * リネーム機能
 
+## 動作に必要なもの
+
+* 文法解析機能
+    * Java 1.8 (or higher)
+
+
 ## 文法解析後、スクリプトをクリップボードにコピー
 
 `F7` キーを押し、スクリプトの内容に問題がない場合、スクリプトをクリップボードにコピーします。
@@ -35,12 +41,6 @@
 
 * 文法解析機能が使用可能である必要があります。
 * `Shift+F7` キーを押した場合、オブファスケータを実行します。
-
-## アウトラインビュー
-
-VSCode標準のアウトラインビューに対応し、使用可能になりました。
-
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_vscode.png)
 
 ## 文法解析機能 (BETA)
 
@@ -114,33 +114,6 @@ VSCode標準のアウトラインビューに対応し、使用可能になり�
 
 * `[注意]パーサーは可能な限り多くのエラー検出を試みますが、記述されているスクリプトの文法がKSP仕様から逸脱していると、正しく機能しません。`
 
-## スクリーンショット
-
-* シンタックスハイライト
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxhilghting.png)
-
-* 文法チェック(*オプション)
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxparser.gif)
-
-* 自動補完
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/completion.gif)
-
-* スニペット
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/snippet.gif)
-
-* ホバー
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/hover.png)
-
-* Go to Definition
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto1.png)
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto2.png)
 
 ## TODO
 

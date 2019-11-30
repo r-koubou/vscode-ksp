@@ -306,6 +306,14 @@
         ],
         "description": "create a user interface drop-down menu"
     },
+    "ui_mouse_area":
+    {
+        "prefix": "ui_mouse_area",
+        "body":[
+            "declare ui_mouse_area $${1:variable-name}"
+        ],
+        "description": "create a user interface mouse area"
+    },
     "ui_panel":
     {
         "prefix": "ui_panel",

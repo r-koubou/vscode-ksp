@@ -8,7 +8,7 @@
 
 ## KSP Compatibility
 
-- KONTAKT 6.1.0 / 5.x
+- KONTAKT 6.2.0 / 5.x
 
 ## Features
 
@@ -24,6 +24,11 @@
 * Syntax validation
 * Rename Identifiers
 
+## Requirements
+
+* Syntax parser
+    * Java 1.8 (or higher)
+
 ## Syntax check and script copy to clipboard
 
 If `F7` key pressed and your script has no problem, your script will copy to clip board.
@@ -34,12 +39,6 @@ or run from command palette.
 
 - **You need to ready for "Syntax validation" function.**
 - If `Shift+F7` pressed, run obfuscator.
-
-## Outline view
-
-Outline view is available in Explorer.
-
-![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/outline_vscode.png)
 
 ## Syntax validation (BETA)
 
@@ -112,33 +111,6 @@ or Run from context menu in editor.
 
 * `[NOTE] Although the parser will attempt as much error detection as possible, if the grammar of the your script content deviates from the KSP specification, it will not function properly.`
 
-## Screenshots
-
-* Syntax highlighting
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxhilghting.png)
-
-* Syntax check (*Option)
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/syntaxparser.gif)
-
-* Autocomplete
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/completion.gif)
-
-* Snippet
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/snippet.gif)
-
-* Hover
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/hover.png)
-
-* Go to Definition
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto1.png)
-
-    ![](https://github.com/r-koubou/vscode-ksp/raw/master/resources/readme/goto2.png)
 
 ## TODO
 

@@ -30,6 +30,7 @@ IGNORE_WORD_LIST = [
     "range", # not exist
     "tach_zone", # line separated (-> attach_zone() )
     "ui_control", # It is callback
+    "trol_par_str_arr", # extract miss (expexted: control_par_str_arr)
 ]
 
 def appendWord( word, targetList ):

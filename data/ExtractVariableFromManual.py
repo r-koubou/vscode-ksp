@@ -18,11 +18,13 @@ IGNORE_WORD_LIST = [
 "$MARK_1",
 "$MARK_2",
 "$MARK_28",
+"$KEY_COLOR_FUCHSI",
 # in Sample Code
 "$HEADER_SIZE",
 "$NUM_SLIDES",
 "$SIZE",
 "$VE",
+"$ARRAY_SIZE",
 ]
 
 def appendWord( word, targetList ):

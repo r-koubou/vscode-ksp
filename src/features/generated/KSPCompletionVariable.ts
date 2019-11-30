@@ -92,11 +92,29 @@
             "signature":   "",
             "description": "Built-in Variable: $CONTROL_PAR_DISABLE_TEXT_SHIFTING"
         },
+        "$CONTROL_PAR_DND_ACCEPT_ARRAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_DND_ACCEPT_ARRAY"
+        },
+        "$CONTROL_PAR_DND_ACCEPT_AUDIO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_DND_ACCEPT_AUDIO"
+        },
         "$CONTROL_PAR_DND_BEHAVIOUR":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $CONTROL_PAR_DND_BEHAVIOUR"
+        },
+        "$CONTROL_PAR_DND_MIDI":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_DND_MIDI"
         },
         "$CONTROL_PAR_FILEPATH":
         {
@@ -325,6 +343,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $CONTROL_PAR_POS_Y"
+        },
+        "$CONTROL_PAR_RECEIVE_DRAG_EVENTS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_RECEIVE_DRAG_EVENTS"
         },
         "$CONTROL_PAR_SELECTED_ITEM_IDX":
         {
@@ -572,6 +596,12 @@
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_CAT"
         },
+        "$EFFECT_TYPE_CHORAL":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_CHORAL"
+        },
         "$EFFECT_TYPE_CHORUS":
         {
             "snippet_string": "",
@@ -613,6 +643,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_FILTER"
+        },
+        "$EFFECT_TYPE_FLAIR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_FLAIR"
         },
         "$EFFECT_TYPE_FLANGER":
         {
@@ -673,6 +709,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_PHASER"
+        },
+        "$EFFECT_TYPE_PHASIS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_PHASIS"
         },
         "$EFFECT_TYPE_REVERB":
         {
@@ -901,6 +943,66 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_CH_SPEED_UNIT"
+        },
+        "$ENGINE_PAR_CHORAL_AMOUNT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_AMOUNT"
+        },
+        "$ENGINE_PAR_CHORAL_DELAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_DELAY"
+        },
+        "$ENGINE_PAR_CHORAL_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_FEEDBACK"
+        },
+        "$ENGINE_PAR_CHORAL_INVERT_PHASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_INVERT_PHASE"
+        },
+        "$ENGINE_PAR_CHORAL_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_MIX"
+        },
+        "$ENGINE_PAR_CHORAL_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_MODE"
+        },
+        "$ENGINE_PAR_CHORAL_RATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_RATE"
+        },
+        "$ENGINE_PAR_CHORAL_SCATTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_SCATTER"
+        },
+        "$ENGINE_PAR_CHORAL_VOICES":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_VOICES"
+        },
+        "$ENGINE_PAR_CHORAL_WIDTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_CHORAL_WIDTH"
         },
         "$ENGINE_PAR_COMP_ATTACK":
         {
@@ -1189,6 +1291,96 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_FCOMP_RELEASE"
+        },
+        "$ENGINE_PAR_FLAIR_AMOUNT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_AMOUNT"
+        },
+        "$ENGINE_PAR_FLAIR_CHORD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_CHORD"
+        },
+        "$ENGINE_PAR_FLAIR_DAMPING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_DAMPING"
+        },
+        "$ENGINE_PAR_FLAIR_DETUNE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_DETUNE"
+        },
+        "$ENGINE_PAR_FLAIR_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_FEEDBACK"
+        },
+        "$ENGINE_PAR_FLAIR_INVERT_PHASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_INVERT_PHASE"
+        },
+        "$ENGINE_PAR_FLAIR_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_MIX"
+        },
+        "$ENGINE_PAR_FLAIR_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_MODE"
+        },
+        "$ENGINE_PAR_FLAIR_OFFSET":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_OFFSET"
+        },
+        "$ENGINE_PAR_FLAIR_PITCH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_PITCH"
+        },
+        "$ENGINE_PAR_FLAIR_RATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_RATE"
+        },
+        "$ENGINE_PAR_FLAIR_RATE_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_RATE_UNIT"
+        },
+        "$ENGINE_PAR_FLAIR_SCANMODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_SCANMODE"
+        },
+        "$ENGINE_PAR_FLAIR_VOICES":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_VOICES"
+        },
+        "$ENGINE_PAR_FLAIR_WIDTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FLAIR_WIDTH"
         },
         "$ENGINE_PAR_FILTER_BYPA":
         {
@@ -1735,6 +1927,84 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_PH_SPEED_UNIT"
+        },
+        "$ENGINE_PAR_PHASIS_AMOUNT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_AMOUNT"
+        },
+        "$ENGINE_PAR_PHASIS_CENTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_CENTER"
+        },
+        "$ENGINE_PAR_PHASIS_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_FEEDBACK"
+        },
+        "$ENGINE_PAR_PHASIS_INVERT_MOD_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_INVERT_MOD_MIX"
+        },
+        "$ENGINE_PAR_PHASIS_INVERT_PHASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_INVERT_PHASE"
+        },
+        "$ENGINE_PAR_PHASIS_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_MIX"
+        },
+        "$ENGINE_PAR_PHASIS_MOD_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_MOD_MIX"
+        },
+        "$ENGINE_PAR_PHASIS_NOTCHES":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_NOTCHES"
+        },
+        "$ENGINE_PAR_PHASIS_RATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_RATE"
+        },
+        "$ENGINE_PAR_PHASIS_RATE_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_RATE_UNIT"
+        },
+        "$ENGINE_PAR_PHASIS_SPREAD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_SPREAD"
+        },
+        "$ENGINE_PAR_PHASIS_STEREO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_STEREO"
+        },
+        "$ENGINE_PAR_PHASIS_ULTRA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASIS_ULTRA"
         },
         "$ENGINE_PAR_PR_STEREO":
         {
@@ -2413,6 +2683,18 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
+        },
+        "$ENGINE_PAR_WT_FORM_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WT_FORM_MODE"
+        },
+        "$ENGINE_PAR_WT_INHARMONIC":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WT_INHARMONIC"
         },
         "$ENGINE_PAR_WT_INHARMONIC_MODE":
         {
@@ -3278,6 +3560,42 @@
             "signature":   "",
             "description": "Built-in Variable: $LFO_TYPE_TRIANGLE"
         },
+        "$LOOP_PAR_COUNT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $LOOP_PAR_COUNT"
+        },
+        "$LOOP_PAR_LENGTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $LOOP_PAR_LENGTH"
+        },
+        "$LOOP_PAR_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $LOOP_PAR_MODE"
+        },
+        "$LOOP_PAR_START":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $LOOP_PAR_START"
+        },
+        "$LOOP_PAR_TUNING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $LOOP_PAR_TUNING"
+        },
+        "$LOOP_PAR_XFADE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $LOOP_PAR_XFADE"
+        },
         "$MARK_1":
         {
             "snippet_string": "",
@@ -3542,6 +3860,12 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_ASYNC_ID"
         },
+        "$NI_BAR_START_POSITION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_BAR_START_POSITION"
+        },
         "$NI_BUS_OFFSET":
         {
             "snippet_string": "",
@@ -3644,11 +3968,119 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_CB_TYPE_MIDI_IN"
         },
+        "$NI_CHORAL_MODE_SYNTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_CHORAL_MODE_SYNTH"
+        },
+        "$NI_CHORAL_MODE_ENSEMBLE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_CHORAL_MODE_ENSEMBLE"
+        },
+        "$NI_CHORAL_MODE_DIMENSION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_CHORAL_MODE_DIMENSION"
+        },
+        "$NI_CHORAL_MODE_UNIVERSAL":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_CHORAL_MODE_UNIVERSAL"
+        },
         "$NI_CONTROL_PAR_IDX":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_CONTROL_PAR_IDX"
+        },
+        "$NI_DETECT_DRUM_TYPE_CLAP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_CLAP"
+        },
+        "$NI_DETECT_DRUM_TYPE_CLOSED_HH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_CLOSED_HH"
+        },
+        "$NI_DETECT_DRUM_TYPE_CYMBAL":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_CYMBAL"
+        },
+        "$NI_DETECT_DRUM_TYPE_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_INVALID"
+        },
+        "$NI_DETECT_DRUM_TYPE_KICK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_KICK"
+        },
+        "$NI_DETECT_DRUM_TYPE_OPEN_HH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_OPEN_HH"
+        },
+        "$NI_DETECT_DRUM_TYPE_PERC_DRUM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_PERC_DRUM"
+        },
+        "$NI_DETECT_DRUM_TYPE_PERC_OTHER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_PERC_OTHER"
+        },
+        "$NI_DETECT_DRUM_TYPE_SHAKER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_SHAKER"
+        },
+        "$NI_DETECT_DRUM_TYPE_SNARE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_SNARE"
+        },
+        "$NI_DETECT_DRUM_TYPE_TOM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_TOM"
+        },
+        "$NI_DETECT_SAMPLE_TYPE_DRUM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_SAMPLE_TYPE_DRUM"
+        },
+        "$NI_DETECT_SAMPLE_TYPE_INSTRUMENT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_SAMPLE_TYPE_INSTRUMENT"
+        },
+        "$NI_DETECT_SAMPLE_TYPE_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_SAMPLE_TYPE_INVALID"
         },
         "$NI_DISTORTION_TYPE_TRANS":
         {
@@ -3661,6 +4093,48 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_DISTORTION_TYPE_TUBE"
+        },
+        "$NI_DND_ACCEPT_MULTIPLE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DND_ACCEPT_MULTIPLE"
+        },
+        "$NI_DND_ACCEPT_NONE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DND_ACCEPT_NONE"
+        },
+        "$NI_DND_ACCEPT_ONE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DND_ACCEPT_ONE"
+        },
+        "$NI_FILE_EXTENSION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FILE_EXTENSION"
+        },
+        "$NI_FILE_FULL_PATH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FILE_FULL_PATH"
+        },
+        "$NI_FILE_FULL_PATH_OS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FILE_FULL_PATH_OS"
+        },
+        "$NI_FILE_NAME":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FILE_NAME"
         },
         "$NI_FILE_TYPE_ARRAY":
         {
@@ -3679,6 +4153,30 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_FILE_TYPE_MIDI"
+        },
+        "$NI_FLAIR_MODE_SCAN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FLAIR_MODE_SCAN"
+        },
+        "$NI_FLAIR_SCANMODE_SAW_DOWN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FLAIR_SCANMODE_SAW_DOWN"
+        },
+        "$NI_FLAIR_SCANMODE_SAW_UP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FLAIR_SCANMODE_SAW_UP"
+        },
+        "$NI_FLAIR_SCANMODE_TRIANGLE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FLAIR_SCANMODE_TRIANGLE"
         },
         "$NI_KEY_TYPE_CONTROL":
         {
@@ -3722,6 +4220,30 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE"
         },
+        "$NI_MOUSE_EVENT_TYPE_DND_DRAG":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DND_DRAG"
+        },
+        "$NI_MOUSE_EVENT_TYPE_DND_DROP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DND_DROP"
+        },
+        "$NI_MOUSE_EVENT_TYPE_DRAG":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DRAG"
+        },
+        "$NI_MOUSE_EVENT_TYPE_DROP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DROP"
+        },
         "$NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_DOWN":
         {
             "snippet_string": "",
@@ -3734,11 +4256,11 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_LEFT_BUTTON_UP"
         },
-        "$NI_MOUSE_EVENT_TYPE_DRAG":
+        "$NI_MOUSE_OVER_CONTROL":
         {
             "snippet_string": "",
             "signature":   "",
-            "description": "Built-in Variable: $NI_MOUSE_EVENT_TYPE_DRAG"
+            "description": "Built-in Variable: $NI_MOUSE_OVER_CONTROL"
         },
         "$NI_REPLIKA_TYPE_DIFFUSION":
         {
@@ -3944,11 +4466,107 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_VL_TMRPO_HQ"
         },
+        "$NI_WF_VIS_MODE_1":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WF_VIS_MODE_1"
+        },
+        "$NI_WF_VIS_MODE_2":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WF_VIS_MODE_2"
+        },
+        "$NI_WF_VIS_MODE_3":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WF_VIS_MODE_3"
+        },
+        "$NI_WT_FORM_ASYMM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_ASYMM"
+        },
+        "$NI_WT_FORM_ASYMMP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_ASYMMP"
+        },
+        "$NI_WT_FORM_ASYMP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_ASYMP"
+        },
+        "$NI_WT_FORM_BENDM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_BENDM"
+        },
+        "$NI_WT_FORM_BENDMP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_BENDMP"
+        },
+        "$NI_WT_FORM_BENDP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_BENDP"
+        },
+        "$NI_WT_FORM_FLIP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_FLIP"
+        },
+        "$NI_WT_FORM_LINEAR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_LINEAR"
+        },
+        "$NI_WT_FORM_MIRROR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_MIRROR"
+        },
+        "$NI_WT_FORM_PWM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_PWM"
+        },
         "$NI_WT_FORM_QUANTIZE":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_WT_FORM_QUANTIZE"
+        },
+        "$NI_WT_FORM_SYNC1":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_SYNC1"
+        },
+        "$NI_WT_FORM_SYNC2":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_SYNC2"
+        },
+        "$NI_WT_FORM_SYNC3":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_FORM_SYNC3"
         },
         "$NI_WT_QUALITY_BEST":
         {
@@ -3967,24 +4585,6 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_WT_VIS_3D"
-        },
-        "$NI_WF_VIS_MODE_1":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $NI_WF_VIS_MODE_1"
-        },
-        "$NI_WF_VIS_MODE_2":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $NI_WF_VIS_MODE_2"
-        },
-        "$NI_WF_VIS_MODE_3":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $NI_WF_VIS_MODE_3"
         },
         "$NOTE_HELD":
         {
@@ -4184,6 +4784,102 @@
             "signature":   "",
             "description": "Built-in Variable: $VCC_PITCH_BEND"
         },
+        "$ZONE_PAR_FADE_HIGH_KEY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_FADE_HIGH_KEY"
+        },
+        "$ZONE_PAR_FADE_HIGH_VELO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_FADE_HIGH_VELO"
+        },
+        "$ZONE_PAR_FADE_LOW_KEY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_FADE_LOW_KEY"
+        },
+        "$ZONE_PAR_FADE_LOW_VELO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_FADE_LOW_VELO"
+        },
+        "$ZONE_PAR_GROUP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_GROUP"
+        },
+        "$ZONE_PAR_HIGH_KEY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_HIGH_KEY"
+        },
+        "$ZONE_PAR_HIGH_VELO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_HIGH_VELO"
+        },
+        "$ZONE_PAR_LOW_KEY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_LOW_KEY"
+        },
+        "$ZONE_PAR_LOW_VELO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_LOW_VELO"
+        },
+        "$ZONE_PAR_PAN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_PAN"
+        },
+        "$ZONE_PAR_ROOT_KEY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_ROOT_KEY"
+        },
+        "$ZONE_PAR_SAMPLE_END":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_SAMPLE_END"
+        },
+        "$ZONE_PAR_SAMPLE_MOD_RANGE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_SAMPLE_MOD_RANGE"
+        },
+        "$ZONE_PAR_SAMPLE_START":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_SAMPLE_START"
+        },
+        "$ZONE_PAR_TUNE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_TUNE"
+        },
+        "$ZONE_PAR_VOLUME":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_VOLUME"
+        },
         "%CC":
         {
             "snippet_string": "",
@@ -4238,11 +4934,53 @@
             "signature":   "",
             "description": "Built-in Variable: ~NI_MATH_E"
         },
+        "~NI_DETECT_LOUDNESS_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: ~NI_DETECT_LOUDNESS_INVALID"
+        },
+        "~NI_DETECT_PEAK_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: ~NI_DETECT_PEAK_INVALID"
+        },
+        "~NI_DETECT_PITCH_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: ~NI_DETECT_PITCH_INVALID"
+        },
+        "~NI_DETECT_RMS_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: ~NI_DETECT_RMS_INVALID"
+        },
         "~NI_MATH_PI":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: ~NI_MATH_PI"
+        },
+        "!NI_DND_ITEMS_AUDIO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: !NI_DND_ITEMS_AUDIO"
+        },
+        "!NI_DND_ITEMS_MIDI":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: !NI_DND_ITEMS_MIDI"
+        },
+        "!NI_DND_ITEMS_ARRAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: !NI_DND_ITEMS_ARRAY"
         },
         "$ENGINE_PAR_EXTMOD_INTENSITY":
         {

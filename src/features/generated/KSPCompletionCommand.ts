@@ -452,6 +452,12 @@
             "signature":   "wait(wait-time)",
             "description": "pauses the callback for the specified time in microseconds"
         },
+        "wait_async":
+        {
+            "snippet_string": "wait_async( ${1:asyncID} )",
+            "signature":   "wait_async(asyncID)",
+            "description": "waits until the async command identified by the <asyncID> is finished"
+        },
         "wait_ticks":
         {
             "snippet_string": "wait_ticks( ${1:wait-time} )",
@@ -842,6 +848,54 @@
             "signature":   "set_voice_limit(voice-type,value)",
             "description": "sets the voice limit for the Time Machine Pro mode of the source module"
         },
+        "get_loop_par":
+        {
+            "snippet_string": "get_loop_par( ${1:zone-id}, ${2:loop-index}, ${3:parameter} )",
+            "signature":   "get_loop_par(zone-id,loop_index,parameter)",
+            "description": "Returns the loop parameters of a zone"
+        },
+        "get_loop_sample":
+        {
+            "snippet_string": "get_loop_par( ${1:zone-id}, ${2:return-parameter} )",
+            "signature":   "get_sample(zone-id,return-parameter)",
+            "description": "Returns paths, file names and extensions of samples"
+        },
+        "get_zone_par":
+        {
+            "snippet_string": "get_zone_par( ${1:zone-id}, ${2:parameter} )",
+            "signature":   "get_zone_par(zone-id,parameter)",
+            "description": "Returns the zone parameters"
+        },
+        "is_zone_empty":
+        {
+            "snippet_string": "is_zone_emptyr( ${1:zone-id} )",
+            "signature":   "is_zone_empty(zone-id)",
+            "description": "Returns 1 if a zone is empty (has no sample), otherwise returns 0"
+        },
+        "set_loop_par":
+        {
+            "snippet_string": "set_loop_par( ${1:zone-id}, ${2:loop-index}, ${3:parameter}, ${4:value} )",
+            "signature":   "set_loop_par(zone-id,loop_index,parameter,value)",
+            "description": "Sets the loop parameters of a user zone"
+        },
+        "set_num_user_zones":
+        {
+            "snippet_string": "set_num_user_zones(${1:number_of_user_zones} )",
+            "signature":   "set_num_user_zones(number_of_user_zones)",
+            "description": "Creates empty user zones"
+        },
+        "set_sample":
+        {
+            "snippet_string": "set_sample( ${1:zone-id}, ${2:sample-path} )",
+            "signature":   "set_sample(zone-id,sample-path)",
+            "description": "Sets the user sample in a zone"
+        },
+        "set_zone_par":
+        {
+            "snippet_string": "set_zone_par( ${1:zone-id}, ${2:parameter}, ${3:value} )",
+            "signature":   "set_zone_par(zone-id,parameter,value)",
+            "description": "Sets the user zone parameters"
+        },
         "_get_folder":
         {
             "snippet_string": "_get_folder( ${1:path-variable} )",
@@ -901,6 +955,42 @@
             "snippet_string": "save_midi_file( ${1:path} )",
             "signature":   "save_midi_file(path)",
             "description": "saves a MIDI file with a range specified by the mf_set_export_area() command."
+        },
+        "detect_pitch":
+        {
+            "snippet_string": "detect_pitch( ${1:zone-id}, ${2:pitch-result} )",
+            "signature":   "detect_pitch(zone-id,pitch-result)",
+            "description": "Returns a real value representing the fundamental frequency of an audio sample, in semi- tones and cents"
+        },
+        "detect_loudness":
+        {
+            "snippet_string": "detect_loudness( ${1:zone-id}, ${2:loudness-result} )",
+            "signature":   "detect_loudness(zone-id,loudness-result)",
+            "description": "Returns a real value representing the loudness of an audio sample in dB."
+        },
+        "detect_peak":
+        {
+            "snippet_string": "detect_peak( ${1:zone-id}, ${2:peak-result} )",
+            "signature":   "detect_peak(zone-id,peak-result)",
+            "description": "Returns a real value representing peak level of an audio sample in dB."
+        },
+        "detect_rms":
+        {
+            "snippet_string": "detect_rms( ${1:zone-id}, ${2:rms-result} )",
+            "signature":   "detect_rms(zone-id,rms-result)",
+            "description": "Returns a real value representing the RMS level of an audio sample in dB."
+        },
+        "detect_sample_type":
+        {
+            "snippet_string": "detect_sample_type( ${1:zone-id}, ${2:sample-type-result} )",
+            "signature":   "detect_sample_type(zone-id,sample-type-result)",
+            "description": "Assigns <sample-type-result> a $NI_DETECT_SAMPLE_TYPE tag describing the whether an audio sample is a drum or an instrument."
+        },
+        "detect_drum_type":
+        {
+            "snippet_string": "detect_drum_type( ${1:zone-id}, ${2:drum-type-result} )",
+            "signature":   "detect_drum_type(zone-id,drum-type-result)",
+            "description": "Assigns <drum-type-result> a $NI_DETECT_DRUM_TYPE tag describing the drum type of an audio sample."
         },
         "mf_insert_file":
         {
