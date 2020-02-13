@@ -1,5 +1,24 @@
 # Changelog
 
+## Version 0.7.8
+
+### Fixed internal compiler bug
+
+#### ui_waveform variable initializer
+
+Expected
+
+~~~
+declare ui_waveform $variable(6,6) {OK}
+~~~
+
+Bug
+
+~~~
+{$Waveform : Argument count not compatible for ui_waveform initializer (Argument count: 3, Required count: 2)}
+declare ui_waveform $variable(6,6)
+~~~
+
 ## Version 0.7.7
 
 ### KONTAKT 6.2.0 ready
