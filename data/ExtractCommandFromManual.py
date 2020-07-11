@@ -25,6 +25,7 @@ IGNORE_WORD_LIST = [
     "get_keyrange_xxx",
     "if",
     "it",
+    "low_group",
     "ray_idx",
     "set_condition", #lower
     "range", # not exist

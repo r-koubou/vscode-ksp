@@ -956,6 +956,12 @@
             "signature":   "save_midi_file(path)",
             "description": "saves a MIDI file with a range specified by the mf_set_export_area() command."
         },
+        "detect_instrument_type":
+        {
+            "snippet_string": "detect_instrument_type( ${1:zone-id}, ${2:instrument-type-result} )",
+            "signature":   "detect_instrument_type(zone-id,instrument-type-result)",
+            "description": "Assigns <drum-type-result> a $NI_DETECT_INSTRUMENT_TYPE tag describing the in- strument type of an audio sample."
+        },
         "detect_pitch":
         {
             "snippet_string": "detect_pitch( ${1:zone-id}, ${2:pitch-result} )",
@@ -1434,6 +1440,12 @@
         {
             "snippet_string": "get_control_par_str( ${1:arg1}, ${2:arg2} )",
             "signature":   "get_control_par_str(arg1},arg2)",
+            "description": "Undocumented"
+        },
+        "get_control_par_str_arr":
+        {
+            "snippet_string": "get_control_par_str_arr( ${1:arg1}, ${2:arg2}, ${3:arg3} )",
+            "signature":   "get_control_par_str(arg1},arg2,arg3)",
             "description": "Undocumented"
         },
         "get_engine_par_disp_m":

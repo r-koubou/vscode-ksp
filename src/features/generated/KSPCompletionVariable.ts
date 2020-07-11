@@ -2834,6 +2834,12 @@
             "signature":   "",
             "description": "Built-in Variable: $EVENT_PAR_POS"
         },
+        "$EVENT_PAR_REL_VELOCITY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_REL_VELOCITY"
+        },
         "$EVENT_PAR_SOURCE":
         {
             "snippet_string": "",
@@ -4063,6 +4069,90 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_DETECT_DRUM_TYPE_TOM"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_BASS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_BASS"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_BOWED_STRING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_BOWED_STRING"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_BRASS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_BRASS"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_FLUTE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_FLUTE"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_GUITAR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_GUITAR"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_INVALID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_INVALID"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_KEYBOARD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_KEYBOARD"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_MALLET":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_MALLET"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_ORGAN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_ORGAN"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_PLUCKED_STRING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_PLUCKED_STRING"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_REED":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_REED"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_SYNTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_SYNTH"
+        },
+        "$NI_DETECT_INSTRUMENT_TYPE_VOCAL":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DETECT_INSTRUMENT_TYPE_VOCAL"
         },
         "$NI_DETECT_SAMPLE_TYPE_DRUM":
         {
