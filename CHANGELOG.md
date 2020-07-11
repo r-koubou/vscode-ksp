@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.7.9
+
+### KONTAKT 6.3.1 ready
+
+Added Syntax highlighting.
+
+#### Variable
+
+- $EVENT_PAR_REL_VELOCITY
+- $HIDE_PART_VALUE
+
 ## Version 0.7.8
 
 ### Fixed internal compiler bug
@@ -23,7 +34,7 @@ declare ui_waveform $variable(6,6)
 
 ### KONTAKT 6.2.0 ready
 
-Added Syntax hilighting.
+Added Syntax highlighting.
 
 #### Command
 
