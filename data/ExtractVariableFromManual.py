@@ -15,16 +15,20 @@ REGEX    = r"(\s*[\$|%|!|\~|@|\?][A-Z]+[A-Z|_|0-9|^-]*\s*)+"
 wordList = []
 
 IGNORE_WORD_LIST = [
-"$MARK_1",
-"$MARK_2",
-"$MARK_28",
-"$KEY_COLOR_FUCHSI",
-# in Sample Code
-"$HEADER_SIZE",
-"$NUM_SLIDES",
-"$SIZE",
-"$VE",
-"$ARRAY_SIZE",
+    "$MARK_1",
+    "$MARK_2",
+    "$MARK_28",
+    "$KEY_COLOR_FUCHSI",
+    # in Sample Code
+    "$HEADER_SIZE",
+    "$NUM_SLIDES",
+    "$SIZE",
+    "$VE",
+    "$ARRAY_SIZE",
+    # Interrupted word
+    "$CON",
+    "$SIGNA",
+    "$NI_DETECT_INSTRU",
 ]
 
 def appendWord( word, targetList ):

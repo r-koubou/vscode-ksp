@@ -29,6 +29,10 @@ IGNORE_WORD_LIST = [
     "ray_idx",
     "set_condition", #lower
     "range", # not exist
+    # Interrupted word
+    "group",
+    "idx",
+    "par_str_arr",
     "tach_zone", # line separated (-> attach_zone() )
     "ui_control", # It is callback
     "trol_par_str_arr", # extract miss (expexted: control_par_str_arr)

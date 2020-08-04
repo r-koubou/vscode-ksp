@@ -716,11 +716,23 @@
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_PHASIS"
         },
+        "$EFFECT_TYPE_REPLIKA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_REPLIKA"
+        },
         "$EFFECT_TYPE_REVERB":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_REVERB"
+        },
+        "$EFFECT_TYPE_REVERB2":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_REVERB2"
         },
         "$EFFECT_TYPE_ROTATOR":
         {
@@ -2006,6 +2018,30 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_PHASIS_ULTRA"
         },
+        "$ENGINE_PAR_PR_DECAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PR_DECAY"
+        },
+        "$ENGINE_PAR_PR_HIDAMP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PR_HIDAMP"
+        },
+        "$ENGINE_PAR_PR_LOWSHELF":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PR_LOWSHELF"
+        },
+        "$ENGINE_PAR_PR_PREDELAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PR_PREDELAY"
+        },
         "$ENGINE_PAR_PR_STEREO":
         {
             "snippet_string": "",
@@ -2018,11 +2054,119 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_RATIO"
         },
+        "$ENGINE_PAR_RDL_AMOUNT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_AMOUNT"
+        },
         "$ENGINE_PAR_RDL_BBDTYPE":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_RDL_BBDTYPE"
+        },
+        "$ENGINE_PAR_RDL_DENSE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_DENSE"
+        },
+        "$ENGINE_PAR_RDL_DEPTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_DEPTH"
+        },
+        "$ENGINE_PAR_RDL_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_FEEDBACK"
+        },
+        "$ENGINE_PAR_RDL_FLUTTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_FLUTTER"
+        },
+        "$ENGINE_PAR_RDL_HIGHCUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_HIGHCUT"
+        },
+        "$ENGINE_PAR_RDL_LOWCUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_LOWCUT"
+        },
+        "$ENGINE_PAR_RDL_MODULATION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_MODULATION"
+        },
+        "$ENGINE_PAR_RDL_NOISE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_NOISE"
+        },
+        "$ENGINE_PAR_RDL_PINGPONG":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_PINGPONG"
+        },
+        "$ENGINE_PAR_RDL_QUALITY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_QUALITY"
+        },
+        "$ENGINE_PAR_RDL_RATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_RATE"
+        },
+        "$ENGINE_PAR_RDL_SATURATION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_SATURATION"
+        },
+        "$ENGINE_PAR_RDL_SIZE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_SIZE"
+        },
+        "$ENGINE_PAR_RDL_STEREO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_STEREO"
+        },
+        "$ENGINE_PAR_RDL_TAPEAGE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_TAPEAGE"
+        },
+        "$ENGINE_PAR_RDL_TIME":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_TIME"
+        },
+        "$ENGINE_PAR_RDL_TIME_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RDL_TIME_UNIT"
         },
         "$ENGINE_PAR_RDL_TYPE":
         {
@@ -2113,6 +2257,60 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_RV_STEREO"
+        },
+        "$ENGINE_PAR_RV2_DAMPING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_DAMPING"
+        },
+        "$ENGINE_PAR_RV2_DIFF":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_DIFF"
+        },
+        "$ENGINE_PAR_RV2_HIGHCUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_HIGHCUT"
+        },
+        "$ENGINE_PAR_RV2_LOWSHELF":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_LOWSHELF"
+        },
+        "$ENGINE_PAR_RV2_MOD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_MOD"
+        },
+        "$ENGINE_PAR_RV2_PREDELAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_PREDELAY"
+        },
+        "$ENGINE_PAR_RV2_SIZE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_SIZE"
+        },
+        "$ENGINE_PAR_RV2_STEREO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_STEREO"
+        },
+        "$ENGINE_PAR_RV2_TIME":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RV2_TIME"
         },
         "$ENGINE_PAR_RV2_TYPE":
         {
@@ -2684,11 +2882,35 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
         },
+        "$ENGINE_PAR_WT_FORM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WT_FORM"
+        },
         "$ENGINE_PAR_WT_FORM_MODE":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_WT_FORM_MODE"
+        },
+        "$ENGINE_PAR_WT_PHASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WT_PHASE"
+        },
+        "$ENGINE_PAR_WT_POSITION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WT_POSITION"
+        },
+        "$ENGINE_PAR_WT_QUALITY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WT_QUALITY"
         },
         "$ENGINE_PAR_WT_INHARMONIC":
         {
@@ -4250,6 +4472,18 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_FLAIR_MODE_SCAN"
         },
+        "$NI_FLAIR_MODE_STANDARD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FLAIR_MODE_STANDARD"
+        },
+        "$NI_FLAIR_MODE_THRU_ZERO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FLAIR_MODE_THRU_ZERO"
+        },
         "$NI_FLAIR_SCANMODE_SAW_DOWN":
         {
             "snippet_string": "",
@@ -4352,6 +4586,12 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_MOUSE_OVER_CONTROL"
         },
+        "$NI_REPLIKA_TYPE_ANALOGUE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_REPLIKA_TYPE_ANALOGUE"
+        },
         "$NI_REPLIKA_TYPE_DIFFUSION":
         {
             "snippet_string": "",
@@ -4375,6 +4615,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_REPLIKA_TYPE_VINTAGE"
+        },
+        "$NI_REVERB2_TYPE_HALL":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_REVERB2_TYPE_HALL"
         },
         "$NI_REVERB2_TYPE_ROOM":
         {
@@ -4663,6 +4909,24 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_WT_QUALITY_BEST"
+        },
+        "$NI_WT_QUALITY_HIGH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_QUALITY_HIGH"
+        },
+        "$NI_WT_QUALITY_LOFI":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_QUALITY_LOFI"
+        },
+        "$NI_WT_QUALITY_MEDIUM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_WT_QUALITY_MEDIUM"
         },
         "$NI_WT_VIS_2D":
         {
