@@ -5450,4 +5450,286 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_CB_TYPE_ASYNC_COMPLETE"
         },
+        "$CONTROL_PAR_MIDI_EXPORT_AREA_IDX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_MIDI_EXPORT_AREA_IDX"
+        },
+        "$EFFECT_TYPE_SUPERGT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_SUPERGT"
+        },
+        "$EFFECT_TYPE_TRANSLIM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_TRANSLIM"
+        },
+        "$ENGINE_PAR_LR_SWAP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_LR_SWAP"
+        },
+        "$ENGINE_PAR_PHASE_INVERT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_PHASE_INVERT"
+        },
+        "$ENGINE_PAR_SUPERGT_ATTACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_ATTACK"
+        },
+        "$ENGINE_PAR_SUPERGT_CHANNEL_LINK_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_CHANNEL_LINK_MODE"
+        },
+        "$ENGINE_PAR_SUPERGT_CHARACTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_CHARACTER"
+        },
+        "$ENGINE_PAR_SUPERGT_CHAR_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_CHAR_MODE"
+        },
+        "$ENGINE_PAR_SUPERGT_COMPRESS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_COMPRESS"
+        },
+        "$ENGINE_PAR_SUPERGT_HPF_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_HPF_MODE"
+        },
+        "$ENGINE_PAR_SUPERGT_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_MIX"
+        },
+        "$ENGINE_PAR_SUPERGT_RELEASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_RELEASE"
+        },
+        "$ENGINE_PAR_SUPERGT_SATURATION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_SATURATION"
+        },
+        "$ENGINE_PAR_SUPERGT_SAT_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_SAT_MODE"
+        },
+        "$ENGINE_PAR_SUPERGT_TRIM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SUPERGT_TRIM"
+        },
+        "$ENGINE_PAR_TRANSLIM_CEILING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TRANSLIM_CEILING"
+        },
+        "$ENGINE_PAR_TRANSLIM_RELEASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TRANSLIM_RELEASE"
+        },
+        "$ENGINE_PAR_TRANSLIM_THRESHOLD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TRANSLIM_THRESHOLD"
+        },
+        "$EVENT_PAR_4":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_4"
+        },
+        "$EVENT_PAR_5":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_5"
+        },
+        "$EVENT_PAR_6":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_6"
+        },
+        "$EVENT_PAR_7":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_7"
+        },
+        "$EVENT_PAR_8":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_8"
+        },
+        "$EVENT_PAR_9":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_9"
+        },
+        "$EVENT_PAR_10":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_10"
+        },
+        "$EVENT_PAR_11":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_11"
+        },
+        "$EVENT_PAR_12":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_12"
+        },
+        "$EVENT_PAR_13":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_13"
+        },
+        "$EVENT_PAR_14":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_14"
+        },
+        "$EVENT_PAR_15":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_15"
+        },
+        "$EVENT_PAR_CUSTOM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_CUSTOM"
+        },
+        "$NI_SEND_BUS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SEND_BUS"
+        },
+        "$NI_INSERT_BUS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_INSERT_BUS"
+        },
+        "$NI_MAIN_BUS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_MAIN_BUS"
+        },
+        "$NI_SUPERGT_CHANNEL_LINK_MODE_DUAL_MONO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_CHANNEL_LINK_MODE_DUAL_MONO"
+        },
+        "$NI_SUPERGT_CHANNEL_LINK_MODE_MS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_CHANNEL_LINK_MODE_MS"
+        },
+        "$NI_SUPERGT_CHANNEL_LINK_MODE_STEREO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_CHANNEL_LINK_MODE_STEREO"
+        },
+        "$NI_SUPERGT_CHAR_MODE_BRIGHT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_CHAR_MODE_BRIGHT"
+        },
+        "$NI_SUPERGT_CHAR_MODE_FAT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_CHAR_MODE_FAT"
+        },
+        "$NI_SUPERGT_CHAR_MODE_WARM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_CHAR_MODE_WARM"
+        },
+        "$NI_SUPERGT_HPF_MODE_100":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_HPF_MODE_100"
+        },
+        "$NI_SUPERGT_HPF_MODE_300":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_HPF_MODE_300"
+        },
+        "$NI_SUPERGT_HPF_MODE_OFF":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_HPF_MODE_OFF"
+        },
+        "$NI_SUPERGT_SAT_MODE_HOT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_SAT_MODE_HOT"
+        },
+        "$NI_SUPERGT_SAT_MODE_MILD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_SAT_MODE_MILD"
+        },
+        "$NI_SUPERGT_SAT_MODE_MODERATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_SUPERGT_SAT_MODE_MODERATE"
+        },
 };
