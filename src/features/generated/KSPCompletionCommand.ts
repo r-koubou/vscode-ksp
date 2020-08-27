@@ -998,6 +998,12 @@
             "signature":   "detect_drum_type(zone-id,drum-type-result)",
             "description": "Assigns <drum-type-result> a $NI_DETECT_DRUM_TYPE tag describing the drum type of an audio sample."
         },
+        "mf_copy_export_area":
+        {
+            "snippet_string": "mf_copy_export_area( ${1:index} )",
+            "signature":   "mf_insert_file(index)",
+            "description": "Copies the content of MIDI export area 0 to the specified index."
+        },
         "mf_insert_file":
         {
             "snippet_string": "mf_insert_file( ${1:path}, ${2:track-offset}, ${3:position-offset}, ${4:mode} )",
@@ -1141,6 +1147,12 @@
             "snippet_string": "mf_set_byte_two( ${1:value} )",
             "signature":   "mf_set_byte_two(value)",
             "description": "Non documented"
+        },
+        "mf_set_num_export_areas":
+        {
+            "snippet_string": "mf_set_num_export_areas( ${1:num} )",
+            "signature":   "mf_set_num_export_areas(num)",
+            "description": "Sets the number of export areas, with a maximum of 512."
         },
         "SET_CONDITION":
         {
