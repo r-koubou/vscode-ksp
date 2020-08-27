@@ -207,6 +207,7 @@ I||S	detect_drum_type	*	@I	@I
 #-------------------------------------------------------------------------------------------------------
 # MIDI Object Commands
 #-------------------------------------------------------------------------------------------------------
+V	mf_copy_export_area	*	@I
 I||S	mf_insert_file	*	@S	@I	@I	@I
 I||S	mf_set_export_area	*	@S	@I	@I	@I	@I
 I||S	mf_set_buffer_size	*	@I
@@ -228,6 +229,7 @@ V	mf_get_prev	*	@I
 V	mf_get_prev_at	*	@I	@I
 I||S	mf_get_num_tracks	*	V
 V	mf_set_pos	*	@I
+V	mf_set_num_export_areas	*	@I
 #-------------------------------------------------------------------------------------------------------
 # Advanced Concepts: Preprocessor & System Scripts
 #-------------------------------------------------------------------------------------------------------
