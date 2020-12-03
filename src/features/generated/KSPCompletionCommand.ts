@@ -32,6 +32,12 @@
             "signature":   "read_persistent_var(variable)",
             "description": "instantly reloads the value of a variable that was saved via the make_persistent()command"
         },
+        "abs":
+        {
+            "snippet_string": "abs( ${1:x} )",
+            "signature":   "abs(x)",
+            "description": "Absolute value"
+        },
         "in_range":
         {
             "snippet_string": "in_range( ${1:x}, ${2:y}, ${3:z} )",

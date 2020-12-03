@@ -31,6 +31,7 @@ export var CommandNames : string[] = [
     "_slice_loop_count",
     "_slice_start",
     "_will_never_terminate",
+    "abs",
     "acos",
     "add_menu_item",
     "add_text_line",
