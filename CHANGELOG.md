@@ -6,6 +6,11 @@
 
 - [issue #11](https://github.com/r-koubou/KSPSyntaxParser/issues/11)
 
+### Bug fixes
+
+- Syntax highlighting
+- Hover
+
 ## Version 0.7.13
 
 ### KONTAKT 6.4.0 ready

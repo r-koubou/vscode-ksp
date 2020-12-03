@@ -41,7 +41,7 @@ export class KSPHoverProvider implements vscode.HoverProvider
 
         if( entry && entry.description )
         {
-            let signature = name + ( entry.signature || '' );
+            let signature = entry.signature || '';
             let contents  = [ entry.description, { language: 'ksp', value: signature } ];
             return new vscode.Hover( contents, wordRange );
         }
