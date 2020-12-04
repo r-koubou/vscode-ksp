@@ -108,12 +108,10 @@
     {
         "prefix": "on init",
         "body":[
-            "{ ${1:initialization callback, executed when the script was successfully analyzed} }",
             "on init",
             "    make_perfview",
             "    message( \"\" )",
-            "    set_script_title( \"${2:title}\" )",
-            "    ${3:{your code here\\}}",
+            "    set_script_title( \"title\" )",
             "end on"
         ],
         "description": "initialization callback, executed when the script was successfully analyzed"
