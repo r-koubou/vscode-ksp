@@ -34,8 +34,8 @@ R||S	atan	*	@R
 I||S	sh_left	*	@I	@I
 I||S	sh_right	*	@I	@I
 I||S	random	*	@I	@I
-I||S	int_to_real	*	@I
-R||S	real_to_int	*	@R
+R||S	int_to_real	*	@I
+I||S	real_to_int	*	@R
 I||S	msb	*	@I
 I||S	lsb	*	@I
 #-------------------------------------------------------------------------------------------------------
@@ -197,13 +197,13 @@ I||S	save_midi_file	*	@S
 #-------------------------------------------------------------------------------------------------------
 # Music Information Retrieval
 #-------------------------------------------------------------------------------------------------------
-I||S	detect_instrument_type	*	@I	@I
-I||S	detect_pitch	*	@I	@I
-I||S	detect_loudness	*	@I	@R
-I||S	detect_peak	*	@I	@R
-I||S	detect_rms	*	@I	@R
-I||S	detect_sample_type	*	@I	@I
-I||S	detect_drum_type	*	@I	@I
+I||S	detect_instrument_type	*	@I	I
+I||S	detect_pitch	*	@I	R
+I||S	detect_loudness	*	@I	R
+I||S	detect_peak	*	@I	R
+I||S	detect_rms	*	@I	R
+I||S	detect_sample_type	*	@I	I
+I||S	detect_drum_type	*	@I	I
 #-------------------------------------------------------------------------------------------------------
 # MIDI Object Commands
 #-------------------------------------------------------------------------------------------------------
