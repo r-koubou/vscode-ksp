@@ -1071,6 +1071,7 @@ SEARCH:
                 SimpleNode evalNode     = (SimpleNode)evalValue;
                 SymbolDefinition symbol = evalNode.symbol;
                 int type                = symbol.type;
+                int accessFlag          = symbol.accessFlag;
 
                 // 評価式が変数だった場合のための変数情報への参照
                 Variable userVar        = variableTable.search( symbol );
@@ -1110,8 +1111,27 @@ SEARCH:
                     {
                         if( arg.type == symbol.type )
                         {
-                            valid = true;
-                            break;
+                            // KONTAKT 6.2 で参照渡しの概念が入った
+                            // コマンドが定義している型が CONSTANT 属性を持たない
+                            // かつ引数に渡される変数がconstのときはエラー扱い
+                            //
+                            // 例：detect_rms( id, result )
+                            // detect_rms( 0, ~real_val ) OK
+                            // detect_rms( 0, ~const_real ) NG constな変数に結果を書き込めない
+                            if( !arg.isConstant() )
+                            {
+                                if( !symbol.isConstant() )
+                                {
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                // 引数の型がconstでもOK
+                                valid = true;
+                                break;
+                            }
                         }
                     }
                     //--------------------------------------------------------------------------
@@ -1156,8 +1176,26 @@ SEARCH:
                         if( ( arg.type & type ) != 0 &&
                             ( arg.type & TYPE_ATTR_MASK ) == ( type & TYPE_ATTR_MASK ) )
                         {
-                            valid = true;
-                            break;
+                            // KONTAKT 6.2 で参照渡しの概念が入った
+                            // コマンドが定義している型が CONSTANT 属性を持たないときはエラー扱い
+                            //
+                            // 例：detect_rms( id, result )
+                            // detect_rms( 0, ~real_val ) OK
+                            // detect_rms( 0, 0.0 ) NG
+                            if( !arg.isConstant() )
+                            {
+                                if( !SymbolDefinition.isConstant( accessFlag ) )
+                                {
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                // 引数の型がconstでもOK
+                                valid = true;
+                                break;
+                            }
                         }
                     }
                 } // for( Argument arg : a.arguments )
