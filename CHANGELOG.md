@@ -1,5 +1,24 @@
 # Changelog
 
+## Version 0.7.15
+
+### Fixed internal compiler bug
+
+[issue #11](https://github.com/r-koubou/KSPSyntaxParser/issues/11)
+
+Fixed a bug that prevented the parser from working properly with the following commands
+
+- int_to_real
+- real_to_int
+- detect_instrument_type
+- detect_pitch
+- detect_loudness
+- detect_peak
+- detect_rms
+- detect_sample_type
+- detect_drum_type
+
+
 ## Version 0.7.14
 
 ### Fixed internal compiler bug
