@@ -92,6 +92,7 @@ export var CommandNames : string[] = [
     "get_engine_par_disp_m",
     "get_engine_par_m",
     "get_event_ids",
+    "get_event_mark",
     "get_event_par",
     "get_event_par_arr",
     "get_folder",

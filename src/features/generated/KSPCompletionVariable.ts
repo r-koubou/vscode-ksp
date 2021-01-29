@@ -614,6 +614,12 @@
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_COMPRESSOR"
         },
+        "$EFFECT_TYPE_CRYWAH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_CRYWAH"
+        },
         "$EFFECT_TYPE_DELAY":
         {
             "snippet_string": "",
@@ -1028,6 +1034,18 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_COMP_DECAY"
         },
+        "$ENGINE_PAR_COMP_LINK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_COMP_LINK"
+        },
+        "$ENGINE_PAR_COMP_TYPE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_COMP_TYPE"
+        },
         "$ENGINE_PAR_CT_BALLS":
         {
             "snippet_string": "",
@@ -1243,6 +1261,42 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_ENVELOPE_ORDER"
+        },
+        "$ENGINE_PAR_ENVF_ADAPTION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_ENVF_ADAPTION"
+        },
+        "$ENGINE_PAR_ENVF_ATTACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_ENVF_ATTACK"
+        },
+        "$ENGINE_PAR_ENVF_GAIN_BOOST":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_ENVF_GAIN_BOOST"
+        },
+        "$ENGINE_PAR_ENVF_RELEASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_ENVF_RELEASE"
+        },
+        "$ENGINE_PAR_ENV_AHD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_ENV_AHD"
+        },
+        "$ENGINE_PAR_ENV_DBD_EASY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_ENV_DBD_EASY"
         },
         "$ENGINE_PAR_EXP_FILTER_AMOUNT":
         {
@@ -1730,6 +1784,12 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_INTMOD_TYPE"
         },
+        "$ENGINE_PAR_IRC_ER_LR_BOUNDARY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_IRC_ER_LR_BOUNDARY"
+        },
         "$ENGINE_PAR_IRC_FREQ_HIGHPASS_ER":
         {
             "snippet_string": "",
@@ -1771,6 +1831,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_IRC_PREDELAY"
+        },
+        "$ENGINE_PAR_IRC_REVERSE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_IRC_REVERSE"
         },
         "$ENGINE_PAR_JMP_BASS":
         {
@@ -1831,6 +1897,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_LFO_DELAY_UNIT"
+        },
+        "$ENGINE_PAR_LFO_NORMALIZE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_LFO_NORMALIZE"
         },
         "$ENGINE_PAR_LFO_RAND":
         {
@@ -2017,6 +2089,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_PHASIS_ULTRA"
+        },
+        "$ENGINE_PAR_POST_FX_SLOT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_POST_FX_SLOT"
         },
         "$ENGINE_PAR_PR_DECAY":
         {
@@ -2323,6 +2401,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_SCOMP_ATTACK"
+        },
+        "$ENGINE_PAR_SCOMP_LINK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SCOMP_LINK"
         },
         "$ENGINE_PAR_SCOMP_MAKEUP":
         {
@@ -2689,6 +2773,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_STEREO_PAN"
+        },
+        "$ENGINE_PAR_STEREO_PSEUDO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_STEREO_PSEUDO"
         },
         "$ENGINE_PAR_SUSTAIN":
         {
@@ -4220,6 +4310,24 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_CHORAL_MODE_UNIVERSAL"
         },
+        "$NI_COMP_TYPE_CLASSIC":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_COMP_TYPE_CLASSIC"
+        },
+        "$NI_COMP_TYPE_ENHANCED":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_COMP_TYPE_ENHANCED"
+        },
+        "$NI_COMP_TYPE_PRO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_COMP_TYPE_PRO"
+        },
         "$NI_CONTROL_PAR_IDX":
         {
             "snippet_string": "",
@@ -4519,6 +4627,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_KEY_TYPE_NONE"
+        },
+        "$NI_KONTAKT_IS_HEADLESS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_KONTAKT_IS_HEADLESS"
         },
         "$NI_LOG_MESSAGE":
         {

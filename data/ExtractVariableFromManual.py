@@ -19,7 +19,9 @@ IGNORE_WORD_LIST = [
     "$MARK_2",
     "$MARK_28",
     "$KEY_COLOR_FUCHSI",
+    "$CONTROL_PAR_KEY_C",
     # in Sample Code
+    "$CUSTOM_EVENT_PAR_4",
     "$HEADER_SIZE",
     "$NUM_SLIDES",
     "$SIZE",
