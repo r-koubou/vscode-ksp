@@ -142,7 +142,7 @@
     {
         "prefix": "on note",
         "body":[
-            "{ {1:note callback, executed whenever a note on message is received} }",
+            "{ ${1:note callback, executed whenever a note on message is received} }",
             "on note",
             "    ${2:{your code here\\}}",
             "end on"

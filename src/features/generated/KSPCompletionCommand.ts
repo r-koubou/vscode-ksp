@@ -314,6 +314,12 @@
             "signature":   "fade_out(ID-number,fade-time)",
             "description": "perform a fade-out for a specific note event"
         },
+        "get_event_mark":
+        {
+            "snippet_string": "get_event_mark( ${1:ID-number}, ${2:bit-mark} )",
+            "signature":   "get_event_mark(ID-number,bit-mark)",
+            "description": "Check if the specified event belongs to a specific event group (returns 1 if the bitmark is set, 0 otherwise)"
+        },
         "get_event_ids":
         {
             "snippet_string": "get_event_ids( ${1:array-name} )",
@@ -342,7 +348,7 @@
         {
             "snippet_string": "set_event_mark( ${1:ID-number}, ${2:bit-mark} )",
             "signature":   "set_event_mark(ID-number,bit-mark)",
-            "description": "ignore a note event in a note on or note off callback"
+            "description": "Assign the specified event to a specific event group"
         },
         "set_event_par":
         {

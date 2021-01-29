@@ -63,6 +63,7 @@ V	delete_event_mark	*	@I	@I
 I||S	event_status	*	@I
 V	fade_in	*	@I	@I
 V	fade_out	*	@I	@I	@I
+I||S	get_event_mark	*	@I	@I
 V	get_event_ids	!init	I[]
 I||S	get_event_par	*	@I	@I
 I||S	get_event_par_arr	*	@I	@I	@I
