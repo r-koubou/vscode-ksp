@@ -15,7 +15,7 @@ B	in_range	*	@I	@I	@I
 #-------------------------------------------------------------------------------------------------------
 # Arithmetic Commands
 #-------------------------------------------------------------------------------------------------------
-I||S	abs	*	@I||@R
+I||R||S	abs	*	@I||@R
 V	inc	*	I
 V	dec	*	I
 R||S	exp	*	@R
@@ -34,8 +34,8 @@ R||S	atan	*	@R
 I||S	sh_left	*	@I	@I
 I||S	sh_right	*	@I	@I
 I||S	random	*	@I	@I
-I||S	int_to_real	*	@I
-R||S	real_to_int	*	@R
+R||S	int_to_real	*	@I
+I||S	real_to_int	*	@R
 I||S	msb	*	@I
 I||S	lsb	*	@I
 #-------------------------------------------------------------------------------------------------------
@@ -63,6 +63,7 @@ V	delete_event_mark	*	@I	@I
 I||S	event_status	*	@I
 V	fade_in	*	@I	@I
 V	fade_out	*	@I	@I	@I
+I||S	get_event_mark	*	@I	@I
 V	get_event_ids	!init	I[]
 I||S	get_event_par	*	@I	@I
 I||S	get_event_par_arr	*	@I	@I	@I
@@ -197,13 +198,13 @@ I||S	save_midi_file	*	@S
 #-------------------------------------------------------------------------------------------------------
 # Music Information Retrieval
 #-------------------------------------------------------------------------------------------------------
-I||S	detect_instrument_type	*	@I	@I
-I||S	detect_pitch	*	@I	@I
-I||S	detect_loudness	*	@I	@R
-I||S	detect_peak	*	@I	@R
-I||S	detect_rms	*	@I	@R
-I||S	detect_sample_type	*	@I	@I
-I||S	detect_drum_type	*	@I	@I
+I||S	detect_instrument_type	*	@I	I
+I||S	detect_pitch	*	@I	R
+I||S	detect_loudness	*	@I	R
+I||S	detect_peak	*	@I	R
+I||S	detect_rms	*	@I	R
+I||S	detect_sample_type	*	@I	I
+I||S	detect_drum_type	*	@I	I
 #-------------------------------------------------------------------------------------------------------
 # MIDI Object Commands
 #-------------------------------------------------------------------------------------------------------
