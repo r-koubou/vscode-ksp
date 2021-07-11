@@ -68,6 +68,7 @@ V	get_event_ids	!init	I[]
 I||S	get_event_par	*	@I	@I
 I||S	get_event_par_arr	*	@I	@I	@I
 V	ignore_event	note||release	@I
+V	redirect_output	*	@I	@I	@I
 V	set_event_mark	*	@I	@I
 V	set_event_par	*	@I	@I	@I
 V	set_event_par_arr	*	@I	@I	@I	@I
@@ -306,7 +307,6 @@ I||S	mf_get_track_idx	*	V
 I||S	_num_slices	*	@I
 I||S	num_slices	*	@I
 V	redirect_midi	*	*
-V	redirect_output	*	*
 V	reset_engine	*	V
 V	set_engine_par_m	*	@I	@I	@I	@I	@I
 V	set_midi	*	@I	@I	@I	@I
