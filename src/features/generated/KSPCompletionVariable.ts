@@ -344,6 +344,18 @@
             "signature":   "",
             "description": "Built-in Variable: $CONTROL_PAR_POS_Y"
         },
+        "$CONTROL_PAR_RANGE_MIN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_RANGE_MIN"
+        },
+        "$CONTROL_PAR_RANGE_MAX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_RANGE_MAX"
+        },
         "$CONTROL_PAR_RECEIVE_DRAG_EVENTS":
         {
             "snippet_string": "",
@@ -3116,6 +3128,12 @@
             "signature":   "",
             "description": "Built-in Variable: $EVENT_PAR_MIDI_COMMAND"
         },
+        "$EVENT_PAR_MOD_VALUE_ID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EVENT_PAR_MOD_VALUE_ID"
+        },
         "$EVENT_PAR_NOTE":
         {
             "snippet_string": "",
@@ -5077,6 +5095,30 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NUM_ZONES"
+        },
+        "$OUTPUT_TYPE_AUX_OUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $OUTPUT_TYPE_AUX_OUT"
+        },
+        "$OUTPUT_TYPE_BUS_OUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $OUTPUT_TYPE_BUS_OUT"
+        },
+        "$OUTPUT_TYPE_DEFAULT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $OUTPUT_TYPE_DEFAULT"
+        },
+        "$OUTPUT_TYPE_MASTER_OUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $OUTPUT_TYPE_MASTER_OUT"
         },
         "$PLAYED_VOICES_INST":
         {

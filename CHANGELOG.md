@@ -1,5 +1,26 @@
 # Changelog
 
+## Version 0.7.17
+
+### KONTAKT 6.6.0 ready
+
+Added Syntax highlighting.
+
+#### Variable
+
+- $CONTROL_PAR_RANGE_MIN
+- $CONTROL_PAR_RANGE_MAX
+- $EVENT_PAR_MOD_VALUE_ID
+- $OUTPUT_TYPE_AUX_OUT
+- $OUTPUT_TYPE_BUS_OUT
+- $OUTPUT_TYPE_DEFAULT
+- $OUTPUT_TYPE_MASTER_OUT
+
+
+#### Command
+
+- redirect_output
+
 ## Version 0.7.16
 
 ### KONTAKT 6.5.0 ready

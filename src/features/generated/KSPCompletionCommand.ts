@@ -344,6 +344,12 @@
             "signature":   "ignore_event(ID-number)",
             "description": "ignore a note event in a note on or note off callback"
         },
+        "redirect_output":
+        {
+            "snippet_string": "redirect_output( ${1:ID-number}, ${2:output-type}, ${3:index} )",
+            "signature":   "redirect_output(ID-number,output-type,index)",
+            "description": "Routes the audio signal of the specified event to a specific output or bus"
+        },
         "set_event_mark":
         {
             "snippet_string": "set_event_mark( ${1:ID-number}, ${2:bit-mark} )",
@@ -1568,12 +1574,6 @@
             "signature":   "redirect_midi(arg1)",
             "description": "Undocumented"
         },
-        "redirect_output":
-        {
-            "snippet_string": "redirect_output( ${1:arg1} )",
-            "signature":   "redirect_output(arg1)",
-            "description": "Undocumented"
-        },
         "reset_engine":
         {
             "snippet_string": "reset_engine()",
@@ -1627,5 +1627,5 @@
             "snippet_string": "unload_slot( ${1:arg1} )",
             "signature":   "unload_slot(arg1)",
             "description": "Undocumented"
-        },
+        }
 };
