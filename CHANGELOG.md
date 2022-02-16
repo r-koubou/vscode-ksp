@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.7.18
+## Version 0.7.19
 
 ### KONTAKT 6.7.0 ready
 
