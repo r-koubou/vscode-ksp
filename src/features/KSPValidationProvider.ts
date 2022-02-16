@@ -142,7 +142,7 @@ export class KSPValidationProvider
 
             if( this.validationEnabled )
             {
-                let documents: vscode.TextDocument[] = vscode.workspace.textDocuments;
+                var documents: readonly vscode.TextDocument[] = vscode.workspace.textDocuments;
                 if( documents )
                 {
                     documents.forEach( (doc:vscode.TextDocument)=>{
