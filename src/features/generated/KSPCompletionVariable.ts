@@ -590,6 +590,18 @@
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_AET_FILTER"
         },
+        "$EFFECT_TYPE_BASSINVADER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_BASSINVADER"
+        },
+        "$EFFECT_TYPE_BASSPRO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_BASSPRO"
+        },
         "$EFFECT_TYPE_BUS_COMP":
         {
             "snippet_string": "",
@@ -788,11 +800,23 @@
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_STEREO"
         },
+        "$EFFECT_TYPE_SUPERGT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_SUPERGT"
+        },
         "$EFFECT_TYPE_SURROUND_PANNER":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $EFFECT_TYPE_SURROUND_PANNER"
+        },
+        "$EFFECT_TYPE_TRANSLIM":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $EFFECT_TYPE_TRANSLIM"
         },
         "$EFFECT_TYPE_TAPE_SAT":
         {
@@ -889,6 +913,198 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_BANDWIDTH"
+        },
+        "$ENGINE_PAR_BASSINVADER_BASS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_BASS"
+        },
+        "$ENGINE_PAR_BASSINVADER_BOOST":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_BOOST"
+        },
+        "$ENGINE_PAR_BASSINVADER_HI_BOOST":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_HI_BOOST"
+        },
+        "$ENGINE_PAR_BASSINVADER_HI_MID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_HI_MID"
+        },
+        "$ENGINE_PAR_BASSINVADER_LO_CUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_LO_CUT"
+        },
+        "$ENGINE_PAR_BASSINVADER_LO_MID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_LO_MID"
+        },
+        "$ENGINE_PAR_BASSINVADER_MASTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_MASTER"
+        },
+        "$ENGINE_PAR_BASSINVADER_MID_CONTOUR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_MID_CONTOUR"
+        },
+        "$ENGINE_PAR_BASSINVADER_TREBLE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_TREBLE"
+        },
+        "$ENGINE_PAR_BASSINVADER_VOLUME":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSINVADER_VOLUME"
+        },
+        "$ENGINE_PAR_BASSPRO_BASS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_BASS"
+        },
+        "$ENGINE_PAR_BASSPRO_BRIGHT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_BRIGHT"
+        },
+        "$ENGINE_PAR_BASSPRO_DRIVE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_DRIVE"
+        },
+        "$ENGINE_PAR_BASSPRO_GAIN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GAIN"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_40":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_40"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_90":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_90"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_180":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_180"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_300":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_300"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_500":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_500"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_1K":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_1K"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_2K":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_2K"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_4K":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_4K"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_10K":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_10K"
+        },
+        "$ENGINE_PAR_BASSPRO_GEQ_VOLUME":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_GEQ_VOLUME"
+        },
+        "$ENGINE_PAR_BASSPRO_MASTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_MASTER"
+        },
+        "$ENGINE_PAR_BASSPRO_MID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_MID"
+        },
+        "$ENGINE_PAR_BASSPRO_MIDFREQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_MIDFREQ"
+        },
+        "$ENGINE_PAR_BASSPRO_MONO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_MONO"
+        },
+        "$ENGINE_PAR_BASSPRO_TREBLE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_TREBLE"
+        },
+        "$ENGINE_PAR_BASSPRO_ULTRAHI":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_ULTRAHI"
+        },
+        "$ENGINE_PAR_BASSPRO_ULTRALO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_ULTRALO"
         },
         "$ENGINE_PAR_BITS":
         {
@@ -5611,18 +5827,6 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $CONTROL_PAR_MIDI_EXPORT_AREA_IDX"
-        },
-        "$EFFECT_TYPE_SUPERGT":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $EFFECT_TYPE_SUPERGT"
-        },
-        "$EFFECT_TYPE_TRANSLIM":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $EFFECT_TYPE_TRANSLIM"
         },
         "$ENGINE_PAR_LR_SWAP":
         {
