@@ -1627,5 +1627,5 @@
             "snippet_string": "unload_slot( ${1:arg1} )",
             "signature":   "unload_slot(arg1)",
             "description": "Undocumented"
-        }
+        },
 };
