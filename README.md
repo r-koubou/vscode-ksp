@@ -1,9 +1,5 @@
 <small>[日本語はコチラ](https://github.com/r-koubou/vscode-ksp/blob/master/README.ja.md)</small>
 
-![](https://vsmarketplacebadge.apphb.com/version/rkoubou.ksp.svg
-) ![](https://vsmarketplacebadge.apphb.com/installs-short/rkoubou.ksp.svg
-)
-
 # Language support for NI KONTAKT(TM) Script Processor (KSP)
 
 ## KSP Compatibility
