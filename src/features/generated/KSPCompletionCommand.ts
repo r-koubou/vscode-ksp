@@ -38,6 +38,18 @@
             "signature":   "abs(x)",
             "description": "Absolute value"
         },
+        "signbit":
+        {
+            "snippet_string": "signbit( ${1:x} )",
+            "signature":   "signbit(x)",
+            "description": "Sign bit (returns 1 if the number is negative, 0 otherwise)"
+        },
+        "sgn":
+        {
+            "snippet_string": "sgn( ${1:x} )",
+            "signature":   "sgn(x)",
+            "description": "Signum function (returns -1 if the number is negative, 0 if it's zero, 1 if it's positive)"
+        },
         "in_range":
         {
             "snippet_string": "in_range( ${1:x}, ${2:y}, ${3:z} )",
@@ -85,6 +97,12 @@
             "snippet_string": "sqrt( ${1:x} )",
             "signature":   "sqrt(x)",
             "description": "square root"
+        },
+        "cbrt":
+        {
+            "snippet_string": "cbrt( ${1:x} )",
+            "signature":   "cbrt(x)",
+            "description": "Cube root function"
         },
         "ceil":
         {
@@ -175,6 +193,18 @@
             "snippet_string": "random( ${1:min}, ${2:max} )",
             "signature":   "random(min,max)",
             "description": "generate a random integer in the range <min> to <max>"
+        },
+        "int":
+        {
+            "snippet_string": "int( ${1:real value} )",
+            "signature":   "int(real)",
+            "description": "converts an integer value into a real number"
+        },
+        "real":
+        {
+            "snippet_string": "real( ${1:integer value} )",
+            "signature":   "real(integer)",
+            "description": "converts a real number into an integer"
         },
         "int_to_real":
         {
@@ -408,6 +438,12 @@
         {
             "snippet_string": "find_group( ${1:group-name} )",
             "signature":   "find_group(group-name)",
+            "description": "returns the group index for the specified group name"
+        },
+        "get_group_idx":
+        {
+            "snippet_string": "get_group_idx( ${1:group-name} )",
+            "signature":   "get_group_idx(group-name)",
             "description": "returns the group index for the specified group name"
         },
         "get_purge_state":
@@ -836,6 +872,18 @@
             "signature":   "get_engine_par_disp(parameter,group,slot,generic)",
             "description": "returns the displayed string of a specific engine parameter"
         },
+        "get_mod_idx":
+        {
+            "snippet_string": "get_mod_idx( ${1:group-index}, ${2:mod-name} )",
+            "signature":   "get_mod_idx(group-index,mod-name)",
+            "description": "Returns the slot index of an internal modulator or external modulation slot"
+        },
+        "get_target_idx":
+        {
+            "snippet_string": "get_target_idx( ${1:group-index}, ${2:mod-index}, ${3:target-name} )",
+            "signature":   "get_target_idx(group-index,mod-index,target-name)",
+            "description": "Returns the modulation target slot index of an internal modulator"
+        },
         "get_voice_limit":
         {
             "snippet_string": "get_voice_limit( ${1:voice-type} )",
@@ -878,11 +926,29 @@
             "signature":   "get_sample(zone-id,return-parameter)",
             "description": "Returns paths, file names and extensions of samples"
         },
+        "get_num_zones":
+        {
+            "snippet_string": "get_num_zones()",
+            "signature":   "get_num_zones()",
+            "description": "Returns the total number of all zones that are present in the instrument (regular and user zones)"
+        },
+        "get_zone_id":
+        {
+            "snippet_string": "get_zone_id( ${1:zone-index} )",
+            "signature":   "get_zone_id(zone-index)",
+            "description": "Returns the ID of the zone with the specified zone index"
+        },
         "get_zone_par":
         {
             "snippet_string": "get_zone_par( ${1:zone-id}, ${2:parameter} )",
             "signature":   "get_zone_par(zone-id,parameter)",
             "description": "Returns the zone parameters"
+        },
+        "get_zone_status":
+        {
+            "snippet_string": "get_zone_status( ${1:zone-id} )",
+            "signature":   "get_zone_status(zone-id)",
+            "description": "Queries the status of the zone ID in question. Zone status has four possible states:\n- $NI_ZONE_STATUS_EMPTY - zone is a user zone and has no sample loaded\n- $NI_ZONE_STATUS_LOADED - zone is a user zone and has a sample loaded\n- $NI_ZONE_STATUS_PURGED - zone is purged from memory (valid for both regular and user\nzones)\n- $NI_ZONE_STATUS_IGNORED - zone is ignored by the user response in the Content Missing\ndialog (valid for both regular and user zones)\n"
         },
         "is_zone_empty":
         {
@@ -1464,6 +1530,12 @@
         {
             "snippet_string": "get_control_par_arr( ${1:arg1}, ${2:arg2}, ${3:arg3} )",
             "signature":   "get_control_par_arr(arg1,arg2},arg3)",
+            "description": "Undocumented"
+        },
+        "get_control_par_real_arr":
+        {
+            "snippet_string": "get_control_par_real_arr( ${1:arg1}, ${2:arg2}, ${3:arg3} )",
+            "signature":   "get_control_par_real_arr(arg1,arg2},arg3)",
             "description": "Undocumented"
         },
         "get_control_par_str":
