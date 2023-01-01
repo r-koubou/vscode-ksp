@@ -19,15 +19,20 @@ IGNORE_WORD_LIST = [
     "while",
     "ui_waveform",
     # in Explain, Examples
+    "add_text",
     "array",
     "by_mark", # miss?
     "change_xxx",
+    "func_play_triad",
     "get_keyrange_xxx",
     "if",
     "it",
     "low_group",
     "ray_idx",
     "set_condition", #lower
+    "show_callback_type",
+    "show_gui",
+    "show_menu",
     "range", # not exist
     # Interrupted word
     "group",

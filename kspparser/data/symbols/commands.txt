@@ -16,12 +16,15 @@ B	in_range	*	@I	@I	@I
 # Arithmetic Commands
 #-------------------------------------------------------------------------------------------------------
 I||R||S	abs	*	@I||@R
+I||S	signbit	*	@I
+I||S	sgn	*	@I
 V	inc	*	I
 V	dec	*	I
 R||S	exp	*	@R
 R||S	log	*	@R
 R||S	pow	*	@R	@R
 R||S	sqrt	*	@R
+R||S	cbrt	*	@R
 R||S	ceil	*	@R
 R||S	floor	*	@R
 R||S	round	*	@R
@@ -34,6 +37,8 @@ R||S	atan	*	@R
 I||S	sh_left	*	@I	@I
 I||S	sh_right	*	@I	@I
 I||S	random	*	@I	@I
+I||S	int	*	@R
+R||S	real	*	@I
 R||S	int_to_real	*	@I
 I||S	real_to_int	*	@R
 I||S	msb	*	@I
@@ -85,6 +90,7 @@ V	sort	*	I[]||R[]	@I
 V	allow_group	note||release	@I
 V	disallow_group	note||release	@I
 I||S	find_group	*	@S
+I||S	get_group_idx	*	@S
 I||S	get_purge_state	*	@I
 S	group_name	*	@I
 V	purge_group	ui_control||persistence_changed	@I	@I
@@ -124,6 +130,7 @@ V	set_control_help	init	ui_*	@S
 V	set_control_par	*	@I	@I	@I
 V	set_control_par_str	*	@I	@I	@S||@I
 V	set_control_par_arr	*	@I	@I	@I	@I
+V	set_control_par_real_arr	*	@I	@I	@R||@I	@I
 V	set_control_par_str_arr	*	@I	@I	@S||@I	@I
 V	set_knob_defval	*	ui_knob||ui_slider	@I
 V	set_knob_label	*	ui_knob	@S
@@ -167,6 +174,8 @@ I||S	_get_engine_par	*	@I	@I	@I	@I
 I||S	get_engine_par	*	@I	@I	@I	@I
 S	_get_engine_par_disp	*	@I	@I	@I	@I
 S	get_engine_par_disp	*	@I	@I	@I	@I
+I||S	get_mod_idx	*	@I	@S
+I||S	get_target_idx	*	@I	@I	@S
 I||S	get_voice_limit	*	@I
 S	output_channel_name	*	@I
 I||S	_set_engine_par	*	@I	@I	@I	@I	@I
@@ -177,8 +186,11 @@ I||S	set_voice_limit	*	@I	@I
 #-------------------------------------------------------------------------------------------------------
 I||S	get_loop_par	*	@I	@I	@I
 I||S	get_loop_sample	*	@I	@I
+I||S	get_num_zones	*
+I||S	get_zone_id	*	@I
 I||S	get_zone_par	*	@I	@I
 I||S	is_zone_empty	*	@I
+I||S	get_zone_status	*	@I
 I||S	set_loop_par	*	@I	@I	@I	@I
 I||S	set_num_user_zones	*	@I
 I||S	set_sample	*	@I	@S
@@ -296,6 +308,8 @@ V	cc_delivery_request	*	@I
 I||S	change_time_with_pitch	*	@I	@I
 I||S	get_control_par_arr	*	@I	@I	@I
 S	get_control_par_str	*	@I	@I
+I||S	get_control_par_str_arr	*	@I	@I	@I
+I||R|S	get_control_par_real_arr	*	@I	@I	@I
 S	get_engine_par_disp_m	*	@I	@I	@I	@I
 I||S	get_engine_par_m	*	@I	@I	@I	@I
 V	ignore_midi	*
@@ -327,7 +341,3 @@ X	mf_get_channel	*
 X	mf_get_command	*
 X	mf_set_channel	*
 X	pgs_get_str_key_val	*
-#-------------------------------------------------------------------------------------------------------
-# Undocumented Added Since 6.3.0
-#-------------------------------------------------------------------------------------------------------
-I||S	get_control_par_str_arr	*	@I	@I	@I

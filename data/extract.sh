@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MANUAL="KSP Reference Manual(6.7.0).txt"
+MANUAL="KSP Reference Manual(7.1.0).txt"
 
 pipenv run python ExtractCallbackFromManual.py "$MANUAL" > extract_callback.txt
 pipenv run python ExtractCommandFromManual.py "$MANUAL" > extract_command.txt
