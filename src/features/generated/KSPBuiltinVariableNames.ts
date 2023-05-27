@@ -643,6 +643,7 @@ export var BuiltinVariableNames : string[] = [
     "$EVENT_PAR_MIDI_BYTE_2",
     "$EVENT_PAR_MIDI_CHANNEL",
     "$EVENT_PAR_MIDI_COMMAND",
+    "$EVENT_PAR_MOD_VALUE_EX_ID",
     "$EVENT_PAR_MOD_VALUE_ID",
     "$EVENT_PAR_MOD_VALUE_ID_FULL",
     "$EVENT_PAR_NOTE",

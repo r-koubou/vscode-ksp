@@ -3848,11 +3848,11 @@
             "signature":   "",
             "description": "Built-in Variable: $EVENT_PAR_MOD_VALUE_ID"
         },
-        "$EVENT_PAR_MOD_VALUE_ID_FULL":
+        "$EVENT_PAR_MOD_VALUE_EX_ID":
         {
             "snippet_string": "",
             "signature":   "",
-            "description": "Built-in Variable: $EVENT_PAR_MOD_VALUE_ID_FULL"
+            "description": "Built-in Variable: $EVENT_PAR_MOD_VALUE_EX_ID"
         },
         "$EVENT_PAR_NOTE":
         {
