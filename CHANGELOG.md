@@ -1,11 +1,16 @@
 # Changelog
 
+## Version 0.7.22
+
+Fixed internal compiler definition file
+
 ## Version 0.7.21
 
 ### Fixed incorrect variable name
 
 - [#16](https://github.com/r-koubou/vscode-ksp/issues/16)
   - `$EVENT_PAR_MOD_VALUE_ID_FULL` -> `$EVENT_PAR_MOD_VALUE_ID`
+
 ## Version 0.7.20
 
 ### KONTAKT 7.1.0 ready
