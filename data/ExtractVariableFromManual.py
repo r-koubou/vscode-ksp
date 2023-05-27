@@ -31,6 +31,8 @@ IGNORE_WORD_LIST = [
     "$CON",
     "$SIGNA",
     "$NI_DETECT_INSTRU",
+    # Beta version only (removed)
+    "$EVENT_PAR_MOD_VALUE_ID_FULL",
 ]
 
 def appendWord( word, targetList ):
