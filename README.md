@@ -101,10 +101,7 @@ or Run from context menu in editor.
 
 ### About Syntax validation
 
-* You need to install Java 1.6 (or higher).
-
-    `Recomended: 1.8 or higher to work it`
-
+* You need to install Java 1.8 (or higher).
 * `[NOTE] Although the parser will attempt as much error detection as possible, if the grammar of the your script content deviates from the KSP specification, it will not function properly.`
 
 

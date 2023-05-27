@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.7.23
+
+Fixed internal compiler program bug
+
 ## Version 0.7.22
 
 Fixed internal compiler definition file
