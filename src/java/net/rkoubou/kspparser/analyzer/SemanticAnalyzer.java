@@ -562,6 +562,14 @@ public class SemanticAnalyzer extends BasicEvaluationAnalyzerTemplate
         //--------------------------------------------------------------------------
         // 初期値代入式チェック
         //--------------------------------------------------------------------------
+        if( !uiType.initializerRequired && initializer.jjtGetNumChildren() > 0)
+        {
+            // TODO: 仮コード
+            // 初期化不要なのに初期化式がある時にエラーとする場合
+            // 今後の仕様であってもなくても良い場合の可能性もあるので今はエラーとしない
+            // MessageManager.printlnE( /* set error message */ );
+            // return;
+        }
         if( !uiType.initializerRequired )
         {
             // 初期化不要
