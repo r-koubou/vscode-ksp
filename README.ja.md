@@ -6,7 +6,7 @@
 
 ## KSP互換
 
-- KONTAKT 6.5.0 / 5.x のKSPに対応しています
+- KONTAKT 7.x / 6.x / 5.x のKSPに対応しています
 
 ## 機能
 
