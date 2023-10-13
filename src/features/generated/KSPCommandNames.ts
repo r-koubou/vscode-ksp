@@ -161,6 +161,7 @@ export var CommandNames : string[] = [
     "mf_get_first",
     "mf_get_id",
     "mf_get_last",
+    "mf_get_last_filename",
     "mf_get_mark",
     "mf_get_next",
     "mf_get_next_at",

@@ -1238,6 +1238,12 @@
             "signature":   "mf_set_num_export_areas(num)",
             "description": "Sets the number of export areas, with a maximum of 512."
         },
+        "mf_get_last_filename":
+        {
+            "snippet_string": "mf_get_last_filename()",
+            "signature":   "mf_get_last_filename()",
+            "description": "Returns the filename (not the full path!) of the last MIDI file that was inserted into KONTAKT, either via mf_insert_file(), or via drag and drop operation on ui_mouse_area."
+        },
         "SET_CONDITION":
         {
             "snippet_string": "SET_CONDITION( ${1:condition-symbol} )",

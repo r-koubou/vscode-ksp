@@ -3932,6 +3932,54 @@
             "signature":   "",
             "description": "Built-in Variable: $EVENT_PAR_ZONE_ID"
         },
+        "$ENGINE_PAR_HP_FREQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_HP_FREQ"
+        },
+        "$ENGINE_PAR_HQI_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_HQI_MODE"
+        },
+        "$ENGINE_PAR_S1200_FILTER_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_S1200_FILTER_MODE"
+        },
+        "$ENGINE_PAR_SEQ_HP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SEQ_HP"
+        },
+        "$ENGINE_PAR_SEQ_LP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SEQ_LP"
+        },
+        "$ENGINE_PAR_SEQ_LP_FREQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SEQ_LP_FREQ"
+        },
+        "$ENGINE_PAR_TMPRO_KEEP_FORMANTS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TMPRO_KEEP_FORMANTS"
+        },
+        "$ENGINE_PAR_TRACKING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TRACKING"
+        },
         "$EVENT_STATUS_INACTIVE":
         {
             "snippet_string": "",
@@ -6031,6 +6079,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_ZONE_STATUS_PURGED"
+        },
+        "$NI_KONTAKT_IS_STANDALONE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_KONTAKT_IS_STANDALONE"
         },
         "$NOTE_HELD":
         {
