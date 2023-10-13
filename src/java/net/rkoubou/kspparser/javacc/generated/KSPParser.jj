@@ -112,7 +112,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants, /*@eg
     void applyIntLiteral( Token token, SimpleNode dest )
     {
         String v = token.image.toLowerCase();
-        if( v.startsWith( "9" ) && v.endsWith( "h" ) )
+        if( v.startsWith( "0" ) && v.endsWith( "h" ) )
         {
             // KSP 16\u9032\u6570 \u2192 Java 16\u9032\u6570
             // 0x80000000\u4ee5\u4e0a\u306e\u5024\u306e\u6271\u3044\u304c\u7279\u6b8a\u306a\u306e\u3067\u4e00\u8fc2\u56de\u3002
@@ -234,7 +234,7 @@ TOKEN :
 |
   <#DECIMAL_LITERAL: ( "0" ) | ( ["1"-"9"] (["0"-"9"])* ) >
 |
-  <#HEX_LITERAL: "9" (["0"-"9","a"-"f","A"-"F"])+ ["h","H"] >
+  <#HEX_LITERAL: "0" (["0"-"9","a"-"f","A"-"F"])+ ["h","H"] >
 }
 
 TOKEN:
