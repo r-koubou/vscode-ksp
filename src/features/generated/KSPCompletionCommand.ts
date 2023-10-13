@@ -398,6 +398,12 @@
             "signature":   "set_event_par_arr(ID-number,parameter,value,group-index)",
             "description": "special form of set_event_par(), used to set the group allow state of the specified event"
         },
+        "set_map_editor_event_color":
+        {
+            "snippet_string": "set_map_editor_event_color( ${1:hex-value} )",
+            "signature":   "set_map_editor_event_color(hex-value)",
+            "description": "Assigns the specified color to events generated in the current script slot, visible in KONTAKT's Mapping Editor."
+        },
         "array_equal":
         {
             "snippet_string": "array_equal( ${1:array-variable}, ${2:array-variable} )",
@@ -950,6 +956,12 @@
             "signature":   "get_zone_status(zone-id)",
             "description": "Queries the status of the zone ID in question. Zone status has four possible states:\n- $NI_ZONE_STATUS_EMPTY - zone is a user zone and has no sample loaded\n- $NI_ZONE_STATUS_LOADED - zone is a user zone and has a sample loaded\n- $NI_ZONE_STATUS_PURGED - zone is purged from memory (valid for both regular and user\nzones)\n- $NI_ZONE_STATUS_IGNORED - zone is ignored by the user response in the Content Missing\ndialog (valid for both regular and user zones)\n"
         },
+        "get_sel_zones_idx":
+        {
+            "snippet_string": "get_sel_zones_idx( ${1:array-name} )",
+            "signature":   "get_sel_zones_idx(array-name)",
+            "description": "Fills the specified array with indices of all selected zones in KONTAKT's Mapping Editor."
+        },
         "is_zone_empty":
         {
             "snippet_string": "is_zone_emptyr( ${1:zone-id} )",
@@ -1237,6 +1249,12 @@
             "snippet_string": "mf_set_num_export_areas( ${1:num} )",
             "signature":   "mf_set_num_export_areas(num)",
             "description": "Sets the number of export areas, with a maximum of 512."
+        },
+        "mf_get_last_filename":
+        {
+            "snippet_string": "mf_get_last_filename()",
+            "signature":   "mf_get_last_filename()",
+            "description": "Returns the filename (not the full path!) of the last MIDI file that was inserted into KONTAKT, either via mf_insert_file(), or via drag and drop operation on ui_mouse_area."
         },
         "SET_CONDITION":
         {

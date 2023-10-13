@@ -1184,6 +1184,78 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_ULTRALO"
         },
+        "$ENGINE_PAR_BITE_BITS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_BITS"
+        },
+        "$ENGINE_PAR_BITE_CRUNCH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_CRUNCH"
+        },
+        "$ENGINE_PAR_BITE_DC_QUANT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_DC_QUANT"
+        },
+        "$ENGINE_PAR_BITE_DITHER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_DITHER"
+        },
+        "$ENGINE_PAR_BITE_EXPAND":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_EXPAND"
+        },
+        "$ENGINE_PAR_BITE_FREQUENCY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_FREQUENCY"
+        },
+        "$ENGINE_PAR_BITE_HPF":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_HPF"
+        },
+        "$ENGINE_PAR_BITE_JITTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_JITTER"
+        },
+        "$ENGINE_PAR_BITE_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_MIX"
+        },
+        "$ENGINE_PAR_BITE_POSTFILTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_POSTFILTER"
+        },
+        "$ENGINE_PAR_BITE_PREFILTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_PREFILTER"
+        },
+        "$ENGINE_PAR_BITE_SATURATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_BITE_SATURATE"
+        },
         "$ENGINE_PAR_BITS":
         {
             "snippet_string": "",
@@ -1459,6 +1531,96 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_DECAY_UNIT"
+        },
+        "$ENGINE_PAR_DIRT_AMOUNTA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_AMOUNTA"
+        },
+        "$ENGINE_PAR_DIRT_AMOUNTB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_AMOUNTB"
+        },
+        "$ENGINE_PAR_DIRT_BIASA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_BIASA"
+        },
+        "$ENGINE_PAR_DIRT_BIASB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_BIASB"
+        },
+        "$ENGINE_PAR_DIRT_BLEND":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_BLEND"
+        },
+        "$ENGINE_PAR_DIRT_DRIVEA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_DRIVEA"
+        },
+        "$ENGINE_PAR_DIRT_DRIVEB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_DRIVEB"
+        },
+        "$ENGINE_PAR_DIRT_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_MIX"
+        },
+        "$ENGINE_PAR_DIRT_MODEA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_MODEA"
+        },
+        "$ENGINE_PAR_DIRT_MODEB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_MODEB"
+        },
+        "$ENGINE_PAR_DIRT_ROUTING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_ROUTING"
+        },
+        "$ENGINE_PAR_DIRT_SAFETYA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_SAFETYA"
+        },
+        "$ENGINE_PAR_DIRT_SAFETYB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_SAFETYB"
+        },
+        "$ENGINE_PAR_DIRT_TILTA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_TILTA"
+        },
+        "$ENGINE_PAR_DIRT_TILTB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_DIRT_TILTB"
         },
         "$ENGINE_PAR_DISTORTION_TYPE":
         {
@@ -1909,6 +2071,114 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_FORMANT_TALK"
+        },
+        "$ENGINE_PAR_FREAK_ANTIFOLD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_ANTIFOLD"
+        },
+        "$ENGINE_PAR_FREAK_BP_FILTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_BP_FILTER"
+        },
+        "$ENGINE_PAR_FREAK_BP_FREQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_BP_FREQ"
+        },
+        "$ENGINE_PAR_FREAK_CARRIER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_CARRIER"
+        },
+        "$ENGINE_PAR_FREAK_CONTOUR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_CONTOUR"
+        },
+        "$ENGINE_PAR_FREAK_DEMOD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_DEMOD"
+        },
+        "$ENGINE_PAR_FREAK_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_FEEDBACK"
+        },
+        "$ENGINE_PAR_FREAK_FREQUENCY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_FREQUENCY"
+        },
+        "$ENGINE_PAR_FREAK_GATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_GATE"
+        },
+        "$ENGINE_PAR_FREAK_HARMONICS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_HARMONICS"
+        },
+        "$ENGINE_PAR_FREAK_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_MIX"
+        },
+        "$ENGINE_PAR_FREAK_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_MODE"
+        },
+        "$ENGINE_PAR_FREAK_RELEASE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_RELEASE"
+        },
+        "$ENGINE_PAR_FREAK_STEREO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_STEREO"
+        },
+        "$ENGINE_PAR_FREAK_TUNING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_TUNING"
+        },
+        "$ENGINE_PAR_FREAK_TYPE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_TYPE"
+        },
+        "$ENGINE_PAR_FREAK_WIDE_RANGE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_WIDE_RANGE"
+        },
+        "$ENGINE_PAR_FREAK_WIDTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_FREAK_WIDTH"
         },
         "$ENGINE_PAR_FREQ1":
         {
@@ -2551,6 +2821,96 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_RATIO"
+        },
+        "$ENGINE_PAR_RAUM_DAMPING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_DAMPING"
+        },
+        "$ENGINE_PAR_RAUM_DECAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_DECAY"
+        },
+        "$ENGINE_PAR_RAUM_DIFFUSION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_DIFFUSION"
+        },
+        "$ENGINE_PAR_RAUM_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_FEEDBACK"
+        },
+        "$ENGINE_PAR_RAUM_FREEZE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_FREEZE"
+        },
+        "$ENGINE_PAR_RAUM_HIGHCUT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_HIGHCUT"
+        },
+        "$ENGINE_PAR_RAUM_LOWSHELF":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_LOWSHELF"
+        },
+        "$ENGINE_PAR_RAUM_MOD":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_MOD"
+        },
+        "$ENGINE_PAR_RAUM_PREDELAY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_PREDELAY"
+        },
+        "$ENGINE_PAR_RAUM_PREDELAY_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_PREDELAY_UNIT"
+        },
+        "$ENGINE_PAR_RAUM_RATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_RATE"
+        },
+        "$ENGINE_PAR_RAUM_REVERB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_REVERB"
+        },
+        "$ENGINE_PAR_RAUM_SIZE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_SIZE"
+        },
+        "$ENGINE_PAR_RAUM_SPARSE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_SPARSE"
+        },
+        "$ENGINE_PAR_RAUM_TYPE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_RAUM_TYPE"
         },
         "$ENGINE_PAR_RDL_AMOUNT":
         {
@@ -3410,6 +3770,90 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_SUSTAIN"
         },
+        "$ENGINE_PAR_TDL_CROSS_FEEDBACK":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_CROSS_FEEDBACK"
+        },
+        "$ENGINE_PAR_TDL_FEEDBACK_L":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_FEEDBACK_L"
+        },
+        "$ENGINE_PAR_TDL_FEEDBACK_R":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_FEEDBACK_R"
+        },
+        "$ENGINE_PAR_TDL_LEVEL_L":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_LEVEL_L"
+        },
+        "$ENGINE_PAR_TDL_LEVEL_R":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_LEVEL_R"
+        },
+        "$ENGINE_PAR_TDL_PREDELAY_L":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_PREDELAY_L"
+        },
+        "$ENGINE_PAR_TDL_PREDELAY_L_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_PREDELAY_L_UNIT"
+        },
+        "$ENGINE_PAR_TDL_PREDELAY_R":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_PREDELAY_R"
+        },
+        "$ENGINE_PAR_TDL_PREDELAY_R_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_PREDELAY_R_UNIT"
+        },
+        "$ENGINE_PAR_TDL_TIME_L":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_TIME_L"
+        },
+        "$ENGINE_PAR_TDL_TIME_L_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_TIME_L_UNIT"
+        },
+        "$ENGINE_PAR_TDL_TIME_R":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_TIME_R"
+        },
+        "$ENGINE_PAR_TDL_TIME_R_UNIT":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_TIME_R_UNIT"
+        },
+        "$ENGINE_PAR_TDL_WIDTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TDL_WIDTH"
+        },
         "$ENGINE_PAR_THRESHOLD":
         {
             "snippet_string": "",
@@ -3614,11 +4058,101 @@
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_V5_TREBLE"
         },
+        "$ENGINE_PAR_VC_BLEND":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_VC_BLEND"
+        },
+        "$ENGINE_PAR_VC_COLOR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_VC_COLOR"
+        },
+        "$ENGINE_PAR_VC_DEPTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_VC_DEPTH"
+        },
+        "$ENGINE_PAR_VC_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_VC_MIX"
+        },
+        "$ENGINE_PAR_VC_RATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_VC_RATE"
+        },
+        "$ENGINE_PAR_VC_WIDTH":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_VC_WIDTH"
+        },
         "$ENGINE_PAR_VOLUME":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_VOLUME"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_AGE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_AGE"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_FLUTTER":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_FLUTTER"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_GATE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_GATE"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_MIX":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_MIX"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_SATURATION":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_SATURATION"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_SCRAPE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_SCRAPE"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_SPEED":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_SPEED"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_STEREO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_STEREO"
+        },
+        "$ENGINE_PAR_WOWFLUTTER_WOW":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_WOWFLUTTER_WOW"
         },
         "$ENGINE_PAR_WT_FORM":
         {
@@ -3667,6 +4201,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ENGINE_PAR_WT_QUALITY"
+        },
+        "$ENGINE_PAR_SOURCE_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SOURCE_MODE"
         },
         "$ENGINE_UPTIME":
         {
@@ -3931,6 +4471,54 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $EVENT_PAR_ZONE_ID"
+        },
+        "$ENGINE_PAR_HP_FREQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_HP_FREQ"
+        },
+        "$ENGINE_PAR_HQI_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_HQI_MODE"
+        },
+        "$ENGINE_PAR_S1200_FILTER_MODE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_S1200_FILTER_MODE"
+        },
+        "$ENGINE_PAR_SEQ_HP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SEQ_HP"
+        },
+        "$ENGINE_PAR_SEQ_LP":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SEQ_LP"
+        },
+        "$ENGINE_PAR_SEQ_LP_FREQ":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_SEQ_LP_FREQ"
+        },
+        "$ENGINE_PAR_TMPRO_KEEP_FORMANTS":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TMPRO_KEEP_FORMANTS"
+        },
+        "$ENGINE_PAR_TRACKING":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ENGINE_PAR_TRACKING"
         },
         "$EVENT_STATUS_INACTIVE":
         {
@@ -6032,6 +6620,156 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_ZONE_STATUS_PURGED"
         },
+        "$NI_KONTAKT_IS_STANDALONE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_KONTAKT_IS_STANDALONE"
+        },
+        "$NI_BITE_HPF_MODE_100":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_BITE_HPF_MODE_100"
+        },
+        "$NI_BITE_HPF_MODE_200":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_BITE_HPF_MODE_200"
+        },
+        "$NI_BITE_HPF_MODE_5":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_BITE_HPF_MODE_5"
+        },
+        "$NI_DIRT_MODE_I":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DIRT_MODE_I"
+        },
+        "$NI_DIRT_MODE_II":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DIRT_MODE_II"
+        },
+        "$NI_DIRT_MODE_III":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DIRT_MODE_III"
+        },
+        "$NI_DIRT_ROUTING_ATOB":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DIRT_ROUTING_ATOB"
+        },
+        "$NI_DIRT_ROUTING_BTOA":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DIRT_ROUTING_BTOA"
+        },
+        "$NI_DIRT_ROUTING_PARALLEL":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_DIRT_ROUTING_PARALLEL"
+        },
+        "$NI_FREAK_MODE_OSCILLATOR":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FREAK_MODE_OSCILLATOR"
+        },
+        "$NI_FREAK_MODE_RADIO":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FREAK_MODE_RADIO"
+        },
+        "$NI_FREAK_MODE_SIDECHAIN":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_FREAK_MODE_SIDECHAIN"
+        },
+        "$NI_RAUM_TYPE_AIRY":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_RAUM_TYPE_AIRY"
+        },
+        "$NI_RAUM_TYPE_COSMIC":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_RAUM_TYPE_COSMIC"
+        },
+        "$NI_RAUM_TYPE_GROUNDED":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_RAUM_TYPE_GROUNDED"
+        },
+        "$NI_VC_COLOR_TYPE_A":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_COLOR_TYPE_A"
+        },
+        "$NI_VC_COLOR_TYPE_B":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_COLOR_TYPE_B"
+        },
+        "$NI_VC_COLOR_TYPE_C":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_COLOR_TYPE_C"
+        },
+        "$NI_VC_DEPTH_1":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_DEPTH_1"
+        },
+        "$NI_VC_DEPTH_2":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_DEPTH_2"
+        },
+        "$NI_VC_DEPTH_3":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_DEPTH_3"
+        },
+        "$NI_VC_DEPTH_4":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_DEPTH_4"
+        },
+        "$NI_VC_DEPTH_5":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_DEPTH_5"
+        },
+        "$NI_VC_DEPTH_6":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_VC_DEPTH_6"
+        },
         "$NOTE_HELD":
         {
             "snippet_string": "",
@@ -6361,6 +7099,12 @@
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $ZONE_PAR_SAMPLE_START"
+        },
+        "$ZONE_PAR_SELECTED":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $ZONE_PAR_SELECTED"
         },
         "$ZONE_PAR_TUNE":
         {
