@@ -370,7 +370,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             type = TYPE_INT | TYPE_STRING;
         }
-        else if( t == "I[]" )
+        else if( t == "I[]" || t == "@I[]" )
         {
             type = TYPE_INT | TYPE_ATTR_ARRAY;
         }
@@ -382,7 +382,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             type = TYPE_REAL | TYPE_STRING;
         }
-        else if( t == "R[]" )
+        else if( t == "R[]" || t == "@R[]" )
         {
             type = TYPE_REAL | TYPE_ATTR_ARRAY;
         }
@@ -390,7 +390,7 @@ public class ReservedSymbolManager implements KSPParserTreeConstants, AnalyzerCo
         {
             type = TYPE_STRING;
         }
-        else if( t == "S[]" )
+        else if( t == "S[]" || t == "@S[]" )
         {
             type = TYPE_STRING | TYPE_ATTR_ARRAY;
         }
