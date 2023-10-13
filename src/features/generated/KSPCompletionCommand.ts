@@ -398,6 +398,12 @@
             "signature":   "set_event_par_arr(ID-number,parameter,value,group-index)",
             "description": "special form of set_event_par(), used to set the group allow state of the specified event"
         },
+        "set_map_editor_event_color":
+        {
+            "snippet_string": "set_map_editor_event_color( ${1:hex-value} )",
+            "signature":   "set_map_editor_event_color(hex-value)",
+            "description": "Assigns the specified color to events generated in the current script slot, visible in KONTAKT's Mapping Editor."
+        },
         "array_equal":
         {
             "snippet_string": "array_equal( ${1:array-variable}, ${2:array-variable} )",
@@ -949,6 +955,12 @@
             "snippet_string": "get_zone_status( ${1:zone-id} )",
             "signature":   "get_zone_status(zone-id)",
             "description": "Queries the status of the zone ID in question. Zone status has four possible states:\n- $NI_ZONE_STATUS_EMPTY - zone is a user zone and has no sample loaded\n- $NI_ZONE_STATUS_LOADED - zone is a user zone and has a sample loaded\n- $NI_ZONE_STATUS_PURGED - zone is purged from memory (valid for both regular and user\nzones)\n- $NI_ZONE_STATUS_IGNORED - zone is ignored by the user response in the Content Missing\ndialog (valid for both regular and user zones)\n"
+        },
+        "get_sel_zones_idx":
+        {
+            "snippet_string": "get_sel_zones_idx( ${1:array-name} )",
+            "signature":   "get_sel_zones_idx(array-name)",
+            "description": "Fills the specified array with indices of all selected zones in KONTAKT's Mapping Editor."
         },
         "is_zone_empty":
         {
