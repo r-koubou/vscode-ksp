@@ -6650,29 +6650,11 @@
             "signature":   "",
             "description": "Built-in Variable: $NI_DIRT_MODE_I"
         },
-        "$NI_DIRT_MODE_I":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $NI_DIRT_MODE_I"
-        },
         "$NI_DIRT_MODE_II":
         {
             "snippet_string": "",
             "signature":   "",
             "description": "Built-in Variable: $NI_DIRT_MODE_II"
-        },
-        "$NI_DIRT_MODE_II":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $NI_DIRT_MODE_II"
-        },
-        "$NI_DIRT_MODE_III":
-        {
-            "snippet_string": "",
-            "signature":   "",
-            "description": "Built-in Variable: $NI_DIRT_MODE_III"
         },
         "$NI_DIRT_MODE_III":
         {
