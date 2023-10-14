@@ -77,13 +77,14 @@ V	redirect_output	*	@I	@I	@I
 V	set_event_mark	*	@I	@I
 V	set_event_par	*	@I	@I	@I
 V	set_event_par_arr	*	@I	@I	@I	@I
+V	set_map_editor_event_color	*	@I
 #-------------------------------------------------------------------------------------------------------
 # Array Commands
 #-------------------------------------------------------------------------------------------------------
-B	array_equal	*	I[]	I[]
-I||S	num_elements	*	I[]||R[]||S[]
-I||S	search	*	I[]	@I
-V	sort	*	I[]||R[]	@I
+B	array_equal	*	@I[]	@I[]
+I||S	num_elements	*	@I[]||@R[]||@S[]
+I||S	search	*	@I[]	@I
+V	sort	*	@I[]||@R[]	@I
 #-------------------------------------------------------------------------------------------------------
 # Group Commands
 #-------------------------------------------------------------------------------------------------------
@@ -195,6 +196,7 @@ I||S	set_loop_par	*	@I	@I	@I	@I
 I||S	set_num_user_zones	*	@I
 I||S	set_sample	*	@I	@S
 I||S	set_zone_par	*	@I	@I	@I
+V	get_sel_zones_idx	*	@I[]
 #-------------------------------------------------------------------------------------------------------
 # Load/Save Commands
 #-------------------------------------------------------------------------------------------------------
@@ -205,8 +207,8 @@ I||S	load_array_str	init||persistence_changed||pgs_changed||ui_control	I[]||S[]	
 S	_load_ir_sample	*	@S	@I	@I
 I||S	load_ir_sample	*	@S	@I	@I
 I||S	load_midi_file	*	@S
-I||S	save_array	persistence_changed||pgs_changed||ui_control	I[]||S[]	@I
-I||S	save_array_str	persistence_changed||pgs_changed||ui_control	I[]||S[]	@S||@I
+I||S	save_array	persistence_changed||pgs_changed||ui_control	@I[]||@S[]	@I
+I||S	save_array_str	persistence_changed||pgs_changed||ui_control	@I[]||@S[]	@S||@I
 I||S	save_midi_file	*	@S
 #-------------------------------------------------------------------------------------------------------
 # Music Information Retrieval
@@ -244,6 +246,7 @@ V	mf_get_prev_at	*	@I	@I
 I||S	mf_get_num_tracks	*	V
 V	mf_set_pos	*	@I
 V	mf_set_num_export_areas	*	@I
+S	mf_get_last_filename	*
 #-------------------------------------------------------------------------------------------------------
 # Advanced Concepts: Preprocessor & System Scripts
 #-------------------------------------------------------------------------------------------------------
@@ -287,7 +290,7 @@ V	dont_use_machine_mode	*	@I
 # Creator Tools Since 6.0
 #-------------------------------------------------------------------------------------------------------
 V	watch_var	*	@I||@S||@R
-V	watch_array_idx	*	I[]||S[]||R[]	@I
+V	watch_array_idx	*	@I[]||@S[]||@R[]	@I
 V	disable_logging	*	@I
 #-------------------------------------------------------------------------------------------------------
 # Undocumented
