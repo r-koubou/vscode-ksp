@@ -93,7 +93,7 @@ public class KSPParser implements/*@bgen(jjtree)*/ KSPParserTreeConstants,Analyz
     void applyIntLiteral( Token token, SimpleNode dest )
     {
         String v = token.image.toLowerCase();
-        if( v.startsWith( "9" ) && v.endsWith( "h" ) )
+        if( v.startsWith( "0" ) && v.endsWith( "h" ) )
         {
             // KSP 16進数 → Java 16進数
             // 0x80000000以上の値の扱いが特殊なので一迂回。
