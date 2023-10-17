@@ -1,0 +1,8 @@
+// 既定の設定とユーザー設定を上書きするには、このファイル内に設定を挿入します
+{
+    // 1 つのタブに相当するスペースの数。
+    // `editor.detectIndentation` がオンの場合、この設定はファイル
+    // コンテンツに基づいて上書きされます。
+    "editor.tabSize": 4,
+    "python.linting.pylintEnabled": false
+}
