@@ -1,5 +1,27 @@
 # Changelog
 
+## Version 0.7.26
+
+Typo in Changelog 0.7.25
+
+`on ui_updates` -\> `on ui_controls`
+
+## Version 0.7.25
+
+### KONTAKT 7.8.0 ready
+
+Added Syntax highlighting. (Kontakt 7.6.0 - 7.8.0)
+
+#### Callback
+
+- on ui_controls
+
+#### Variable
+
+- $CONTROL_PAR_TYPE
+- $CONTROL_PAR_CUSTOM_ID
+- $NI_UI_ID
+
 ## Version 0.7.24
 
 ### Fixed internal compiler program bug
