@@ -7232,4 +7232,22 @@
             "signature":   "",
             "description": "Built-in Variable: ~NI_MATH_PI"
         },
+        "$CONTROL_PAR_TYPE":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_TYPE"
+        },
+        "$CONTROL_PAR_CUSTOM_ID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $CONTROL_PAR_CUSTOM_ID"
+        },
+        "$NI_UI_ID":
+        {
+            "snippet_string": "",
+            "signature":   "",
+            "description": "Built-in Variable: $NI_UI_ID"
+        },
 };

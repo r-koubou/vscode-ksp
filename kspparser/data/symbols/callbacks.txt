@@ -12,3 +12,5 @@ rpn	N
 nrpn	N
 ui_control	Y	&*
 ui_update	N
+ui_controls	N
+midi_in	N
