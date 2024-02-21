@@ -10,7 +10,7 @@ Typo in Changelog 0.7.25
 
 ### KONTAKT 7.8.0 ready
 
-Added Syntax highlighting.
+Added Syntax highlighting. (Kontakt 7.6.0 - 7.8.0)
 
 #### Callback
 
