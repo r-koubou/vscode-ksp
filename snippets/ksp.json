@@ -248,6 +248,17 @@
         ],
         "description": "UI update callback, executed with every GUI change in KONTAKT"
     },
+    "on ui_controls":
+    {
+        "prefix": "on ui_controls",
+        "body":[
+            "{ ${1:Global UI callback, executed whenever the user interacts with any particular UI widget.} }",
+            "on ui_controls",
+            "    ${2:{your code here\\}}",
+            "end on"
+        ],
+        "description": "Global UI callback, executed whenever the user interacts with any particular UI widget."
+    },
     "declare":
     {
         "prefix": "declare",

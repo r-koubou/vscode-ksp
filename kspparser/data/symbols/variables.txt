@@ -1176,6 +1176,9 @@ I	NI_VC_DEPTH_5	Y
 I	NI_VC_DEPTH_6	Y
 I	ENGINE_PAR_SOURCE_MODE	Y
 I	ZONE_PAR_SELECTED	Y
+I	CONTROL_PAR_TYPE	Y
+I	CONTROL_PAR_CUSTOM_ID	Y
+I	NI_UI_ID	Y
 #--------------------------------------------------
 # UNDOCUMENTED
 #--------------------------------------------------
