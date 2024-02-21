@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 0.7.25
+
+### KONTAKT 7.8.0 ready
+
+Added Syntax highlighting.
+
+#### Callback
+
+- on ui_updates
+
+#### Variable
+
+- $CONTROL_PAR_TYPE
+- $CONTROL_PAR_CUSTOM_ID
+- $NI_UI_ID
+
 ## Version 0.7.24
 
 ### Fixed internal compiler program bug
