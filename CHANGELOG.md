@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.7.26
+
+Typo in Changelog 0.7.25
+
+`on ui_updates` -\> `on ui_controls`
+
 ## Version 0.7.25
 
 ### KONTAKT 7.8.0 ready
@@ -8,7 +14,7 @@ Added Syntax highlighting.
 
 #### Callback
 
-- on ui_updates
+- on ui_controls
 
 #### Variable
 
