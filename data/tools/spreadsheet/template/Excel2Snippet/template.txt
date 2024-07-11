@@ -1,9 +1,0 @@
-
-    "${name}":
-    {
-        "prefix": "${prefix}",
-        "body":[
-${body}
-        ],
-        "description": "${description}"
-    }${comma}
