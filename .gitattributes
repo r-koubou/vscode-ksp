@@ -1,0 +1,4 @@
+*                   text=auto
+
+*.bat               text encoding=sjis eol=crlf
+*.sh                text eol=lf
