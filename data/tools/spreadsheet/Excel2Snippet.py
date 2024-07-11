@@ -1,33 +1,36 @@
 import os.path
 import sys
-import string
+import json
+
+from typing import List
 
 # http://pypi.python.org/pypi/xlrd
 import xlrd
 
 import KspExcelUtil
 
-THIS_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_DIR    = os.path.join(THIS_SCRIPT_DIR, "template", "Excel2Snippet")
-
 def double_quote_escape( text ):
-    return text.replace( "\"", "\\\"" )
+    return text
+
+def append_snippet_to_json( target: dict, name: str, prefix: str, body: List[str], desc: str ):
+    if name in target:
+        raise ValueError(f"Duplicate snippet name: {name}")
+
+    target[ name ] = {
+        "prefix": prefix,
+        "body": body,
+        "description": desc
+    }
 
 def convert( xlsx_path, output_dir ):
 
     output_path = os.path.join( output_dir, "ksp.json" )
+    book        = xlrd.open_workbook( xlsx_path )
+    sheetNames  = book.sheet_names()
 
-    template_header = string.Template( open( os.path.join( TEMPLATE_DIR, "template_header.txt" ) ).read() )
-    template_footer = string.Template( open( os.path.join( TEMPLATE_DIR, "template_footer.txt" ) ).read() )
-    template      = string.Template( open( os.path.join( TEMPLATE_DIR, "template.txt" ) ).read() )
-    template_body = string.Template( open( os.path.join( TEMPLATE_DIR, "template_body.txt" ) ).read() )
-
-    book       = xlrd.open_workbook( xlsx_path )
-    sheetNames = book.sheet_names()
+    output_json_data = {}
 
     with open( output_path, 'w' ) as fw:
-
-        fw.write( template_header.substitute() )
 
         sheet_length = len( sheetNames )
         for idx in range( sheet_length ):
@@ -48,36 +51,13 @@ def convert( xlsx_path, output_dir ):
                         tmp += i + "\\n"
                     desc = tmp
 
-                desc = double_quote_escape( desc )
-
                 if( len( prefix ) == 0 or len( body ) == 0 ):
                     continue
 
-                bodyArray    = body.split( "\n" )
-                bodyArrayLen = len( bodyArray )
-                tmp          = ""
-                if( bodyArrayLen > 1 ):
-                    for i in range( bodyArrayLen ):
-                        tmp += template_body.substitute( body = double_quote_escape( bodyArray[ i ] ) )
-                        if( i + 1 < bodyArrayLen ):
-                            tmp += ",\n"
-                    body = tmp
-                else:
-                    body = template_body.substitute( body = double_quote_escape( body ) )
+                bodyArray = body.split( "\n" )
+                append_snippet_to_json( output_json_data, name, prefix, bodyArray, desc )
 
-                text = template.substitute(
-                    name        = name,
-                    prefix      = prefix,
-                    body        = body,
-                    description = desc,
-                    # 最後のJSONオブジェクトの場合はカンマを付けない
-                    comma       = '' if idx == sheet_length - 1 and row == row_length - 1 else ','
-                )
-                fw.write( text )
-
-        fw.write( "\n" )
-        fw.write( template_footer.substitute() )
-        fw.write( "\n" )
+        fw.write( json.dumps( output_json_data, indent = 4 ) )
         print( "Done: " + output_path )
 
 
