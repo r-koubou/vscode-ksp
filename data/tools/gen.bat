@@ -1,7 +1,7 @@
 @echo off
 
-pipenv run python Excel2Completion.py
-pipenv run python Excel2Snippet.py
+pipenv run python spreadsheet\Excel2Completion.py ..\KSP_Completion.xlsx ..\..\src\features\generated\
+pipenv run python spreadsheet\Excel2Snippet.py
 
 call .\extract.bat
 echo "# Generate Command Name Array: ../src/features/generated/KSPCommandNames.ts"

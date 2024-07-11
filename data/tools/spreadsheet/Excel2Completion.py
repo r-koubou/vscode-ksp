@@ -1,7 +1,4 @@
-# encoding: utf-8
-
-import re
-import os
+import os.path
 import sys
 
 # http://pypi.python.org/pypi/xlrd
@@ -10,9 +7,6 @@ import xlrd
 import KspExcelUtil
 
 def convert( input, output, sheet_name ):
-
-    INPUT  = input
-    TARGET = output
 
     TEMPLATE = """
         "{intelliSense}":
@@ -28,8 +22,8 @@ def convert( input, output, sheet_name ):
     export var CompletionList = {"""
     FOOTER = "};"
 
-    book    = xlrd.open_workbook( INPUT )
-    fw      = open( TARGET, 'w' )
+    book    = xlrd.open_workbook( input )
+    fw      = open( output, 'w' )
 
     fw.write( HEADER )
 
@@ -66,17 +60,25 @@ def convert( input, output, sheet_name ):
     fw.write( FOOTER )
     fw.write( "\n" )
     fw.close()
-    print( "Done: " + TARGET )
+    print( "Done: " + output )
 
 
 if __name__ == "__main__":
-    TARGET_BASEDIR = "../src/features/generated/"
-    CONVET_LIST = [
+    argv = sys.argv[1:]
+
+    if( len(argv) < 2 ):
+        print( "Usage: Excel2Completion.py <xlsx file> <output dir>" )
+        sys.exit(1)
+
+    xlsx_path  = argv[0]
+    output_dir = argv[1]
+
+    convert_list = [
         # 0: Input
         # 1: Target
         # 2: Sheet name
-        [ "KSP_Completion.xlsx", TARGET_BASEDIR + "KSPCompletionCommand.ts",   "Command" ],
-        [ "KSP_Completion.xlsx", TARGET_BASEDIR + "KSPCompletionVariable.ts",  "Variable" ],
+        [ xlsx_path, os.path.join( output_dir, "KSPCompletionCommand.ts" ),   "Command" ],
+        [ xlsx_path, os.path.join( output_dir, "KSPCompletionVariable.ts" ),   "Variable" ],
     ]
-    for i in CONVET_LIST:
+    for i in convert_list:
         convert( i[0], i[1], i[2] )
