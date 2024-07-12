@@ -1,5 +1,5 @@
 venv/
 .python-version
-__mergeed__.txt
+__merged__.txt
 a.txt
 *.bak

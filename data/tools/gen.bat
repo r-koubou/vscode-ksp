@@ -5,7 +5,7 @@ pipenv run python spreadsheet\Excel2Snippet.py ..\KSP_Snippet.xlsx ..\..\snippet
 
 call .\extract.bat
 echo "# Generate Command Name Array: ../src/features/generated/KSPCommandNames.ts"
-pipenv run python VerifyExtractedManualData.py extract_command.txt > nul
+pipenv run python .\spreadsheet\VerifyExtractedCommandData.py ..\KSP_Completion.xlsx data\extracted\extract_command.txt __merged__.txt > nul
 pipenv run python Text2TSArray.py ^
     __mergeed__.txt ^
     ..\..\src\features\generated\KSPCommandNames.ts CommandNames ^
@@ -16,11 +16,11 @@ pipenv run python Text2TSArray.py ^
     ui_waveform
 
 echo  # Generate Builtin Variable Name Array : ../src/features/generated/KSPBuiltinVariableNames.ts
+pipenv run python .\spreadsheet\VerifyExtractedVariableData.py ..\KSP_Completion.xlsx data\extracted\extract_variables.txt __merged__.txt > nul
 pipenv run python VerifyExtractedManualData.py extract_variables.txt -v > nul
 pipenv run python Text2TSArray.py ^
-    __mergeed__.txt ^
+    __merged__.txt ^
     ..\..\srcfeatures\generated\KSPBuiltinVariableNames.ts ^
     BuiltinVariableNames
 
 del /q .\__mergeed__.txt
-del /q .\extract_*.txt
