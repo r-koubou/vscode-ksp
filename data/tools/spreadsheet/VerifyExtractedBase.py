@@ -29,8 +29,8 @@ class VerifyExtractedBase( ABC ):
         for i in range( len( self.xlsx_sheet_names ) ):
                 sheet = self.xlsx_book.sheet_by_index( i )
                 for row in range( 1, sheet.nrows ):
-                    name = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
-                    sig  = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
+                    name = util.get_cell_by_colmn( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
+                    sig  = util.get_cell_by_colmn( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
 
                     if( self.parse_data( name, sig ) ):
                         self.xlsx_words.append( name )

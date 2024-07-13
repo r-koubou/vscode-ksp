@@ -39,10 +39,10 @@ def convert( xlsx_path, output_dir ):
 
             row_length = sheet.nrows
             for row in range( 1, row_length ):
-                name   = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_NAME ).value.strip()
-                prefix = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_PREFIX ).value.strip()
-                body   = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_BODY ).value.strip()
-                desc   = util.getCellFromColmnName( sheet, row, util.HEADER_DESCRIPTION ).value.strip()
+                name   = util.get_cell_by_colmn( sheet, row, util.HEADER_SNIPPET_NAME ).value.strip()
+                prefix = util.get_cell_by_colmn( sheet, row, util.HEADER_SNIPPET_PREFIX ).value.strip()
+                body   = util.get_cell_by_colmn( sheet, row, util.HEADER_SNIPPET_BODY ).value.strip()
+                desc   = util.get_cell_by_colmn( sheet, row, util.HEADER_DESCRIPTION ).value.strip()
 
                 descArray = desc.split( "\n" )
                 if( len( descArray ) > 1 ):

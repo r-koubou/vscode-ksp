@@ -35,10 +35,10 @@ export var CompletionList ="""
         rowLength = sheet.nrows
 
         for row in range( 1, rowLength ):
-            name    = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
-            snippet = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_BODY ).value.strip()
-            sig     = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
-            desc    = util.getCellFromColmnName( sheet, row, util.HEADER_DESCRIPTION ).value.strip()
+            name    = util.get_cell_by_colmn( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
+            snippet = util.get_cell_by_colmn( sheet, row, util.HEADER_SNIPPET_BODY ).value.strip()
+            sig     = util.get_cell_by_colmn( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
+            desc    = util.get_cell_by_colmn( sheet, row, util.HEADER_DESCRIPTION ).value.strip()
 
             desc = util.append_newline( desc )
             snippet = util.append_newline( snippet )
