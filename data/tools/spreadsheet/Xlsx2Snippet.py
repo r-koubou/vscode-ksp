@@ -66,7 +66,7 @@ if __name__ == "__main__":
     argv = sys.argv[1:]
 
     if( len( argv ) < 2 ):
-        print( "Usage: Excel2Snippet.py <xlsx file > <output dir>" )
+        print( "Usage: Xlsx2Snippet.py <xlsx file > <output dir>" )
         sys.exit( 1 )
 
     convert( argv[0], argv[1] )
