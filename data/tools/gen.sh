@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pipenv run python spreadsheet/Excel2Completion.py ../KSP_Completion.xlsx ../../src/features/generated/
+pipenv run python spreadsheet/Xlsx2Completion.py ../KSP_Completion.xlsx ../../src/features/generated/
 pipenv run python spreadsheet/Xlsx2Snippet.py ../KSP_Snippet.xlsx ../../snippets/
 
 ./extract.sh
