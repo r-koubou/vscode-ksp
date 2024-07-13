@@ -17,7 +17,6 @@ pipenv run python Text2TSArray.py ^
 
 echo  # Generate Builtin Variable Name Array : ../src/features/generated/KSPBuiltinVariableNames.ts
 pipenv run python .\spreadsheet\VerifyExtractedVariableData.py ..\KSP_Completion.xlsx data\extracted\extract_variables.txt __merged__.txt > nul
-pipenv run python VerifyExtractedManualData.py extract_variables.txt -v > nul
 pipenv run python Text2TSArray.py ^
     __merged__.txt ^
     ..\..\srcfeatures\generated\KSPBuiltinVariableNames.ts ^
