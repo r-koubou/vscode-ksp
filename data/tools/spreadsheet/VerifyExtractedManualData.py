@@ -2,9 +2,10 @@
 
 import xlrd
 from natsort import natsorted
-import KspExcelUtil
 import re
 import sys
+
+import util
 
 ARGV = sys.argv[1:]
 
@@ -46,8 +47,8 @@ for idx in range( len( sheetNames ) ):
 
     for row in range( 1, sheet.nrows ):
         found = False
-        name  = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
-        sig   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
+        name  = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
+        sig   = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
 
         if( veriftVariable ):
             if( re.match( re.compile( r"^[\$|%|!|\~|@|\?]" ), name ) == None ):

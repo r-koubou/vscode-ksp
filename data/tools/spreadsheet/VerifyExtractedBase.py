@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import xlrd
 from natsort import natsorted
 
-import KspExcelUtil
+import util
 
 class VerifyExtractedBase( ABC ):
 
@@ -29,8 +29,8 @@ class VerifyExtractedBase( ABC ):
         for i in range( len( self.xlsx_sheet_names ) ):
                 sheet = self.xlsx_book.sheet_by_index( i )
                 for row in range( 1, sheet.nrows ):
-                    name = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
-                    sig  = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
+                    name = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
+                    sig  = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
 
                     if( self.parse_data( name, sig ) ):
                         self.xlsx_words.append( name )

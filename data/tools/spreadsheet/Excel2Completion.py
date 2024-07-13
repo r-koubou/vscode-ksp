@@ -5,7 +5,7 @@ import json
 # http://pypi.python.org/pypi/xlrd
 import xlrd
 
-import KspExcelUtil
+import util
 
 def append_snippet_to_json( target: dict, name: str, snippet: str, signature: str, desc: str ):
     if name in target:
@@ -35,13 +35,13 @@ export var CompletionList ="""
         rowLength = sheet.nrows
 
         for row in range( 1, rowLength ):
-            name    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_NAME ).value.strip()
-            snippet = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_BODY ).value.strip()
-            sig     = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_COMPLETE_SIG ).value.strip()
-            desc    = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
+            name    = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_NAME ).value.strip()
+            snippet = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_BODY ).value.strip()
+            sig     = util.getCellFromColmnName( sheet, row, util.HEADER_COMPLETE_SIG ).value.strip()
+            desc    = util.getCellFromColmnName( sheet, row, util.HEADER_DESCRIPTION ).value.strip()
 
-            desc = KspExcelUtil.append_newline( desc )
-            snippet = KspExcelUtil.append_newline( snippet )
+            desc = util.append_newline( desc )
+            snippet = util.append_newline( snippet )
 
             if( len( name ) == 0 or name.startswith( "*" ) ):
                 continue

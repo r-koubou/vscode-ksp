@@ -7,7 +7,7 @@ from typing import List
 # http://pypi.python.org/pypi/xlrd
 import xlrd
 
-import KspExcelUtil
+import util
 
 def double_quote_escape( text ):
     return text
@@ -39,10 +39,10 @@ def convert( xlsx_path, output_dir ):
 
             row_length = sheet.nrows
             for row in range( 1, row_length ):
-                name   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_NAME ).value.strip()
-                prefix = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_PREFIX ).value.strip()
-                body   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_SNIPPET_BODY ).value.strip()
-                desc   = KspExcelUtil.getCellFromColmnName( sheet, row, KspExcelUtil.HEADER_DESCRIPTION ).value.strip()
+                name   = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_NAME ).value.strip()
+                prefix = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_PREFIX ).value.strip()
+                body   = util.getCellFromColmnName( sheet, row, util.HEADER_SNIPPET_BODY ).value.strip()
+                desc   = util.getCellFromColmnName( sheet, row, util.HEADER_DESCRIPTION ).value.strip()
 
                 descArray = desc.split( "\n" )
                 if( len( descArray ) > 1 ):
