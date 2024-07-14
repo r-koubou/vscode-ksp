@@ -1,0 +1,6 @@
+venv/
+.python-version
+.[Dd]ump/
+.[Ll]ogs
+/__merged*.txt
+*.bak
