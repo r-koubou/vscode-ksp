@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 
@@ -5,6 +6,8 @@ from typing import List
 
 from base import ExtractBase
 from base import Word
+
+THIS_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class ExtractVariableFromManual(ExtractBase):
 
@@ -14,28 +17,7 @@ class ExtractVariableFromManual(ExtractBase):
         super().__init__(manual_path, output_path, output_dump_path)
 
     def get_ignored_word_list(self) -> List[str]:
-        return [
-            "$MARK_1",
-            "$MARK_2",
-            "$MARK_28",
-            "$KEY_COLOR_FUCHSI",
-            "$CONTROL_PAR_KEY_C",
-            # in Sample Code
-            "$CUSTOM_EVENT_PAR_4",
-            "$HEADER_SIZE",
-            "$NUM_SLIDES",
-            "$SIZE",
-            "$VE",
-            "$ARRAY_SIZE",
-            "$CHANNEL_L",
-            "$CHANNEL_R",
-            # Interrupted word
-            "$CON",
-            "$SIGNA",
-            "$NI_DETECT_INSTRU",
-            # Beta version only (removed)
-            "$EVENT_PAR_MOD_VALUE_ID_FULL",
-        ]
+        return self.import_ignored_words( os.path.join( THIS_SCRIPT_DIR, 'IgnoreVariableWords.txt' ) )
 
     def parse_line(self, line_no: int, line: str) -> None:
         if line.find( "declare" ) >= 0 or line.find( ":=" ) >= 0:

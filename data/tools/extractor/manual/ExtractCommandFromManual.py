@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 
@@ -5,6 +6,8 @@ from typing import List
 
 from base import ExtractBase
 from base import Word
+
+THIS_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class ExtractCommandFromManual(ExtractBase):
 
@@ -14,34 +17,7 @@ class ExtractCommandFromManual(ExtractBase):
             super().__init__(manual_path, output_path, output_dump_path)
 
         def get_ignored_word_list(self) -> List[str]:
-            return [
-                "select",
-                "while",
-                "ui_waveform",
-                # in Explain, Examples
-                "add_text",
-                "array",
-                "by_mark", # miss?
-                "change_xxx",
-                "func_play_triad",
-                "get_keyrange_xxx",
-                "if",
-                "it",
-                "low_group",
-                "ray_idx",
-                "set_condition", #lower
-                "show_callback_type",
-                "show_gui",
-                "show_menu",
-                "range", # not exist
-                # Interrupted word
-                "group",
-                "idx",
-                "par_str_arr",
-                "tach_zone", # line separated (-> attach_zone() )
-                "ui_control", # It is callback
-                "trol_par_str_arr", # extract miss (expexted: control_par_str_arr)
-            ]
+            return self.import_ignored_words( os.path.join( THIS_SCRIPT_DIR, 'IgnoreCommandWords.txt' ) )
 
         def parse_line(self, line_no: int, line: str) -> None:
             m = re.findall( ExtractCommandFromManual._REGEX, line )
