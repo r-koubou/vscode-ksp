@@ -1,8 +1,8 @@
 $VERSION = "7.10.0"
 $MANUAL = "data/ksp-manuals/KSP Reference Manual($VERSION).txt"
 
-$OUTPUT_DIR = "data/extracted"
-$STORE_DIR  = "data/extracted/$VERSION"
+$OUTPUT_DIR = "data/extracted/ksp-manuals"
+$STORE_DIR  = "$OUTPUT_DIR/$VERSION"
 $DUMP_DIR   = ".logs"
 
 # Create output directory if it does not exist
