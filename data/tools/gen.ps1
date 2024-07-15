@@ -45,9 +45,9 @@ OutputHeaderText "Execute extract script"
 #-------------------------------------------------------------------------------
 OutputHeaderText "Merge extracted data and XLSX data"
 Write-Output "Generate Command Name Array : $($OUTPUT_TS_DIR)/KSPCommandNames.ts"
-pipenv run python ./spreadsheet/VerifyExtractedCommandData.py $XLSX_COMPLETION "$EXTRACTED_MANUAL_DIR/extract_command.txt" "__merged_comand__.txt" > "$LOG_DIR/__merged_comand_dump__.txt"
+pipenv run python ./spreadsheet/VerifyExtractedCommandData.py $XLSX_COMPLETION "$EXTRACTED_MANUAL_DIR/extract_command.txt" "$LOG_DIR/__merged_comand__.txt" > "$LOG_DIR/__merged_comand_dump__.txt"
 pipenv run python Text2TSArray.py `
-                        "__merged_comand__.txt" `
+                        "$LOG_DIR/__merged_comand__.txt" `
                         "$OUTPUT_TS_DIR/KSPCommandNames.ts" `
                         "CommandNames" `
                         "ui_knob" `
@@ -58,9 +58,9 @@ pipenv run python Text2TSArray.py `
                         "ui_waveform"
 
 Write-Output "Generate Builtin Variable Name Array : $($OUTPUT_TS_DIR)/KSPBuiltinVariableNames.ts"
-pipenv run python ./spreadsheet/VerifyExtractedVariableData.py $XLSX_COMPLETION "$EXTRACTED_MANUAL_DIR/extract_variables.txt" "__merged_variables__.txt" > "$LOG_DIR/__merged_variables_dump__.txt"
+pipenv run python ./spreadsheet/VerifyExtractedVariableData.py $XLSX_COMPLETION "$EXTRACTED_MANUAL_DIR/extract_variables.txt" "$LOG_DIR/__merged_variables__.txt" > "$LOG_DIR/__merged_variables_dump__.txt"
 pipenv run python Text2TSArray.py `
-                        "__merged_variables__.txt" `
+                        "$LOG_DIR/__merged_variables__.txt" `
                         "$OUTPUT_TS_DIR/KSPBuiltinVariableNames.ts" `
                         "BuiltinVariableNames"
 
