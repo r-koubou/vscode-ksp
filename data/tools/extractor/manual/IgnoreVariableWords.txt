@@ -1,0 +1,40 @@
+$MARK_1
+$MARK_2
+$MARK_28
+$KEY_COLOR_FUCHSI
+$CONTROL_PAR_KEY_C
+$CONTROL_PAR_KEY
+#--------------------------------------
+# in Sample Code
+#--------------------------------------
+$CUSTOM_EVENT_PAR_4
+$HEADER_SIZE
+$NUM_SLIDES
+$SIZE
+$VE # aaa
+$ARRAY_SIZE
+$CHANNEL_L
+$CHANNEL_R
+$DND_AREAS
+$FILT_CUT
+$FILT_RES
+$FILT_SLOT
+$NUM_FRAMES
+$NUM_PARAMS
+$OUT_PAN
+$OUT_VOL
+$SEARCH_FOR
+$SEARCH_FROM
+$SEARCH_TO
+#--------------------------------------
+# Interrupted word
+#--------------------------------------
+$CON
+$SIGNA
+$NI_DETECT_INSTRU
+$NI_K
+$UI_WF_PROP_MIDI_DRAG_START
+#--------------------------------------
+# Beta version only (removed)
+#--------------------------------------
+$EVENT_PAR_MOD_VALUE_ID_FULL

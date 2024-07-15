@@ -6042,5 +6042,695 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $NI_UI_ID"
+    },
+    "$CONTROL_PAR_DND_ACCEPT_MIDI": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $CONTROL_PAR_DND_ACCEPT_MIDI"
+    },
+    "$CONTROL_PAR_IDENTIFIER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $CONTROL_PAR_IDENTIFIER"
+    },
+    "$CONTROL_PAR_SHORT_NAME": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $CONTROL_PAR_SHORT_NAME"
+    },
+    "$CONTROL_PAR_VALUEPOS_Y": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $CONTROL_PAR_VALUEPOS_Y"
+    },
+    "$CONTROL_PAR_WAVETABLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $CONTROL_PAR_WAVETABLE"
+    },
+    "$EFFECT_TYPE_BIGFUZZ": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_BIGFUZZ"
+    },
+    "$EFFECT_TYPE_BITE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_BITE"
+    },
+    "$EFFECT_TYPE_DIRT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_DIRT"
+    },
+    "$EFFECT_TYPE_EP_PREAMPS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_EP_PREAMPS"
+    },
+    "$EFFECT_TYPE_FREAK": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_FREAK"
+    },
+    "$EFFECT_TYPE_FUZZ": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_FUZZ"
+    },
+    "$EFFECT_TYPE_RAUM": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_RAUM"
+    },
+    "$EFFECT_TYPE_STEREO_TUNE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_STEREO_TUNE"
+    },
+    "$EFFECT_TYPE_TWINDELAY": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_TWINDELAY"
+    },
+    "$EFFECT_TYPE_VIBRATO_CHORUS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_VIBRATO_CHORUS"
+    },
+    "$EFFECT_TYPE_WOWFLUTTER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EFFECT_TYPE_WOWFLUTTER"
+    },
+    "$ENGINE_PAR_BIGFUZZ_BASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BIGFUZZ_BASS"
+    },
+    "$ENGINE_PAR_BIGFUZZ_MONO": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BIGFUZZ_MONO"
+    },
+    "$ENGINE_PAR_BIGFUZZ_SUSTAIN": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BIGFUZZ_SUSTAIN"
+    },
+    "$ENGINE_PAR_BIGFUZZ_TONE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BIGFUZZ_TONE"
+    },
+    "$ENGINE_PAR_BIGFUZZ_TREBLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BIGFUZZ_TREBLE"
+    },
+    "$ENGINE_PAR_EPP_DRIVE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_DRIVE"
+    },
+    "$ENGINE_PAR_EPP_DRIVE_MODE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_DRIVE_MODE"
+    },
+    "$ENGINE_PAR_EPP_EQ_BASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_EQ_BASS"
+    },
+    "$ENGINE_PAR_EPP_EQ_MID": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_EQ_MID"
+    },
+    "$ENGINE_PAR_EPP_EQ_MODE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_EQ_MODE"
+    },
+    "$ENGINE_PAR_EPP_EQ_TREBLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_EQ_TREBLE"
+    },
+    "$ENGINE_PAR_EPP_MONO": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_MONO"
+    },
+    "$ENGINE_PAR_EPP_PASSIVE_BASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_PASSIVE_BASS"
+    },
+    "$ENGINE_PAR_EPP_TREMOLO_AMOUNT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_TREMOLO_AMOUNT"
+    },
+    "$ENGINE_PAR_EPP_TREMOLO_MODE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_TREMOLO_MODE"
+    },
+    "$ENGINE_PAR_EPP_TREMOLO_RATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_TREMOLO_RATE"
+    },
+    "$ENGINE_PAR_EPP_TREMOLO_RATE_UNIT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_TREMOLO_RATE_UNIT"
+    },
+    "$ENGINE_PAR_EPP_TREMOLO_WAVE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_TREMOLO_WAVE"
+    },
+    "$ENGINE_PAR_EPP_TREMOLO_WIDTH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_EPP_TREMOLO_WIDTH"
+    },
+    "$ENGINE_PAR_FLEXENV_LOOP_END": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FLEXENV_LOOP_END"
+    },
+    "$ENGINE_PAR_FLEXENV_LOOP_START": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FLEXENV_LOOP_START"
+    },
+    "$ENGINE_PAR_FLEXENV_NUM_STAGES": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FLEXENV_NUM_STAGES"
+    },
+    "$ENGINE_PAR_FLEXENV_STAGE_LEVEL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FLEXENV_STAGE_LEVEL"
+    },
+    "$ENGINE_PAR_FLEXENV_STAGE_SLOPE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FLEXENV_STAGE_SLOPE"
+    },
+    "$ENGINE_PAR_FLEXENV_STAGE_TIME": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FLEXENV_STAGE_TIME"
+    },
+    "$ENGINE_PAR_FUZZ_AMOUNT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FUZZ_AMOUNT"
+    },
+    "$ENGINE_PAR_FUZZ_BASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FUZZ_BASS"
+    },
+    "$ENGINE_PAR_FUZZ_MONO": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FUZZ_MONO"
+    },
+    "$ENGINE_PAR_FUZZ_TREBLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_FUZZ_TREBLE"
+    },
+    "$ENGINE_PAR_RINGMOD_LFO_RATE_UNIT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RINGMOD_LFO_RATE_UNIT"
+    },
+    "$ENGINE_PAR_SEQ_HP_FREQ": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_SEQ_HP_FREQ"
+    },
+    "$ENGINE_PAR_STEPSEQ_STEPS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_STEPSEQ_STEPS"
+    },
+    "$ENGINE_PAR_STEREOTUNE_DRIFT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_STEREOTUNE_DRIFT"
+    },
+    "$ENGINE_PAR_STEREOTUNE_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_STEREOTUNE_MIX"
+    },
+    "$ENGINE_PAR_STEREOTUNE_SPLIT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_STEREOTUNE_SPLIT"
+    },
+    "$ENGINE_PAR_STEREOTUNE_SPREAD": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_STEREOTUNE_SPREAD"
+    },
+    "$EVENT_PAR_MIDI_CHANNNEL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $EVENT_PAR_MIDI_CHANNNEL"
+    },
+    "$NI_CB_TYPE_UI_CONTROLS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CB_TYPE_UI_CONTROLS"
+    },
+    "$NI_CONTROL_TYPE_BUTTON": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_BUTTON"
+    },
+    "$NI_CONTROL_TYPE_FILE_SELECTOR": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_FILE_SELECTOR"
+    },
+    "$NI_CONTROL_TYPE_KNOB": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_KNOB"
+    },
+    "$NI_CONTROL_TYPE_LABEL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_LABEL"
+    },
+    "$NI_CONTROL_TYPE_LEVEL_METER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_LEVEL_METER"
+    },
+    "$NI_CONTROL_TYPE_MENU": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_MENU"
+    },
+    "$NI_CONTROL_TYPE_MOUSE_AREA": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_MOUSE_AREA"
+    },
+    "$NI_CONTROL_TYPE_NONE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_NONE"
+    },
+    "$NI_CONTROL_TYPE_PANEL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_PANEL"
+    },
+    "$NI_CONTROL_TYPE_SLIDER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_SLIDER"
+    },
+    "$NI_CONTROL_TYPE_SWITCH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_SWITCH"
+    },
+    "$NI_CONTROL_TYPE_TABLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_TABLE"
+    },
+    "$NI_CONTROL_TYPE_TEXT_EDIT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_TEXT_EDIT"
+    },
+    "$NI_CONTROL_TYPE_VALUE_EDIT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_VALUE_EDIT"
+    },
+    "$NI_CONTROL_TYPE_WAVEFORM": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_WAVEFORM"
+    },
+    "$NI_CONTROL_TYPE_WAVETABLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_WAVETABLE"
+    },
+    "$NI_CONTROL_TYPE_XY": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_CONTROL_TYPE_XY"
+    },
+    "$NI_DATE_DAY": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_DATE_DAY"
+    },
+    "$NI_DATE_MONTH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_DATE_MONTH"
+    },
+    "$NI_DATE_YEAR": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_DATE_YEAR"
+    },
+    "$NI_EPP_DRIVE_MODE_BYPASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_DRIVE_MODE_BYPASS"
+    },
+    "$NI_EPP_DRIVE_MODE_DE_TUBE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_DRIVE_MODE_DE_TUBE"
+    },
+    "$NI_EPP_DRIVE_MODE_TAPE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_DRIVE_MODE_TAPE"
+    },
+    "$NI_EPP_DRIVE_MODE_TRANSISTOR": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_DRIVE_MODE_TRANSISTOR"
+    },
+    "$NI_EPP_DRIVE_MODE_US_TUBE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_DRIVE_MODE_US_TUBE"
+    },
+    "$NI_EPP_EQ_MODE_70S": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_EQ_MODE_70S"
+    },
+    "$NI_EPP_EQ_MODE_80S": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_EQ_MODE_80S"
+    },
+    "$NI_EPP_EQ_MODE_BYPASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_EQ_MODE_BYPASS"
+    },
+    "$NI_EPP_EQ_MODE_E_GRAND": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_EQ_MODE_E_GRAND"
+    },
+    "$NI_EPP_EQ_MODE_PASSIVE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_EQ_MODE_PASSIVE"
+    },
+    "$NI_EPP_TREMOLO_MODE_70S": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_MODE_70S"
+    },
+    "$NI_EPP_TREMOLO_MODE_80S": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_MODE_80S"
+    },
+    "$NI_EPP_TREMOLO_MODE_BYPASS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_MODE_BYPASS"
+    },
+    "$NI_EPP_TREMOLO_MODE_E_GRAND": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_MODE_E_GRAND"
+    },
+    "$NI_EPP_TREMOLO_MODE_GUITAR": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_MODE_GUITAR"
+    },
+    "$NI_EPP_TREMOLO_MODE_SYNTH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_MODE_SYNTH"
+    },
+    "$NI_EPP_TREMOLO_WAVE_SAW_DOWN": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_WAVE_SAW_DOWN"
+    },
+    "$NI_EPP_TREMOLO_WAVE_SAW_UP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_WAVE_SAW_UP"
+    },
+    "$NI_EPP_TREMOLO_WAVE_SINE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_WAVE_SINE"
+    },
+    "$NI_EPP_TREMOLO_WAVE_SQUARE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_WAVE_SQUARE"
+    },
+    "$NI_EPP_TREMOLO_WAVE_TRIANGLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_EPP_TREMOLO_WAVE_TRIANGLE"
+    },
+    "$NI_HQI_MODE_HIGH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_HQI_MODE_HIGH"
+    },
+    "$NI_HQI_MODE_PERFECT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_HQI_MODE_PERFECT"
+    },
+    "$NI_HQI_MODE_STANDARD": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_HQI_MODE_STANDARD"
+    },
+    "$NI_S1200_FILTER_HIGH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_S1200_FILTER_HIGH"
+    },
+    "$NI_S1200_FILTER_HIGH_MID": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_S1200_FILTER_HIGH_MID"
+    },
+    "$NI_S1200_FILTER_LOW": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_S1200_FILTER_LOW"
+    },
+    "$NI_S1200_FILTER_LOW_MID": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_S1200_FILTER_LOW_MID"
+    },
+    "$NI_S1200_FILTER_NONE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_S1200_FILTER_NONE"
+    },
+    "$NI_SOURCE_MODE_BEAT_MACHINE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_BEAT_MACHINE"
+    },
+    "$NI_SOURCE_MODE_DFD": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_DFD"
+    },
+    "$NI_SOURCE_MODE_MP60_MACHINE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_MP60_MACHINE"
+    },
+    "$NI_SOURCE_MODE_S1200_MACHINE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_S1200_MACHINE"
+    },
+    "$NI_SOURCE_MODE_SAMPLER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_SAMPLER"
+    },
+    "$NI_SOURCE_MODE_TIME_MACHINE_1": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_TIME_MACHINE_1"
+    },
+    "$NI_SOURCE_MODE_TIME_MACHINE_2": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_TIME_MACHINE_2"
+    },
+    "$NI_SOURCE_MODE_TIME_MACHINE_PRO": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_TIME_MACHINE_PRO"
+    },
+    "$NI_SOURCE_MODE_TONE_MACHINE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_TONE_MACHINE"
+    },
+    "$NI_SOURCE_MODE_WAVETABLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_SOURCE_MODE_WAVETABLE"
+    },
+    "$NI_TIME_HOUR": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_TIME_HOUR"
+    },
+    "$NI_TIME_MINUTE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_TIME_MINUTE"
+    },
+    "$NI_TIME_SECOND": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_TIME_SECOND"
+    },
+    "$NI_WT_FORM_2BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_2BLINDS"
+    },
+    "$NI_WT_FORM_4BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_4BLINDS"
+    },
+    "$NI_WT_FORM_6BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_6BLINDS"
+    },
+    "$NI_WT_FORM_8BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_8BLINDS"
+    },
+    "$NI_WT_FORM_ASYM2M": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_ASYM2M"
+    },
+    "$NI_WT_FORM_ASYM2MP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_ASYM2MP"
+    },
+    "$NI_WT_FORM_ASYM2P": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_ASYM2P"
+    },
+    "$NI_WT_FORM_BEND2M": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_BEND2M"
+    },
+    "$NI_WT_FORM_BEND2MP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_BEND2MP"
+    },
+    "$NI_WT_FORM_BEND2P": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_BEND2P"
+    },
+    "$NI_WT_FORM_EXP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_EXP"
+    },
+    "$NI_WT_FORM_FOLD": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_FOLD"
+    },
+    "$NI_WT_FORM_LOG": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_LOG"
+    },
+    "$NI_WT_FORM_LOGEXP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_LOGEXP"
+    },
+    "$NI_WT_FORM_SATURATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SATURATE"
+    },
+    "$NI_WT_FORM_SEESAW": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SEESAW"
+    },
+    "$NI_WT_FORM_SYNC4": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SYNC4"
+    },
+    "$NI_WT_FORM_SYNC5": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SYNC5"
+    },
+    "$NI_WT_FORM_SYNC6": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SYNC6"
+    },
+    "$NI_WT_FORM_WRAP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_WRAP"
+    },
+    "$UI_WAVEFORM_TABLE_IS_BIPOL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $UI_WAVEFORM_TABLE_IS_BIPOL"
+    },
+    "$UI_WF_PROP_TABLE_IDX_HIGHL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $UI_WF_PROP_TABLE_IDX_HIGHL"
     }
 };

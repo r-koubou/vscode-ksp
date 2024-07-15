@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 
@@ -5,6 +6,8 @@ from typing import List
 
 from base import ExtractBase
 from base import Word
+
+THIS_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class ExtractCallbackFromManual(ExtractBase):
 
@@ -14,7 +17,7 @@ class ExtractCallbackFromManual(ExtractBase):
         super().__init__(manual_path, output_path, output_dump_path)
 
     def get_ignored_word_list(self) -> List[str]:
-        return []
+        return self.import_ignored_words( os.path.join( THIS_SCRIPT_DIR, 'IgnoreCallbackWords.txt' ) )
 
     def parse_line(self, line_no: int, line: str) -> None:
         m = re.match( re.compile( ExtractCallbackFromManual._REGEX ), line )

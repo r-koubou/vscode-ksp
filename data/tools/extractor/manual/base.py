@@ -1,3 +1,4 @@
+import re
 from typing import List
 from abc import ABC, ABCMeta, abstractmethod
 from natsort import natsorted
@@ -15,6 +16,24 @@ class ExtractBase(metaclass = ABCMeta ):
         self.output_dump_path           = output_dump_path
         self.words: List[Word]          = []
         self.ignored_words: List[str]   = self.get_ignored_word_list()
+
+    def import_ignored_words(self, list_path:str ) -> List[str]:
+        line_comment_regex     = r"^\s*#.*"
+        line_end_comment_regex = r"^([^#]+)(#.*)"
+        result = []
+        with open( list_path, 'r' ) as f:
+            for line in f.read().splitlines():
+                line = line.strip()
+                if(len( line ) == 0 or line.startswith("#")):
+                    continue
+                if re.match(line_comment_regex, line):
+                    continue
+                m = re.match(line_end_comment_regex, line)
+                if m:
+                    line = m.group(1).strip()
+                result.append(line)
+
+        return result
 
     @abstractmethod
     def get_ignored_word_list(self) -> List[str]:

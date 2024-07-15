@@ -97,4 +97,22 @@ foreach($item in $generatedSnippetFiles) {
     ExtractDiff $item
 }
 
+#-------------------------------------------------------------------------------
+# Convert Compiler Symbols (Stub)
+#-------------------------------------------------------------------------------
+OutputHeaderText "Convert Compiler Symbols"
+
+$EXPORT_COMPILER_VARIABLE_SYMBOL_PATH = "$EXTRACTED_DIFF_DIR/converted_compilert_variable_symbol_stub.txt"
+
+if (Test-Path "$EXTRACTED_DIFF_DIR/extract_diff_KSPBuiltinVariableNames.ts.txt") {
+    Write-Output "Convert Compiler Variable Symbol"
+    pipenv run python ./extractor/diff/ConvertCompilerVariableSymbolFromDiff.py `
+        $EXTRACTED_DIFF_DIR/extract_diff_KSPBuiltinVariableNames.ts.txt `
+        $EXPORT_COMPILER_VARIABLE_SYMBOL_PATH
+
+    Write-Output "[TODO]"
+    Write-Output "  1. Copy from $EXPORT_COMPILER_VARIABLE_SYMBOL_PATH"
+    Write-Output "  2. Paste to Compiler symbol file (/kspparser/data/symbols/variables.txt)"
+}
+
 Write-Output "Done."
