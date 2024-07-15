@@ -6728,11 +6728,6 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $UI_WAVEFORM_TABLE_IS_BIPOL"
     },
-    "$UI_WF_PROP_MIDI_DRAG_START": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $UI_WF_PROP_MIDI_DRAG_START"
-    },
     "$UI_WF_PROP_TABLE_IDX_HIGHL": {
         "snippet_string": "",
         "signature": "",

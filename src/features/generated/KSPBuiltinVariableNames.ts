@@ -1302,7 +1302,6 @@ export const BuiltinVariableNames : string[] = [
     "$UI_WAVEFORM_USE_SLICES",
     "$UI_WAVEFORM_USE_TABLE",
     "$UI_WF_PROP_FLAGS",
-    "$UI_WF_PROP_MIDI_DRAG_START",
     "$UI_WF_PROP_MIDI_DRAG_START_NOTE",
     "$UI_WF_PROP_PLAY_CURSOR",
     "$UI_WF_PROP_TABLE_IDX_HIGHL",

@@ -33,6 +33,7 @@ $CON
 $SIGNA
 $NI_DETECT_INSTRU
 $NI_K
+$UI_WF_PROP_MIDI_DRAG_START
 #--------------------------------------
 # Beta version only (removed)
 #--------------------------------------
