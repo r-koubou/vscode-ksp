@@ -1,6 +1,6 @@
 venv/
 .python-version
-extract_*.txt
-__mergeed__.txt
-a.txt
+/[Tt]emp
+/[Tt]mp
+/[Ww]ork
 *.bak

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # http://pypi.python.org/pypi/xlrd
 import xlrd
 
@@ -10,35 +8,24 @@ HEADER_COMPLETE_NAME    = "Complete:name"
 HEADER_COMPLETE_SIG     = "Complete:signature"
 HEADER_DESCRIPTION      = "description"
 
-"""
-Get a Cell array from given sheet instanse and cell string value of Row 1.
-"""
-def getRowsFromComnName( sheet, colmnName ):
-    for c in range( sheet.ncols ):
-        name = sheet.cell( 0, c ).strip()
-        if( name == colmnName ):
-            return sheet.col_slice( 1, c )
-    return []
 
 """
 Get a Cell from given sheet instanse and row index and cell string value of Row 1.
 """
-def getCellFromColmnName( sheet, rowIndex, colmnName ):
-
-    colmnName = colmnName
+def get_cell_by_colmn( sheet: xlrd.sheet.Sheet, rowIndex: int, colmn_name: str ) -> xlrd.sheet.Cell:
 
     for c in range( sheet.ncols ):
         cell = sheet.cell( 0, c )
         name = cell.value
-        if( name == colmnName ):
+        if( name == colmn_name ):
             return sheet.cell( rowIndex, c )
 
-    return ""
+    return None
 
 """
 All new line will be replaced to escaped (\\n)
 """
-def append_newline(text):
+def append_newline(text: str) -> str:
     array = text.split( "\n" )
     if( len( array ) > 1 ):
         tmp = ""
