@@ -4,9 +4,10 @@ test/**
 src/**
 **/*.map
 jsconfig.json
-vsc-extension-quickstart.md
+.gitignore
+.github/**
 data/**
 .temp/**
-.gitignore
 package-lock.json
-./*.sh
+*.sh
+*.bat
