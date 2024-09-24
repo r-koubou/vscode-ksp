@@ -72,6 +72,6 @@ class VerifyExtractedBase( ABC ):
 
         # Output merged text
         print( f"Output merged text to `${self.output_path}`" )
-        with open( self.output_path, "w", encoding="utf-8" ) as f:
+        with open( self.output_path, "w", encoding="utf-8", newline="\n" ) as f:
             for i in natsorted( merged_list ):
                 f.write( f"{i}\n" )

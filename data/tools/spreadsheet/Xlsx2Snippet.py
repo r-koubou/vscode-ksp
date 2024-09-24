@@ -30,7 +30,7 @@ def convert( xlsx_path, output_dir ):
 
     output_json_data = {}
 
-    with open( output_path, 'w' ) as fw:
+    with open( output_path, 'w', encoding="utf-8", newline="\n" ) as fw:
 
         sheet_length = len( sheetNames )
         for idx in range( sheet_length ):
