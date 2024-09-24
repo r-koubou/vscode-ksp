@@ -35,7 +35,7 @@ def process( patch_file_path:str, output_path ) -> None:
 
     added_variable_lines.sort()
 
-    with open( output_path, 'w' ) as f:
+    with open( output_path, 'w', encoding="utf-8", newline="\n" ) as f:
         f.write( "\n".join( added_variable_lines ) )
 
 if __name__ == "__main__":

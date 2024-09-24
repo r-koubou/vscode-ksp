@@ -3,6 +3,7 @@ controller	N
 init	N
 listener	N
 note	N
+note_controller	N
 persistence_changed	N
 pgs_changed	N
 _pgs_changed	N

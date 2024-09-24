@@ -130,6 +130,16 @@
         ],
         "description": "note callback, executed whenever a note on message is received"
     },
+    "on note_controller": {
+        "prefix": "on note_controller",
+        "body": [
+            "{ ${1:MIDI 2.0 per-note controller callback, executed whenever a MIDI 2.0 Per-Note RPN, MIDI 2.0 Per-Note NRPN or MIDI 2.0 Per-Note Pitch Bend message is received.} }",
+            "on note_controller",
+            "    ${2:{your code here\\}}",
+            "end on"
+        ],
+        "description": ""
+    },
     "on persistence_changed": {
         "prefix": "on persistence_changed",
         "body": [

@@ -29,7 +29,7 @@ export const CompletionList ="""
     output_json_data = {}
     book = xlrd.open_workbook( input )
 
-    with open( output, 'w' ) as fw:
+    with open( output, 'w', encoding="utf-8", newline="\n" ) as fw:
 
         sheet     = book.sheet_by_name( sheet_name )
         rowLength = sheet.nrows
