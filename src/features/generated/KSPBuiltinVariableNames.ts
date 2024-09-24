@@ -747,6 +747,7 @@ export const BuiltinVariableNames : string[] = [
     "$ENGINE_PAR_VC_MIX",
     "$ENGINE_PAR_VC_RATE",
     "$ENGINE_PAR_VC_WIDTH",
+    "$ENGINE_PAR_VOICE_GROUP",
     "$ENGINE_PAR_VOLUME",
     "$ENGINE_PAR_WOWFLUTTER_AGE",
     "$ENGINE_PAR_WOWFLUTTER_FLUTTER",

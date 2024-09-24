@@ -3413,6 +3413,11 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_VC_WIDTH"
     },
+    "$ENGINE_PAR_VOICE_GROUP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_VOICE_GROUP"
+    },
     "$ENGINE_PAR_VOLUME": {
         "snippet_string": "",
         "signature": "",
