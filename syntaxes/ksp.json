@@ -170,7 +170,7 @@
             "patterns":[
                 {
                     "name":  "keyword.other.statements.ksp",
-                    "match": "(if|else|end\\s+if|select|case|to|end\\s+select|while|end\\s+while|in_range)\\b"
+                    "match": "(if|else|end\\s+if|select|case|to|end\\s+select|while|end\\s+while|continue|in_range)\\b"
                 }
             ]
         },
