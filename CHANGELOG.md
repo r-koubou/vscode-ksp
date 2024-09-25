@@ -2,9 +2,10 @@
 
 ## Version 0.7.28
 
-### KONTAKT 8.0.0 ready
+### KONTAKT 8.0.0 ready & continue statement supported
 
-Added Syntax highlighting.
+- `continue` statement which added in KONTAKT 7.5 is now supported in internal compiler.
+- Added Syntax highlighting
 
 #### Variable
 
