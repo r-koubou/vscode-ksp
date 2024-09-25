@@ -55,6 +55,8 @@ V	set_controller	*	@I	@I
 V	set_rpn	*	@I	@I
 V	set_nrpn	*	@I	@I
 V	set_snapshot_type	*	@I
+V	set_note_controller	*	@I	@I	@I
+V	set_poly_at	*	@I	@I
 #-------------------------------------------------------------------------------------------------------
 # Event Commands
 #-------------------------------------------------------------------------------------------------------
@@ -214,12 +216,14 @@ I||S	save_midi_file	*	@S
 # Music Information Retrieval
 #-------------------------------------------------------------------------------------------------------
 I||S	detect_instrument_type	*	@I	I
-I||S	detect_pitch	*	@I	R
-I||S	detect_loudness	*	@I	R
+R||S	detect_pitch	*	@I	R
+R||S	detect_loudness	*	@I	R
 I||S	detect_peak	*	@I	R
-I||S	detect_rms	*	@I	R
+R||S	detect_rms	*	@I	R
 I||S	detect_sample_type	*	@I	I
-I||S	detect_drum_type	*	@I	I
+R||S	detect_drum_type	*	@I	I
+I||S	detect_key	*	@I	I
+R||S	detect_tempo	*	@I	R
 #-------------------------------------------------------------------------------------------------------
 # MIDI Object Commands
 #-------------------------------------------------------------------------------------------------------

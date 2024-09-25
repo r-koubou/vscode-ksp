@@ -20,7 +20,7 @@ export const ${variable_name} : string[] = [
     with open(input_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="utf-8", newline="\n") as f:
 
         f.write( template_header.safe_substitute( variable_name = variable_name ) )
 

@@ -59,7 +59,7 @@ class ExtractBase(metaclass = ABCMeta ):
     def output_words(self) -> None:
         word_list = set([ i.word for i in self.words])
 
-        with open( self.output_path, 'w', encoding = 'utf-8' ) as f:
+        with open( self.output_path, 'w', encoding = 'utf-8', newline="\n" ) as f:
             for i in natsorted( word_list ):
                 f.write( f"{i}\n" )
 

@@ -20,7 +20,7 @@ def process(input_path, output_path):
             type = type_mappings[i[0]]
             output_tsv.append(f"{type}\t{name}\tY")
 
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8", newline="\n") as f:
         f.write("\n".join(output_tsv))
 
 if __name__ == "__main__":

@@ -988,6 +988,76 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_BASSPRO_ULTRALO"
     },
+    "$ENGINE_PAR_BEATMASHER_GATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_GATE"
+    },
+    "$ENGINE_PAR_BEATMASHER_LENGTH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_LENGTH"
+    },
+    "$ENGINE_PAR_BEATMASHER_MASH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_MASH"
+    },
+    "$ENGINE_PAR_BEATMASHER_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_MIX"
+    },
+    "$ENGINE_PAR_BEATMASHER_REVERSE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_REVERSE"
+    },
+    "$ENGINE_PAR_BEATMASHER_ROTATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_ROTATE"
+    },
+    "$ENGINE_PAR_BEATMASHER_WRAP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATMASHER_WRAP"
+    },
+    "$ENGINE_PAR_BEATSLICER_BUZZ": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_BUZZ"
+    },
+    "$ENGINE_PAR_BEATSLICER_GATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_GATE"
+    },
+    "$ENGINE_PAR_BEATSLICER_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_MIX"
+    },
+    "$ENGINE_PAR_BEATSLICER_PATTERN": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_PATTERN"
+    },
+    "$ENGINE_PAR_BEATSLICER_SLICE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_SLICE"
+    },
+    "$ENGINE_PAR_BEATSLICER_STYLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_STYLE"
+    },
+    "$ENGINE_PAR_BEATSLICER_TWOBARS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_BEATSLICER_TWOBARS"
+    },
     "$ENGINE_PAR_BITE_BITS": {
         "snippet_string": "",
         "signature": "",
@@ -1858,6 +1928,46 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_GAIN3"
     },
+    "$ENGINE_PAR_GATER_GATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_GATE"
+    },
+    "$ENGINE_PAR_GATER_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_MIX"
+    },
+    "$ENGINE_PAR_GATER_MUTE_INPUT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_MUTE_INPUT"
+    },
+    "$ENGINE_PAR_GATER_NOISE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_NOISE"
+    },
+    "$ENGINE_PAR_GATER_RATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_RATE"
+    },
+    "$ENGINE_PAR_GATER_RATE_SYNC": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_RATE_SYNC"
+    },
+    "$ENGINE_PAR_GATER_SHAPE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_SHAPE"
+    },
+    "$ENGINE_PAR_GATER_STUTTER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_GATER_STUTTER"
+    },
     "$ENGINE_PAR_GLIDE_COEF": {
         "snippet_string": "",
         "signature": "",
@@ -2428,6 +2538,11 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RAUM_TYPE"
     },
+    "$ENGINE_PAR_RDL_ACCENT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_ACCENT"
+    },
     "$ENGINE_PAR_RDL_AMOUNT": {
         "snippet_string": "",
         "signature": "",
@@ -2448,10 +2563,30 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_DEPTH"
     },
+    "$ENGINE_PAR_RDL_DUCKING_AMOUNT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_DUCKING_AMOUNT"
+    },
+    "$ENGINE_PAR_RDL_DUCKING_RELEASE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_DUCKING_RELEASE"
+    },
+    "$ENGINE_PAR_RDL_DUCKING_SENSE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_DUCKING_SENSE"
+    },
     "$ENGINE_PAR_RDL_FEEDBACK": {
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_FEEDBACK"
+    },
+    "$ENGINE_PAR_RDL_FEEL": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_FEEL"
     },
     "$ENGINE_PAR_RDL_FLUTTER": {
         "snippet_string": "",
@@ -2468,6 +2603,11 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_LOWCUT"
     },
+    "$ENGINE_PAR_RDL_LR_OFFSET": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_LR_OFFSET"
+    },
     "$ENGINE_PAR_RDL_MODULATION": {
         "snippet_string": "",
         "signature": "",
@@ -2478,10 +2618,20 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_NOISE"
     },
+    "$ENGINE_PAR_RDL_PAN": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_PAN"
+    },
     "$ENGINE_PAR_RDL_PINGPONG": {
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_PINGPONG"
+    },
+    "$ENGINE_PAR_RDL_PINGPONG_FLIP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_PINGPONG_FLIP"
     },
     "$ENGINE_PAR_RDL_QUALITY": {
         "snippet_string": "",
@@ -2497,6 +2647,11 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_SATURATION"
+    },
+    "$ENGINE_PAR_RDL_SHUFFLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_SHUFFLE"
     },
     "$ENGINE_PAR_RDL_SIZE": {
         "snippet_string": "",
@@ -2528,6 +2683,11 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RDL_TYPE"
     },
+    "$ENGINE_PAR_RDL_WIDTH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RDL_WIDTH"
+    },
     "$ENGINE_PAR_RELEASE": {
         "snippet_string": "",
         "signature": "",
@@ -2547,6 +2707,41 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_RESONANCE"
+    },
+    "$ENGINE_PAR_RG_FORWARD": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_FORWARD"
+    },
+    "$ENGINE_PAR_RG_GRAIN": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_GRAIN"
+    },
+    "$ENGINE_PAR_RG_INVERT_GRAINS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_INVERT_GRAINS"
+    },
+    "$ENGINE_PAR_RG_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_MIX"
+    },
+    "$ENGINE_PAR_RG_PITCH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_PITCH"
+    },
+    "$ENGINE_PAR_RG_REVERSE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_REVERSE"
+    },
+    "$ENGINE_PAR_RG_SPEED": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_RG_SPEED"
     },
     "$ENGINE_PAR_RINGMOD_EDGE": {
         "snippet_string": "",
@@ -3283,6 +3478,41 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_TR_SUSTAIN"
     },
+    "$ENGINE_PAR_TS_AMOUNT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_AMOUNT"
+    },
+    "$ENGINE_PAR_TS_GRAIN": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_GRAIN"
+    },
+    "$ENGINE_PAR_TS_KEY": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_KEY"
+    },
+    "$ENGINE_PAR_TS_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_MIX"
+    },
+    "$ENGINE_PAR_TS_SIZE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_SIZE"
+    },
+    "$ENGINE_PAR_TS_STRETCH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_STRETCH"
+    },
+    "$ENGINE_PAR_TS_TWOBARS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_TS_TWOBARS"
+    },
     "$ENGINE_PAR_TUNE": {
         "snippet_string": "",
         "signature": "",
@@ -3413,6 +3643,11 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_VC_WIDTH"
     },
+    "$ENGINE_PAR_VOICE_GROUP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_VOICE_GROUP"
+    },
     "$ENGINE_PAR_VOLUME": {
         "snippet_string": "",
         "signature": "",
@@ -3473,6 +3708,16 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_WT_FORM_MODE"
     },
+    "$ENGINE_PAR_WT_FORM2": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_WT_FORM2"
+    },
+    "$ENGINE_PAR_WT_FORM2_MODE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_WT_FORM2_MODE"
+    },
     "$ENGINE_PAR_WT_INHARMONIC": {
         "snippet_string": "",
         "signature": "",
@@ -3482,6 +3727,26 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $ENGINE_PAR_WT_INHARMONIC_MODE"
+    },
+    "$ENGINE_PAR_WT_MOD_TUNE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_WT_MOD_TUNE"
+    },
+    "$ENGINE_PAR_WT_MOD_TUNE_UNIT": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_WT_MOD_TUNE_UNIT"
+    },
+    "$ENGINE_PAR_WT_MOD_TYPE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_WT_MOD_TYPE"
+    },
+    "$ENGINE_PAR_WT_MOD_WAVE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $ENGINE_PAR_WT_MOD_WAVE"
     },
     "$ENGINE_PAR_WT_PHASE": {
         "snippet_string": "",
@@ -4663,6 +4928,51 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $NI_BAR_START_POSITION"
     },
+    "$NI_BEATMASHER_LENGTH_32ND": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_32ND"
+    },
+    "$NI_BEATMASHER_LENGTH_16TH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_16TH"
+    },
+    "$NI_BEATMASHER_LENGTH_8TH": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_8TH"
+    },
+    "$NI_BEATMASHER_LENGTH_8TH_DOTTED": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_8TH_DOTTED"
+    },
+    "$NI_BEATMASHER_LENGTH_QUARTER": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_QUARTER"
+    },
+    "$NI_BEATMASHER_LENGTH_QUARTER_DOTTED": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_QUARTER_DOTTED"
+    },
+    "$NI_BEATMASHER_LENGTH_HALF": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_HALF"
+    },
+    "$NI_BEATMASHER_LENGTH_HALF_DOTTED": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_HALF_DOTTED"
+    },
+    "$NI_BEATMASHER_LENGTH_BAR": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_BEATMASHER_LENGTH_BAR"
+    },
     "$NI_BUS_OFFSET": {
         "snippet_string": "",
         "signature": "",
@@ -5398,6 +5708,41 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $NI_WF_VIS_MODE_3"
     },
+    "$NI_WT_FORM_2BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_2BLINDS"
+    },
+    "$NI_WT_FORM_4BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_4BLINDS"
+    },
+    "$NI_WT_FORM_6BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_6BLINDS"
+    },
+    "$NI_WT_FORM_8BLINDS": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_8BLINDS"
+    },
+    "$NI_WT_FORM_ASYM2M": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_ASYM2M"
+    },
+    "$NI_WT_FORM_ASYM2MP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_ASYM2MP"
+    },
+    "$NI_WT_FORM_ASYM2P": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_ASYM2P"
+    },
     "$NI_WT_FORM_ASYMM": {
         "snippet_string": "",
         "signature": "",
@@ -5412,6 +5757,21 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $NI_WT_FORM_ASYMP"
+    },
+    "$NI_WT_FORM_BEND2M": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_BEND2M"
+    },
+    "$NI_WT_FORM_BEND2MP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_BEND2MP"
+    },
+    "$NI_WT_FORM_BEND2P": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_BEND2P"
     },
     "$NI_WT_FORM_BENDM": {
         "snippet_string": "",
@@ -5428,15 +5788,35 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $NI_WT_FORM_BENDP"
     },
+    "$NI_WT_FORM_EXP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_EXP"
+    },
     "$NI_WT_FORM_FLIP": {
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $NI_WT_FORM_FLIP"
     },
+    "$NI_WT_FORM_FOLD": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_FOLD"
+    },
     "$NI_WT_FORM_LINEAR": {
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $NI_WT_FORM_LINEAR"
+    },
+    "$NI_WT_FORM_LOG": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_LOG"
+    },
+    "$NI_WT_FORM_LOGEXP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_LOGEXP"
     },
     "$NI_WT_FORM_MIRROR": {
         "snippet_string": "",
@@ -5453,6 +5833,16 @@ export const CompletionList =
         "signature": "",
         "description": "Built-in Variable: $NI_WT_FORM_QUANTIZE"
     },
+    "$NI_WT_FORM_SATURATE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SATURATE"
+    },
+    "$NI_WT_FORM_SEESAW": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SEESAW"
+    },
     "$NI_WT_FORM_SYNC1": {
         "snippet_string": "",
         "signature": "",
@@ -5467,6 +5857,131 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $NI_WT_FORM_SYNC3"
+    },
+    "$NI_WT_FORM_SYNC4": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SYNC4"
+    },
+    "$NI_WT_FORM_SYNC5": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SYNC5"
+    },
+    "$NI_WT_FORM_SYNC6": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_SYNC6"
+    },
+    "$NI_WT_FORM_WRAP": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_FORM_WRAP"
+    },
+    "$NI_WT_MOD_TUNE_UNIT_HZ": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TUNE_UNIT_HZ"
+    },
+    "$NI_WT_MOD_TUNE_UNIT_RATIO": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TUNE_UNIT_RATIO"
+    },
+    "$NI_WT_MOD_TUNE_UNIT_SEMITONES": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TUNE_UNIT_SEMITONES"
+    },
+    "$NI_WT_MOD_TYPE_FM1": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_FM1"
+    },
+    "$NI_WT_MOD_TYPE_FM2": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_FM2"
+    },
+    "$NI_WT_MOD_TYPE_FM3": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_FM3"
+    },
+    "$NI_WT_MOD_TYPE_MIX": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_MIX"
+    },
+    "$NI_WT_MOD_TYPE_OFF": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_OFF"
+    },
+    "$NI_WT_MOD_TYPE_PM1": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_PM1"
+    },
+    "$NI_WT_MOD_TYPE_PM2": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_PM2"
+    },
+    "$NI_WT_MOD_TYPE_PM3": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_PM3"
+    },
+    "$NI_WT_MOD_TYPE_RM": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_TYPE_RM"
+    },
+    "$NI_WT_MOD_WAVE_SINE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_SINE"
+    },
+    "$NI_WT_MOD_WAVE_TRIANGLE": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TRIANGLE"
+    },
+    "$NI_WT_MOD_WAVE_TX2": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX2"
+    },
+    "$NI_WT_MOD_WAVE_TX3": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX3"
+    },
+    "$NI_WT_MOD_WAVE_TX4": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX4"
+    },
+    "$NI_WT_MOD_WAVE_TX5": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX5"
+    },
+    "$NI_WT_MOD_WAVE_TX6": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX6"
+    },
+    "$NI_WT_MOD_WAVE_TX7": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX7"
+    },
+    "$NI_WT_MOD_WAVE_TX8": {
+        "snippet_string": "",
+        "signature": "",
+        "description": "Built-in Variable: $NI_WT_MOD_WAVE_TX8"
     },
     "$NI_WT_QUALITY_BEST": {
         "snippet_string": "",
@@ -6622,106 +7137,6 @@ export const CompletionList =
         "snippet_string": "",
         "signature": "",
         "description": "Built-in Variable: $NI_TIME_SECOND"
-    },
-    "$NI_WT_FORM_2BLINDS": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_2BLINDS"
-    },
-    "$NI_WT_FORM_4BLINDS": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_4BLINDS"
-    },
-    "$NI_WT_FORM_6BLINDS": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_6BLINDS"
-    },
-    "$NI_WT_FORM_8BLINDS": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_8BLINDS"
-    },
-    "$NI_WT_FORM_ASYM2M": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_ASYM2M"
-    },
-    "$NI_WT_FORM_ASYM2MP": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_ASYM2MP"
-    },
-    "$NI_WT_FORM_ASYM2P": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_ASYM2P"
-    },
-    "$NI_WT_FORM_BEND2M": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_BEND2M"
-    },
-    "$NI_WT_FORM_BEND2MP": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_BEND2MP"
-    },
-    "$NI_WT_FORM_BEND2P": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_BEND2P"
-    },
-    "$NI_WT_FORM_EXP": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_EXP"
-    },
-    "$NI_WT_FORM_FOLD": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_FOLD"
-    },
-    "$NI_WT_FORM_LOG": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_LOG"
-    },
-    "$NI_WT_FORM_LOGEXP": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_LOGEXP"
-    },
-    "$NI_WT_FORM_SATURATE": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_SATURATE"
-    },
-    "$NI_WT_FORM_SEESAW": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_SEESAW"
-    },
-    "$NI_WT_FORM_SYNC4": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_SYNC4"
-    },
-    "$NI_WT_FORM_SYNC5": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_SYNC5"
-    },
-    "$NI_WT_FORM_SYNC6": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_SYNC6"
-    },
-    "$NI_WT_FORM_WRAP": {
-        "snippet_string": "",
-        "signature": "",
-        "description": "Built-in Variable: $NI_WT_FORM_WRAP"
     },
     "$UI_WAVEFORM_TABLE_IS_BIPOL": {
         "snippet_string": "",

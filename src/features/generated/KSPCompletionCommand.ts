@@ -223,6 +223,16 @@ export const CompletionList =
         "signature": "set_controller(MIDI CC number/$VCC_PITCH_BEND/$VCC_MONO,value)",
         "description": "send a MIDI CC, pitchbend or channel pressure value"
     },
+    "set_note_controller": {
+        "snippet_string": "set_note_controller( ${1:controller}, ${2:note-number}, ${3:value} )",
+        "signature": "set_note_controller(controller,note-number,value)",
+        "description": "Sends a MIDI 2.0 Registered Per-Note Controller, MIDI 2.0 Assignable Per-Note Controller or MIDI 2.0 Per-Note Pitch Bend message."
+    },
+    "set_poly_at": {
+        "snippet_string": "set_poly_at( ${1:note-number}, ${2:value} )",
+        "signature": "set_poly_at(note-number,value)",
+        "description": "Sends a MIDI Polyphonic Aftertouch message."
+    },
     "set_rpn": {
         "snippet_string": "set_rpn( ${1:address}, ${2:value} )",
         "signature": "set_rpn(address,value)",
@@ -883,6 +893,11 @@ export const CompletionList =
         "signature": "detect_instrument_type(zone-id,instrument-type-result)",
         "description": "Assigns <drum-type-result> a $NI_DETECT_INSTRUMENT_TYPE tag describing the in- strument type of an audio sample."
     },
+    "detect_key": {
+        "snippet_string": "detect_key( ${1:zone-id}, ${2:key-result} )",
+        "signature": "detect_key(zone-id,key-result)",
+        "description": "Assigns <key-result> a $NI_DETECT_KEY tag describing the musical key of the audio sample. If detection fails, the function will return $NI_DETECT_KEY_INVALID."
+    },
     "detect_pitch": {
         "snippet_string": "detect_pitch( ${1:zone-id}, ${2:pitch-result} )",
         "signature": "detect_pitch(zone-id,pitch-result)",
@@ -907,6 +922,11 @@ export const CompletionList =
         "snippet_string": "detect_sample_type( ${1:zone-id}, ${2:sample-type-result} )",
         "signature": "detect_sample_type(zone-id,sample-type-result)",
         "description": "Assigns <sample-type-result> a $NI_DETECT_SAMPLE_TYPE tag describing the whether an audio sample is a drum or an instrument."
+    },
+    "detect_tempo": {
+        "snippet_string": "detect_tempo( ${1:zone-id}, ${2:tempo-result} )",
+        "signature": "detect_tempo(zone-id,tempo-result)",
+        "description": "Returns a real value representing the detected tempo of the audio sample, in BPM. If detection fails, the function will return ~NI_DETECT_TEMPO_INVALID."
     },
     "detect_drum_type": {
         "snippet_string": "detect_drum_type( ${1:zone-id}, ${2:drum-type-result} )",
