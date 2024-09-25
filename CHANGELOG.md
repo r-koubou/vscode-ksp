@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.7.29
+
+### Hotfix
+
+- Fixed internal compiler bug
+  - Obfuscator cannot recognize the `continue` statement.
+
 ## Version 0.7.28
 
 ### KONTAKT 8.0.0 ready & continue statement supported
