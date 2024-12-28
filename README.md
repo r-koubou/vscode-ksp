@@ -4,7 +4,7 @@
 
 ## KSP Compatibility
 
-- KONTAKT 7.x / 6.x / 5.x
+- KONTAKT 8.x / 7.x / 6.x / 5.x
 
 ## Features
 
