@@ -513,6 +513,11 @@ export const CompletionList =
         "signature": "get_ui_wf_property(variable,property,index)",
         "description": "returns the value of the waveform's different properties."
     },
+    "load_komplete_ui": {
+        "snippet_string": "load_komplete_ui( ${1:filename} )",
+        "signature": "load_komplete_ui(filename)",
+        "description": "Loads a Komplete UI file (.kscript) that defines the modern user interface."
+    },
     "load_performance_view": {
         "snippet_string": "load_performance_view( ${1:filename} )",
         "signature": "load_performance_view(filename)",
@@ -544,8 +549,8 @@ export const CompletionList =
         "description": "change various parameters of the specified gui control"
     },
     "set_control_par_str": {
-        "snippet_string": "set_control_par_str_arr( ${1:ui-ID}, ${2:CONTROL_PAR_xxx}, ${3:value} )",
-        "signature": "set_control_par_str_arr(ui-ID,CONTROL_PAR_xxx,value)",
+        "snippet_string": "set_control_par_str( ${1:ui-ID}, ${2:CONTROL_PAR_xxx}, ${3:value} )",
+        "signature": "set_control_par_str(ui-ID,CONTROL_PAR_xxx,value)",
         "description": "A variation of the command for usage with text strings. ( see: set_control_par() Remarks)"
     },
     "set_control_par_arr": {
@@ -742,6 +747,11 @@ export const CompletionList =
         "snippet_string": "get_engine_par_disp( ${1:parameter}, ${2:group}, ${3:slot}, ${4:generic} )",
         "signature": "get_engine_par_disp(parameter,group,slot,generic)",
         "description": "returns the displayed string of a specific engine parameter"
+    },
+    "get_engine_par_disp_ext": {
+        "snippet_string": "get_engine_par_disp_ext( ${1:parameter}, ${2:value}, ${3:group}, ${4:slot}, ${5:generic} )",
+        "signature": "get_engine_par_disp_ext(parameter,value,group,slot,generic)",
+        "description": "Returns the display value of a specific engine parameter with an arbitrary value, as a string."
     },
     "get_mod_idx": {
         "snippet_string": "get_mod_idx( ${1:group-index}, ${2:mod-name} )",
