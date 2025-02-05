@@ -35,13 +35,11 @@
         "out/**/*",
         "server/**/*"
     ],
-    "activationEvents": [
-        "onLanguage:ksp"
-    ],
     "contributes": {
         "languages": [
             {
                 "id": "ksp",
+                "configuration": "./language-configuration.json",
                 "aliases": [
                     "KONTAKT Script (KSP) [Pre-Release]"
                 ],
@@ -53,7 +51,7 @@
         "grammars": [
             {
                 "language": "ksp",
-                "scopeName": "net.rkoubou.kontakt.ksp",
+                "scopeName": "source.kontakt.ksp.rkoubou",
                 "path": "./syntaxes/ksp.json"
             }
         ]
