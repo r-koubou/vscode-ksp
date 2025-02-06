@@ -1,0 +1,98 @@
+name: build-compiler-cli
+
+env:
+  DOTNET_SDK_VERSION: '9.0.*'
+  COMPILER_PREFIX: KSPCompiler
+on:
+  workflow_call:
+    inputs:
+      build-configuration:
+        required: true
+        type: string
+      preview-build:
+        required: false
+        type: boolean
+        default: false
+
+  workflow_dispatch:
+    inputs:
+      build-configuration:
+        required: true
+        type: choice
+        options:
+          - Debug
+          - Release
+      preview-build:
+        required: false
+        type: boolean
+
+jobs:
+  #--------------------------------------------------------------
+  # Build VSCode extension
+  #--------------------------------------------------------------
+  build_compiler:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      COMPILER_BASE_DIR: ./submodules/KSPCompiler/Compiler/Applications/LSP/LSPServer.Embedded
+      COMPILER_PUBLISH_DIR: ./server
+      ARTIFACTS_NAME: rkoubou.vscode-ksp
+
+    steps:
+    - name: Show workflow inputs
+      run: |
+        echo Configuration: ${{ inputs.build-configuration }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
+
+    #----------------------------------------------------------
+    # Setup .NET SDK
+    #----------------------------------------------------------
+    - name: Setup .NET SDK
+      run: |
+        echo .NET SDK Version: ${{ env.DOTNET_SDK_VERSION }}
+    - name: Install .NET SDK
+      uses: actions/setup-dotnet@v4
+
+      with:
+        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+    #----------------------------------------------------------
+    # Build compiler
+    #----------------------------------------------------------
+    - name: Build
+      run: |
+        pwd
+        ls -la ./submodules/KSPCompiler/Compiler/Applications/LSP
+        echo base_dir=${{ env.COMPILER_BASE_DIR }}
+        pushd ${{ env.COMPILER_BASE_DIR }}
+        dotnet publish -c ${{ inputs.build-configuration }} -o ${{ env.COMPILER_PUBLISH_DIR }}/${{ env.COMPILER_PREFIX }}
+        popd
+
+    #----------------------------------------------------------
+    # Build VSCode extension
+    #----------------------------------------------------------
+    - name: Build VSCode extension
+      if: ${{ inputs.preview-build == 'false' }}
+      run: |
+        npm install
+        npm run compile
+        npx vsce package
+
+    - name: Build VSCode extension (preview)
+      if: ${{ inputs.preview-build == 'true' }}
+      run: |
+        npm install
+        npm run compile
+        npx vsce package --pre-release
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.ARTIFACTS_NAME }}
+        path: "*.vsix"
