@@ -1,4 +1,4 @@
-name: build-compiler-cli
+name: build-vscode-extension
 
 env:
   DOTNET_SDK_VERSION: '9.0.*'
@@ -29,7 +29,7 @@ jobs:
   #--------------------------------------------------------------
   # Build VSCode extension
   #--------------------------------------------------------------
-  build_compiler:
+  build_vscode_extension:
     runs-on: ubuntu-latest
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
