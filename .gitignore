@@ -6,5 +6,5 @@ npm-debug.log
 package-lock.json
 
 # for me
-server
+language_server
 .[Tt]emp/
