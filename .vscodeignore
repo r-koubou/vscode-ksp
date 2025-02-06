@@ -6,8 +6,9 @@ src/**
 jsconfig.json
 .gitignore
 .github/**
-data/**
-.temp/**
+.gitmodules
+submodules/**
+.[Tt]emp/**
 package-lock.json
 *.sh
 *.bat

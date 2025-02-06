@@ -26,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     outputChannel.appendLine('KSP extension activating');
 
-    const serverAssembly = context.asAbsolutePath('server/KSPCompiler.Apps.LSPServer.Embedded.dll');
+    const serverAssembly = context.asAbsolutePath('language_server/KSPCompiler.Apps.LSPServer.Embedded.dll');
     outputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
 
     const serverOptions: ServerOptions = {
