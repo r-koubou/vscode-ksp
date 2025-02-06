@@ -47,7 +47,12 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Update submodules
-      run: git submodule update --init --recursive
+      run: |
+        mkdir -p $HOME/.ssh/
+        echo "${{ secrets.KSP_COMPILER_ACCESS_TOKEN }}" > $HOME/.ssh/id_rsa
+        sudo chmod 600 $HOME/.ssh/id_rsa
+        export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_rsa"
+        git submodule update --init --recursive
 
     #----------------------------------------------------------
     # Setup Node.js
