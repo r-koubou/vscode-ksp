@@ -1,4 +1,4 @@
-name: develop
+name: v1-preview-develop
 
 on:
   push:
