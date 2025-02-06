@@ -6,9 +6,5 @@ npm-debug.log
 package-lock.json
 
 # for me
-.temp/
-__pycache__/
-
-*.pyc
-**/a.txt
-~$*.xlsx
+server
+.[Tt]emp/
