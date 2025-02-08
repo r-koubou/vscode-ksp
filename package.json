@@ -54,8 +54,8 @@
         "commands": [
             {
                 "command": "ksp.obfuscate",
-                "title": "KSP Obfuscate Code",
-                "category": "KSP"
+                "category": "KSP",
+                "title": "Obfuscate Code"
             }
         ]
     },
