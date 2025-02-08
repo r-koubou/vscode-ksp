@@ -50,6 +50,13 @@
                 "scopeName": "source.kontakt.ksp.rkoubou",
                 "path": "./syntaxes/ksp.json"
             }
+        ],
+        "commands": [
+            {
+                "command": "ksp.obfuscate",
+                "category": "KSP",
+                "title": "Obfuscate Code"
+            }
         ]
     },
     "engines": {
