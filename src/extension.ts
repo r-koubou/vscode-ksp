@@ -2,32 +2,27 @@ import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
 import { exec } from 'child_process';
-import * as cp from 'child_process';
 
 import * as constants from './constants';
+import { OutputChannel } from './constants';
+
+import * as ObfuscateCommand from './commands/obfuscator';
 
 let client: LanguageClient | null = null;
-
-const outputChannel = vscode.window.createOutputChannel(constants.OutputChannelName, 'ksp');
 
 export async function activate(context: vscode.ExtensionContext) {
 
     const result = await checkDotnetInstalled();
 
     if (!result) {
-        outputChannel.appendLine('KSP LSP failed to activate by missing .NET runtime');
+        OutputChannel.appendLine('KSP LSP failed to activate by missing .NET runtime');
         return;
     }
 
-    if (client) {
-        return;
-    }
+    OutputChannel.appendLine('KSP extension activating');
 
-
-    outputChannel.appendLine('KSP extension activating');
-
-    const serverAssembly = context.asAbsolutePath('language_server/KSPCompiler.Apps.LSPServer.Embedded.dll');
-    outputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
+    const serverAssembly = context.asAbsolutePath('language_server/KSPCompiler.Applications.LSPServer.Embedded.dll');
+    OutputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
 
     const serverOptions: ServerOptions = {
         run: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio },
@@ -41,7 +36,7 @@ export async function activate(context: vscode.ExtensionContext) {
         ]
     };
 
-    outputChannel.appendLine('KSP LSP server creating');
+    OutputChannel.appendLine('KSP LSP server creating');
 
     client = new LanguageClient(
         'ksp',
@@ -50,32 +45,31 @@ export async function activate(context: vscode.ExtensionContext) {
         clientOptions
     );
 
-    outputChannel.appendLine('KSP LSP server created');
+    OutputChannel.appendLine('KSP LSP server created');
 
     client.start().then(() => {
-        outputChannel.appendLine('KSP LSP server started');
+        OutputChannel.appendLine('KSP LSP server started');
     }).catch((reason) => {
-        outputChannel.appendLine('KSP LSP server failed to start');
-        outputChannel.appendLine(reason);
+        OutputChannel.appendLine('KSP LSP server failed to start');
+        OutputChannel.appendLine(reason);
     });
 
     context.subscriptions.push(client);
 
-    outputChannel.appendLine('KSP extension activated');
+    registerExtensionCommands(context, client);
+
+    OutputChannel.appendLine('KSP extension activated');
 }
 
 export function deactivate(): Thenable<void> | undefined {
-    outputChannel.appendLine('KSP extension deactivating');
-    if (!client) {
-        return undefined;
-    }
-    outputChannel.appendLine('KSP LSP server stopping');
-    return client.stop().then(() => {
+    OutputChannel.appendLine('KSP LSP server stopping');
+    return client?.stop().then(() => {
         client = null;
+        OutputChannel.appendLine('KSP LSP server stopped');
     });
 }
 
-export async function checkDotnetInstalled(): Promise<boolean> {
+async function checkDotnetInstalled(): Promise<boolean> {
     return new Promise((resolve, reject) => {
         exec('dotnet --version', (error, stdout, stderr) => {
             const version = stdout.trim();
@@ -94,4 +88,8 @@ export async function checkDotnetInstalled(): Promise<boolean> {
             }
         });
     });
+}
+
+function registerExtensionCommands(context: vscode.ExtensionContext, client: LanguageClient) {
+    ObfuscateCommand.registerCommand(context, client);
 }
