@@ -1,4 +1,4 @@
-name: v1-preview-develop
+name: vsce-v1-preview-develop
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-vsce-v1-preview-develop:
     uses: ./.github/workflows/build_vscode_extension.yml
     secrets: inherit
     with:
