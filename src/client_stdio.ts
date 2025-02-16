@@ -23,8 +23,8 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
     OutputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
 
     const serverOptions: ServerOptions = {
-        run: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio },
-        debug: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio }
+        run: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } },
+        debug: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } }
     };
 
     const clientOptions: LanguageClientOptions = {
