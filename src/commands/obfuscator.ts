@@ -43,8 +43,8 @@ export function registerCommand(
                 arguments: [documentUri]
             });
 
-            if (result.length === 0) {
-                window.showErrorMessage('Obfuscation result is empty or invalid.');
+            if (!result) {
+                window.showErrorMessage('Obfuscation failed. Check error in script.');
                 return;
             }
 
