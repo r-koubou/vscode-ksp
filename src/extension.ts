@@ -3,8 +3,8 @@ import { LanguageClient } from 'vscode-languageclient/node';
 
 import { OutputChannel } from './constants';
 import * as ObfuscateCommand from './commands/obfuscator';
-//import { startLspClient } from './client_stdio';
-import { startLspClient } from './client_socket';
+import { startLspClient } from './client_stdio';
+//import { startLspClient } from './client_socket';
 
 let client: LanguageClient | null | undefined = null;
 
