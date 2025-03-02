@@ -115,11 +115,15 @@
                 },
                 {
                     "name": "keyword.declare.ksp",
-                    "match": "(declare|const|polyphonic)\\b"
+                    "match": "\\b(declare(\\s+ui_[a-zA-Z0-9_]+)?|const|polyphonic)\\b"
+                },
+                {
+                    "name": "keyword.declare.ui.ksp",
+                    "match": "declare\\s+\\b(ui_[a-zA-Z0-9_]+)\\b"
                 },
                 {
                     "name": "variable.preprocessor.ksp",
-                    "match": "(SET_CONDITION|RESET_CONDITION|USE_CODE_IF|USE_CODE_IF_NOT|END_USE_CODE|NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG)\\b"
+                    "match": "\\b(SET_CONDITION|RESET_CONDITION|USE_CODE_IF|USE_CODE_IF_NOT|END_USE_CODE|NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG)\\b"
                 }
             ]
         },
@@ -127,7 +131,7 @@
             "patterns": [
                 {
                     "name": "keyword.other.statements.ksp",
-                    "match": "(if|else|end\\s+if|select|case|to|end\\s+select|while|end\\s+while|continue|in_range)\\b"
+                    "match": "\\b(if|else|end\\s+if|select|case|to|end\\s+select|while|end\\s+while|continue|in_range)\\b"
                 }
             ]
         },
@@ -135,15 +139,15 @@
             "patterns": [
                 {
                     "name": "keyword.other.arithmeticop.ksp",
-                    "match": "(mod)\\b"
+                    "match": "\\b(mod)\\b"
                 },
                 {
                     "name": "keyword.other.boolop1.ksp",
-                    "match": "(and|or|not)\\b"
+                    "match": "\\b(and|or|not)\\b"
                 },
                 {
                     "name": "keyword.other.bitop2.ksp",
-                    "match": "(\\.and\\.|\\.or\\.|\\.not\\.)\\b"
+                    "match": "\\b(\\.and\\.|\\.or\\.|\\.not\\.)\\b"
                 }
             ]
         },
@@ -151,7 +155,7 @@
             "patterns": [
                 {
                     "name": "keyword.other.ksp",
-                    "match": "(on|end|function)\\b"
+                    "match": "\\b(on|end|function)\\b"
                 }
             ]
         }
