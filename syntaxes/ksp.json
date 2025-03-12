@@ -68,6 +68,10 @@
         "ksp_keyword": {
             "patterns": [
                 {
+                    "name": "variable.other.readwrite.ksp",
+                    "match": "(\\$|\\~|\\?|@|!|%)([0-9|a-z|A-Z|_]+)"
+                },
+                {
                     "name": "keyword.block.ksp",
                     "match": "\\b(on|end|function)\\b"
                 },
@@ -77,7 +81,7 @@
                 },
                 {
                     "name": "keyword.control.ksp",
-                    "match": "\\b(if|else|while|select|continue)\\b"
+                    "match": "\\b(if|else|while|select|continue|call|exit)\\b"
                 }
             ]
         },
