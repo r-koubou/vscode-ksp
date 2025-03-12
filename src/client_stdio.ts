@@ -18,7 +18,7 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
     OutputChannel.appendLine('KSP extension activating');
 
     const serverDirectory = context.asAbsolutePath('language_server');
-    const serverAssembly = `${serverDirectory}/KSPCompiler.Applications.LSServer.LanguageServerFramework.dll`;
+    const serverAssembly = `${serverDirectory}/KSPCompiler.Features.Applications.LanguageServer.LanguageServerFramework.dll`;
 
     OutputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
 
