@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 
 export const CONFIG_SECTION_NAME = 'ksp';
-export const CONFIG_LSP_SERVER_PORT = 'ksp.lspserver.port';
 
 export function getProperty<T>(key: string, defaultValue: T): T {
     const section: vscode.WorkspaceConfiguration

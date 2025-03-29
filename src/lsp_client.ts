@@ -1,16 +1,14 @@
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
-import { exec } from 'child_process';
-
-import * as constants from './constants';
+import * as DotnetInstall from './dotnet_install';
 import { OutputChannel } from './constants';
 
-export async function startLspClient(context: vscode.ExtensionContext): Promise<LanguageClient | null | undefined > {
+export async function startLspClient(context: vscode.ExtensionContext): Promise<LanguageClient | null | undefined> {
 
-    const result = await checkDotnetInstalled();
+    const result = await DotnetInstall.checkDotnetInstalled();
 
-    if(!result) {
+    if (!result) {
         OutputChannel.appendLine('KSP LSP failed to activate by missing .NET runtime');
         return null;
     }
@@ -52,26 +50,24 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
         OutputChannel.appendLine(reason);
     });
 
+    context.subscriptions.push(client);
+
     return client;
 }
 
-async function checkDotnetInstalled(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-        exec('dotnet --version', (error, stdout, stderr) => {
-            const version = stdout.trim();
-            if (error) {
-                vscode.window.showErrorMessage(
-                    `.NET Runtime is not installed. (Required version ${constants.RequiredDotnetVersion}.x for this extension)`,
-                    'Open installation page'
-                ).then(selection => {
-                    if (selection === 'Open installation page') {
-                        vscode.env.openExternal(vscode.Uri.parse(constants.DotnetInstallUrl));
-                    }
-                });
-                resolve(false);
-            } else {
-                resolve(true);
-            }
-        });
-    });
+export async function stopLspClient(context: vscode.ExtensionContext, client: LanguageClient | null | undefined) {
+    if (!client) {
+        return;
+    }
+
+    try {
+        await client.stop();
+        client.dispose();
+    } catch {}
+
+    const index = context.subscriptions.findIndex(d => d === client);
+    if (index !== -1) {
+        context.subscriptions.splice(index, 1);
+    }
+    OutputChannel.appendLine('KSP LSP server stopped');
 }

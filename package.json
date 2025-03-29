@@ -67,18 +67,17 @@
         ],
         "commands": [
             {
+                "command": "ksp.lsp.restart",
+                "category": "KSP",
+                "title": "Restart Language Server"
+            },
+            {
                 "command": "ksp.obfuscate",
                 "category": "KSP",
                 "title": "Obfuscate Code"
             }
         ],
-        "properties": {
-            "ksp.lspserver.port": {
-                "type": "number",
-                "default": 54321,
-                "description": "Port number for the KSP Language Server (default: 54321)"
-            }
-        }
+        "properties": {}
     },
     "engines": {
         "vscode": "^1.96.0"
