@@ -67,11 +67,17 @@
         ],
         "commands": [
             {
+                "command": "ksp.lsp.restart",
+                "category": "KSP",
+                "title": "Restart Language Server"
+            },
+            {
                 "command": "ksp.obfuscate",
                 "category": "KSP",
                 "title": "Obfuscate Code"
             }
-        ]
+        ],
+        "properties": {}
     },
     "engines": {
         "vscode": "^1.96.0"

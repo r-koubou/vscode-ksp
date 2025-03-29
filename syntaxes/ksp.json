@@ -8,42 +8,47 @@
     ],
     "patterns": [
         {
+            "include": "#comment"
+        },
+        {
+            "include": "#numerics_literal"
+        },
+        {
             "include": "#ksp_string_literal"
         },
         {
-            "include": "#ksp_numeric_literal"
+            "include": "#ksp_keyword"
         },
         {
-            "include": "#ksp_comments"
-        },
-        {
-            "include": "#ksp_callback_and_function"
+            "include": "#ksp_operator"
         },
         {
             "include": "#ksp_variable"
-        },
-        {
-            "include": "#ksp_control_statements"
-        },
-        {
-            "include": "#ksp_operators"
-        },
-        {
-            "include": "#ksp_other_keyword"
         }
     ],
     "repository": {
-        "ksp_comments": {
+        "comment": {
             "patterns": [
                 {
-                    "begin": "\\{",
-                    "captures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.ksp"
-                        }
-                    },
-                    "end": "\\}",
-                    "name": "comment.block.ksp"
+                    "name": "comment.ksp",
+                    "begin": "{",
+                    "end": "}"
+                }
+            ]
+        },
+        "numerics_literal": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.ksp",
+                    "match": "(0|[1-9][0-9]*)\\b"
+                },
+                {
+                    "name": "constant.numeric.ksp",
+                    "match": "(9[0-9|a-f|A-F]+h)\\b"
+                },
+                {
+                    "name": "constant.numeric.ksp",
+                    "match": "(\\.[0-9]+)\\b"
                 }
             ]
         },
@@ -51,107 +56,48 @@
             "patterns": [
                 {
                     "name": "string.quoted.double.ksp",
-                    "comment": "String literals",
                     "begin": "\"",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.string.begin.ksp"
-                        }
-                    },
-                    "end": "\"",
-                    "endCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.string.end.ksp"
-                        }
-                    }
+                    "end": "\""
                 },
                 {
-                    "name": "constant.character.escape.ksp",
+                    "name": "character.escape.ksp",
                     "match": "\\\\."
                 }
             ]
         },
-        "ksp_numeric_literal": {
+        "ksp_keyword": {
             "patterns": [
                 {
-                    "match": "(0|[1-9][0-9]*)\\b",
-                    "name": "constant.numeric.ksp"
-                },
-                {
-                    "match": "(9[0-9|a-f|A-F]+h)\\b",
-                    "name": "constant.numeric.ksp"
-                },
-                {
-                    "match": "(\\.[0-9]*)\\b",
-                    "name": "constant.numeric.ksp"
-                }
-            ]
-        },
-        "ksp_callback_and_function": {
-            "patterns": [
-                {
-                    "name": "keyword.callback.ksp",
-                    "match": "^\\s*on\\s+\\w+\\b"
-                },
-                {
-                    "name": "keyword.callback.ksp",
-                    "match": "^\\s*end\\s+on\\b"
-                },
-                {
-                    "name": "keyword.userfunction.ksp",
-                    "match": "^\\s*function\\s+\\b"
-                },
-                {
-                    "name": "keyword.userfunction.ksp",
-                    "match": "^\\s*end\\s+function\\b"
-                }
-            ]
-        },
-        "ksp_variable": {
-            "patterns": [
-                {
-                    "name": "variable.other.ksp",
+                    "name": "variable.other.readwrite.ksp",
                     "match": "(\\$|\\~|\\?|@|!|%)([0-9|a-z|A-Z|_]+)"
                 },
                 {
-                    "name": "keyword.declare.ksp",
-                    "match": "(declare|const|polyphonic)\\b"
+                    "name": "keyword.block.ksp",
+                    "match": "\\b(on|end|function)\\b"
                 },
                 {
-                    "name": "variable.preprocessor.ksp",
-                    "match": "(SET_CONDITION|RESET_CONDITION|USE_CODE_IF|USE_CODE_IF_NOT|END_USE_CODE|NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG)\\b"
+                    "name": "keyword.declaration.ksp",
+                    "match": "\\b(declare|const|polyphonic)\\b"
+                },
+                {
+                    "name": "keyword.control.ksp",
+                    "match": "\\b(if|else|while|select|continue|call|exit)\\b"
                 }
             ]
         },
-        "ksp_control_statements": {
+        "ksp_operator": {
             "patterns": [
                 {
-                    "name": "keyword.other.statements.ksp",
-                    "match": "(if|else|end\\s+if|select|case|to|end\\s+select|while|end\\s+while|continue|in_range)\\b"
-                }
-            ]
-        },
-        "ksp_operators": {
-            "patterns": [
-                {
-                    "name": "keyword.other.arithmeticop.ksp",
-                    "match": "(mod)\\b"
+                    "name": "keyword.other.operator.arithmeticop.ksp",
+                    "match": "\\b(mod)\\b"
                 },
                 {
-                    "name": "keyword.other.boolop1.ksp",
-                    "match": "(and|or|not)\\b"
+                    "name": "keyword.other.operator.bool.ksp",
+                    "match": "\\b(and|or|not)\\b"
                 },
                 {
-                    "name": "keyword.other.bitop2.ksp",
-                    "match": "(\\.and\\.|\\.or\\.|\\.not\\.)\\b"
-                }
-            ]
-        },
-        "ksp_other_keyword": {
-            "patterns": [
-                {
-                    "name": "keyword.other.ksp",
-                    "match": "(on|end|function)\\b"
+                    "name": "keyword.other.operator.bit.ksp",
+                    "match": "\\b(\\.and\\.|\\.or\\.|\\.not\\.)\\b"
                 }
             ]
         }
