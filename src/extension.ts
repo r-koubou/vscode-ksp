@@ -9,7 +9,10 @@ let client: LanguageClient | null | undefined = null;
 
 export async function activate(context: vscode.ExtensionContext) {
 
-    OutputChannel.show();
+    if (context.extensionMode === vscode.ExtensionMode.Development) {
+        OutputChannel.show();
+    }
+
     OutputChannel.appendLine('KSP extension activating');
 
     client = await startLspClient(context);
