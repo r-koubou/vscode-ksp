@@ -85,6 +85,9 @@
     "dependencies": {
         "vscode-languageclient": "^9.0.1"
     },
+    "extensionDependencies": [
+        "ms-dotnettools.vscode-dotnet-runtime"
+    ],
     "devDependencies": {
         "@types/mocha": "^10.0.10",
         "@types/node": "20.x",

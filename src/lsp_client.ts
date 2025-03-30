@@ -6,14 +6,12 @@ import { OutputChannel } from './constants';
 
 export async function startLspClient(context: vscode.ExtensionContext): Promise<LanguageClient | null | undefined> {
 
-    const result = await DotnetInstall.checkDotnetInstalled();
+    const dotnetPath = await DotnetInstall.getDotnetPath(context);
 
-    if (!result) {
-        OutputChannel.appendLine('KSP LSP failed to activate by missing .NET runtime');
+    if (!dotnetPath) {
+        OutputChannel.appendLine('KSP Language Server failed to activate by missing .NET runtime');
         return null;
     }
-
-    OutputChannel.appendLine('KSP extension activating');
 
     const serverDirectory = context.asAbsolutePath('language_server');
     const serverAssembly = `${serverDirectory}/KSPCompiler.Features.Applications.LanguageServer.LanguageServerFramework.dll`;
@@ -21,8 +19,8 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
     OutputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
 
     const serverOptions: ServerOptions = {
-        run: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } },
-        debug: { command: "dotnet", args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } }
+        run: { command: dotnetPath, args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } },
+        debug: { command: dotnetPath, args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } }
     };
 
     const clientOptions: LanguageClientOptions = {
@@ -32,7 +30,7 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
         ]
     };
 
-    OutputChannel.appendLine('KSP LSP server creating');
+    OutputChannel.appendLine('KSP Language Server creating');
 
     const client = new LanguageClient(
         'ksp',
@@ -41,12 +39,12 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
         clientOptions
     );
 
-    OutputChannel.appendLine('KSP LSP server created');
+    OutputChannel.appendLine('KSP Language server created');
 
     await client.start().then(() => {
-        OutputChannel.appendLine('KSP LSP server started');
+        OutputChannel.appendLine('KSP Language Server started');
     }).catch((reason) => {
-        OutputChannel.appendLine('KSP LSP server failed to start');
+        OutputChannel.appendLine('KSP Language Server failed to start');
         OutputChannel.appendLine(reason);
     });
 
@@ -63,11 +61,11 @@ export async function stopLspClient(context: vscode.ExtensionContext, client: La
     try {
         await client.stop();
         client.dispose();
-    } catch {}
+    } catch { }
 
     const index = context.subscriptions.findIndex(d => d === client);
     if (index !== -1) {
         context.subscriptions.splice(index, 1);
     }
-    OutputChannel.appendLine('KSP LSP server stopped');
+    OutputChannel.appendLine('KSP Language Server stopped');
 }
