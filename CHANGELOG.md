@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.9.0 (1.0.0-preview1)
+
+### 1st release of 1.0.0 PREVIEW version
+
+<details>
+<summary>Previous versions</summary>
+
 ## Version 0.7.30
 
 ### KONTAKT 8.1.0 ready (& includes omissions for variables added in K8.0)
@@ -1544,3 +1551,5 @@ Following features supported
 	* Events
 	* Commands
 	* Built-in Variables
+
+</details>
