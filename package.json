@@ -41,7 +41,6 @@
         "package-lock.json",
         "LICENSE",
         "README.md",
-        "README.ja.md",
         "NOTICE.md",
         "CHANGELOG.md"
     ],
@@ -92,7 +91,7 @@
         "@types/mocha": "^10.0.10",
         "@types/node": "20.x",
         "@types/vscode": "^1.96.0",
-        "@vscode/vsce": "^3.2.2",
+        "@vscode/vsce": "^3.3.2",
         "@typescript-eslint/eslint-plugin": "^8.17.0",
         "@typescript-eslint/parser": "^8.17.0",
         "esbuild": "^0.24.0",
