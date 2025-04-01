@@ -61,7 +61,8 @@ jobs:
         echo "${{ secrets.KSP_COMPILER_ACCESS_TOKEN }}" > $HOME/.ssh/id_rsa
         sudo chmod 600 $HOME/.ssh/id_rsa
         export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_rsa"
-        git submodule update --remote --recursive
+        git submodule update --init --recursive
+        git submodule update --remote
 
     #----------------------------------------------------------
     # Setup Node.js
