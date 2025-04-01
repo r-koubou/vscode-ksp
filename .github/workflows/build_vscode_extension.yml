@@ -41,8 +41,8 @@ jobs:
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-      COMPILER_BASE_DIR: ${{ github.workspace }}/submodules/KSPCompiler/Compiler/Applications/LSP/LSPServer.Embedded
-      COMPILER_PUBLISH_DIR: ${{ github.workspace }}/language_server
+      LSPSERVER_BASE_DIR: ${{ github.workspace }}/submodules/KSPCompiler/Compiler/Features/LanguageServer/Applications/LanguageServerFramework
+      LSPSERVER_PUBLISH_DIR: ${{ github.workspace }}/language_server
       ARTIFACTS_NAME: rkoubou-vscode-ksp
 
     steps:
@@ -61,7 +61,7 @@ jobs:
         echo "${{ secrets.KSP_COMPILER_ACCESS_TOKEN }}" > $HOME/.ssh/id_rsa
         sudo chmod 600 $HOME/.ssh/id_rsa
         export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_rsa"
-        git submodule update --init --recursive
+        git submodule update --remote --recursive
 
     #----------------------------------------------------------
     # Setup Node.js
@@ -88,8 +88,8 @@ jobs:
     #----------------------------------------------------------
     - name: Build
       run: |
-        pushd ${{ env.COMPILER_BASE_DIR }}
-        dotnet publish -c ${{ inputs.build-configuration }} -o ${{ env.COMPILER_PUBLISH_DIR }}
+        pushd ${{ env.LSPSERVER_BASE_DIR }}
+        dotnet publish -c ${{ inputs.build-configuration }} -o ${{ env.LSPSERVER_PUBLISH_DIR }}
         popd
 
     #----------------------------------------------------------
