@@ -1,8 +1,34 @@
 # Changelog
 
-## Version 0.9.0 (1.0.0-preview1)
+## Version 0.9.0
 
 ### 1st release of 1.0.0 PREVIEW version
+
+Redesigned and implemented from scratch.
+
+#### Commpiler Improvements
+
+- Language server protocol (LSP) supported
+    - Code Completion
+    - Document Symbol
+    - Go to Definition
+    - Find References in script
+    - Find Symbols
+    - Folding
+    - Hover
+    - Document Symbol
+    - Rename Refactoring
+    - Signature Help
+- Support for commands with argument overload
+- Support for document comments if comment is before declaration
+    - Variable
+    - User function
+
+#### Command
+
+- Command and argument descriptions are now displayed when hover is displayed. (if indicated in the KSP manual).
+- As of April 1, 2025, we rechecked the KSP manual and added all commands that we had missed.
+
 
 <details>
 <summary>Previous versions</summary>
