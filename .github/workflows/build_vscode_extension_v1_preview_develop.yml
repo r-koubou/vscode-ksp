@@ -14,6 +14,6 @@ jobs:
     uses: ./.github/workflows/build_vscode_extension.yml
     secrets: inherit
     with:
-      build-configuration: Debug
+      lsp-build-configuration: Debug
       preview-build: true
 

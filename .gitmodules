@@ -1,5 +1,0 @@
-[submodule "submodules/KSPCompiler"]
-	path = submodules/KSPCompiler
-	url = git@github.com:r-koubou/KSPCompiler.git
-    branch = develop
-
