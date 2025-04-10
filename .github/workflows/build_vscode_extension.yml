@@ -5,7 +5,7 @@ env:
 on:
   workflow_call:
     inputs:
-      build-configuration:
+      lsp-build-configuration:
         required: true
         type: string
       version:
@@ -19,7 +19,7 @@ on:
 
   workflow_dispatch:
     inputs:
-      build-configuration:
+      lsp-build-configuration:
         required: true
         type: choice
         options:
@@ -39,16 +39,14 @@ jobs:
   build-vscode-extension:
     runs-on: ubuntu-latest
     env:
-      DOTNET_CLI_TELEMETRY_OPTOUT: 1
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-      LSPSERVER_BASE_DIR: ${{ github.workspace }}/submodules/KSPCompiler/Compiler/Features/LanguageServer/Applications/LanguageServerFramework
+      LSPSERVER_REPO_URI: r-koubou/KSPCompiler
       LSPSERVER_PUBLISH_DIR: ${{ github.workspace }}/language_server
       ARTIFACTS_NAME: rkoubou-vscode-ksp
 
     steps:
     - name: Show workflow inputs
       run: |
-        echo Configuration: ${{ inputs.build-configuration }}
+        echo Download LSP Server Configuration: ${{ inputs.lsp-build-configuration }}
         echo Version: ${{ inputs.version }}
         echo Preview Build: ${{ inputs.preview-build }}
 
@@ -60,33 +58,37 @@ jobs:
         submodules: true
 
     #----------------------------------------------------------
+    # Setup for downloading Language Server
+    #----------------------------------------------------------
+    - name: Setup for downloading Language Server
+      run: |
+        mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
+
+        LSP_SERVER_LATEST_RELEASE=$(curl -s "https://api.github.com/repos/${{ env.LSPSERVER_REPO_URI }}/releases/latest" | jq -r '.tag_name')
+        echo "LSP_SERVER_RELEASE_TAG=$LSP_SERVER_LATEST_RELEASE" >> $GITHUB_ENV
+
+    #----------------------------------------------------------
+    # Download latest release of Language Server
+    #----------------------------------------------------------
+    - name: Download latest release of Language Server
+      run: |
+        pushd ${{ env.LSPSERVER_PUBLISH_DIR }}
+
+        curl -L -H "Accept: application/octet-stream" \
+             -o "__lsp_server.zip" \
+             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}.zip"
+
+        unzip "__lsp_server.zip"
+        rm -f "__lsp_server.zip"
+        popd
+
+    #----------------------------------------------------------
     # Setup Node.js
     #----------------------------------------------------------
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-
-    #----------------------------------------------------------
-    # Setup .NET SDK
-    #----------------------------------------------------------
-    - name: Setup .NET SDK
-      run: |
-        echo .NET SDK Version: ${{ env.DOTNET_SDK_VERSION }}
-    - name: Install .NET SDK
-      uses: actions/setup-dotnet@v4
-
-      with:
-        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
-
-    #----------------------------------------------------------
-    # Build compiler
-    #----------------------------------------------------------
-    - name: Build
-      run: |
-        pushd ${{ env.LSPSERVER_BASE_DIR }}
-        dotnet publish -c ${{ inputs.build-configuration }} -o ${{ env.LSPSERVER_PUBLISH_DIR }}
-        popd
 
     #----------------------------------------------------------
     # Upsert version value if `version` is not empty
