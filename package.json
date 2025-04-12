@@ -38,7 +38,6 @@
         "resources/**",
         "language-configuration.json",
         "package.json",
-        "package-lock.json",
         "LICENSE",
         "README.md",
         "NOTICE.md",
