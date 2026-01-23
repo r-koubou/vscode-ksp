@@ -1,10 +1,17 @@
 name: build-vscode-extension
 
-env:
-  DOTNET_SDK_VERSION: '9.0.*'
 on:
   workflow_call:
     inputs:
+      # LSP Server program version to download
+      # https://github.com/r-koubou/KSPCompiler/releases
+      lsp-program-version:
+        required: true
+        type: string
+        default: "latest"
+        description: |
+          Language Server program version to download (e.g.: v1.2.3).
+          see also: https://github.com/r-koubou/KSPCompiler/releases
       lsp-build-configuration:
         required: true
         type: string
@@ -12,6 +19,9 @@ on:
         required: false
         type: string
         default: ""
+        description: |
+          This vscode extension version to set in package.json (e.g.: 0.9.1).
+          If not set (empty), the version in package.json is not changed.
       preview-build:
         required: false
         type: boolean
@@ -19,6 +29,9 @@ on:
 
   workflow_dispatch:
     inputs:
+      lsp-program-version:
+        required: true
+        type: string
       lsp-build-configuration:
         required: true
         type: choice
@@ -60,19 +73,32 @@ jobs:
     #----------------------------------------------------------
     # Setup for downloading Language Server
     #----------------------------------------------------------
-    - name: Setup for downloading Language Server
+
+    # if lsp-program-version is 'latest', get the latest release tag
+    - name: Setup for downloading Language Server (latest)
+      if: ${{ inputs.lsp-program-version == 'latest' }}
       run: |
         mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
 
         LSP_SERVER_LATEST_RELEASE=$(curl -s "https://api.github.com/repos/${{ env.LSPSERVER_REPO_URI }}/releases/latest" | jq -r '.tag_name')
         echo "LSP_SERVER_RELEASE_TAG=$LSP_SERVER_LATEST_RELEASE" >> $GITHUB_ENV
 
+    # otherwise, use the specified version
+    - name: Setup for downloading Language Server (specific version)
+      if: ${{ inputs.lsp-program-version != 'latest' }}
+      run: |
+        mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
+        echo "LSP_SERVER_RELEASE_TAG=${{ inputs.lsp-program-version }}" >> $GITHUB_ENV
+
     #----------------------------------------------------------
-    # Download latest release of Language Server
+    # Download Language Server program
     #----------------------------------------------------------
-    - name: Download latest release of Language Server
+    - name: Download Language Server program
       run: |
         pushd ${{ env.LSPSERVER_PUBLISH_DIR }}
+
+        echo "Downloading Language Server version: ${{ env.LSP_SERVER_RELEASE_TAG }}"
+        echo "Build Configuration: ${{ inputs.lsp-build-configuration }}"
 
         curl -L -H "Accept: application/octet-stream" \
              -o "__lsp_server.zip" \
@@ -88,7 +114,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: '22.x'
 
     #----------------------------------------------------------
     # Upsert version value if `version` is not empty
