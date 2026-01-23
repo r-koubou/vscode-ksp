@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.9.2
+
+- Updated the required .NET version to 10
+    - Updated the language server, making .NET 10 a requirement
+
 ## Version 0.9.1
 
 ### KONTAKT 8.3.0 ready (includes omissions for variables added in K8.2)
