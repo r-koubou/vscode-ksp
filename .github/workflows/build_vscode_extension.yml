@@ -49,7 +49,7 @@ on:
         required: false
         type: string
         description: |
-          This vscode extension version
+          VSCode extension version (override)
       preview-build:
         required: false
         type: boolean
