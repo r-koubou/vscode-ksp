@@ -153,8 +153,21 @@ jobs:
         npm install
         npx @vscode/vsce package --pre-release
 
-    - name: Upload artifact
+    #----------------------------------------------------------
+    # Upload artifact
+    #----------------------------------------------------------
+    - name: Upload artifact (GitHub Actions)
+      if: ${{ env.ACT != 'true'}}
       uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.ARTIFACTS_NAME }}${{ env.ARTIFACT_SUFFIX }}
+        path: "*.vsix"
+
+    # Workaround for act (local runner)
+    # actions/upload-artifact@v4 does not work well with act
+    - name: Upload artifact (act)
+      if: ${{ env.ACT == 'true'}}
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.ARTIFACTS_NAME }}${{ env.ARTIFACT_SUFFIX }}
         path: "*.vsix"
