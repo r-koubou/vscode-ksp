@@ -83,6 +83,7 @@ jobs:
     steps:
     - name: Show workflow inputs
       run: |
+        echo Commit SHA: ${{ github.sha }}
         echo Download LSP Server Configuration: ${{ inputs.lsp-build-configuration }}
         echo Version: ${{ inputs.version }}
         echo Preview Flag in package.json: ${{ inputs.preview-flag }}
@@ -179,5 +180,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.ARTIFACTS_NAME }}${{ env.ARTIFACT_SUFFIX }}
+        name: ${{ env.ARTIFACTS_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
         path: "*.vsix"
