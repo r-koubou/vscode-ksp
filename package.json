@@ -78,7 +78,7 @@
         "properties": {}
     },
     "engines": {
-        "vscode": "^1.96.0"
+        "vscode": "^1.108.0"
     },
     "dependencies": {
         "vscode-languageclient": "^9.0.1"
@@ -88,14 +88,14 @@
     ],
     "devDependencies": {
         "@types/mocha": "^10.0.10",
-        "@types/node": "20.x",
-        "@types/vscode": "^1.96.0",
-        "@vscode/vsce": "^3.3.2",
-        "@typescript-eslint/eslint-plugin": "^8.17.0",
-        "@typescript-eslint/parser": "^8.17.0",
-        "esbuild": "^0.24.0",
-        "eslint": "^9.16.0",
-        "typescript": "^5.7.2"
+        "@types/node": "^22.19.7",
+        "@types/vscode": "^1.108.1",
+        "@vscode/vsce": "^3.7.1",
+        "@typescript-eslint/eslint-plugin": "^8.54.0",
+        "@typescript-eslint/parser": "^8.54.0",
+        "esbuild": "^0.27.2",
+        "eslint": "^9.39.2",
+        "typescript": "^5.8.3"
     },
     "scripts": {
         "vscode:prepublish": "npm run package",
