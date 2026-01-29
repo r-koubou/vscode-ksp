@@ -10,7 +10,7 @@ on:
         type: string
         default: "latest"
         description: |
-          Language Server program version to download (e.g.: v1.2.3).
+          Language Server program version to download (e.g.: v1.2.3, latest).
           see also: https://github.com/r-koubou/KSPCompiler/releases
       lsp-build-configuration:
         required: true
@@ -20,18 +20,25 @@ on:
         type: string
         default: ""
         description: |
-          This vscode extension version to set in package.json (e.g.: 0.9.1).
+          This vscode extension version to set in package.json (e.g.: 1.0.0).
           If not set (empty), the version in package.json is not changed.
       preview-build:
         required: false
         type: boolean
         default: false
+        description: |
+          It will be reflected in the "preview" field of package.json (default: false)
 
   workflow_dispatch:
     inputs:
       lsp-program-version:
         required: true
         type: string
+        default: "latest"
+        description: |
+          Language Server program version to download (e.g.: v1.2.3, latest).
+          The default is "latest".
+          See also: https://github.com/r-koubou/KSPCompiler/releases
       lsp-build-configuration:
         required: true
         type: choice
@@ -41,9 +48,15 @@ on:
       version:
         required: false
         type: string
+        description: |
+          This vscode extension version to set in package.json (e.g.: 1.0.0).
+          If not set (empty), the version in package.json is not changed.
       preview-build:
         required: false
         type: boolean
+        default: false
+        description: |
+          It will be reflected in the "preview" field of package.json (default: false)
 
 jobs:
   #--------------------------------------------------------------
