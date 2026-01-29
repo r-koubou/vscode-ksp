@@ -36,27 +36,26 @@ on:
         type: string
         default: "latest"
         description: |
-          Language Server program version to download (e.g.: v1.2.3, latest).
-          The default is "latest".
-          See also: https://github.com/r-koubou/KSPCompiler/releases
+          KSPCompiler version(e.g.: v1.2.3, latest)
       lsp-build-configuration:
         required: true
         type: choice
         options:
           - Debug
           - Release
+        description: |
+          Build configuration of KSPCompiler
       version:
         required: false
         type: string
         description: |
-          This vscode extension version to set in package.json (e.g.: 1.0.0).
-          If not set (empty), the version in package.json is not changed.
+          This vscode extension version
       preview-build:
         required: false
         type: boolean
         default: false
         description: |
-          It will be reflected in the "preview" field of package.json (default: false)
+          Build as preview version
 
 jobs:
   #--------------------------------------------------------------
