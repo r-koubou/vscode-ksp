@@ -1,211 +1,103 @@
 {
-    "scopeName":    "net.rkoubou.kontakt.ksp",
-    "name":         "KSP",
-    "comment":      "NI Kontakt Script syntax",
+    "scopeName": "source.kontakt.ksp.rkoubou",
+    "name": "KSP",
+    "comment": "NI Kontakt Script syntax",
     "fileTypes": [
         "ksp",
         "txt"
     ],
-
     "patterns": [
+        {
+            "include": "#comment"
+        },
+        {
+            "include": "#numerics_literal"
+        },
         {
             "include": "#ksp_string_literal"
         },
         {
-            "include": "#ksp_numeric_literal"
+            "include": "#ksp_keyword"
         },
         {
-            "include": "#ksp_comments"
+            "include": "#ksp_operator"
         },
         {
-            "include": "#ksp_callback"
-        },
-        {
-            "include": "#ksp_user_function"
-        },
-        {
-            "include": "#ksp_variables"
-        },
-        {
-            "include": "#ksp_ui_controls"
-        },
-        {
-            "include": "#ksp_control_statements"
-        },
-        {
-            "include": "#ksp_operators"
-        },
-        {
-            "include": "#ksp_builtin_commands"
-        },
-        {
-            "include": "#ksp_other_keyword"
-        },
-        {
-            "include": "#ksp_ident"
+            "include": "#ksp_variable"
         }
     ],
-    "repository":
-    {
-        "ksp_string_literal":
-        {
-            "patterns":[
+    "repository": {
+        "comment": {
+            "patterns": [
                 {
-                    "name":    "string.quoted.double.ksp",
-                    "comment": "String literals",
+                    "name": "comment.ksp",
+                    "begin": "{",
+                    "end": "}"
+                }
+            ]
+        },
+        "numerics_literal": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.ksp",
+                    "match": "(0|[1-9][0-9]*)\\b"
+                },
+                {
+                    "name": "constant.numeric.ksp",
+                    "match": "(9[0-9|a-f|A-F]+h)\\b"
+                },
+                {
+                    "name": "constant.numeric.ksp",
+                    "match": "(\\.[0-9]+)\\b"
+                }
+            ]
+        },
+        "ksp_string_literal": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.ksp",
                     "begin": "\"",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.string.begin.ksp"
-                        }
-                    },
-                    "end": "\"",
-                    "endCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.string.end.ksp"
-                        }
-                    }
+                    "end": "\""
                 },
                 {
-                    "match": "\\\\.",
-                    "name": "constant.character.escape.ksp"
-                }
-
-            ]
-        },
-        "ksp_numeric_literal":
-        {
-            "patterns":[
-                {
-                    "match": "(0|[1-9][0-9]*)\\b",
-                    "name": "constant.numeric.ksp"
-                },
-                {
-                    "match": "(9[0-9|a-f|A-F]+h)\\b",
-                    "name": "constant.numeric.ksp"
-                },
-                {
-                    "match": "(\\.[0-9]*)\\b",
-                    "name": "constant.numeric.ksp"
+                    "name": "character.escape.ksp",
+                    "match": "\\\\."
                 }
             ]
         },
-        "ksp_comments":
-        {
-            "patterns":[
+        "ksp_keyword": {
+            "patterns": [
                 {
-                    "begin": "\\{",
-                    "captures":
-                    {
-                        "0":
-                        {
-                            "name": "punctuation.definition.comment.ksp"
-                        }
-                    },
-                    "end": "\\}",
-                    "name":"comment.block.ksp"
-                }
-            ]
-        },
-        "ksp_ident":
-        {
-            "patterns":[
-                { "match": "([a-z|A-Z|_]+[a-z|A-Z|_|0-9]*)" }
-            ]
-        },
-        "ksp_callback":
-        {
-            "patterns":[
-                {
-                    "name":  "keyword.callback.ksp",
-                    "match": "^\\s*on\\s+(_pgs_changed|async_complete|controller|init|listener|midi_in|note|note_controller|nrpn|persistence_changed|pgs_changed|poly_at|release|rpn|ui_control|ui_controls|ui_update)\\b"
-                },
-                {
-                    "name":  "keyword.callback.ksp",
-                    "match": "^\\s*end\\s+on\\b"
-                }
-            ]
-        },
-        "ksp_user_function":
-        {
-            "patterns":[
-                {
-                    "name":  "keyword.userfunction.ksp",
-                    "match": "^\\s*function\\s+\\b"
-                },
-                {
-                    "name":  "keyword.userfunction.ksp",
-                    "match": "^\\s*end\\s+function\\b"
-                }
-            ]
-        },
-        "ksp_variables":
-        {
-            "patterns":[
-                {
-                    "name":  "variable.other.ksp",
+                    "name": "variable.other.readwrite.ksp",
                     "match": "(\\$|\\~|\\?|@|!|%)([0-9|a-z|A-Z|_]+)"
                 },
                 {
-                    "name":  "keyword.declare.ksp",
-                    "match": "(declare|const|polyphonic)\\b"
+                    "name": "keyword.block.ksp",
+                    "match": "\\b(on|end|function)\\b"
                 },
                 {
-                    "name": "variable.preprocessor.ksp",
-                    "match": "(SET_CONDITION|RESET_CONDITION|USE_CODE_IF|USE_CODE_IF_NOT|END_USE_CODE|NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG)\\b"
-                }
-            ]
-        },
-        "ksp_ui_controls":
-        {
-            "patterns":[
-                {
-                    "name":  "keyword.other.ui.ksp",
-                    "match": "(ui_button|ui_file_selector|ui_label|ui_knob|ui_level_meter|ui_menu|ui_mouse_area|ui_panel|ui_slider|ui_switch|ui_table|ui_text_edit|ui_value_edit|ui_waveform|ui_wavetable|ui_xy)\\b"
-                }
-            ]
-        },
-        "ksp_control_statements":
-        {
-            "patterns":[
-                {
-                    "name":  "keyword.other.statements.ksp",
-                    "match": "(if|else|end\\s+if|select|case|to|end\\s+select|while|end\\s+while|continue|in_range)\\b"
-                }
-            ]
-        },
-        "ksp_operators":
-        {
-            "patterns":[
-                {
-                    "name":  "keyword.other.arithmeticop.ksp",
-                    "match": "(mod)\\b"
+                    "name": "keyword.declaration.ksp",
+                    "match": "\\b(declare|const|polyphonic)\\b"
                 },
                 {
-                    "name":  "keyword.other.boolop1.ksp",
-                    "match": "(and|or|not)\\b"
+                    "name": "keyword.control.ksp",
+                    "match": "\\b(if|else|while|select|continue|call|exit)\\b"
+                }
+            ]
+        },
+        "ksp_operator": {
+            "patterns": [
+                {
+                    "name": "keyword.other.operator.arithmeticop.ksp",
+                    "match": "\\b(mod)\\b"
                 },
                 {
-                    "name":  "keyword.other.bitop2.ksp",
-                    "match": "(\\.and\\.|\\.or\\.|\\.not\\.)\\b"
-                }
-            ]
-        },
-        "ksp_builtin_commands":
-        {
-            "patterns":[
+                    "name": "keyword.other.operator.bool.ksp",
+                    "match": "\\b(and|or|not)\\b"
+                },
                 {
-                    "name":  "support.function.builtin.ksp",
-                    "match": "(_delay_event_for_loading_slots|_get_engine_par|_get_engine_par_disp|_get_folder|_load_ir_sample|_num_slices|_pgs_create_key|_pgs_get_key_val|_pgs_key_exists|_pgs_set_key_val|_read_persistent_var|_reset_rls_trig_counter|_set_engine_par|_set_skin_offset|_slice_idx_loop_end|_slice_idx_loop_start|_slice_length|_slice_loop_count|_slice_start|_will_never_terminate|abs|acos|add_menu_item|add_text_line|allow_group|array_equal|asin|atan|attach_level_meter|attach_zone|bitwise_and|bitwise_not|bitwise_or|by_marks|by_track|call|cbrt|cc_delivery_request|ceil|change_listener_par|change_note|change_pan|change_time_with_pitch|change_tune|change_velo|change_vol|connect_view|cos|dec|delete_event_mark|detect_drum_type|detect_instrument_type|detect_key|detect_loudness|detect_peak|detect_pitch|detect_rms|detect_sample_type|detect_tempo|disable_logging|disallow_group|dont_use_machine_mode|END_USE_CODE|event_status|exit|exp|fade_in|fade_out|find_group|find_mod|find_target|find_zone|floor|fs_get_filename|fs_navigate|function|get_control_par|get_control_par_arr|get_control_par_real_arr|get_control_par_str|get_control_par_str_arr|get_engine_par|get_engine_par_disp|get_engine_par_disp_ext|get_engine_par_disp_m|get_engine_par_m|get_event_ids|get_event_mark|get_event_par|get_event_par_arr|get_folder|get_font_id|get_group_idx|get_key_color|get_key_name|get_key_triggerstate|get_key_type|get_keyrange_max_note|get_keyrange_min_note|get_keyrange_name|get_loop_par|get_loop_sample|get_menu_item_str|get_menu_item_value|get_menu_item_visibility|get_mod_idx|get_num_zones|get_purge_state|get_sample_length|get_sel_zones_idx|get_target_idx|get_ui_id|get_ui_wf_property|get_voice_limit|get_zone_id|get_zone_par|get_zone_status|group_name|hide_part|ignore_controller|ignore_event|ignore_midi|in_range|inc|int|int_to_real|is_zone_empty|load_array|load_array_str|load_ir_sample|load_ir_sample_m|load_komplete_ui|load_midi_file|load_patch|load_performance_view|log|lsb|make_instr_persistence|make_instr_persistent|make_perfview|make_persistent|message|mf_copy_export_area|mf_get_buffer_size|mf_get_byte_one|mf_get_byte_two|mf_get_channel|mf_get_command|mf_get_event_par|mf_get_first|mf_get_id|mf_get_last|mf_get_last_filename|mf_get_mark|mf_get_next|mf_get_next_at|mf_get_note_length|mf_get_num_tracks|mf_get_pos|mf_get_prev|mf_get_prev_at|mf_get_track_idx|mf_insert_event|mf_insert_file|mf_remove_event|mf_reset|mf_set_buffer_size|mf_set_byte_one|mf_set_byte_two|mf_set_channel|mf_set_command|mf_set_event_par|mf_set_export_area|mf_set_mark|mf_set_num_export_areas|mf_set_pos|mod|move_control|move_control_px|ms_to_ticks|msb|NO_SYS_SCRIPT_GROUP_START|NO_SYS_SCRIPT_PEDAL|NO_SYS_SCRIPT_RLS_TRIG|note_off|num_elements|num_slices|num_slices_zone|output_channel_name|pgs_create_key|pgs_create_str_key|pgs_get_key_val|pgs_get_str_key_val|pgs_key_exists|pgs_set_key_val|pgs_set_str_key_val|pgs_str_key_exists|play_note|pow|purge_group|random|read_persistent_var|real|real_to_int|redirect_midi|redirect_output|remove_keyrange|RESET_CONDITION|reset_engine|reset_ksp_timer|reset_rls_trig_counter|round|save_array|save_array_str|save_midi_file|search|SET_CONDITION|set_control_help|set_control_par|set_control_par_arr|set_control_par_str|set_control_par_str_arr|set_controller|set_engine_par|set_engine_par_m|set_event_mark|set_event_par|set_event_par_arr|set_key_color|set_key_name|set_key_pressed|set_key_pressed_support|set_key_type|set_keyrange|set_knob_defval|set_knob_label|set_knob_unit|set_listener|set_loop_par|set_map_editor_event_color|set_menu_item_str|set_menu_item_value|set_menu_item_visibility|set_midi|set_note_controller|set_nrpn|set_num_user_zones|set_poly_at|set_rpn|set_sample|set_script_title|set_skin_offset|set_snapshot_type|set_table_steps_shown|set_text|set_ui_color|set_ui_height|set_ui_height_px|set_ui_wf_property|set_ui_width_px|set_voice_limit|set_zone_par|sgn|sh_left|sh_right|show_library_tab|signbit|sin|slice_idx_loop_end|slice_idx_loop_start|slice_length|slice_loop_count|slice_start|sort|sqrt|stop_wait|tan|ticks_to_ms|unload_slot|USE_CODE_IF|USE_CODE_IF_NOT|wait|wait_async|wait_ticks|watch_array_idx|watch_var|will_never_terminate|zone_slice_idx_loop_end|zone_slice_idx_loop_start|zone_slice_length|zone_slice_loop_count|zone_slice_start)\\b"
-                }
-            ]
-        },
-        "ksp_other_keyword":
-        {
-            "patterns":[
-                {
-                    "name":  "keyword.other.ksp",
-                    "match": "(on|end|function)\\b"
+                    "name": "keyword.other.operator.bit.ksp",
+                    "match": "\\b(\\.and\\.|\\.or\\.|\\.not\\.)\\b"
                 }
             ]
         }

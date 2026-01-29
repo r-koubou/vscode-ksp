@@ -1,0 +1,147 @@
+name: build-vscode-extension
+
+on:
+  workflow_call:
+    inputs:
+      # LSP Server program version to download
+      # https://github.com/r-koubou/KSPCompiler/releases
+      lsp-program-version:
+        required: true
+        type: string
+        default: "latest"
+        description: |
+          Language Server program version to download (e.g.: v1.2.3).
+          see also: https://github.com/r-koubou/KSPCompiler/releases
+      lsp-build-configuration:
+        required: true
+        type: string
+      version:
+        required: false
+        type: string
+        default: ""
+        description: |
+          This vscode extension version to set in package.json (e.g.: 0.9.1).
+          If not set (empty), the version in package.json is not changed.
+      preview-build:
+        required: false
+        type: boolean
+        default: false
+
+  workflow_dispatch:
+    inputs:
+      lsp-program-version:
+        required: true
+        type: string
+      lsp-build-configuration:
+        required: true
+        type: choice
+        options:
+          - Debug
+          - Release
+      version:
+        required: false
+        type: string
+      preview-build:
+        required: false
+        type: boolean
+
+jobs:
+  #--------------------------------------------------------------
+  # Build VSCode extension
+  #--------------------------------------------------------------
+  build-vscode-extension:
+    runs-on: ubuntu-latest
+    env:
+      LSPSERVER_REPO_URI: r-koubou/KSPCompiler
+      LSPSERVER_PUBLISH_DIR: ${{ github.workspace }}/language_server
+      ARTIFACTS_NAME: rkoubou-vscode-ksp
+
+    steps:
+    - name: Show workflow inputs
+      run: |
+        echo Download LSP Server Configuration: ${{ inputs.lsp-build-configuration }}
+        echo Version: ${{ inputs.version }}
+        echo Preview Build: ${{ inputs.preview-build }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+        submodules: true
+
+    #----------------------------------------------------------
+    # Setup for downloading Language Server
+    #----------------------------------------------------------
+
+    # if lsp-program-version is 'latest', get the latest release tag
+    - name: Setup for downloading Language Server (latest)
+      if: ${{ inputs.lsp-program-version == 'latest' }}
+      run: |
+        mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
+
+        LSP_SERVER_LATEST_RELEASE=$(curl -s "https://api.github.com/repos/${{ env.LSPSERVER_REPO_URI }}/releases/latest" | jq -r '.tag_name')
+        echo "LSP_SERVER_RELEASE_TAG=$LSP_SERVER_LATEST_RELEASE" >> $GITHUB_ENV
+
+    # otherwise, use the specified version
+    - name: Setup for downloading Language Server (specific version)
+      if: ${{ inputs.lsp-program-version != 'latest' }}
+      run: |
+        mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
+        echo "LSP_SERVER_RELEASE_TAG=${{ inputs.lsp-program-version }}" >> $GITHUB_ENV
+
+    #----------------------------------------------------------
+    # Download Language Server program
+    #----------------------------------------------------------
+    - name: Download Language Server program
+      run: |
+        pushd ${{ env.LSPSERVER_PUBLISH_DIR }}
+
+        echo "Downloading Language Server version: ${{ env.LSP_SERVER_RELEASE_TAG }}"
+        echo "Build Configuration: ${{ inputs.lsp-build-configuration }}"
+
+        curl -L -H "Accept: application/octet-stream" \
+             -o "__lsp_server.zip" \
+             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}.zip"
+
+        unzip "__lsp_server.zip"
+        rm -f "__lsp_server.zip"
+        popd
+
+    #----------------------------------------------------------
+    # Setup Node.js
+    #----------------------------------------------------------
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22.x'
+
+    #----------------------------------------------------------
+    # Upsert version value if `version` is not empty
+    #----------------------------------------------------------
+    - name: Upsert version value
+      if: ${{ inputs.version != '' }}
+      run: |
+        sed -i.bak -e "s/\"version\": \".*\"/\"version\": \"${{ inputs.version }}\"/" package.json
+        echo "ARTIFACT_SUFFIX=-v${{ inputs.version }}" >> $GITHUB_ENV
+
+    #----------------------------------------------------------
+    # Build VSCode extension
+    #----------------------------------------------------------
+    - name: Build VSCode extension
+      if: ${{ inputs.preview-build == false }}
+      run: |
+        npm install
+        npx @vscode/vsce package
+
+    - name: Build VSCode extension (preview)
+      if: ${{ inputs.preview-build == true }}
+      run: |
+        npm install
+        npx @vscode/vsce package --pre-release
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.ARTIFACTS_NAME }}${{ env.ARTIFACT_SUFFIX }}
+        path: "*.vsix"

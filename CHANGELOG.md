@@ -1,5 +1,63 @@
 # Changelog
 
+## Version 0.9.2
+
+- Updated the required .NET version to 10
+    - Updated the language server, making .NET 10 a requirement
+
+## Version 0.9.1
+
+### KONTAKT 8.3.0 ready (includes omissions for variables added in K8.2)
+
+#### Variable
+
+- $ENGINE_PAR_FILTER_FEEDBACK
+- $ENGINE_PAR_FILTER_FEEDBACK_TYPE
+- $ENGINE_PAR_FILTER_FM
+- $ENGINE_PAR_HP_RESONANCE
+- $ENGINE_PAR_LP_RESONANCE
+- $FILTER_TYPE_DUAL_SKF
+- $FILTER_TYPE_MONARK_BP
+- $FILTER_TYPE_MONARK_LP1
+- $FILTER_TYPE_MONARK_LP2
+- $FILTER_TYPE_MONARK_LP4
+- $NI_FILTER_FEEDBACK_TYPE_A
+- $NI_FILTER_FEEDBACK_TYPE_B
+- $NI_FILTER_FEEDBACK_TYPE_OFF
+
+## Version 0.9.0
+
+### 1st release of 1.0.0 PREVIEW version
+
+Redesigned and implemented from scratch.
+
+#### Commpiler Improvements
+
+- Language server protocol (LSP) supported
+    - Code Completion
+    - Document Symbol
+    - Go to Definition
+    - Find References in script
+    - Find Symbols
+    - Folding
+    - Hover
+    - Document Symbol
+    - Rename Refactoring
+    - Signature Help
+- Support for commands with argument overload
+- Support for document comments if comment is before declaration
+    - Variable
+    - User function
+
+#### Command
+
+- Command and argument descriptions are now displayed when hover is displayed. (if indicated in the KSP manual).
+- As of April 1, 2025, we rechecked the KSP manual and added all commands that we had missed.
+
+
+<details>
+<summary>Previous versions</summary>
+
 ## Version 0.7.30
 
 ### KONTAKT 8.1.0 ready (& includes omissions for variables added in K8.0)
@@ -1544,3 +1602,5 @@ Following features supported
 	* Events
 	* Commands
 	* Built-in Variables
+
+</details>

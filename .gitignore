@@ -1,14 +1,11 @@
 # for vsce
 out
+dist
 node_modules
 npm-debug.log
 *.vsix
 package-lock.json
 
 # for me
-.temp/
-__pycache__/
-
-*.pyc
-**/a.txt
-~$*.xlsx
+language_server
+.[Tt]emp/
