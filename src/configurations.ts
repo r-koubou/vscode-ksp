@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 
 export const CONFIG_SECTION_NAME = 'ksp';
 
-export function getProperty<T>(key: string, defaultValue: T): T {
+export function getProperty<T>(key: string, defaultValue: T): T | undefined {
     const section: vscode.WorkspaceConfiguration
         = vscode.workspace.getConfiguration(CONFIG_SECTION_NAME);
 
@@ -10,18 +10,18 @@ export function getProperty<T>(key: string, defaultValue: T): T {
         return defaultValue;
     }
 
-    const instpect = section.inspect<T>(key);
+    const inspect = section.inspect<T>(key);
 
     let result: T = defaultValue;
 
-    if (!instpect) {
+    if (!inspect) {
         return result;
     }
 
-    if (instpect.workspaceValue !== undefined && instpect.workspaceValue !== null) {
-        result = instpect.workspaceValue;
-    } else if (instpect.globalValue !== undefined && instpect.globalValue !== null) {
-        result = instpect.globalValue;
+    if (inspect.workspaceValue !== undefined && inspect.workspaceValue !== null) {
+        result = inspect.workspaceValue;
+    } else if (inspect.globalValue !== undefined && inspect.globalValue !== null) {
+        result = inspect.globalValue;
     }
 
     return result;
