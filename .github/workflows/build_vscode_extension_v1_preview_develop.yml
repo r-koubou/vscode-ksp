@@ -16,4 +16,4 @@ jobs:
     with:
       lsp-program-version: latest
       lsp-build-configuration: Debug
-      preview-build: true
+      preview-flag: true
