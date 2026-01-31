@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 1.0.0
+
+### Official release of v1.0.0 🚀
+
+- KSP compiler has redesigned and implemented from scratch
+    * Improved script analysis
+    * Language Server Protocol (LSP) supported
+
 ## Version 0.9.2
 
 - Updated the required .NET version to 10

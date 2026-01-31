@@ -1,45 +1,39 @@
 # Language support for NI KONTAKT(TM) Script Processor (KSP) PREVIEW
 
-## This extension is in "PREVIEW" version
-
-**If you have already installed previous version of [KONTAKT Script Processor (KSP)](https://marketplace.visualstudio.com/items?itemName=rkoubou.ksp), please uninstall it before installing this extension.**
-
-
 ## KSP Compatibility
 
 - KONTAKT 8.x / 7.x / 6.x / 5.x
 
-## Updates from previous extensions
+## What's New in v1.0.0
 
-* KSP compiler was redesigned and implemented from scratch using dotnet/C#
-    * Improved script analysis
-    * Language Server Protocol (LSP) supported
+- Extension and compiler was redesigned and implemented from scratch (See also [CHANGELOG](CHANGELOG.md))
 
 ## Features
 
-* Syntax Highlighting
-* Syntax Analysis
-* Semantic Analysis
-* Code Completion
-* Document Symbol
-* Go to Definition
-* Find References in script
-* Find Symbols
-* Folding
-* Hover
-* Document Symbol
-* Rename Refactoring
-* Signature Help
-* Obfuscation
+- Syntax Analysis / Semantic Analysis
+    ![](resources/readme/analysis.jpg)
+
+- Completion
+    ![](resources/readme/completion.gif)
+
+- Document Symbol
+    ![](resources/readme/document_symbol.jpg)
+
+- Go to Definition
+- Find References in script
+    ![](resources/readme/find_references_01.gif)
+    ![](resources/readme/find_references_02.gif)
+
+- Hover
+    - Built-in command / variable information
+    - ![](resources/readme/hover_01.jpg)
+    - Comments for user-defined variables and function definitions (Markdown support)
+    - ![](resources/readme/hover_02.jpg)
 
 
-## Requirements
-
-* .NET Install Tool
-    * Install with this extension automatically if not installed
-* .NET Runtime
-    * Automatically installed by .NET Install Tool
-
+- Rename
+- Signature Help
+- Obfuscation
 
 ## Obfuscate a Script
 
@@ -55,10 +49,9 @@
 2. Select `Restart Language Server`
 
 
-## TODO
+## Limitations
 
-* Detect unused variables
-* Tweak / bug fix if needed
+- Extended syntax is not supported
 
 ## Source code
 
