@@ -1,4 +1,6 @@
-# Language support for NI KONTAKT(TM) Script Processor (KSP) PREVIEW
+# Language support for NI KONTAKT Script Processor (KSP)
+
+![Screenshot](resources/readme/screenshot.png)
 
 ## KSP Compatibility
 
@@ -6,74 +8,60 @@
 
 ## What's New in v1.0.0
 
-- Extension and compiler was redesigned and implemented from scratch (See also [CHANGELOG](CHANGELOG.md))
+Since v0.9.0, the extension and the compiler have been completely redesigned and re-implemented from scratch.
+See also: [CHANGELOG](CHANGELOG.md)
 
 ## Features
 
-- Syntax Analysis / Semantic Analysis
-    ![](resources/readme/analysis.jpg)
+Helps you edit KONTAKT Script Processor (KSP) scripts.
+This extension includes a language server and provides the following features:
 
-- Completion
-    ![](resources/readme/completion.gif)
-
-- Document Symbol
-    ![](resources/readme/document_symbol.jpg)
-
+- Syntax and semantic analysis (diagnostics)
+- Code completion
+- Outline (document symbols)
 - Go to Definition
-- Find References in script
-    ![](resources/readme/find_references_01.gif)
-    ![](resources/readme/find_references_02.gif)
-
+- Find All References
 - Hover
-    - Built-in command / variable information
-    - ![](resources/readme/hover_01.jpg)
-    - Comments for user-defined variables and function definitions (Markdown support)
-    - ![](resources/readme/hover_02.jpg)
-
-
-- Rename
-- Signature Help
+  - Built-in command and variable information
+  - Markdown documentation from comments on user-defined variables and function definitions
+- Rename Symbol
+- Signature Help (parameter hints)
 - Obfuscation
 
 ## Obfuscate a Script
 
-1. Open a Script file
-2. Set language mode to `ksp`
-3. Open command palette and type `ksp`
-4. Select `Obfuscate`
+1. Open a script file.
+2. Set the language mode to `ksp`.
+3. Open the Command Palette and type `ksp`.
+4. Select `Obfuscate`.
 
+## Restart the Language Server
 
-## Restart Language Server
-
-1. Open command palette and type `ksp`
-2. Select `Restart Language Server`
-
+1. Open the Command Palette and type `ksp`.
+2. Select `Restart Language Server`.
 
 ## Limitations
 
-- Extended syntax is not supported
+- Extended syntax is not supported.
 
-## Source code
+## Source Code
 
-[github repository](https://github.com/r-koubou/vscode-ksp)
+- Extension: [GitHub repository](https://github.com/r-koubou/vscode-ksp)
+- Compiler, Language Server: [GitHub repository](https://github.com/r-koubou/KSPCompiler)
 
-### License
+## License
 
 [MIT License](https://github.com/r-koubou/vscode-ksp/blob/master/LICENSE)
-
-## Source code of KSP Compler
-
-[github repository](https://github.com/r-koubou/KSPCompiler)
 
 ## Author
 
 R-Koubou
 
-* Twitter: [@rkoubou_jp](https://twitter.com/rkoubou_jp)
-* GitHub:  [https://github.com/r-koubou/](https://github.com/r-koubou/)
+- Twitter: [@rkoubou_jp](https://twitter.com/rkoubou_jp)
+- GitHub: [https://github.com/r-koubou/](https://github.com/r-koubou/)
 
 ## About KONTAKT
 
-KONTAKT is registered trademarks of Native Instruments GmbH.
+KONTAKT is a registered trademark of Native Instruments GmbH.
 
 [https://www.native-instruments.com/](https://www.native-instruments.com/)
