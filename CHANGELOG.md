@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.9.3
+
+### Deprecated this extension
+
+We plan to release the official v1.0.0 version soon. Accordingly, this extension will be deprecated.
+Please uninstall this extension and install the official version from the link below.
+
+https://marketplace.visualstudio.com/items?itemName=rkoubou.ksp
+
+\* This extension will be removed from the marketplace around **March 1, 2026 (Japan Standard Time)**.
+
 ## Version 0.9.2
 
 - Updated the required .NET version to 10

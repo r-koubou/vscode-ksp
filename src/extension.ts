@@ -10,13 +10,23 @@ let client: LanguageClient | null | undefined = null;
 
 export async function activate(context: vscode.ExtensionContext) {
 
+    // Announcement message for the official release of v1.0.0
+    vscode.window.showWarningMessage(
+        '[KSP v1.0.0-Preview] This extension is deprecated. Please read the README for details.',
+        { modal: false }
+    );
+
+    const uri = vscode.Uri.joinPath(context.extensionUri, 'README.md');
+    try {
+        vscode.commands.executeCommand('markdown.showPreview', uri);
+    } catch {
+        const doc = await vscode.workspace.openTextDocument(uri);
+        vscode.window.showTextDocument(doc, { preview: false });
+    }
+    // ~Announcement message for the official release of v1.0.0
+
     if (context.extensionMode === vscode.ExtensionMode.Development) {
         OutputChannel.show();
-    }
-
-    if (!await checkPreviousExtensionInstallation()) {
-        OutputChannel.appendLine('Previous extension installation detected. Activation aborted.');
-        return;
     }
 
     OutputChannel.appendLine('KSP extension activating');
@@ -34,27 +44,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export function deactivate(): Thenable<void> | undefined {
     return Promise.resolve();
-}
-
-async function checkPreviousExtensionInstallation(): Promise<boolean> {
-    const previousExtension = vscode.extensions.getExtension('rkoubou.ksp');
-    if (previousExtension) {
-        let uninstalled = false;
-        const message = 'The regular version of the KSP extension `rkoubou.ksp` is installed. Please uninstall it to use this preview version.';
-        OutputChannel.appendLine(message);
-        await vscode.window.showErrorMessage(
-            message,
-            { title: 'Uninstall and Reload window' }).then(async (selection) => {
-                if (selection) {
-                    await vscode.commands.executeCommand('workbench.extensions.uninstallExtension', previousExtension.id);
-                    await vscode.commands.executeCommand('workbench.action.reloadWindow');
-                    uninstalled = true;
-                }
-            });
-
-        return Promise.resolve(uninstalled);
-    }
-    return Promise.resolve(true);
 }
 
 function checkClientInitialized() {
