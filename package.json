@@ -1,7 +1,7 @@
 {
     "name": "ksp-v1-preview",
     "displayName": "KONTAKT Script Processor (KSP) [v1.0 Pre-Release]",
-    "description": "Deprecated. Plaease read the README.md",
+    "description": "[DEPRECATED] Plaease read the README.md",
     "version": "0.9.3",
     "preview": true,
     "publisher": "rkoubou",
