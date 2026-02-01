@@ -1,86 +1,21 @@
 # Language support for NI KONTAKT(TM) Script Processor (KSP) PREVIEW
 
-## This extension is in "PREVIEW" version
+## This extension was DEPRECATED
 
-**If you have already installed previous version of [KONTAKT Script Processor (KSP)](https://marketplace.visualstudio.com/items?itemName=rkoubou.ksp), please uninstall it before installing this extension.**
+### English
 
+We plan to release the official v1.0.0 version soon. Accordingly, this extension will be deprecated.
+Please uninstall this extension and install the official version from the link below.
 
-## KSP Compatibility
+https://marketplace.visualstudio.com/items?itemName=rkoubou.ksp
 
-- KONTAKT 8.x / 7.x / 6.x / 5.x
+\* This extension will be removed from the marketplace around **March 1, 2026 (Japan Standard Time)**.
 
-## Updates from previous extensions
+### 日本語
 
-* KSP compiler was redesigned and implemented from scratch using dotnet/C#
-    * Improved script analysis
-    * Language Server Protocol (LSP) supported
+近日中に v1.0.0 正式版をリリース予定です。それに伴いこの拡張機能は非推奨となります。
+この拡張機能をアンインストールし、正式版は以下のリンクからインストールしてください。
 
-## Features
+https://marketplace.visualstudio.com/items?itemName=rkoubou.ksp
 
-* Syntax Highlighting
-* Syntax Analysis
-* Semantic Analysis
-* Code Completion
-* Document Symbol
-* Go to Definition
-* Find References in script
-* Find Symbols
-* Folding
-* Hover
-* Document Symbol
-* Rename Refactoring
-* Signature Help
-* Obfuscation
-
-
-## Requirements
-
-* .NET Install Tool
-    * Install with this extension automatically if not installed
-* .NET Runtime
-    * Automatically installed by .NET Install Tool
-
-
-## Obfuscate a Script
-
-1. Open a Script file
-2. Set language mode to `ksp`
-3. Open command palette and type `ksp`
-4. Select `Obfuscate`
-
-
-## Restart Language Server
-
-1. Open command palette and type `ksp`
-2. Select `Restart Language Server`
-
-
-## TODO
-
-* Detect unused variables
-* Tweak / bug fix if needed
-
-## Source code
-
-[github repository](https://github.com/r-koubou/vscode-ksp)
-
-### License
-
-[MIT License](https://github.com/r-koubou/vscode-ksp/blob/master/LICENSE)
-
-## Source code of KSP Compler
-
-[github repository](https://github.com/r-koubou/KSPCompiler)
-
-## Author
-
-R-Koubou
-
-* Twitter: [@rkoubou_jp](https://twitter.com/rkoubou_jp)
-* GitHub:  [https://github.com/r-koubou/](https://github.com/r-koubou/)
-
-## About KONTAKT
-
-KONTAKT is registered trademarks of Native Instruments GmbH.
-
-[https://www.native-instruments.com/](https://www.native-instruments.com/)
+※ この拡張機能は **2026年3月1日 (日本時間) 頃** にマーケットプレイスから削除します。

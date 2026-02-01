@@ -10,6 +10,21 @@ let client: LanguageClient | null | undefined = null;
 
 export async function activate(context: vscode.ExtensionContext) {
 
+    // Announcement message for the official release of v1.0.0
+    vscode.window.showWarningMessage(
+        '[KSP v1.0.0-Preview] This extension is deprecated. Please read the README for details.',
+        { modal: false }
+    );
+
+    const uri = vscode.Uri.joinPath(context.extensionUri, 'README.md');
+    try {
+        vscode.commands.executeCommand('markdown.showPreview', uri);
+    } catch {
+        const doc = await vscode.workspace.openTextDocument(uri);
+        vscode.window.showTextDocument(doc, { preview: false });
+    }
+    // ~Announcement message for the official release of v1.0.0
+
     if (context.extensionMode === vscode.ExtensionMode.Development) {
         OutputChannel.show();
     }
