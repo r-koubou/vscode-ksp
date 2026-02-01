@@ -14,11 +14,6 @@ export async function activate(context: vscode.ExtensionContext) {
         OutputChannel.show();
     }
 
-    if (!await checkPreviousExtensionInstallation()) {
-        OutputChannel.appendLine('Previous extension installation detected. Activation aborted.');
-        return;
-    }
-
     OutputChannel.appendLine('KSP extension activating');
 
     client = await LspClient.startLspClient(context);
@@ -34,27 +29,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export function deactivate(): Thenable<void> | undefined {
     return Promise.resolve();
-}
-
-async function checkPreviousExtensionInstallation(): Promise<boolean> {
-    const previousExtension = vscode.extensions.getExtension('rkoubou.ksp');
-    if (previousExtension) {
-        let uninstalled = false;
-        const message = 'The regular version of the KSP extension `rkoubou.ksp` is installed. Please uninstall it to use this preview version.';
-        OutputChannel.appendLine(message);
-        await vscode.window.showErrorMessage(
-            message,
-            { title: 'Uninstall and Reload window' }).then(async (selection) => {
-                if (selection) {
-                    await vscode.commands.executeCommand('workbench.extensions.uninstallExtension', previousExtension.id);
-                    await vscode.commands.executeCommand('workbench.action.reloadWindow');
-                    uninstalled = true;
-                }
-            });
-
-        return Promise.resolve(uninstalled);
-    }
-    return Promise.resolve(true);
 }
 
 function checkClientInitialized() {
