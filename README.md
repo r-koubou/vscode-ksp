@@ -1,6 +1,6 @@
 # Language support for NI KONTAKT Script Processor (KSP)
 
-![Screenshot](resources/readme/screenshot.png)
+![](https://raw.githubusercontent.com/r-koubou/vscode-ksp/refs/heads/main/resources/readme/screenshot.png)
 
 ## KSP Compatibility
 
