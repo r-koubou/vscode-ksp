@@ -193,7 +193,7 @@ jobs:
           echo "## package.json"
           echo "<details>"
           echo "<summary>Click to expand</summary>"
-          echo "\`\`\`json\`\`\`"
+          echo "\`\`\`json"
           cat package.json
           echo "\`\`\`"
           echo "</details>"
