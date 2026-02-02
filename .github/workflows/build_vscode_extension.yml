@@ -111,12 +111,10 @@ jobs:
       run: |
         mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
 
-        echo "::notice::Fetching latest release info from GitHub API..."
+        echo "Fetching latest release info from GitHub API..."
 
         LSP_SERVER_LATEST_RELEASE=$(curl -s "https://api.github.com/repos/${{ env.LSPSERVER_REPO_URI }}/releases/latest" | jq -r '.tag_name')
         echo "LSP_SERVER_RELEASE_TAG=$LSP_SERVER_LATEST_RELEASE" >> $GITHUB_ENV
-
-        echo "::notice::Latest Language Server release tag: $LSP_SERVER_LATEST_RELEASE"
 
     # otherwise, use the specified version
     - name: Setup for downloading Language Server (specific version)
@@ -124,8 +122,6 @@ jobs:
       run: |
         mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
         echo "LSP_SERVER_RELEASE_TAG=${{ inputs.lsp-program-version }}" >> $GITHUB_ENV
-
-        echo "::notice::Specified Language Server release tag: ${{ inputs.lsp-program-version }}"
 
     #----------------------------------------------------------
     # Download Language Server program
@@ -211,7 +207,7 @@ jobs:
     - name: Build VSCode extension (pre-release)
       if: ${{ inputs.pre-release-build == true }}
       run: |
-        echo "::warning::This is a pre-release build."
+        echo "::notice::This is a pre-release build."
         npm install
         npx @vscode/vsce package --pre-release
 
