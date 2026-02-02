@@ -83,11 +83,11 @@ jobs:
     steps:
     - name: Show workflow inputs
       run: |
-        echo Commit SHA: ${{ github.sha }}
-        echo Download LSP Server Configuration: ${{ inputs.lsp-build-configuration }}
-        echo Version: ${{ inputs.version }}
-        echo Preview Flag in package.json: ${{ inputs.preview-flag }}
-        echo Pre-release Build: ${{ inputs.pre-release-build }}
+        echo ::notice::Commit SHA: ${{ github.sha }}
+        echo ::notice::Download LSP Server Configuration: ${{ inputs.lsp-build-configuration }}
+        echo ::notice::Version: ${{ inputs.version }}
+        echo ::notice::Preview Flag in package.json: ${{ inputs.preview-flag }}
+        echo ::notice::Pre-release Build: ${{ inputs.pre-release-build }}
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -106,8 +106,12 @@ jobs:
       run: |
         mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
 
+        echo "::notice::Fetching latest release info from GitHub API..."
+
         LSP_SERVER_LATEST_RELEASE=$(curl -s "https://api.github.com/repos/${{ env.LSPSERVER_REPO_URI }}/releases/latest" | jq -r '.tag_name')
         echo "LSP_SERVER_RELEASE_TAG=$LSP_SERVER_LATEST_RELEASE" >> $GITHUB_ENV
+
+        echo "::notice::Latest Language Server release tag: $LSP_SERVER_LATEST_RELEASE"
 
     # otherwise, use the specified version
     - name: Setup for downloading Language Server (specific version)
@@ -116,6 +120,8 @@ jobs:
         mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
         echo "LSP_SERVER_RELEASE_TAG=${{ inputs.lsp-program-version }}" >> $GITHUB_ENV
 
+        echo "::notice::Specified Language Server release tag: ${{ inputs.lsp-program-version }}"
+
     #----------------------------------------------------------
     # Download Language Server program
     #----------------------------------------------------------
@@ -123,8 +129,8 @@ jobs:
       run: |
         pushd ${{ env.LSPSERVER_PUBLISH_DIR }}
 
-        echo "Downloading Language Server version: ${{ env.LSP_SERVER_RELEASE_TAG }}"
-        echo "Build Configuration: ${{ inputs.lsp-build-configuration }}"
+        echo "::notice::Downloading Language Server version: ${{ env.LSP_SERVER_RELEASE_TAG }}"
+        echo "::notice::Build Configuration: ${{ inputs.lsp-build-configuration }}"
 
         curl -L -H "Accept: application/octet-stream" \
              -o "__lsp_server.zip" \
@@ -145,18 +151,31 @@ jobs:
     #----------------------------------------------------------
     # Upsert version value if `version` is not empty
     #----------------------------------------------------------
-    - name: Upsert version value
+    - name: package.json - Upsert version value
       if: ${{ inputs.version != '' }}
       run: |
         sed -i.bak -e "s/\"version\": \".*\"/\"version\": \"${{ inputs.version }}\"/" package.json
         echo "ARTIFACT_SUFFIX=-v${{ inputs.version }}" >> $GITHUB_ENV
 
+        echo "::warning::The version value will be overridden to '${{ inputs.version }}'"
+
     #----------------------------------------------------------
     # Upsert preview value if `preview-flag` is not empty
     #----------------------------------------------------------
-    - name: Upsert preview value
+    - name: package.json - preview-flag value check
+      if: ${{ inputs.preview-flag == true }}
+      run: |
+        echo "::notice::The preview field will be set to 'true'"
+
+    - name: package.json - Upsert preview value
       run: |
         sed -i.bak -e "s/\"preview\": .*$/\"preview\": ${{ inputs.preview-flag }},/" package.json
+
+    #----------------------------------------------------------
+    # Show package.json
+    #----------------------------------------------------------
+    - name: package.json - show
+      run: |
         cat package.json
 
     #----------------------------------------------------------
@@ -171,6 +190,7 @@ jobs:
     - name: Build VSCode extension (pre-release)
       if: ${{ inputs.pre-release-build == true }}
       run: |
+        echo "::warning::This is a pre-release build."
         npm install
         npx @vscode/vsce package --pre-release
 
