@@ -83,11 +83,16 @@ jobs:
     steps:
     - name: Show workflow inputs
       run: |
-        echo ::notice::Commit SHA: ${{ github.sha }}
-        echo ::notice::Download LSP Server Configuration: ${{ inputs.lsp-build-configuration }}
-        echo ::notice::Version: ${{ inputs.version }}
-        echo ::notice::Preview Flag in package.json: ${{ inputs.preview-flag }}
-        echo ::notice::Pre-release Build: ${{ inputs.pre-release-build }}
+        {
+          echo "## Workflow Inputs"
+          echo "|name|value|"
+          echo "|----|-----|"
+          echo "|Commit SHA| ${{ github.sha }}"
+          echo "|Download LSP Server Configuration| ${{ inputs.lsp-build-configuration }}"
+          echo "|Version| ${{ inputs.version }}"
+          echo "|Preview Flag in package.json| ${{ inputs.preview-flag }}"
+          echo "|Pre-release Build| ${{ inputs.pre-release-build }}"
+        } >> $GITHUB_STEP_SUMMARY
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -138,6 +143,14 @@ jobs:
 
         unzip "__lsp_server.zip"
         rm -f "__lsp_server.zip"
+
+        {
+          if [ -f VERSION.txt ]; then
+            echo "## LSP Server inforemation"
+            cat VERSION.txt
+          fi
+        } >> $GITHUB_STEP_SUMMARY
+
         popd
 
     #----------------------------------------------------------
@@ -176,7 +189,15 @@ jobs:
     #----------------------------------------------------------
     - name: package.json - show
       run: |
-        cat package.json
+        {
+          echo "## package.json"
+          echo "<details>"
+          echo "<summary>Click to expand</summary>"
+          echo "\`\`\`json\`\`\`"
+          cat package.json
+          echo "\`\`\`"
+          echo "</details>"
+        } >> $GITHUB_STEP_SUMMARY
 
     #----------------------------------------------------------
     # Build VSCode extension
