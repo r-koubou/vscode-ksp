@@ -194,6 +194,7 @@ jobs:
           echo ""
           echo "\`\`\`json"
           cat package.json
+          echo ""
           echo "\`\`\`"
           echo ""
           echo "</details>"
