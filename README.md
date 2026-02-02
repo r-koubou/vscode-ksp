@@ -1,7 +1,5 @@
 # Language support for NI KONTAKT Script Processor (KSP)
 
-[![Badge](https://img.shields.io/badge/Extension's%20issue-blue)](https://github.com/r-koubou/vscode-ksp/issues) [![Badge](https://img.shields.io/badge/Compiler's%20issue-blue)](https://github.com/r-koubou/KSPCompiler/issues)
-
 ![Screenshot](https://raw.githubusercontent.com/r-koubou/vscode-ksp/refs/heads/main/resources/readme/screenshot.png)
 
 ## KSP Compatibility
@@ -28,7 +26,6 @@ This extension now bundles the KSP language server and provides the following fe
     }
     declare $myVariable
     ```
-
 - Rename Symbol
 - Signature Help (parameter hints)
 - Obfuscation
@@ -52,7 +49,9 @@ This extension now bundles the KSP language server and provides the following fe
 ## Source Code
 
 - Extension: [GitHub repository](https://github.com/r-koubou/vscode-ksp)
+    - [Issues](https://github.com/r-koubou/vscode-ksp/issues)
 - Compiler, Language Server: [GitHub repository](https://github.com/r-koubou/KSPCompiler)
+    - [Issues](https://github.com/r-koubou/KSPCompiler/issues)
 
 ## License
 
