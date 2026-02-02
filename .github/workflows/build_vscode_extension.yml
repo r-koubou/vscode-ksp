@@ -102,6 +102,25 @@ jobs:
         submodules: true
 
     #----------------------------------------------------------
+    # Setup the extension's version value
+    # - apply to package.json
+    # - apply to artifact name suffix
+    #----------------------------------------------------------
+    - name: Setup the version value to apply to package.json (default)
+      if: ${{ inputs.version == '' }}
+      run: |
+        VERSION_IN_PACKAGE_JSON=$(grep '"version":' package.json | sed -E 's/.*"version":\s*"([^"]+)".*/\1/')
+        echo "ARTIFACT_SUFFIX=-v${VERSION_IN_PACKAGE_JSON}" >> $GITHUB_ENV
+
+    - name: Setup the version value to apply to package.json (specified)
+      if: ${{ inputs.version != '' }}
+      run: |
+        sed -i.bak -e "s/\"version\": \".*\"/\"version\": \"${{ inputs.version }}\"/" package.json
+        echo "ARTIFACT_SUFFIX=-v${{ inputs.version }}" >> $GITHUB_ENV
+
+        echo "::warning::The version value will be overridden to '${{ inputs.version }}'"
+
+    #----------------------------------------------------------
     # Setup for downloading Language Server
     #----------------------------------------------------------
 
@@ -160,23 +179,13 @@ jobs:
         node-version: '22.x'
 
     #----------------------------------------------------------
-    # Upsert version value if `version` is not empty
-    #----------------------------------------------------------
-    - name: package.json - Upsert version value
-      if: ${{ inputs.version != '' }}
-      run: |
-        sed -i.bak -e "s/\"version\": \".*\"/\"version\": \"${{ inputs.version }}\"/" package.json
-        echo "ARTIFACT_SUFFIX=-v${{ inputs.version }}" >> $GITHUB_ENV
-
-        echo "::warning::The version value will be overridden to '${{ inputs.version }}'"
-
-    #----------------------------------------------------------
     # Upsert preview value if `preview-flag` is not empty
     #----------------------------------------------------------
     - name: package.json - preview-flag value check
       if: ${{ inputs.preview-flag == true }}
       run: |
         echo "::notice::The preview field will be set to 'true'"
+        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-preview" >> $GITHUB_ENV
 
     - name: package.json - Upsert preview value
       run: |
@@ -213,6 +222,8 @@ jobs:
       if: ${{ inputs.pre-release-build == true }}
       run: |
         echo "::notice::This is a pre-release build."
+        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-pre-release" >> $GITHUB_ENV
+
         npm install
         npx @vscode/vsce package --pre-release
 
