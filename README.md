@@ -1,20 +1,16 @@
 # Language support for NI KONTAKT Script Processor (KSP)
 
-![](https://raw.githubusercontent.com/r-koubou/vscode-ksp/refs/heads/main/resources/readme/screenshot.png)
+[![Badge](https://img.shields.io/badge/Extension's%20issue-blue)](https://github.com/r-koubou/vscode-ksp/issues) [![Badge](https://img.shields.io/badge/Compiler's%20issue-blue)](https://github.com/r-koubou/KSPCompiler/issues)
+
+![Screenshot](https://raw.githubusercontent.com/r-koubou/vscode-ksp/refs/heads/main/resources/readme/screenshot.png)
 
 ## KSP Compatibility
 
 - KONTAKT 8.x / 7.x / 6.x / 5.x
 
-## What's New in v1.0.0
-
-Since v0.9.0, the extension and the compiler have been completely redesigned and re-implemented from scratch.
-See also: [CHANGELOG](CHANGELOG.md)
-
 ## Features
 
-Helps you edit KONTAKT Script Processor (KSP) scripts.
-This extension includes a language server and provides the following features:
+This extension now bundles the KSP language server and provides the following features:
 
 - Syntax and semantic analysis (diagnostics)
 - Code completion
@@ -23,7 +19,16 @@ This extension includes a language server and provides the following features:
 - Find All References
 - Hover
   - Built-in command and variable information
-  - Markdown documentation from comments on user-defined variables and function definitions
+  - Documentation comments written immediately before variable declarations and function definitions are also shown. Markdown is supported.
+    ```
+    {
+        ## This is a my variable.
+        - value is used for ...
+        - value range is 0 to 100
+    }
+    declare $myVariable
+    ```
+
 - Rename Symbol
 - Signature Help (parameter hints)
 - Obfuscation

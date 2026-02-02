@@ -2,18 +2,14 @@
 
 ## Version 1.0.0
 
-### Official release of v1.0.0 🚀
+🚀 Official release
 
-- KSP compiler has redesigned and implemented from scratch
-    * Improved script analysis
-    * Language Server Protocol (LSP) supported
+## Version 0.9.2 (1.0.0-preview)
 
-## Version 0.9.2
-
-- Updated the required .NET version to 10
+- Updated the required .NET version to .NET 10
     - Updated the language server, making .NET 10 a requirement
 
-## Version 0.9.1
+## Version 0.9.1 (1.0.0-preview)
 
 ### KONTAKT 8.3.0 ready (includes omissions for variables added in K8.2)
 
