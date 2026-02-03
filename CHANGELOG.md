@@ -1,11 +1,15 @@
 # Changelog
 
-## Version 0.9.2
+## Version 1.0.0
 
-- Updated the required .NET version to 10
+🚀 Official release
+
+## Version 0.9.2 (1.0.0-preview)
+
+- Updated the required .NET version to .NET 10
     - Updated the language server, making .NET 10 a requirement
 
-## Version 0.9.1
+## Version 0.9.1 (1.0.0-preview)
 
 ### KONTAKT 8.3.0 ready (includes omissions for variables added in K8.2)
 
@@ -31,7 +35,7 @@
 
 Redesigned and implemented from scratch.
 
-#### Commpiler Improvements
+#### Compiler Improvements
 
 - Language server protocol (LSP) supported
     - Code Completion
@@ -1129,7 +1133,7 @@ Added Syntax highlighting.
 ### Improved Completion input
 
 * Refactor data management
-* Removed unnecessary snipetts
+* Removed unnecessary snippets
 
 ### Supporting to collapse region markers
 
@@ -1209,14 +1213,14 @@ your script
 
 * Editor
     * Outline
-        * Migrated from Custom view to VSCode Standard Outline view
+        * Migrated from Custom view to VS Code Standard Outline view
 
 ## Version 0.5.2
 
 * Editor
     * Outline
         * Replaced refresh icon
-        * Imploved CPU load
+        * Improved CPU load
 
 ## Version 0.5.1
 
@@ -1231,7 +1235,7 @@ your script
 
 * Editor
 
-    * **[New]** Outline view is avaiable
+    * **[New]** Outline view is available
     * Code refactoring
     * Small bug fixes
 
@@ -1255,7 +1259,7 @@ your script
         * Supported: Call command from context menu.
         * Obfuscated code write to clipboard is available.
 
-            Default is disabled. See vscode preference **"ksp.obfuscator.dest.clipboard"**. Value is true, it works. Otherwie write to given filepath.
+            Default is disabled. See vscode preference **"ksp.obfuscator.dest.clipboard"**. Value is true, it works. Otherwise write to given filepath.
 
 
 * Syntax parser
@@ -1288,7 +1292,7 @@ your script
 
 * Syntax parser
 
-    * [Improved variavle initializer](https://github.com/r-koubou/KSPSyntaxParser/issues/8)
+    * [Improved variable initializer](https://github.com/r-koubou/KSPSyntaxParser/issues/8)
 
 ## Version 0.4.0
 
@@ -1323,7 +1327,7 @@ This version contains important bug fixes.
 
 - Editor
     - Small bug fixes
-    - Snipet behavior improved
+    - Snippet behavior improved
 
 ### 0.4.0 BETA Release note
 
@@ -1340,7 +1344,7 @@ This version contains important bug fixes.
     * Following bug fixes.
 
         - [BUG - Value assign to string variable](https://github.com/r-koubou/KSPSyntaxParser/issues/7)
-        - [BUG - Callback "on __pgs_changed" is not reconized](https://github.com/r-koubou/KSPSyntaxParser/issues/4)
+        - [BUG - Callback "on __pgs_changed" is not recognized](https://github.com/r-koubou/KSPSyntaxParser/issues/4)
         - [BUG - Array variable declaration](https://github.com/r-koubou/KSPSyntaxParser/issues/1)
         - [BUG - Parser false detection in message() command](https://github.com/r-koubou/KSPSyntaxParser/issues/2)
         - [BUG - Unrecognized some NI built-in variables by parser](https://github.com/r-koubou/KSPSyntaxParser/issues/3)
@@ -1447,11 +1451,11 @@ Syntax Parser
 
     `Old extension Id no longer updated and will be removed from VScode marketplace on Aug 1st 2017 (JST)`.
 
-    If you have already installed a previous version( `0.2.7 or older` ), please unintall it.
+    If you have already installed a previous version( `0.2.7 or older` ), please uninstall it.
 
 * `UPDATED` Syntax validation ( `"BETA" VERSION` ).
-    * Analysis program has some bugs was FIXED
-    * Analysis precision improved (`Semantic Analysis` is `READY`)
+    * Analysis program has some bugs was FIXED
+    * Analysis precision improved (`Semantic Analysis` is `READY`)
 
 * Small bug fixes
 
@@ -1518,7 +1522,7 @@ See also: [https://github.com/r-koubou/vscode-ksp/issues/1]()
 
 * You need to install **Java 1.6 (or higher).**
 
-    **Recomended** 1.8 or higher to work it.
+    **Recommended** 1.8 or higher to work it.
 
 ## Version 0.1.0
 
@@ -1596,7 +1600,7 @@ See also: [https://github.com/r-koubou/vscode-ksp/issues/1]()
 
 Following features supported
 
-* Syntax hilighting
+* Syntax highlighting
 * Snippets
 	* Callbacks
 	* Events
