@@ -1,0 +1,19 @@
+name: vsce-develop
+
+on:
+  push:
+    branches:
+      - develop
+
+  workflow_dispatch:
+
+jobs:
+  build-vsce-develop:
+    uses: ./.github/workflows/build_vscode_extension.yml
+    secrets: inherit
+    with:
+      channel: develop
+      lsp-program-version: latest
+      lsp-build-configuration: Debug
+      preview-flag: false
+      pre-release-build: true

@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "0.7.30",
+    "version": "1.0.0",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
@@ -13,6 +13,10 @@
         "Native Instruments",
         "Computer Music",
         "DTM"
+    ],
+    "categories": [
+        "Programming Languages",
+        "Linters"
     ],
     "galleryBanner": {
         "color": "#3A3D40",
@@ -26,36 +30,24 @@
         "url": "https://github.com/r-koubou/vscode-ksp/issues"
     },
     "icon": "resources/icon.png",
-    "main": "./out/src/KSPMain",
-    "activationEvents": [
-        "onLanguage:ksp",
-        "onCommand:ksp.obfuscate",
-        "onCommand:ksp.parse.syntax"
+    "main": "./dist/extension.js",
+    "files": [
+        "dist/**/*.js",
+        "language_server/**",
+        "syntaxes/**",
+        "resources/**",
+        "language-configuration.json",
+        "package.json",
+        "LICENSE",
+        "README.md",
+        "NOTICE.md",
+        "CHANGELOG.md"
     ],
-    "engines": {
-        "vscode": "^1.64.0"
-    },
-    "dependencies": {
-        "clipboardy": "^1.2.3",
-        "tmp": "^0.0.33",
-        "vscode-nls": "^3.2.1"
-    },
-    "devDependencies": {
-        "@types/node": "^6.14.9",
-        "@types/vscode": "^1.64.0",
-        "@vscode/vsce": "^2.23.0",
-        "typescript": "^4.9.4"
-    },
-    "categories": [
-        "Programming Languages",
-        "Snippets",
-        "Linters"
-    ],
-    "capabilities": {},
     "contributes": {
         "languages": [
             {
                 "id": "ksp",
+                "configuration": "./language-configuration.json",
                 "aliases": [
                     "KONTAKT Script (KSP)",
                     "ksp"
@@ -63,113 +55,62 @@
                 "extensions": [
                     ".ksp",
                     ".ksp.txt"
-                ],
-                "configuration": "./language-configuration.json"
+                ]
             }
         ],
         "grammars": [
             {
                 "language": "ksp",
-                "scopeName": "net.rkoubou.kontakt.ksp",
+                "scopeName": "source.kontakt.ksp.rkoubou",
                 "path": "./syntaxes/ksp.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "ksp",
-                "path": "./snippets/ksp.json"
             }
         ],
         "commands": [
             {
-                "command": "ksp.parse.syntax",
-                "title": "%command.parse.syntax%"
+                "command": "ksp.lsp.restart",
+                "category": "KSP",
+                "title": "Restart Language Server"
             },
             {
                 "command": "ksp.obfuscate",
-                "title": "%command.obfuscate%"
+                "category": "KSP",
+                "title": "Obfuscate Code"
             }
         ],
-        "keybindings": [
-            {
-                "command": "ksp.parse.syntax",
-                "key": "f7",
-                "when": "editorLangId == ksp"
-            },
-            {
-                "command": "ksp.obfuscate",
-                "key": "shift+f7",
-                "when": "editorLangId == ksp"
-            }
-        ],
-        "menus": {
-            "editor/context": [
-                {
-                    "when": "editorLangId == ksp",
-                    "command": "ksp.obfuscate",
-                    "group": "kspgroup@1"
-                }
-            ]
-        },
-        "configuration": {
-            "title": "%configuration.title%",
-            "type": "object",
-            "properties": {
-                "ksp.java.location": {
-                    "type": "string",
-                    "default": null,
-                    "description": "%configuration.java.location%"
-                },
-                "ksp.validate.enable": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "%configuration.validate.enable%"
-                },
-                "ksp.validate.realtime.enable": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "%configuration.realtime.validate.enable%"
-                },
-                "ksp.validate.realtime.delay": {
-                    "type": "number",
-                    "default": 500,
-                    "description": "%configuration.realtime.validate.delay%"
-                },
-                "ksp.validate.syntax.only": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "%configuration.validate.syntax.only%"
-                },
-                "ksp.validate.strict": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "%configuration.validate.strict%"
-                },
-                "ksp.validate.unused": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "%configuration.validate.unused%"
-                },
-                "ksp.obfuscator.suffix": {
-                    "type": "string",
-                    "default": ".out.txt",
-                    "description": "%configuration.obfuscator.suffix%"
-                },
-                "ksp.obfuscator.inline.function": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "%configuration.obfuscator.inline.function%"
-                },
-                "ksp.obfuscator.dest.clipboard": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "%configuration.obfuscator.dest.clipboard%"
-                }
-            }
-        }
+        "properties": {}
+    },
+    "engines": {
+        "vscode": "^1.108.0"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^9.0.1"
+    },
+    "extensionDependencies": [
+        "ms-dotnettools.vscode-dotnet-runtime"
+    ],
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^22.19.7",
+        "@types/vscode": "^1.108.1",
+        "@vscode/vsce": "^3.7.1",
+        "@typescript-eslint/eslint-plugin": "^8.54.0",
+        "@typescript-eslint/parser": "^8.54.0",
+        "esbuild": "^0.27.2",
+        "eslint": "^9.39.2",
+        "typescript": "^5.8.3"
     },
     "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./"
+        "vscode:prepublish": "npm run package",
+        "compile": "npm run check-types && npm run lint && node esbuild.js",
+        "watch": "npm-run-all -p watch:*",
+        "watch:esbuild": "node esbuild.js --watch",
+        "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+        "package": "npm run check-types && npm run lint && node esbuild.js --production",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "check-types": "tsc --noEmit",
+        "lint": "eslint src",
+        "test": "vscode-test"
     }
 }

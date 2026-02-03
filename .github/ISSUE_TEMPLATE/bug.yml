@@ -1,0 +1,67 @@
+name: Bug Report
+description: Create a bug report.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  #-----------------------------------------------------------------------------
+  # Version
+  #-----------------------------------------------------------------------------
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Give a Version of this software
+      placeholder: e.g. 1.2.3
+    validations:
+      required: true
+  #-----------------------------------------------------------------------------
+  # Description
+  #-----------------------------------------------------------------------------
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue in detail.
+    validations:
+      required: true
+  #-----------------------------------------------------------------------------
+  #  Expected behavior
+  #-----------------------------------------------------------------------------
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen.
+      placeholder: |
+        I expected the software to do this...
+    validations:
+      required: true
+  #-----------------------------------------------------------------------------
+  # Steps to reproduce
+  #-----------------------------------------------------------------------------
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Provide a list of steps to reproduce the issue.
+      placeholder: |
+        1. Step one
+        2. Step two
+        3. Step three
+    validations:
+      required: true
+  #-----------------------------------------------------------------------------
+  # Logs
+  #-----------------------------------------------------------------------------
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+    validations:
+      required: false

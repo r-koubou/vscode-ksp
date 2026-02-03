@@ -1,0 +1,30 @@
+name: Question
+description: Create a question.
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this question!
+  #-----------------------------------------------------------------------------
+  # Version
+  #-----------------------------------------------------------------------------
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Give a Version of this software
+      placeholder: e.g. 1.2.3
+    validations:
+      required: false
+  #-----------------------------------------------------------------------------
+  # Question
+  #-----------------------------------------------------------------------------
+  - type: textarea
+    id: question
+    attributes:
+      label: Description
+      description: Describe the question in detail.
+    validations:
+      required: true
