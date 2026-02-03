@@ -33,8 +33,13 @@ on:
         type: boolean
         default: false
         description: |
-          Build as pre-release version (default: false)
-
+          "--pre-release" flag for vsce package command (default: false)
+      channel:
+        required: true
+        type: string
+        default: "develop"
+        description: |
+          Build channel (develop, rc, release)
   workflow_dispatch:
     inputs:
       lsp-program-version:
@@ -67,7 +72,17 @@ on:
         type: boolean
         default: false
         description: |
-          Build as pre-release version
+          "--pre-release" flag for vsce package command (default: false)
+      channel:
+        required: true
+        type: choice
+        options:
+          - develop
+          - rc
+          - release
+        default: "develop"
+        description: |
+          Build channel (develop, rc, release)
 
 jobs:
   #--------------------------------------------------------------
@@ -85,15 +100,31 @@ jobs:
       run: |
         {
           echo "## Workflow Inputs"
+          echo ""
           echo "|name|value|"
           echo "|----|-----|"
+          echo "|ref| ${{ github.ref }}"
           echo "|Commit SHA| ${{ github.sha }}"
           echo "|Download LSP Server Configuration| ${{ inputs.lsp-build-configuration }}"
           echo "|Version| ${{ inputs.version }}"
           echo "|Preview Flag in package.json| ${{ inputs.preview-flag }}"
-          echo "|Pre-release Build| ${{ inputs.pre-release-build }}"
+          echo "|Build Channel| ${{ inputs.channel }}"
+          echo "|Build VS Code Extension as Pre-release| ${{ inputs.pre-release-build }}"
+          echo ""
         } >> $GITHUB_STEP_SUMMARY
 
+    #----------------------------------------------------------
+    # Guard - tag build must be release channel
+    #----------------------------------------------------------
+    - name: Guard - tag build must be release channel
+      if: ${{ inputs.channel == 'release' && !startsWith(github.ref, 'refs/tags/v') }}
+      run: |
+        echo "::error::Must use channel=release when building from tag/v*"
+        exit 1
+
+    #----------------------------------------------------------
+    # Checkout repository
+    #----------------------------------------------------------
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -102,23 +133,30 @@ jobs:
         submodules: true
 
     #----------------------------------------------------------
-    # Setup the extension's version value
-    # - apply to package.json
-    # - apply to artifact name suffix
+    # Setup the artifact suffix
     #----------------------------------------------------------
-    - name: Setup the version value to apply to package.json (default)
+    - name: "Setup the artifact suffix (version: from package.json)"
       if: ${{ inputs.version == '' }}
       run: |
-        VERSION_IN_PACKAGE_JSON=$(grep '"version":' package.json | sed -E 's/.*"version":\s*"([^"]+)".*/\1/')
-        echo "ARTIFACT_SUFFIX=-v${VERSION_IN_PACKAGE_JSON}" >> $GITHUB_ENV
+        VERSION=$(grep '"version":' package.json | sed -E 's/.*"version":\s*"([^"]+)".*/\1/')
+        echo "ARTIFACT_SUFFIX=-v${VERSION}" >> $GITHUB_ENV
 
-    - name: Setup the version value to apply to package.json (specified)
+    - name: "Setup the artifact suffix (version: specified)"
       if: ${{ inputs.version != '' }}
       run: |
         sed -i.bak -e "s/\"version\": \".*\"/\"version\": \"${{ inputs.version }}\"/" package.json
         echo "ARTIFACT_SUFFIX=-v${{ inputs.version }}" >> $GITHUB_ENV
 
         echo "::warning::The version value will be overridden to '${{ inputs.version }}'"
+
+    - name: "Setup the artifact suffix (inputs.channel)"
+      run: |
+        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-${{ inputs.channel }}" >> $GITHUB_ENV
+
+    - name: Setup the artifact suffix (inputs.preview-flag)
+      if: ${{ inputs.preview-flag == true }}
+      run: |
+        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-preview" >> $GITHUB_ENV
 
     #----------------------------------------------------------
     # Setup for downloading Language Server
@@ -179,15 +217,9 @@ jobs:
         node-version: '22.x'
 
     #----------------------------------------------------------
-    # Upsert preview value if `preview-flag` is not empty
+    # Upsert inputs.preview value
     #----------------------------------------------------------
-    - name: package.json - preview-flag value check
-      if: ${{ inputs.preview-flag == true }}
-      run: |
-        echo "::notice::The preview field will be set to 'true'"
-        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-preview" >> $GITHUB_ENV
-
-    - name: package.json - Upsert preview value
+    - name: package.json - Upsert inputs.preview value
       run: |
         sed -i.bak -e "s/\"preview\": .*$/\"preview\": ${{ inputs.preview-flag }},/" package.json
 
@@ -221,15 +253,20 @@ jobs:
     - name: Build VSCode extension (pre-release)
       if: ${{ inputs.pre-release-build == true }}
       run: |
-        echo "::notice::This is a pre-release build."
-        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-pre-release" >> $GITHUB_ENV
-
         npm install
         npx @vscode/vsce package --pre-release
 
     #----------------------------------------------------------
     # Upload artifact
     #----------------------------------------------------------
+    - name: Show artifact suffix
+      run: |
+        {
+          echo "## Artifact Suffix"
+          echo ""
+          echo "${{ env.ARTIFACT_SUFFIX }}"
+          echo ""
+        } >> $GITHUB_STEP_SUMMARY
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:

@@ -1,9 +1,7 @@
-name: vsce-develop
+name: vsce-release
 
 on:
   push:
-    branches:
-      - release/v*
     tags:
       - 'v*'
 
@@ -14,6 +12,7 @@ jobs:
     uses: ./.github/workflows/build_vscode_extension.yml
     secrets: inherit
     with:
+      channel: release
       lsp-program-version: latest
       lsp-build-configuration: Release
       preview-flag: false
