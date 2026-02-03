@@ -15,6 +15,12 @@ on:
       lsp-build-configuration:
         required: true
         type: string
+      channel:
+        required: true
+        type: string
+        default: "develop"
+        description: |
+          Build channel (develop, rc, release)
       version:
         required: false
         type: string
@@ -34,12 +40,6 @@ on:
         default: false
         description: |
           "--pre-release" flag for vsce package command (default: false)
-      channel:
-        required: true
-        type: string
-        default: "develop"
-        description: |
-          Build channel (develop, rc, release)
   workflow_dispatch:
     inputs:
       lsp-program-version:
@@ -56,6 +56,16 @@ on:
           - Release
         description: |
           Build configuration of KSPCompiler
+      channel:
+        required: true
+        type: choice
+        options:
+          - develop
+          - rc
+          - release
+        default: "develop"
+        description: |
+          Build channel (develop, rc, release)
       version:
         required: false
         type: string
@@ -73,16 +83,6 @@ on:
         default: false
         description: |
           "--pre-release" flag for vsce package command (default: false)
-      channel:
-        required: true
-        type: choice
-        options:
-          - develop
-          - rc
-          - release
-        default: "develop"
-        description: |
-          Build channel (develop, rc, release)
 
 jobs:
   #--------------------------------------------------------------
