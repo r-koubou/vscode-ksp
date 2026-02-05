@@ -192,7 +192,7 @@ jobs:
 
         curl -L -H "Accept: application/octet-stream" \
              -o "__lsp_server.zip" \
-             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}.zip"
+             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}-release.zip"
 
         unzip "__lsp_server.zip"
         rm -f "__lsp_server.zip"
