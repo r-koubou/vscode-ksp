@@ -105,6 +105,7 @@ jobs:
           echo "|----|-----|"
           echo "|ref| ${{ github.ref }}|"
           echo "|Commit SHA| ${{ github.sha }}|"
+          echo "|Download LSP Server Version| ${{ inputs.lsp-program-version }}|"
           echo "|Download LSP Server Configuration| ${{ inputs.lsp-build-configuration }}|"
           echo "|Version| ${{ inputs.version }}|"
           echo "|Preview Flag in package.json| ${{ inputs.preview-flag }}|"
@@ -179,6 +180,28 @@ jobs:
       run: |
         mkdir -p ${{ env.LSPSERVER_PUBLISH_DIR }}
         echo "LSP_SERVER_RELEASE_TAG=${{ inputs.lsp-program-version }}" >> $GITHUB_ENV
+
+    #----------------------------------------------------------
+    # Show setup Environment Variables
+    #----------------------------------------------------------
+    - name: Show setup Environment Variables
+      run: |
+        {
+          echo "## Environment Variables"
+          echo ""
+          echo "<details>"
+          echo "<summary>Click to expand</summary>"
+          echo ""
+          echo "|name|value|"
+          echo "|----|-----|"
+          echo "|LSPSERVER_PUBLISH_DIR|${{ github.workspace }}/language_server|"
+          echo "|ARTIFACTS_NAME|${{ env.ARTIFACTS_NAME }}|"
+          echo "|ARTIFACT_SUFFIX|${{ env.ARTIFACT_SUFFIX }}|"
+          echo "|LSPSERVER_REPO_URI|${{ env.LSPSERVER_REPO_URI }}|"
+          echo "|LSP_SERVER_RELEASE_TAG|${{ env.LSP_SERVER_RELEASE_TAG }}|"
+          echo ""
+          echo "</details>"
+        } >> $GITHUB_STEP_SUMMARY
 
     #----------------------------------------------------------
     # Download Language Server program
