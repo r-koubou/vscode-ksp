@@ -93,7 +93,7 @@ jobs:
     env:
       LSPSERVER_REPO_URI: r-koubou/KSPCompiler
       LSPSERVER_PUBLISH_DIR: ${{ github.workspace }}/language_server
-      ARTIFACTS_NAME: rkoubou-vscode-ksp
+      ARTIFACT_NAME: rkoubou-vscode-ksp
 
     steps:
     - name: Show workflow inputs
@@ -105,6 +105,7 @@ jobs:
           echo "|----|-----|"
           echo "|ref| ${{ github.ref }}|"
           echo "|Commit SHA| ${{ github.sha }}|"
+          echo "|Download LSP Server Version| ${{ inputs.lsp-program-version }}|"
           echo "|Download LSP Server Configuration| ${{ inputs.lsp-build-configuration }}|"
           echo "|Version| ${{ inputs.version }}|"
           echo "|Preview Flag in package.json| ${{ inputs.preview-flag }}|"
@@ -181,6 +182,28 @@ jobs:
         echo "LSP_SERVER_RELEASE_TAG=${{ inputs.lsp-program-version }}" >> $GITHUB_ENV
 
     #----------------------------------------------------------
+    # Show setup Environment Variables
+    #----------------------------------------------------------
+    - name: Show setup Environment Variables
+      run: |
+        {
+          echo "## Setup Environment Variables"
+          echo ""
+          echo "<details>"
+          echo "<summary>Click to expand</summary>"
+          echo ""
+          echo "|name|value|"
+          echo "|----|-----|"
+          echo "|LSPSERVER_PUBLISH_DIR|${{ github.workspace }}/language_server|"
+          echo "|ARTIFACT_NAME|${{ env.ARTIFACT_NAME }}|"
+          echo "|ARTIFACT_SUFFIX|${{ env.ARTIFACT_SUFFIX }}|"
+          echo "|LSPSERVER_REPO_URI|${{ env.LSPSERVER_REPO_URI }}|"
+          echo "|LSP_SERVER_RELEASE_TAG|${{ env.LSP_SERVER_RELEASE_TAG }}|"
+          echo ""
+          echo "</details>"
+        } >> $GITHUB_STEP_SUMMARY
+
+    #----------------------------------------------------------
     # Download Language Server program
     #----------------------------------------------------------
     - name: Download Language Server program
@@ -192,7 +215,7 @@ jobs:
 
         curl -L -H "Accept: application/octet-stream" \
              -o "__lsp_server.zip" \
-             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}.zip"
+             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}-release.zip"
 
         unzip "__lsp_server.zip"
         rm -f "__lsp_server.zip"
@@ -270,5 +293,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.ARTIFACTS_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
+        name: ${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
         path: "*.vsix"
