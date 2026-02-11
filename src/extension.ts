@@ -5,6 +5,7 @@ import { OutputChannel } from './constants';
 import * as LspClient from './lsp_client';
 import * as Command from './command';
 import * as Obfuscator from './obfuscator';
+import { showWhatsNewIfUpdated } from './whats-new-check';
 
 let client: LanguageClient | null | undefined = null;
 
@@ -15,6 +16,8 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     OutputChannel.appendLine('KSP extension activating');
+
+    await showWhatsNewIfUpdated(context);
 
     client = await LspClient.startLspClient(context);
 
