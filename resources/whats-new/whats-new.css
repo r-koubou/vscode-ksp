@@ -1,0 +1,21 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    color: var(--vscode-editor-foreground);
+    background-color: var(--vscode-editor-background);
+    font-family: var(--vscode-font-family);
+    padding: 48px;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    margin-top: 1.2em;
+}
+
+pre {
+    padding: 12px;
+    overflow-x: auto;
+    border-radius: 6px;
+}
