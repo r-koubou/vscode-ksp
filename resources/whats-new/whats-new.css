@@ -1,0 +1,35 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    color: var(--vscode-editor-foreground);
+    background-color: var(--vscode-editor-background);
+    font-family: var(--vscode-font-family);
+    padding: 48px;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    margin-top: 1.2em;
+}
+
+h2 {
+    border-bottom: 1px solid var(--vscode-editor-foreground);
+    padding-bottom: 0.3em;
+}
+
+pre {
+    padding: 12px;
+    overflow-x: auto;
+    border-radius: 6px;
+
+    background-color: var(--vscode-textCodeBlock-background);
+    box-sizing: border-box;
+}
+
+pre code {
+    color: var(--vscode-editor-foreground);
+    background-color: transparent;
+    display: block;
+}
