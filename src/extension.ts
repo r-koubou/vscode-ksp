@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient/node';
 
 import { OutputChannel } from './constants';
-import * as LspClient from './lsp_client';
+import * as LspClient from './lsp-client';
 import * as Command from './command';
 import * as Obfuscator from './obfuscator';
 import { showWhatsNewIfUpdated } from './whats-new-check';
