@@ -1,5 +1,45 @@
 # Changelog
 
+## Version 1.0.1
+
+### Compiler bug fixes
+
+- [#326 Fix Type Propagation Through Binary Expressions](https://github.com/r-koubou/KSPCompiler/pull/326) : Thank you to [cdbeckwith](https://github.com/cdbeckwith)
+
+### Improvements
+
+Variable document symbols are now organized as children of on init.
+
+Before:
+
+```
+on init
+$myVariable1
+$myVariable2
+$myVariable3
+```
+
+After:
+
+```
+on init
+  |
+  +-- $myVariable1
+  +-- $myVariable2
+  +-- $myVariable3
+```
+
+### KONTAKT 8.8.0 ready
+
+#### Variable
+
+- $NI_EPP_EQ_MODE_ELECTRIC_C
+- $NI_EPP_TREMOLO_MODE_ELECTRIC_P
+- $ENGINE_PAR_EPP_ELECTRIC_C_BRILLIANT
+- $ENGINE_PAR_EPP_ELECTRIC_C_SOFT
+- $ENGINE_PAR_EPP_ELECTRIC_C_TREBLE
+- $ENGINE_PAR_EPP_ELECTRIC_C_MEDIUM
+
 ## Version 1.0.0
 
 🚀 Official release
