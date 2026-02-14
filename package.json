@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
