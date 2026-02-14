@@ -1,7 +1,7 @@
 KONTAKT Script Processor (KSP) VS Code Extension
 ================================================
 
-## What's New in v1.0.1
+## What's New in v1.0.2
 
 ### Compiler bug fixes
 
