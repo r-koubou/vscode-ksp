@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
-import * as DotnetInstall from './dotnet_install';
+import * as DotnetInstall from './dotnet-install';
 import { OutputChannel } from './constants';
 
 export async function startLspClient(context: vscode.ExtensionContext): Promise<LanguageClient | null | undefined> {
