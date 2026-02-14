@@ -31,7 +31,7 @@ on init
 
 ### KONTAKT 8.8.0 ready
 
-#### Variable
+#### Added Variables
 
 - $NI_EPP_EQ_MODE_ELECTRIC_C
 - $NI_EPP_TREMOLO_MODE_ELECTRIC_P
@@ -39,6 +39,8 @@ on init
 - $ENGINE_PAR_EPP_ELECTRIC_C_SOFT
 - $ENGINE_PAR_EPP_ELECTRIC_C_TREBLE
 - $ENGINE_PAR_EPP_ELECTRIC_C_MEDIUM
+- $EVENT_PAR_OUTPUT_TYPE
+- $EVENT_PAR_OUTPUT_INDEX
 
 ## Version 1.0.0
 
@@ -53,7 +55,7 @@ on init
 
 ### KONTAKT 8.3.0 ready (includes omissions for variables added in K8.2)
 
-#### Variable
+#### Added Variables
 
 - $ENGINE_PAR_FILTER_FEEDBACK
 - $ENGINE_PAR_FILTER_FEEDBACK_TYPE
