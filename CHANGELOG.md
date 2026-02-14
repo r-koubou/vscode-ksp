@@ -3,8 +3,7 @@
 ## Version 1.0.2
 
 Re-released the package as version 1.0.2 after version 1.0.1 RC was accidentally published as a pre-release.
-
-## Version 1.0.1
+(Version 1.0.1 will be skipped)
 
 ### Compiler bug fixes
 
