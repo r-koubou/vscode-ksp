@@ -12,7 +12,7 @@
   ],
   "rangeStrategy": "bump",
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": false
   },
   "timezone": "Asia/Tokyo",
   "schedule": [
