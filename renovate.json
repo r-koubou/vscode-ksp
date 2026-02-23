@@ -16,7 +16,7 @@
   },
   "timezone": "Asia/Tokyo",
   "schedule": [
-    "0 0 * * 6"
+    "* 0 * * 6"
   ],
   "packageRules": [
     {
@@ -52,11 +52,11 @@
     {
       "description": "ESLint/Prettier updates",
       "groupName": "lint/format",
-      "matchPackagePatterns": [
-        "^eslint",
-        "^@eslint/",
-        "^prettier",
-        "^@typescript-eslint/"
+      "matchPackageNames": [
+        "/^eslint/",
+        "/^@eslint\\//",
+        "/^prettier/",
+        "/^@typescript-eslint\\//"
       ],
       "automerge": true
     },
