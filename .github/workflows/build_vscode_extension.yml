@@ -234,6 +234,23 @@ jobs:
     #----------------------------------------------------------
     # Setup dependency build tools from .prototools
     #----------------------------------------------------------
+    - name: Show .prototools configuration
+      run: |
+        if [ -f .prototools ]; then
+          {
+            echo "## .prototools configuration"
+            echo ""
+            echo "<details>"
+            echo "<summary>Click to expand</summary>"
+            echo ""
+            echo "\`\`\`toml"
+            cat .prototools
+            echo "\`\`\`"
+            echo ""
+            echo "</details>"
+          } >> $GITHUB_STEP_SUMMARY
+        fi
+
     - name: Setup Dependency Build Tools from .prototools
       uses: moonrepo/setup-toolchain@v0
       with:
