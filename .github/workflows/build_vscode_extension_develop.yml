@@ -6,6 +6,7 @@ on:
       - develop
       - feature/**
       - fix/**
+      - refactor/**
 
   workflow_dispatch:
 
