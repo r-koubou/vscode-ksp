@@ -38,16 +38,11 @@
       "automerge": true
     },
     {
-      "description": "VS Code API-related updates",
-      "matchPackagePatterns": [
-        "^vscode$",
-        "^@types/vscode$"
-      ],
-      "automerge": false
-    },
-    {
       "description": "Build tooling updates",
       "groupName": "build tooling",
+      "matchUpdateTypes":[
+        "minor"
+      ],
       "matchPackageNames": [
         "typescript",
         "esbuild"
@@ -67,9 +62,13 @@
     },
     {
       "description": "VS Code packaging-related updates",
-      "matchPackagePatterns": [
-        "^@vscode/vsce$",
-        "^vsce$"
+      "matchPackageNames": [
+        "@vscode/vsce",
+        "vsce"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
       ],
       "automerge": false
     },
@@ -82,6 +81,7 @@
     }
   ],
   "ignoreDeps": [
-    "vscode"
+    "vscode",
+    "@types/vscode"
   ]
 }
