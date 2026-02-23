@@ -1,0 +1,87 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separatePatchReleases",
+    ":combinePatchMinorReleases",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimit10",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "rangeStrategy": "bump",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "timezone": "Asia/Tokyo",
+  "schedule": [
+    "0 0 * * 6"
+  ],
+  "packageRules": [
+    {
+      "description": "Patch is automatically merged",
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "devDependencies patch/minor updates",
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "VS Code API-related updates",
+      "matchPackagePatterns": [
+        "^vscode$",
+        "^@types/vscode$"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Build tooling updates",
+      "groupName": "build tooling",
+      "matchPackageNames": [
+        "typescript",
+        "esbuild"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "ESLint/Prettier updates",
+      "groupName": "lint/format",
+      "matchPackagePatterns": [
+        "^eslint",
+        "^@eslint/",
+        "^prettier",
+        "^@typescript-eslint/"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "VS Code packaging-related updates",
+      "matchPackagePatterns": [
+        "^@vscode/vsce$",
+        "^vsce$"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Major updates are manually reviewed",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
+    }
+  ],
+  "ignoreDeps": [
+    "vscode"
+  ]
+}
