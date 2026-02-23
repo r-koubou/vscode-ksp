@@ -232,12 +232,29 @@ jobs:
         popd
 
     #----------------------------------------------------------
-    # Setup Node.js
+    # Setup dependency build tools from .prototools
     #----------------------------------------------------------
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Show .prototools configuration
+      run: |
+        if [ -f .prototools ]; then
+          {
+            echo "## .prototools configuration"
+            echo ""
+            echo "<details>"
+            echo "<summary>Click to expand</summary>"
+            echo ""
+            echo "\`\`\`toml"
+            cat .prototools
+            echo "\`\`\`"
+            echo ""
+            echo "</details>"
+          } >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Setup Dependency Build Tools from .prototools
+      uses: moonrepo/setup-toolchain@v0
       with:
-        node-version: '22.x'
+        auto-install: true
 
     #----------------------------------------------------------
     # Upsert inputs.preview value

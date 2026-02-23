@@ -6,6 +6,7 @@ on:
       - develop
       - feature/**
       - fix/**
+      - refactor/**
 
   workflow_dispatch:
 
@@ -17,5 +18,5 @@ jobs:
       channel: develop
       lsp-program-version: latest
       lsp-build-configuration: Debug
-      preview-flag: false
+      preview-flag: true
       pre-release-build: true

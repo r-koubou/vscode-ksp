@@ -1,0 +1,9 @@
+proto = "latest"
+node = "22.20.0"
+npm = "11.10.1"
+
+[settings]
+auto-install = true
+
+[tools.npm]
+shared-globals-dir = true
