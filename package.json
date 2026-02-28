@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
@@ -84,27 +84,25 @@
     },
     "dependencies": {
         "markdown-it": "^14.1.1",
-        "vscode-languageclient": "^9.0.1"
+        "vscode-languageclient": "^10.0.0-next.20"
     },
     "extensionDependencies": [
         "ms-dotnettools.vscode-dotnet-runtime"
     ],
     "devDependencies": {
         "@types/markdown-it": "^14.1.2",
-        "@types/mocha": "^10.0.10",
-        "@types/node": "^22.19.7",
+        "@types/node": "^24.11.0",
         "@types/vscode": "^1.108.1",
-        "@typescript-eslint/eslint-plugin": "^8.54.0",
-        "@typescript-eslint/parser": "^8.54.0",
+        "@typescript-eslint/eslint-plugin": "^8.56.1",
+        "@typescript-eslint/parser": "^8.56.1",
         "@vscode/vsce": "^3.7.1",
-        "esbuild": "^0.27.2",
-        "eslint": "^9.39.2",
-        "typescript": "^5.8.3"
+        "esbuild": "^0.27.3",
+        "eslint": "^10.0.2",
+        "typescript": "^5.9.3"
     },
     "scripts": {
         "vscode:prepublish": "npm run package",
         "compile": "npm run check-types && npm run lint && node esbuild.js",
-        "watch": "npm-run-all -p watch:*",
         "watch:esbuild": "node esbuild.js --watch",
         "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
         "package": "npm run check-types && npm run lint && node esbuild.js --production",
@@ -112,7 +110,6 @@
         "watch-tests": "tsc -p . -w --outDir out",
         "pretest": "npm run compile-tests && npm run compile && npm run lint",
         "check-types": "tsc --noEmit",
-        "lint": "eslint src",
-        "test": "vscode-test"
+        "lint": "eslint src"
     }
 }

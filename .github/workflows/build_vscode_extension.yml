@@ -127,7 +127,7 @@ jobs:
     # Checkout repository
     #----------------------------------------------------------
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -232,12 +232,29 @@ jobs:
         popd
 
     #----------------------------------------------------------
-    # Setup Node.js
+    # Setup dependency build tools from .prototools
     #----------------------------------------------------------
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Show .prototools configuration
+      run: |
+        if [ -f .prototools ]; then
+          {
+            echo "## .prototools configuration"
+            echo ""
+            echo "<details>"
+            echo "<summary>Click to expand</summary>"
+            echo ""
+            echo "\`\`\`toml"
+            cat .prototools
+            echo "\`\`\`"
+            echo ""
+            echo "</details>"
+          } >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Setup Dependency Build Tools from .prototools
+      uses: moonrepo/setup-toolchain@8794f0318b9df4a43a5ddc23cefd16f595b423dd # v0
       with:
-        node-version: '22.x'
+        auto-install: true
 
     #----------------------------------------------------------
     # Upsert inputs.preview value
@@ -291,7 +308,7 @@ jobs:
           echo ""
         } >> $GITHUB_STEP_SUMMARY
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
       with:
         name: ${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
         path: "*.vsix"

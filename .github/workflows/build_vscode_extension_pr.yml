@@ -1,17 +1,15 @@
-name: vsce-develop
+name: vsce-pr
 
 on:
-  push:
+  pull_request:
     branches:
       - develop
-      - feature/**
-      - fix/**
-      - refactor/**
+      - main
 
   workflow_dispatch:
 
 jobs:
-  build-vsce-develop:
+  build-vsce-pr:
     uses: ./.github/workflows/build_vscode_extension.yml
     secrets: inherit
     with:
