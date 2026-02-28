@@ -84,7 +84,7 @@
     },
     "dependencies": {
         "markdown-it": "^14.1.1",
-        "vscode-languageclient": "^9.0.1"
+        "vscode-languageclient": "^10.0.0-next.20"
     },
     "extensionDependencies": [
         "ms-dotnettools.vscode-dotnet-runtime"
