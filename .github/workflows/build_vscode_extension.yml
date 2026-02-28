@@ -127,7 +127,7 @@ jobs:
     # Checkout repository
     #----------------------------------------------------------
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -252,7 +252,7 @@ jobs:
         fi
 
     - name: Setup Dependency Build Tools from .prototools
-      uses: moonrepo/setup-toolchain@v0
+      uses: moonrepo/setup-toolchain@8794f0318b9df4a43a5ddc23cefd16f595b423dd # v0
       with:
         auto-install: true
 
@@ -308,7 +308,7 @@ jobs:
           echo ""
         } >> $GITHUB_STEP_SUMMARY
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: ${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
         path: "*.vsix"
