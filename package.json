@@ -84,14 +84,14 @@
     },
     "dependencies": {
         "markdown-it": "^14.1.1",
-        "vscode-languageclient": "^9.0.1"
+        "vscode-languageclient": "^10.0.0-next.20"
     },
     "extensionDependencies": [
         "ms-dotnettools.vscode-dotnet-runtime"
     ],
     "devDependencies": {
         "@types/markdown-it": "^14.1.2",
-        "@types/node": "^22.19.13",
+        "@types/node": "^24.11.0",
         "@types/vscode": "^1.108.1",
         "@typescript-eslint/eslint-plugin": "^8.56.1",
         "@typescript-eslint/parser": "^8.56.1",
