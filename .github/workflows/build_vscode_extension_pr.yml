@@ -1,0 +1,17 @@
+name: vsce-pr
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-vsce-pr:
+    uses: ./.github/workflows/build_vscode_extension.yml
+    secrets: inherit
+    with:
+      channel: develop
+      lsp-program-version: latest
+      lsp-build-configuration: Debug
+      preview-flag: true
+      pre-release-build: true
