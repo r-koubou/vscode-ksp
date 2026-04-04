@@ -93,11 +93,11 @@
         "@types/markdown-it": "^14.1.2",
         "@types/node": "^24.12.2",
         "@types/vscode": "^1.108.1",
-        "@typescript-eslint/eslint-plugin": "^8.57.2",
-        "@typescript-eslint/parser": "^8.57.2",
+        "@typescript-eslint/eslint-plugin": "^8.58.0",
+        "@typescript-eslint/parser": "^8.58.0",
         "@vscode/vsce": "^3.7.1",
         "esbuild": "^0.27.7",
-        "eslint": "^10.1.0",
+        "eslint": "^10.2.0",
         "typescript": "^5.9.3"
     },
     "scripts": {
