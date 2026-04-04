@@ -98,7 +98,7 @@
         "@vscode/vsce": "^3.7.1",
         "esbuild": "^0.28.0",
         "eslint": "^10.2.0",
-        "typescript": "^5.9.3"
+        "typescript": "^6.0.2"
     },
     "scripts": {
         "vscode:prepublish": "npm run package",

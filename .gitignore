@@ -4,7 +4,6 @@ dist
 node_modules
 npm-debug.log
 *.vsix
-package-lock.json
 
 # for me
 language_server
