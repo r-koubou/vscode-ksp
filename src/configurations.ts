@@ -2,17 +2,33 @@ import * as vscode from 'vscode';
 
 export const CONFIG_SECTION_NAME = 'ksp';
 
-export function getProperty<T>(key: string, defaultValue: T): T | undefined {
-    const section: vscode.WorkspaceConfiguration
-        = vscode.workspace.getConfiguration(CONFIG_SECTION_NAME);
+type ConfigItem<T> = {
+    key: string;
+    defaultValue: T;
+};
+
+// #region Configuration keys
+
+/**
+ * Whether to prefer snippet insertion.
+ */
+export const CONFIG_COMPLETION_PREFER_SNIPPET_INSERTION: ConfigItem<boolean> = {
+    key: 'completion.preferSnippetInsertion',
+    defaultValue: true,
+};
+
+// #endregion
+
+export function getConfigValue<T>(item: ConfigItem<T>): T {
+    const section: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(CONFIG_SECTION_NAME);
 
     if (!section) {
-        return defaultValue;
+        return item.defaultValue;
     }
 
-    const inspect = section.inspect<T>(key);
+    const inspect = section.inspect<T>(item.key);
 
-    let result: T = defaultValue;
+    let result: T = item.defaultValue;
 
     if (!inspect) {
         return result;

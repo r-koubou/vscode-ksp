@@ -77,7 +77,16 @@
                 "title": "Obfuscate Code"
             }
         ],
-        "properties": {}
+        "configuration": {
+            "type": "object",
+            "properties": {
+                "ksp.completion.preferSnippetInsertion": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to prefer snippet insertion."
+                }
+            }
+        }
     },
     "engines": {
         "vscode": "^1.108.0"
