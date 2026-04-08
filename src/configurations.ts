@@ -19,6 +19,10 @@ export const CONFIG_COMPLETION_PREFER_SNIPPET_INSERTION: ConfigItem<boolean> = {
 
 // #endregion
 
+export function getConfigName(item: ConfigItem<any>): string {
+    return `${CONFIG_SECTION_NAME}.${item.key}`;
+}
+
 export function getConfigValue<T>(item: ConfigItem<T>): T {
     const section: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(CONFIG_SECTION_NAME);
 
