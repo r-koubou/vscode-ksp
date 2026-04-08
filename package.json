@@ -16,7 +16,8 @@
     ],
     "categories": [
         "Programming Languages",
-        "Linters"
+        "Linters",
+        "Snippets"
     ],
     "galleryBanner": {
         "color": "#3A3D40",
@@ -35,6 +36,7 @@
         "dist/**/*.js",
         "language_server/**",
         "syntaxes/**",
+        "snippets/**",
         "resources/**",
         "language-configuration.json",
         "package.json",
@@ -86,7 +88,13 @@
                     "description": "Whether to prefer snippet insertion."
                 }
             }
-        }
+        },
+        "snippets": [
+            {
+                "language": "ksp",
+                "path": "./snippets/ksp.json"
+            }
+        ]
     },
     "engines": {
         "vscode": "^1.108.0"
