@@ -56,19 +56,24 @@ function registerExtensionCommands(context: vscode.ExtensionContext, client: Lan
 
 function registerConfigValueSubscriptions(context: vscode.ExtensionContext) {
     const configChangeDisposable = vscode.workspace.onDidChangeConfiguration(async (event) => {
-
+        //----------------------------------------------------------------------
         // Changed prefer snippet insertion configuration
+        //----------------------------------------------------------------------
         const preferSnippetConfigKey = Configuration.getConfigName(Configuration.CONFIG_COMPLETION_PREFER_SNIPPET_INSERTION);
         if (event.affectsConfiguration(preferSnippetConfigKey)) {
-            OutputChannel.appendLine('Configuration changed: ksp.completion.preferSnippetInsertion');
-            if (!client) {
-                return;
-            }
-            await handleLspServerRestart(context);
+            OutputChannel.appendLine(`Configuration changed: ${preferSnippetConfigKey}`);
+            await handlePreferSnippetInsertionConfigChange(context);
         }
     });
 
     context.subscriptions.push(configChangeDisposable);
+}
+
+async function handlePreferSnippetInsertionConfigChange(context: vscode.ExtensionContext) {
+    if (!client) {
+        return;
+    }
+    await handleLspServerRestart(context);
 }
 
 async function handleLspServerRestart(context: vscode.ExtensionContext) {
