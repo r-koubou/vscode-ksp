@@ -16,7 +16,8 @@
     ],
     "categories": [
         "Programming Languages",
-        "Linters"
+        "Linters",
+        "Snippets"
     ],
     "galleryBanner": {
         "color": "#3A3D40",
@@ -35,6 +36,7 @@
         "dist/**/*.js",
         "language_server/**",
         "syntaxes/**",
+        "snippets/**",
         "resources/**",
         "language-configuration.json",
         "package.json",
@@ -77,7 +79,22 @@
                 "title": "Obfuscate Code"
             }
         ],
-        "properties": {}
+        "configuration": {
+            "type": "object",
+            "properties": {
+                "ksp.completion.preferSnippetInsertion": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Prioritize snippet insertion when possible."
+                }
+            }
+        },
+        "snippets": [
+            {
+                "language": "ksp",
+                "path": "./snippets/ksp.json"
+            }
+        ]
     },
     "engines": {
         "vscode": "^1.108.0"

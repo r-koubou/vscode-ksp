@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
+import * as config from  './configurations';
 import * as DotnetInstall from './dotnet-install';
 import { OutputChannel } from './constants';
 
@@ -19,8 +20,8 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
     OutputChannel.appendLine(`Server assembly path: ${serverAssembly}`);
 
     const serverOptions: ServerOptions = {
-        run: { command: dotnetPath, args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } },
-        debug: { command: dotnetPath, args: [serverAssembly], transport: TransportKind.stdio, options: { cwd: serverDirectory } }
+        run: { command: dotnetPath, args: [serverAssembly, ...createClientCommandArgs()], transport: TransportKind.stdio, options: { cwd: serverDirectory } },
+        debug: { command: dotnetPath, args: [serverAssembly, ...createClientCommandArgs()], transport: TransportKind.stdio, options: { cwd: serverDirectory } }
     };
 
     const clientOptions: LanguageClientOptions = {
@@ -34,7 +35,7 @@ export async function startLspClient(context: vscode.ExtensionContext): Promise<
 
     const client = new LanguageClient(
         'ksp',
-        'ksp',
+        'KSP Language Server',
         serverOptions,
         clientOptions
     );
@@ -61,11 +62,28 @@ export async function stopLspClient(context: vscode.ExtensionContext, client: La
     try {
         await client.stop();
         client.dispose();
-    } catch { }
+    } catch (error) {
+        OutputChannel.appendLine('Error stopping KSP LSP client:');
+        OutputChannel.appendLine(`${error}`);
+    }
 
     const index = context.subscriptions.findIndex(d => d === client);
     if (index !== -1) {
         context.subscriptions.splice(index, 1);
     }
     OutputChannel.appendLine('KSP Language Server stopped');
+}
+
+
+function createClientCommandArgs(): string[] {
+    const result: string[] = [];
+    const preferSnippetInsertion = config.getConfigValue(config.CONFIG_COMPLETION_PREFER_SNIPPET_INSERTION);
+
+    if (preferSnippetInsertion) {
+        result.push('--prefer-snippet-insertion');
+    }
+
+    OutputChannel.appendLine(`Client command arguments: ${result.join(' ')}`);
+
+    return result;
 }

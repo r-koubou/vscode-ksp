@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
+import * as Configuration from './configurations';
 import { LanguageClient } from 'vscode-languageclient/node';
-
 import { OutputChannel } from './constants';
+
 import * as LspClient from './lsp-client';
 import * as Command from './command';
 import * as Obfuscator from './obfuscator';
@@ -26,7 +27,9 @@ export async function activate(context: vscode.ExtensionContext) {
         return;
     }
 
+    registerConfigValueSubscriptions(context);
     registerExtensionCommands(context, client);
+
     OutputChannel.appendLine('KSP extension activated');
 }
 
@@ -49,6 +52,28 @@ function registerExtensionCommands(context: vscode.ExtensionContext, client: Lan
     Command.registerCommand('ksp.obfuscate', context, async () => {
         await handleObfuscateCommand(context);
     });
+}
+
+function registerConfigValueSubscriptions(context: vscode.ExtensionContext) {
+    const configChangeDisposable = vscode.workspace.onDidChangeConfiguration(async (event) => {
+        //----------------------------------------------------------------------
+        // Changed prefer snippet insertion configuration
+        //----------------------------------------------------------------------
+        const preferSnippetConfigKey = Configuration.getConfigName(Configuration.CONFIG_COMPLETION_PREFER_SNIPPET_INSERTION);
+        if (event.affectsConfiguration(preferSnippetConfigKey)) {
+            OutputChannel.appendLine(`Configuration changed: ${preferSnippetConfigKey}`);
+            await handlePreferSnippetInsertionConfigChange(context);
+        }
+    });
+
+    context.subscriptions.push(configChangeDisposable);
+}
+
+async function handlePreferSnippetInsertionConfigChange(context: vscode.ExtensionContext) {
+    if (!client) {
+        return;
+    }
+    await handleLspServerRestart(context);
 }
 
 async function handleLspServerRestart(context: vscode.ExtensionContext) {
