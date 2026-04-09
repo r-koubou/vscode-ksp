@@ -85,7 +85,7 @@
                 "ksp.completion.preferSnippetInsertion": {
                     "type": "boolean",
                     "default": true,
-                    "markdownDescription": "Whether to prefer snippet insertion. (**\\*Language server will be restarted when this setting is changed**)"
+                    "description": "Prioritize snippet insertion when possible."
                 }
             }
         },
