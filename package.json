@@ -92,7 +92,15 @@
         "snippets": [
             {
                 "language": "ksp",
-                "path": "./snippets/ksp.json"
+                "path": "./snippets/declaration.json"
+            },
+            {
+                "language": "ksp",
+                "path": "./snippets/preprocessor.json"
+            },
+            {
+                "language": "ksp",
+                "path": "./snippets/statement.json"
             }
         ]
     },

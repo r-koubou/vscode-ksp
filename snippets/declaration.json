@@ -1,0 +1,86 @@
+{
+    //--------------------------------------------------------------------------
+    // Variable declarations : Primitive types
+    //--------------------------------------------------------------------------
+    "declaration_variable": {
+        "prefix": "declare",
+        "body": [
+            "declare ${1:name}"
+        ],
+        "description": "declare an user-defined variable"
+    },
+    "declaration_int_variable": {
+        "prefix": "int",
+        "body": [
+            "declare $${1:name}"
+        ],
+        "description": "declare an user-defined integer variable"
+    },
+    "declaration_int_array_variable": {
+        "prefix": "intarray",
+        "body": [
+            "declare %${1:name}"
+        ],
+        "description": "declare an user-defined integer array variable"
+    },
+    "declaration_real_variable": {
+        "prefix": "real",
+        "body": [
+            "declare ~${1:name}"
+        ],
+        "description": "declare an user-defined real variable"
+    },
+    "declaration_real_array_variable": {
+        "prefix": "realarray",
+        "body": [
+            "declare ?${1:name}"
+        ],
+        "description": "declare an user-defined real array variable"
+    },
+    "declaration_string_variable": {
+        "prefix": "string",
+        "body": [
+            "declare @${1:name}"
+        ],
+        "description": "declare an user-defined string variable"
+    },
+    "declaration_string_array_variable": {
+        "prefix": "stringarray",
+        "body": [
+            "declare !${1:name}"
+        ],
+        "description": "declare an user-defined string array variable"
+    },
+
+    //--------------------------------------------------------------------------
+    // Variable declarations : With modifiers
+    //--------------------------------------------------------------------------
+    "declaration_const": {
+        "prefix": "const",
+        "body": [
+            "declare const ${1:name} := ${2:value}"
+        ],
+        "description": "declare an user-defined constant variable"
+    },
+    "declaration_const_int": {
+        "prefix": "const int",
+        "body": [
+            "declare const $${1:name} := ${2:0}"
+        ],
+        "description": "declare an user-defined constant integer variable"
+    },
+    "declaration_const_real": {
+        "prefix": "const real",
+        "body": [
+            "declare const ~${1:name} := ${2:0.0}"
+        ],
+        "description": "declare an user-defined constant real variable"
+    },
+    "declaration_polyphonic_variable": {
+        "prefix": "polyphonic",
+        "body": [
+            "declare polyphonic ${1:name}"
+        ],
+        "description": "declare an user-defined polyphonic variable"
+    }
+}
