@@ -12,7 +12,7 @@ jobs:
     uses: ./.github/workflows/build_vscode_extension.yml
     secrets: inherit
     with:
-      channel: release
+      channel: rc
       lsp-program-version: latest
       lsp-build-configuration: Release
       preview-flag: false
