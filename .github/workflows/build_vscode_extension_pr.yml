@@ -1,4 +1,4 @@
-name: vsce-pr
+name: vsce-pr (into develop)
 
 on:
   pull_request:
