@@ -252,7 +252,7 @@ jobs:
         fi
 
     - name: Setup Dependency Build Tools from .prototools
-      uses: moonrepo/setup-toolchain@8794f0318b9df4a43a5ddc23cefd16f595b423dd # v0
+      uses: moonrepo/setup-toolchain@261c62cb5b0f580c7be7c8cd0f023a2e96756095 # v0
       with:
         auto-install: true
 
@@ -308,7 +308,7 @@ jobs:
           echo ""
         } >> $GITHUB_STEP_SUMMARY
     - name: Upload artifact
-      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       with:
         name: ${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
         path: "*.vsix"

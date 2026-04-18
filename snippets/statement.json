@@ -1,0 +1,44 @@
+{
+    //--------------------------------------------------------------------------
+    // Statements
+    //--------------------------------------------------------------------------
+    "statement_if": {
+        "prefix": "if",
+        "body": [
+            "if(${1:condition})",
+            "    ${2:code}",
+            "end if"
+        ],
+        "description": "if statement"
+    },
+    "statement_ifelse": {
+        "prefix": "ifelse",
+        "body": [
+            "if(${1:condition})",
+            "    ${2:code}",
+            "else",
+            "    ${3:code}",
+            "end if"
+        ],
+        "description": "if...else statement"
+    },
+    "statement_select": {
+        "prefix": "select",
+        "body": [
+            "select(${1:variable})",
+            "    case ${2:case}",
+            "        ${3:code}",
+            "end select"
+        ],
+        "description": "select statement"
+    },
+    "statement_while": {
+        "prefix": "while",
+        "body": [
+            "while(${1:condition})",
+            "    ${2:code}",
+            "end while"
+        ],
+        "description": "while statement"
+    }
+}

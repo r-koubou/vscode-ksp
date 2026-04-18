@@ -1,0 +1,37 @@
+{
+    //--------------------------------------------------------------------------
+    // Preprocessor
+    //--------------------------------------------------------------------------
+    "preprocessor_set": {
+        "prefix": "SET_CONDITION",
+        "body": [
+            "SET_CONDITION(${1:symbol})"
+        ],
+        "description": "Define a symbol to be used as a condition"
+    },
+    "preprocessor_reset": {
+        "prefix": "RESET_CONDITION",
+        "body": [
+            "RESET_CONDITION(${1:symbol})"
+        ],
+        "description": "Delete a condition definition"
+    },
+    "preprocessor_if": {
+        "prefix": "USE_CODE_IF",
+        "body": [
+            "USE_CODE_IF(${1:symbol})",
+            "    ${2:code}",
+            "END_USE_CODE"
+        ],
+        "description": "Interpret code when <symbol> is defined"
+    },
+    "preprocessor_if_not": {
+        "prefix": "USE_CODE_IF_NOT",
+        "body": [
+            "USE_CODE_IF_NOT(${1:symbol})",
+            "    ${2:code}",
+            "END_USE_CODE"
+        ],
+        "description": "Interpret code when <symbol> is not defined"
+    }
+}

@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
@@ -16,7 +16,8 @@
     ],
     "categories": [
         "Programming Languages",
-        "Linters"
+        "Linters",
+        "Snippets"
     ],
     "galleryBanner": {
         "color": "#3A3D40",
@@ -35,6 +36,7 @@
         "dist/**/*.js",
         "language_server/**",
         "syntaxes/**",
+        "snippets/**",
         "resources/**",
         "language-configuration.json",
         "package.json",
@@ -77,28 +79,51 @@
                 "title": "Obfuscate Code"
             }
         ],
-        "properties": {}
+        "configuration": {
+            "type": "object",
+            "properties": {
+                "ksp.completion.preferSnippetInsertion": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Prioritize snippet insertion when possible."
+                }
+            }
+        },
+        "snippets": [
+            {
+                "language": "ksp",
+                "path": "./snippets/declaration.json"
+            },
+            {
+                "language": "ksp",
+                "path": "./snippets/preprocessor.json"
+            },
+            {
+                "language": "ksp",
+                "path": "./snippets/statement.json"
+            }
+        ]
     },
     "engines": {
         "vscode": "^1.108.0"
     },
     "dependencies": {
         "markdown-it": "^14.1.1",
-        "vscode-languageclient": "^10.0.0-next.20"
+        "vscode-languageclient": "^10.0.0-next.21"
     },
     "extensionDependencies": [
         "ms-dotnettools.vscode-dotnet-runtime"
     ],
     "devDependencies": {
         "@types/markdown-it": "^14.1.2",
-        "@types/node": "^24.11.0",
+        "@types/node": "^24.12.2",
         "@types/vscode": "^1.108.1",
-        "@typescript-eslint/eslint-plugin": "^8.56.1",
-        "@typescript-eslint/parser": "^8.56.1",
-        "@vscode/vsce": "^3.7.1",
-        "esbuild": "^0.27.3",
-        "eslint": "^10.0.2",
-        "typescript": "^5.9.3"
+        "@typescript-eslint/eslint-plugin": "^8.58.2",
+        "@typescript-eslint/parser": "^8.58.2",
+        "@vscode/vsce": "^3.9.1",
+        "esbuild": "^0.28.0",
+        "eslint": "^10.2.1",
+        "typescript": "^6.0.3"
     },
     "scripts": {
         "vscode:prepublish": "npm run package",
