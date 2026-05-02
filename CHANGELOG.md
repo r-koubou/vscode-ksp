@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.1.1
+
+### Maintenance release
+
+Updated dependencies version.
+
 ## Version 1.1.0
 
 ### New Features
