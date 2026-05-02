@@ -1,5 +1,5 @@
 proto = "latest"
-node = "22.22.2"
+node = "24.15.0"
 npm = "11.13.0"
 
 [settings]
