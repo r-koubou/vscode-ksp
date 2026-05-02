@@ -45,6 +45,9 @@
         "NOTICE.md",
         "CHANGELOG.md"
     ],
+    "ksp.custom.configuration": {
+      "whatsnew.enabled": false
+    },
     "contributes": {
         "languages": [
             {
