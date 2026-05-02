@@ -2,8 +2,6 @@ import * as vscode from 'vscode';
 import MarkdownIt from 'markdown-it';
 import * as path from 'path';
 
-import * as customConfig from './custom-configurations';
-
 import { OutputChannel } from './constants';
 
 const WhatsNewStateKey = 'rkoubou.ksp.whatsNewShownVersion';
@@ -14,13 +12,6 @@ const WebViewType = 'rkoubou.ksp.whatsNew';
 const WebViewTitle = "NI KONTAKT Script: What's New";
 
 export async function showWhatsNewIfUpdated(context: vscode.ExtensionContext) {
-
-    const enabled = customConfig.getCustomConfigValue(customConfig.CUSTOM_CONFIG_WHATSNEW_ENABLED);
-
-    if (!enabled) {
-        return;
-    }
-
     const currentVersion = context.extension.packageJSON?.version as string | undefined;
 
     if (!currentVersion) {

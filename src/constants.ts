@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 
-export const PackageId              = 'rkoubou.ksp';
 export const LanguageId             = 'ksp';
 export const OutputChannelName      = 'KSP';
 export const RequiredDotnetVersion  = '10.0';
