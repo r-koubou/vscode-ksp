@@ -1,6 +1,6 @@
 proto = "latest"
-node = "22.20.0"
-npm = "11.10.1"
+node = "24.15.0"
+npm = "11.14.1"
 
 [settings]
 auto-install = true
