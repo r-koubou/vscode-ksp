@@ -152,12 +152,12 @@ jobs:
 
     - name: "Setup the artifact suffix (inputs.channel)"
       run: |
-        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-${{ inputs.channel }}" >> $GITHUB_ENV
+        echo "ARTIFACT_SUFFIX=${ARTIFACT_SUFFIX}-${{ inputs.channel }}" >> $GITHUB_ENV
 
     - name: Setup the artifact suffix (inputs.preview-flag)
       if: ${{ inputs.preview-flag == true }}
       run: |
-        echo "ARTIFACT_SUFFIX=${{ env.ARTIFACT_SUFFIX }}-preview" >> $GITHUB_ENV
+        echo "ARTIFACT_SUFFIX=${ARTIFACT_SUFFIX}-preview" >> $GITHUB_ENV
 
     #----------------------------------------------------------
     # Setup for downloading Language Server
@@ -185,6 +185,9 @@ jobs:
     # Show setup Environment Variables
     #----------------------------------------------------------
     - name: Show setup Environment Variables
+      env:
+        ARTIFACT_SUFFIX: ${{ env.ARTIFACT_SUFFIX }}
+        LSP_SERVER_RELEASE_TAG: ${{ env.LSP_SERVER_RELEASE_TAG }}
       run: |
         {
           echo "## Setup Environment Variables"
@@ -194,7 +197,7 @@ jobs:
           echo ""
           echo "|name|value|"
           echo "|----|-----|"
-          echo "|LSPSERVER_PUBLISH_DIR|${{ github.workspace }}/language_server|"
+          echo "|LSPSERVER_PUBLISH_DIR|${{ env.LSPSERVER_PUBLISH_DIR }}|"
           echo "|ARTIFACT_NAME|${{ env.ARTIFACT_NAME }}|"
           echo "|ARTIFACT_SUFFIX|${{ env.ARTIFACT_SUFFIX }}|"
           echo "|LSPSERVER_REPO_URI|${{ env.LSPSERVER_REPO_URI }}|"
@@ -207,6 +210,8 @@ jobs:
     # Download Language Server program
     #----------------------------------------------------------
     - name: Download Language Server program
+      env:
+        LSP_SERVER_RELEASE_TAG: ${{ env.LSP_SERVER_RELEASE_TAG }}
       run: |
         pushd ${{ env.LSPSERVER_PUBLISH_DIR }}
 
@@ -300,6 +305,8 @@ jobs:
     # Upload artifact
     #----------------------------------------------------------
     - name: Show artifact suffix
+      env:
+        ARTIFACT_SUFFIX: ${{ env.ARTIFACT_SUFFIX }}
       run: |
         {
           echo "## Artifact Suffix"
@@ -308,6 +315,8 @@ jobs:
           echo ""
         } >> $GITHUB_STEP_SUMMARY
     - name: Upload artifact
+      env:
+        ARTIFACT_SUFFIX: ${{ env.ARTIFACT_SUFFIX }}
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       with:
         name: ${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
