@@ -1,17 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    ":disableDependencyDashboard",
-    ":semanticCommits",
-    ":separatePatchReleases",
-    ":prHourlyLimitNone",
-    ":prConcurrentLimit10",
-    "helpers:pinGitHubActionDigests"
+    "config:best-practices"
   ],
-  "rangeStrategy": "bump",
+  "rangeStrategy": "auto",
   "lockFileMaintenance": {
-    "enabled": false
+    "enabled": true
   },
   "timezone": "Asia/Tokyo",
   "schedule": [
@@ -19,64 +13,20 @@
   ],
   "packageRules": [
     {
-      "description": "Patch is automatically merged",
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "automerge": true
-    },
-    {
-      "description": "devDependencies patch/minor updates",
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true
-    },
-    {
-      "description": "Build tooling updates",
-      "groupName": "build tooling",
-      "matchUpdateTypes":[
-        "minor"
-      ],
-      "matchPackageNames": [
-        "typescript",
-        "esbuild"
-      ],
-      "automerge": false
-    },
-    {
-      "description": "ESLint/Prettier updates",
-      "groupName": "lint/format",
-      "matchPackageNames": [
-        "/^eslint/",
-        "/^@eslint\\//",
-        "/^prettier/",
-        "/^@typescript-eslint\\//"
-      ],
-      "automerge": true
-    },
-    {
-      "description": "VS Code packaging-related updates",
-      "matchPackageNames": [
-        "@vscode/vsce",
-        "vsce"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": false
-    },
-    {
+
       "description": "Major updates are manually reviewed",
       "matchUpdateTypes": [
         "major"
       ],
       "automerge": false
+    },
+    {
+      "description": "Automerge patch and minor updates",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
     }
   ],
   "ignoreDeps": [
