@@ -107,6 +107,7 @@
     "engines": {
         "vscode": "^1.108.0"
     },
+    "packageManager": "pnpm@11.1.1",
     "dependencies": {
         "markdown-it": "^14.1.1",
         "vscode-languageclient": "^10.0.0-next.21"
@@ -126,14 +127,15 @@
         "typescript": "6.0.3"
     },
     "scripts": {
-        "vscode:prepublish": "npm run package",
-        "compile": "npm run check-types && npm run lint && node esbuild.js",
+        "preinstall": "npx only-allow pnpm",
+        "vscode:prepublish": "pnpm run package",
+        "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
         "watch:esbuild": "node esbuild.js --watch",
         "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-        "package": "npm run check-types && npm run lint && node esbuild.js --production",
+        "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
         "check-types": "tsc --noEmit",
         "lint": "eslint src"
     }
