@@ -292,14 +292,14 @@ jobs:
     - name: Build VSCode extension
       if: ${{ inputs.pre-release-build == false }}
       run: |
-        npm install
-        npx @vscode/vsce package
+        pnpm install
+        pnpm exec vsce package --no-dependencies
 
     - name: Build VSCode extension (pre-release)
       if: ${{ inputs.pre-release-build == true }}
       run: |
-        npm install
-        npx @vscode/vsce package --pre-release
+        pnpm install
+        pnpm exec vsce package --no-dependencies --pre-release
 
     #----------------------------------------------------------
     # Upload artifact
