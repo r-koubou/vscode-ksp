@@ -1,6 +1,6 @@
 proto = "latest"
 node = "24.16.0"
-pnpm = "11.2.1"
+pnpm = "11.3.0"
 
 [settings]
 auto-install = true
