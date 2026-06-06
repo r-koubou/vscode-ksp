@@ -3,11 +3,12 @@ name: vsce-release
 on:
   push:
     tags:
-      - 'v*'
-
-  workflow_dispatch:
+      - "v*"
 
 jobs:
+  #----------------------------------------------------------
+  # Build VS Code Extension for Release
+  #----------------------------------------------------------
   build-vsce-release:
     uses: ./.github/workflows/build_vscode_extension.yml
     secrets: inherit
@@ -17,3 +18,38 @@ jobs:
       lsp-build-configuration: Release
       preview-flag: false
       pre-release-build: false
+  #----------------------------------------------------------
+  # Create GitHub Release
+  #----------------------------------------------------------
+  create-github-release:
+    needs: build-vsce-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      #----------------------------------------------------------
+      # Download VSIX artifact
+      #----------------------------------------------------------
+      - name: Download VSIX artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build-vsce-release.outputs.artifact-name }}
+          path: dist
+
+      #----------------------------------------------------------
+      # Create GitHub Release (draft) and attach VSIX artifact
+      #----------------------------------------------------------
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          gh release \
+            create "${TAG_NAME}" \
+            --draft \
+            --repo "${{ github.repository }}" \
+            --title "${TAG_NAME}" \
+            --latest \
+            --generate-notes \
+            dist/*.vsix
