@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.1.2
+
+### Maintenance release
+
+- Updated dependencies version.
+- Simplify the process of checking changelogs when updating extensions.
+- Migrated from npm to pnpm.
+
+
 ## Version 1.1.1
 
 ### Maintenance release
