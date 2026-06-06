@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
@@ -107,8 +107,8 @@
     "engines": {
         "vscode": "^1.108.0"
     },
+    "packageManager": "pnpm@11.5.1",
     "dependencies": {
-        "markdown-it": "^14.1.1",
         "vscode-languageclient": "^10.0.0-next.21"
     },
     "extensionDependencies": [
@@ -116,24 +116,25 @@
     ],
     "devDependencies": {
         "@types/markdown-it": "14.1.2",
-        "@types/node": "24.12.3",
+        "@types/node": "24.12.4",
         "@types/vscode": "^1.108.1",
-        "@typescript-eslint/eslint-plugin": "8.59.2",
-        "@typescript-eslint/parser": "8.59.2",
+        "@typescript-eslint/eslint-plugin": "8.60.1",
+        "@typescript-eslint/parser": "8.60.1",
         "@vscode/vsce": "3.9.1",
         "esbuild": "0.28.0",
-        "eslint": "10.3.0",
+        "eslint": "10.4.1",
         "typescript": "6.0.3"
     },
     "scripts": {
-        "vscode:prepublish": "npm run package",
-        "compile": "npm run check-types && npm run lint && node esbuild.js",
+        "preinstall": "npx only-allow pnpm",
+        "vscode:prepublish": "pnpm run package",
+        "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
         "watch:esbuild": "node esbuild.js --watch",
         "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-        "package": "npm run check-types && npm run lint && node esbuild.js --production",
+        "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
         "check-types": "tsc --noEmit",
         "lint": "eslint src"
     }

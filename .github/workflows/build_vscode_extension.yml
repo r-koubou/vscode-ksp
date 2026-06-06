@@ -40,6 +40,11 @@ on:
         default: false
         description: |
           "--pre-release" flag for vsce package command (default: false)
+    outputs:
+      artifact-name:
+        description: "Uploaded VSIX artifact name"
+        value: ${{ jobs.build-vscode-extension.outputs.artifact-name }}
+
   workflow_dispatch:
     inputs:
       lsp-program-version:
@@ -90,6 +95,8 @@ jobs:
   #--------------------------------------------------------------
   build-vscode-extension:
     runs-on: ubuntu-latest
+    outputs:
+      artifact-name: ${{ steps.upload-artifact.outputs.artifact-name }}
     env:
       LSPSERVER_REPO_URI: r-koubou/KSPCompiler
       LSPSERVER_PUBLISH_DIR: ${{ github.workspace }}/language_server
@@ -127,7 +134,7 @@ jobs:
     # Checkout repository
     #----------------------------------------------------------
     - name: Checkout
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -257,7 +264,7 @@ jobs:
         fi
 
     - name: Setup Dependency Build Tools from .prototools
-      uses: moonrepo/setup-toolchain@261c62cb5b0f580c7be7c8cd0f023a2e96756095 # v0
+      uses: moonrepo/setup-toolchain@261c62cb5b0f580c7be7c8cd0f023a2e96756095 # v0.6.4
       with:
         auto-install: true
 
@@ -292,32 +299,38 @@ jobs:
     - name: Build VSCode extension
       if: ${{ inputs.pre-release-build == false }}
       run: |
-        npm install
-        npx @vscode/vsce package
+        pnpm install
+        pnpm exec vsce package --no-dependencies
 
     - name: Build VSCode extension (pre-release)
       if: ${{ inputs.pre-release-build == true }}
       run: |
-        npm install
-        npx @vscode/vsce package --pre-release
+        pnpm install
+        pnpm exec vsce package --no-dependencies --pre-release
 
     #----------------------------------------------------------
     # Upload artifact
     #----------------------------------------------------------
-    - name: Show artifact suffix
+    - name: Setup artifact name
       env:
         ARTIFACT_SUFFIX: ${{ env.ARTIFACT_SUFFIX }}
       run: |
+        echo "ARTIFACT_FULL_NAME=${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}" >> $GITHUB_ENV
+        echo "artifact-name=$ARTIFACT_FULL_NAME" >> $GITHUB_OUTPUT
+    - name: Show artifact full name
+      env:
+        ARTIFACT_FULL_NAME: ${{ env.ARTIFACT_FULL_NAME }}
+      run: |
         {
-          echo "## Artifact Suffix"
+          echo "## Artifact Full Name"
           echo ""
-          echo "${{ env.ARTIFACT_SUFFIX }}"
+          echo "${{ env.ARTIFACT_FULL_NAME }}"
           echo ""
         } >> $GITHUB_STEP_SUMMARY
     - name: Upload artifact
       env:
-        ARTIFACT_SUFFIX: ${{ env.ARTIFACT_SUFFIX }}
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        ARTIFACT_FULL_NAME: ${{ env.ARTIFACT_FULL_NAME }}
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
-        name: ${{ env.ARTIFACT_NAME }}${{ env.ARTIFACT_SUFFIX }}_${{ github.sha }}
+        name: ${{ env.ARTIFACT_FULL_NAME }}
         path: "*.vsix"

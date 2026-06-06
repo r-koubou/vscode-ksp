@@ -1,9 +1,6 @@
 proto = "latest"
-node = "24.15.0"
-npm = "11.14.1"
+node = "24.16.0"
+pnpm = "11.5.1"
 
 [settings]
 auto-install = true
-
-[tools.npm]
-shared-globals-dir = true
