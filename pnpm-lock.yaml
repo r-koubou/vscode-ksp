@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      markdown-it:
-        specifier: ^14.1.1
-        version: 14.2.0
       vscode-languageclient:
         specifier: ^10.0.0-next.21
         version: 10.0.0-next.22

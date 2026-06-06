@@ -109,7 +109,6 @@
     },
     "packageManager": "pnpm@11.5.1",
     "dependencies": {
-        "markdown-it": "^14.1.1",
         "vscode-languageclient": "^10.0.0-next.21"
     },
     "extensionDependencies": [
