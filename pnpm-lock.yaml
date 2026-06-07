@@ -10,7 +10,7 @@ importers:
     dependencies:
       vscode-languageclient:
         specifier: ^10.0.0-next.21
-        version: 10.0.0-next.22
+        version: 10.0.0
     devDependencies:
       '@types/markdown-it':
         specifier: 14.1.2
@@ -1375,6 +1375,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.2:
+    resolution: {integrity: sha512-c8jsqUZm3omBOI66G90z1Dyw5z622G8oLG+omfsHBJf3CWQTlOcwOjvOG6wtiNfW6anKm/eA39LMwMtMez2TiQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
     engines: {node: '>=8'}
@@ -1562,22 +1567,22 @@ packages:
     resolution: {integrity: sha512-Ck0EJbAGxHwprkzFO966t4/5QkRuzh+/I1RxhLgUKKwEn+Cd8NwM60mE3AqBZg5gYODoXW0EFsQvbZjRlvdqbg==}
     engines: {node: '>=4'}
 
-  vscode-jsonrpc@9.0.0-next.12:
-    resolution: {integrity: sha512-F1DEXwrWg1C5xnG0VdYcVWbgPMd/CoQPw8toeQVaU7kDN7mrY+e3m+t6cV+W3jnBZdpmjD26CBXScacpYlKlPw==}
+  vscode-jsonrpc@9.0.0:
+    resolution: {integrity: sha512-+VvMmQPJhtvJ+8O+zu2JKIRiLxXF8NW7krWgyMGeOHrp4Cn23T5hc0v2LknNeopDOB70wghHAds7mKtcZ0I4Sg==}
     engines: {node: '>=14.0.0'}
 
-  vscode-languageclient@10.0.0-next.22:
-    resolution: {integrity: sha512-XaYHjj8dEraAXB13P2mY2n4H4Oj7DKyrNWB98dtPCU/QzSK8TssMId9zudi2AfnH4ZChS01lj6Apw2M7MLXftg==}
+  vscode-languageclient@10.0.0:
+    resolution: {integrity: sha512-3yRHFkktZQCCg8ehHnD2Z4DZ4mZ17FNo8bxM4OFt8wtpxNBAOZGHmpbIflZSkicvCxi+ozuWntbdeWiY0gP77w==}
     engines: {vscode: ^1.91.0}
 
-  vscode-languageserver-protocol@3.17.6-next.18:
-    resolution: {integrity: sha512-jk0H2P0/IMhORife918H8RI1hl3rbizaKvLzk9LUJtt/ue0AT8LgswBCAKZMRag5WiRTx/ZBtdRyrkshVQVxgA==}
+  vscode-languageserver-protocol@3.18.0:
+    resolution: {integrity: sha512-Zdz+kJ12Iz6tc11xfZyEo501bBATHXrCjmMfnaR3pMnf1CoqZBKIynba3P+/bi9VEdrMbNtAVKYpKhbODvqy+Q==}
 
   vscode-languageserver-textdocument@1.0.13:
     resolution: {integrity: sha512-nx0ZHwMGIsVkzFG3/VLeJYBLTaFBRuNdGDvevvjuoayU5EOS2fEYazOhtCM3PI9ClMMg5igc0uwXtAq4tJj+Dw==}
 
-  vscode-languageserver-types@3.17.6-next.7:
-    resolution: {integrity: sha512-o+tmiG1prBw3y5NfrCzpxHCWLFH9m31LsTThIxeQFA0e03Gs/nm5AWwrb7qJsz2x57qtGjfFu9aA7asx9zqtyw==}
+  vscode-languageserver-types@3.18.0:
+    resolution: {integrity: sha512-8TsGPNMIMiiBdkORgRSvLjuiEIiAFtO+KssmYWxQ+uSVvlf7RjK8YKCOjPzZ+YA04jXEV7+7LvkSmHkhpNS99g==}
 
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
@@ -2058,7 +2063,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.60.1
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.1
+      semver: 7.8.2
       tinyglobby: 0.2.16
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -3073,6 +3078,8 @@ snapshots:
 
   semver@7.8.1: {}
 
+  semver@7.8.2: {}
+
   shebang-command@2.0.0:
     dependencies:
       shebang-regex: 3.0.0
@@ -3278,23 +3285,23 @@ snapshots:
 
   version-range@4.15.0: {}
 
-  vscode-jsonrpc@9.0.0-next.12: {}
+  vscode-jsonrpc@9.0.0: {}
 
-  vscode-languageclient@10.0.0-next.22:
+  vscode-languageclient@10.0.0:
     dependencies:
       minimatch: 10.2.5
-      semver: 7.8.1
-      vscode-languageserver-protocol: 3.17.6-next.18
+      semver: 7.8.2
+      vscode-languageserver-protocol: 3.18.0
       vscode-languageserver-textdocument: 1.0.13
 
-  vscode-languageserver-protocol@3.17.6-next.18:
+  vscode-languageserver-protocol@3.18.0:
     dependencies:
-      vscode-jsonrpc: 9.0.0-next.12
-      vscode-languageserver-types: 3.17.6-next.7
+      vscode-jsonrpc: 9.0.0
+      vscode-languageserver-types: 3.18.0
 
   vscode-languageserver-textdocument@1.0.13: {}
 
-  vscode-languageserver-types@3.17.6-next.7: {}
+  vscode-languageserver-types@3.18.0: {}
 
   whatwg-encoding@3.1.1:
     dependencies:
