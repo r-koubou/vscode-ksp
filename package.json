@@ -116,7 +116,7 @@
     ],
     "devDependencies": {
         "@types/markdown-it": "14.1.2",
-        "@types/node": "24.13.1",
+        "@types/node": "24.13.2",
         "@types/vscode": "^1.108.1",
         "@typescript-eslint/eslint-plugin": "8.61.0",
         "@typescript-eslint/parser": "8.61.0",
