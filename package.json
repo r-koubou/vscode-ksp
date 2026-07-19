@@ -107,7 +107,7 @@
     "engines": {
         "vscode": "^1.108.0"
     },
-    "packageManager": "pnpm@11.11.0",
+    "packageManager": "pnpm@11.13.1",
     "dependencies": {
         "vscode-languageclient": "^10.0.0-next.21"
     },
