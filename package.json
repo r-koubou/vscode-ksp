@@ -2,7 +2,7 @@
     "name": "ksp",
     "displayName": "KONTAKT Script Processor (KSP)",
     "description": "Language support for NI KONTAKT(TM) Script Processor (KSP)",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "preview": false,
     "publisher": "rkoubou",
     "homepage": "https://r-koubou.net",
@@ -107,7 +107,7 @@
     "engines": {
         "vscode": "^1.108.0"
     },
-    "packageManager": "pnpm@11.9.0",
+    "packageManager": "pnpm@11.13.1",
     "dependencies": {
         "vscode-languageclient": "^10.0.0-next.21"
     },
@@ -116,13 +116,13 @@
     ],
     "devDependencies": {
         "@types/markdown-it": "14.1.2",
-        "@types/node": "24.13.2",
+        "@types/node": "24.13.3",
         "@types/vscode": "^1.108.1",
-        "@typescript-eslint/eslint-plugin": "8.62.1",
-        "@typescript-eslint/parser": "8.62.1",
+        "@typescript-eslint/eslint-plugin": "8.64.0",
+        "@typescript-eslint/parser": "8.64.0",
         "@vscode/vsce": "3.9.2",
         "esbuild": "0.28.1",
-        "eslint": "10.6.0",
+        "eslint": "10.7.0",
         "typescript": "6.0.3"
     },
     "scripts": {
