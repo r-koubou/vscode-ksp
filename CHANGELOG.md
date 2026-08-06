@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.1.8
+
+### Maintenance release
+
+- Updated dependencies version.
+
 ## Version 1.1.7
 
 ### KONTAKT 8.12 ready
