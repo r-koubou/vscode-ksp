@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(mkdir *)",
+      "Bash(unzip *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(pnpm install)",
+      "Bash(pnpm compile)",
+      "Bash(pnpm lint)"
+    ],
+    "deny": [
+      "Bash(npm)",
+      "Bash(rm -rf / *)",
+      "Bash(git push * --force)",
+      "Read(./.env)"
+    ]
+  }
+}
