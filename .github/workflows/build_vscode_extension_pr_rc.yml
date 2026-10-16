@@ -14,6 +14,5 @@ jobs:
     with:
       channel: rc
       lsp-program-version: latest
-      lsp-build-configuration: Release
       preview-flag: false
       pre-release-build: false
