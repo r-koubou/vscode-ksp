@@ -12,9 +12,6 @@ on:
         description: |
           Language Server program version to download (e.g.: v1.2.3, latest).
           see also: https://github.com/r-koubou/KSPCompiler/releases
-      lsp-build-configuration:
-        required: true
-        type: string
       channel:
         required: true
         type: string
@@ -53,14 +50,6 @@ on:
         default: "latest"
         description: |
           KSPCompiler version(e.g.: v1.2.3, latest)
-      lsp-build-configuration:
-        required: true
-        type: choice
-        options:
-          - Debug
-          - Release
-        description: |
-          Build configuration of KSPCompiler
       channel:
         required: true
         type: choice
@@ -113,7 +102,6 @@ jobs:
           echo "|ref| ${{ github.ref }}|"
           echo "|Commit SHA| ${{ github.sha }}|"
           echo "|Download LSP Server Version| ${{ inputs.lsp-program-version }}|"
-          echo "|Download LSP Server Configuration| ${{ inputs.lsp-build-configuration }}|"
           echo "|Version| ${{ inputs.version }}|"
           echo "|Preview Flag in package.json| ${{ inputs.preview-flag }}|"
           echo "|Build Channel| ${{ inputs.channel }}|"
@@ -223,11 +211,10 @@ jobs:
         pushd ${{ env.LSPSERVER_PUBLISH_DIR }}
 
         echo "::notice::Downloading Language Server version: ${{ env.LSP_SERVER_RELEASE_TAG }}"
-        echo "::notice::Build Configuration: ${{ inputs.lsp-build-configuration }}"
 
         curl -L -H "Accept: application/octet-stream" \
              -o "__lsp_server.zip" \
-             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-${{ inputs.lsp-build-configuration }}-${{ env.LSP_SERVER_RELEASE_TAG }}-release.zip"
+             "https://github.com/${{ env.LSPSERVER_REPO_URI }}/releases/download/${{ env.LSP_SERVER_RELEASE_TAG }}/KSP-LanguageServer-Release-${{ env.LSP_SERVER_RELEASE_TAG }}-release.zip"
 
         unzip "__lsp_server.zip"
         rm -f "__lsp_server.zip"
@@ -330,7 +317,7 @@ jobs:
     - name: Upload artifact
       env:
         ARTIFACT_FULL_NAME: ${{ env.ARTIFACT_FULL_NAME }}
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: ${{ env.ARTIFACT_FULL_NAME }}
         path: "*.vsix"

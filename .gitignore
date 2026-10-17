@@ -5,6 +5,13 @@ node_modules
 npm-debug.log
 *.vsix
 
+# for OS Cache files
+.DS_Store
+Thumbs.db
+
 # for me
 language_server
 .[Tt]emp/
+.[Ww]ork/
+*.bak
+*.org

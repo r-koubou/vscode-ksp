@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.1.10
+
+### Maintenance release
+
+- Updated dependencies version.
+- Removved unused dependencies.
+- Streamlined some CI build processes.
+- Organized project-specific file contents.
+
 ## Version 1.1.9
 
 ### Maintenance release

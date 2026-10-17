@@ -1,5 +1,5 @@
 *                   text=auto
 
-*.bat               text encoding=sjis eol=crlf
+*.bat               text working-tree-encoding=cp932 eol=crlf
 *.sh                text eol=lf
 *.ps1               text eol=lf

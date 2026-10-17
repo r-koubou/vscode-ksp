@@ -17,6 +17,5 @@ jobs:
     with:
       channel: develop
       lsp-program-version: latest
-      lsp-build-configuration: Debug
       preview-flag: true
       pre-release-build: true
