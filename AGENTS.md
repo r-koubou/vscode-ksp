@@ -101,6 +101,29 @@ https://github.com/r-koubou/KSPCompiler/releases/latest から最新のリリー
 
 拡張機能本体の動作確認においては通常 Release ビルドで問題ない。
 
+### Node.js / pnpm のバージョン更新
+
+Node.js と pnpm のバージョンは `.prototools` で管理している（CI も `.prototools` を参照する）。
+バージョンを更新する際は、以下のファイルも合わせて更新すること。
+
+#### pnpm
+
+- `package.json` の `packageManager`（例: `"pnpm@12.15.0"`）を `.prototools` と同じバージョンにする
+    - pnpm は `packageManager` に記載されたバージョンへ自動で切り替わるため、ずれていると proto 経由でも古いバージョンが実行される
+- `pnpm i` を実行し、`pnpm-lock.yaml` の pnpm 本体の記録（`packageManagerDependencies` など）を更新する
+
+#### Node.js
+
+- `package.json` の `@types/node` は原則変更不要
+    - `@types/node` のバージョンは Node.js 本体のマイナー・パッチバージョンと連動していない
+    - 更新する場合は `pnpm view @types/node@<メジャーバージョン> version` で公開済みのバージョンを確認してから指定する
+
+#### 確認
+
+- プロジェクトのルートで `pnpm --version` が `.prototools` の指定と一致すること
+- `pnpm i` がエラーなく完了すること（存在しないバージョンを指定すると `ERR_PNPM_NO_MATCHING_VERSION` で失敗し、`pnpm-lock.yaml` は更新されない）
+- `pnpm install --frozen-lockfile` が通ること
+
 ## CI
 
 このプロジェクトでは GitHub Actions を利用して CI を実行し、拡張機能のビルドを行う。
