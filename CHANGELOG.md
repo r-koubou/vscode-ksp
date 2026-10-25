@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.1.12
+
+### Maintenance release
+
+- Updated dependencies version.
+
 ## Version 1.1.11
 
 ### Maintenance release
