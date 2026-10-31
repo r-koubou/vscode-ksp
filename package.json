@@ -115,7 +115,7 @@
         "ms-dotnettools.vscode-dotnet-runtime"
     ],
     "devDependencies": {
-        "@types/node": "24.19.2",
+        "@types/node": "26.6.5",
         "@types/vscode": "^1.108.1",
         "@typescript-eslint/eslint-plugin": "8.72.1",
         "@typescript-eslint/parser": "8.72.1",
