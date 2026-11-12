@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.1.13
+
+### Maintenance release
+
+- Updated dependencies version.
+- Updated bundled Language Server version.
+
 ## Version 1.1.12
 
 ### Maintenance release
